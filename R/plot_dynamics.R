@@ -1,3 +1,10 @@
+#' Convenience function to plot the dynamics of a model run,
+#' without strains within functional groups
+#'
+#' @param simulation_result Object returned by the run_simulation function.
+#' @param every_n Plot data of every other n sample.
+#' @return Nothing.
+#' @export
 plot_dynamics <- function(simulation_result, every_n = 1) {
   
   simulation_result$result %>%
@@ -30,7 +37,13 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
 }
 
 
-
+#' Convenience function to plot the dynamics of a model run,
+#' with strains within functional groups
+#'
+#' @param simulation_result Object returned by the run_simulation function.
+#' @param every_n Plot data of every other n sample.
+#' @return Nothing.
+#' @export
 plot_dynamics_strains <- function(simulation_result, every_n = 1) {
   
   simulation_result$result %>%

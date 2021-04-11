@@ -1,4 +1,18 @@
-
+#' Function to run a simulation
+#'
+#' @param dynamic_model A function that defines the dynamical model to use.
+#' @param event_definition A function that defines events that periodically take place.
+#' @param event_interval The amount of time between events.
+#' @param parameter_values A named vector of parameter values.
+#' @param noise_sigma The amount of noise added to a state variable.
+#' @param minimum_abundances The minimum abundances that a group of organisms can have; if less than this, then the abundance is increased to the minimum.
+#' @param sim_duration The duration of the simulation.
+#' @param sim_sample_interval The amount of time between samples.
+#' @param log10a_series The time series of values of the log of parameter a (oxygen diffusivity).
+#' @param initial_state The initial values of all state variables.
+#' @param solver_method The method used in the ODE solver.
+#' @return A list containing the time series of state variables and all arguments passed.
+#' @export
 
 
 run_simulation <- function(dynamic_model = bushplus_dynamic_model_strains,

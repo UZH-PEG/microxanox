@@ -1,3 +1,9 @@
+#' Function to get the steady states for combinations of a (oxygen diffusivity), inhibition strength, and states.
+#'
+#' @param expt A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.
+#' @return Experimental result.
+#' @export
+
 ss_by_a_h_N <- function(expt)
 {
   temp_result <- apply(expt, 1, function(x) get_final_states_a_h_N(x))
@@ -6,6 +12,11 @@ ss_by_a_h_N <- function(expt)
 }
 
 
+#' Function to get the steady states for combinations of a (oxygen diffusivity), inhibition strength and initial states.
+#'
+#' @param expt A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.
+#' @return Experimental result.
+#' @export
 
 get_final_states_a_h_N <- function(x) { 
   
@@ -38,7 +49,12 @@ get_final_states_a_h_N <- function(x) {
   
 }
 
-process_expt_result <- function(temp_result)
+#' A function to process the output of the ss_by_a_h_N (find steady states) function
+#'
+#' @param temp_results The experimental results produced by ss_by_a_N
+#' @return Processed experimental results.
+#' @export
+process_expt_result_a_h <- function(temp_result)
 {
   # print(temp_result)
   result <- temp_result %>%

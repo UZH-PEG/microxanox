@@ -1,0 +1,411 @@
+---
+title: "Reproducing some results of Bush et al 2017"
+author: "Owen Petchey"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reproducing some results of Bush et al 2017}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Setup R
+
+```{r setup}
+rm(list=ls())
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+
+library(tidyverse)
+library(deSolve)
+library(rootSolve)
+library(here)
+library(microxanox)
+
+set.seed(13)
+
+run_sims <- FALSE
+```
+
+
+# Introduction
+
+The aims here are:
+
+* Reproduce the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+* Add an investigation of how changes in tolerances alter the response to environmental change.
+
+We also add:
+
+* Option to include random noise in substrate concentrations.
+* Option to temporally vary oxygen diffusivity.
+* Option to include immigration.
+* Option to include a minimum abundances.
+
+Here we use only the published (Bush et al 2017) dynamical model, in which there is not biodiversity within each of the three functional groups. That is, there is only one parameter set per functional group.
+
+Here is the original publication:
+https://www.nature.com/articles/s41467-017-00912-x
+
+And here is the supplementary information, including the table of parameter values:
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-017-00912-x/MediaObjects/41467_2017_912_MOESM1_ESM.pdf
+
+Note that we here use the notation from the table S1 of the supplementary information, and not the notation in the main text. (There is only one small difference between these: In the main text the notation is simplified to y_S_PB (which is y_SR_PB ($y_{SR,PB}$) in Table S1) and y_S_SB (which is y_SO_SB ($y_{SO,SB}$) in Table S1).
+
+
+# Methods
+
+## Model dimensions
+
+* Time: hours
+* Volume: litres
+* Substrate quantity: micromoles
+* Organism quantity: cells
+
+## Dynamic model
+
+```{r}
+#source("functions/bushplus_dynamic_model.r")
+```
+
+## Defaults
+
+The framework used for running a simulation, and for varying aspects of a simulation run is:
+
+* Define the default simulation conditions.
+* Use these defaults unless other conditions are specified.
+* The function call `run_simulation()` would therefore run a simulation with default conditions.
+* Whereas the function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with specified initial state values.
+
+### Default parameter values
+
+```{r}
+default_parameter_values <- c(
+  
+  ## maximum specific growth rates
+  g_max_CB = 0.05,
+  g_max_PB = 0.07,
+  g_max_SB = 0.1,
+  
+  ## half-saturation constants
+  k_PB_SR = 10,
+  k_SB_SO = 5,
+  k_CB_P = 0.2,
+  k_PB_P = 0.5,
+  k_SB_P = 0.5,
+  
+  ## half-inhibition constant
+  h_SR_CB = 300,
+  h_O_PB = 100,
+  h_O_SB = 100,
+  
+  ## yield (cells per micromole)
+  Y_SO_SB = 3.33e7,  
+  Y_SR_PB = 1.25e7, ## Y_S_PB in the main text
+  y_P_CB = 1.67e8,
+  y_P_PB = 1.67e8,
+  y_P_SB = 1.67e8,
+  
+  ## oxygen production per microbial cell
+  P_CB = 6e-9,
+  
+  ## mortality rate
+  m_CB = 0.02,
+  m_PB = 0.028,
+  m_SB = 0.04,
+  
+  ## substrate diffusivity
+  a_S = 0.001,
+  a_O = 8e-4,
+  a_P = 0.01,
+  
+  ## background substrate concentration
+  back_SR = 300,
+  back_SO = 300,
+  back_O = 300,
+  back_P = 9.5,
+  
+  ## immigration rates (cells per time)
+  i_CB <- 0,
+  i_PB <- 0,
+  i_SB <- 0,
+  
+  ## oxidisation rate of reduced sulphur
+  c = 4e-5
+  )
+```
+
+### Default event
+
+#### Default event definition
+
+Used to add noise and to ensure minimum abundance. Noise is added to the resource concentrations, and not to the organism abundances. Minimum organism abundance is set. I.e. organismal abundance cannot go below some very low level.
+
+```{r}
+#source("functions/default_event_definition.r")
+```
+
+#### Default event schedule
+
+This is when an event happens
+
+```{r}
+default_event_interval <- 10
+```
+
+#### Default noise event options
+
+Default to no noise:
+
+```{r}
+default_noise_sigma <- 0
+```
+
+#### Default minimum abundance event
+
+Default to following minimums
+
+```{r}
+default_minimum_abundances <- rep(1e2, 3)
+names(default_minimum_abundances) <- c("CB", "PB", "SB") 
+```
+
+
+
+### Default simulation duration
+
+```{r}
+default_sim_duration <- 2000
+default_sim_sample_interval <- 1
+```
+
+### Default oxygen diffusivity (a) forcing
+
+Here we specify no forcing of a_0 (used unless set elsewhere).
+
+```{r}
+default_log10a_series <- c(log10(default_parameter_values["a_O"]),
+                           log10(default_parameter_values["a_O"]))
+```
+
+### Default initial state
+
+Initial conditions favouring anoxic.
+
+```{r}
+default_initial_state <- c(N_CB = 5e1,
+           N_PB = 1e7,
+           N_SB = 1e7,
+           SO = 300,
+           SR = 300,
+           O = 1e1,
+           P = 1e1)
+```
+
+## Simulation function
+
+```{r}
+#source("functions/run_simulation.r")
+```
+
+## Helper functions
+
+```{r}
+#source("functions/plot_dynamics.r")
+#source("functions/ss_expt_a_N.r")
+#source("functions/get_nonlinearity.r")
+#source("functions/get_hysteresis_range.r")
+```
+
+
+
+## Code test
+
+```{r}
+# dynamic_model = bushplus_dynamic_model
+# event_definition = default_event_definition
+# parameter_values = default_parameter_values
+# event_interval = default_event_interval
+# noise_sigma = default_noise_sigma
+# minimum_abundances = default_minimum_abundances
+# sim_duration = default_sim_duration
+# sim_sample_interval = default_sim_sample_interval
+# log10a_forcing = default_log10a_forcing
+# initial_state = default_initial_state
+# solver_method = "radau"
+# 
+# 
+# times <- seq(0,
+#              sim_duration,
+#              by = sim_sample_interval)
+# 
+# event_times <- seq(min(times),
+#                    max(times),
+#                    by = event_interval)  
+# 
+# log10a_forcing <- approxfun(x = log10a_forcing[,1],
+#                             y = log10a_forcing[,2],
+#                             method = "linear",
+#                             rule = 2)
+# assign("log10a_forcing", log10a_forcing, envir = .GlobalEnv)
+# 
+# out <- as.data.frame(ode(y = initial_state,
+#                          times = times,
+#                          func = dynamic_model,
+#                          parms = parameter_values,
+#                          method = solver_method,
+#                          events = list(func=event_definition,
+#                                        time=event_times)))
+# 
+# sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
+#                            event_definition = default_event_definition,
+#                            parameter_values = default_parameter_values,
+#                            event_interval = default_event_interval,
+#                            noise_sigma = default_noise_sigma,
+#                            minimum_abundances = default_minimum_abundances,
+#                            sim_duration = default_sim_duration,
+#                            sim_sample_interval = default_sim_sample_interval,
+#                            log10a_forcing = default_log10a_forcing,
+#                            initial_state = default_initial_state,
+#                            solver_method = "radau")
+
+#sim_res <- run_simulation()
+
+#plot_dynamics(sim_res)
+
+```
+
+
+# Results
+
+## Initial conditions favouring anoxic, no noise, no forcing
+
+Figure 2a, b in Bush et al.
+
+```{r}
+
+init_state_favouring_anoxic <- c(N_CB = 5e1,
+           N_PB = 1e7,
+           N_SB = 1e7,
+           SO = 300,
+           SR = 300,
+           O = 1e1,
+           P = 1e1)
+
+sim_res <- run_simulation(initial_state = init_state_favouring_anoxic)
+plot_dynamics(simulation_result = sim_res)
+
+#ggsave('bacteria_no_noise.png')
+```
+
+
+Population dynamics seem as in the paper.
+Resource dynamics fluctuate more than in the paper.
+
+
+
+## Initial conditions favouring oxic, no noise, no forcing
+
+Figure 2c, d in Bush et al.
+
+```{r} 
+init_state_favouring_oxic <- c(N_CB = 1e7,
+           N_PB = 1e5,
+           N_SB = 1e5,
+           SO = 500,
+           SR = 50,
+           O = 30,
+           P = 10)
+
+
+
+sim_res <- run_simulation(initial_state = init_state_favouring_oxic)
+
+plot_dynamics(sim_res)
+##ggsave("high_CB.png")
+```
+Population and resource dynamics seen as those in the paper.
+
+
+
+
+
+
+## Stable states
+
+
+```{r}
+ssfind_minimum_abundances <- rep(0, 3)
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+ssfind_simulation_duration <- 10000
+ssfind_simulation_sampling_interval <- ssfind_simulation_duration
+ssfind_event_interval <- ssfind_simulation_duration
+ssfind_parameters <- default_parameter_values
+# ssfind_init_state <- c(N_CB = NA, 
+#                        N_PB = NA,
+#                        N_SB = NA,
+#                        SO = 500,
+#                        SR = 50,
+#                        O = 30,
+#                        P = 10)
+##ssfind_init_state <- default_initial_state
+ssfind_init_state <- init_state_favouring_anoxic
+ssfind_init_state <- c(N_CB = NA, #this one is varied
+           N_PB = 1e8,
+           N_SB = 1e8,
+           SO = 200,
+           SR = 200,
+           O = 10,
+           P = 9.5)
+grid_num_a <- 2
+a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
+grid_num_N <- 2
+```
+
+
+```{r eval = run_sims}
+
+
+initial_CBs <- 10^seq(0, 8, length=grid_num_N)
+initial_PBs <- 1e5
+initial_SBs <- 1e5
+expt <- expand.grid(N_CB = initial_CBs,
+                    N_PB = initial_PBs,
+                    N_SB = initial_SBs,
+                    a_O = a_Os)
+
+steadystate <- ss_by_a_N(expt)
+save(steadystate, file = here("vignettes/data/steadystate.Rda"))
+```
+
+```{r}
+#ss_CB_SB_PB <- readRDS("data/ss_CB_SB_PB.RDS")
+```
+
+
+```{r eval = FALSE}
+load(file = here("vignettes/data/steadystate.Rda"))
+steadystate %>%
+  select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
+  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  ggplot() +
+  geom_path(aes(x = a, y = log10(Quantity), col = Species),
+            size=0.8) +
+  ylab(expression(Log[10](Abundance))) +
+  xlab(expression(Log[10](Oxygen~diffusivity))) +
+  theme_light() +
+  ylim(0,10) +
+  theme(plot.title=element_text(size=10, hjust=0.5)) +
+  labs(title="CB, SB, & PB") 
+##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
+
+```
+
+
+```{r eval = FALSE}
+steadystate %>%
+  select(a, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  ggplot() +
+  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+```
+

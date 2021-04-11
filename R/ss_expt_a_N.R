@@ -1,3 +1,9 @@
+#' Function to get the steady states for combinations of a (oxygen diffusivity) and initial states.
+#'
+#' @param expt A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.
+#' @return Experimental result.
+#' @export
+
 ss_by_a_N <- function(expt)
 {
   temp_result <- apply(expt, 1, function(x) get_final_states_a_N(x))
@@ -6,7 +12,11 @@ ss_by_a_N <- function(expt)
 }
 
 
-
+#' Get the steady state solutions for a set of oxygen diffusivity and initial states.
+#'
+#' @param x A vector of oxygen diffusivity and initial conditions.
+#' @return A vector of steady states
+#' @export
 get_final_states_a_N <- function(x) { 
   
   #give N_CB, N_SB, N_PB and a_O values and put these into state and parameters
@@ -31,6 +41,11 @@ get_final_states_a_N <- function(x) {
   
 }
 
+#' A function to process the output of the ss_by_a_N (find steady states) function
+#'
+#' @param temp_results The experimental results produced by ss_by_a_N
+#' @return Processed experimental results.
+#' @export
 process_expt_result <- function(temp_result)
 {
   # print(temp_result)
