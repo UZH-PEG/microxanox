@@ -382,7 +382,7 @@ save(steadystate, file = here("vignettes/data/steadystate.Rda"))
 ```
 
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 load(file = here("vignettes/data/steadystate.Rda"))
 steadystate %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
@@ -395,17 +395,19 @@ steadystate %>%
   theme_light() +
   ylim(0,10) +
   theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="CB, SB, & PB") 
+  labs(title="CB, SB, & PB")  %>%
+  print()
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 ```
 
 
-```{r eval = FALSE}
-steadystate %>%
+```{r eval = TRUE}
+p1 <- steadystate %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species))
+print(p1)
 ```
 
