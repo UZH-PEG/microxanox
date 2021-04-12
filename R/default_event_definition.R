@@ -1,3 +1,11 @@
+
+#' A function that contains the events that should alter the state variables
+#'
+#' @param times The time point in the simulation
+#' @param state Current state variable values
+#' @param parms Model parameters
+#' @return A vector of the state variables
+#' @export
 default_event_definition <- function(times=times, y=state, parms = parameters) {
   with(
     as.list(y),
@@ -22,7 +30,13 @@ default_event_definition <- function(times=times, y=state, parms = parameters) {
 }
 
 
-
+#' A function that contains the events that should alter the state variables, with multiple strains
+#'
+#' @param times The time point in the simulation
+#' @param state Current state variable values
+#' @param parms Model parameters
+#' @return A vector of the state variables
+#' @export
 default_event_definition_strains <- function(times=times, y=state, parms = parameters) {
   with(
     as.list(y),

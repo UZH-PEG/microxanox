@@ -21,9 +21,11 @@ library(rootSolve)
 library(here)
 library(microxanox)
 
+## Set random number generator seed
+## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-run_sims <- FALSE
+run_steadystate_sims <- FALSE
 ```
 
 
@@ -61,20 +63,20 @@ Note that we here use the notation from the table S1 of the supplementary inform
 * Substrate quantity: micromoles
 * Organism quantity: cells
 
-## Dynamic model
 
-```{r}
-#source("functions/bushplus_dynamic_model.r")
-```
-
-## Defaults
+## Modelling framework
 
 The framework used for running a simulation, and for varying aspects of a simulation run is:
 
 * Define the default simulation conditions.
 * Use these defaults unless other conditions are specified.
 * The function call `run_simulation()` would therefore run a simulation with default conditions.
-* Whereas the function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with specified initial state values.
+* Whereas, for example, the function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with the specified initial state values.
+
+### Dynamic model
+
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model_strains()`. This is an augemented version that can handle multiple strains within each of the three functional groups. The basic version that has only one strain per functional group is `bushplus_dynamic_model()`.
+
 
 ### Default parameter values
 
@@ -140,13 +142,11 @@ default_parameter_values <- c(
 
 Used to add noise and to ensure minimum abundance. Noise is added to the resource concentrations, and not to the organism abundances. Minimum organism abundance is set. I.e. organismal abundance cannot go below some very low level.
 
-```{r}
-#source("functions/default_event_definition.r")
-```
+The event definition is made in the form of a function. The default definition is in the function `default_event_definition()`
 
 #### Default event schedule
 
-This is when an event happens
+At the moment this is specified by giving the time interval between events:
 
 ```{r}
 default_event_interval <- 10
@@ -154,7 +154,7 @@ default_event_interval <- 10
 
 #### Default noise event options
 
-Default to no noise:
+Default to no noise added to substrate concentrations:
 
 ```{r}
 default_noise_sigma <- 0
@@ -162,16 +162,16 @@ default_noise_sigma <- 0
 
 #### Default minimum abundance event
 
-Default to following minimums
+Default to following minimum abundances:
 
 ```{r}
 default_minimum_abundances <- rep(1e2, 3)
 names(default_minimum_abundances) <- c("CB", "PB", "SB") 
 ```
 
-
-
 ### Default simulation duration
+
+Default to the following duration and interval between samples:
 
 ```{r}
 default_sim_duration <- 2000
@@ -180,7 +180,7 @@ default_sim_sample_interval <- 1
 
 ### Default oxygen diffusivity (a) forcing
 
-Here we specify no forcing of a_0 (used unless set elsewhere).
+Specified by giving a vector of values of $a_0$. These are then automatically spaced equally along the duration of the simulation. Here we specify no forcing of $a_0$.
 
 ```{r}
 default_log10a_series <- c(log10(default_parameter_values["a_O"]),
@@ -189,7 +189,7 @@ default_log10a_series <- c(log10(default_parameter_values["a_O"]),
 
 ### Default initial state
 
-Initial conditions favouring anoxic.
+Specify the default set of initial conditions (here favouring anoxic organisms).
 
 ```{r}
 default_initial_state <- c(N_CB = 5e1,
@@ -199,21 +199,6 @@ default_initial_state <- c(N_CB = 5e1,
            SR = 300,
            O = 1e1,
            P = 1e1)
-```
-
-## Simulation function
-
-```{r}
-#source("functions/run_simulation.r")
-```
-
-## Helper functions
-
-```{r}
-#source("functions/plot_dynamics.r")
-#source("functions/ss_expt_a_N.r")
-#source("functions/get_nonlinearity.r")
-#source("functions/get_hysteresis_range.r")
 ```
 
 
@@ -356,13 +341,13 @@ ssfind_init_state <- c(N_CB = NA, #this one is varied
            SR = 200,
            O = 10,
            P = 9.5)
-grid_num_a <- 2
+grid_num_a <- 100
 a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
 grid_num_N <- 2
 ```
 
 
-```{r eval = run_sims}
+```{r eval = run_steadystate_sims}
 
 
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
@@ -373,8 +358,8 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 
-steadystate <- ss_by_a_N(expt)
-save(steadystate, file = here("vignettes/data/steadystate.Rda"))
+ss_CB_SB_PB <- ss_by_a_N(expt)
+save(ss_CB_SB_PB, file = here("vignettes/data/ss_CB_SB_PB.Rda"))
 ```
 
 ```{r}
@@ -382,9 +367,9 @@ save(steadystate, file = here("vignettes/data/steadystate.Rda"))
 ```
 
 
-```{r eval = TRUE}
-load(file = here("vignettes/data/steadystate.Rda"))
-steadystate %>%
+```{r}
+load(file = here("vignettes/data/ss_CB_SB_PB.Rda"))
+ss_CB_SB_PB %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
@@ -402,8 +387,8 @@ steadystate %>%
 ```
 
 
-```{r eval = TRUE}
-p1 <- steadystate %>%
+```{r}
+p1 <- ss_CB_SB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
