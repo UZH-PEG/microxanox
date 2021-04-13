@@ -2,6 +2,8 @@
 
 export(bushplus_dynamic_model)
 export(bushplus_dynamic_model_strains)
+export(bushplus_dynamic_model_strains_old)
+export(construct_parameter_set)
 export(default_event_definition)
 export(default_event_definition_strains)
 export(get_final_states_a_N)

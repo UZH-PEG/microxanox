@@ -108,7 +108,7 @@ default_parameter_values <- c(
   y_P_SB = 1.67e8,
   
   ## oxygen production per microbial cell
-  P_CB = 6e-9,
+  Pr_CB = 6e-9,
   
   ## mortality rate
   m_CB = 0.02,
@@ -206,56 +206,65 @@ default_initial_state <- c(N_CB = 5e1,
 ## Code test
 
 ```{r}
-# dynamic_model = bushplus_dynamic_model
-# event_definition = default_event_definition
-# parameter_values = default_parameter_values
-# event_interval = default_event_interval
-# noise_sigma = default_noise_sigma
-# minimum_abundances = default_minimum_abundances
-# sim_duration = default_sim_duration
-# sim_sample_interval = default_sim_sample_interval
-# log10a_forcing = default_log10a_forcing
-# initial_state = default_initial_state
-# solver_method = "radau"
-# 
-# 
-# times <- seq(0,
-#              sim_duration,
-#              by = sim_sample_interval)
-# 
-# event_times <- seq(min(times),
-#                    max(times),
-#                    by = event_interval)  
-# 
-# log10a_forcing <- approxfun(x = log10a_forcing[,1],
-#                             y = log10a_forcing[,2],
-#                             method = "linear",
-#                             rule = 2)
-# assign("log10a_forcing", log10a_forcing, envir = .GlobalEnv)
-# 
-# out <- as.data.frame(ode(y = initial_state,
-#                          times = times,
-#                          func = dynamic_model,
-#                          parms = parameter_values,
-#                          method = solver_method,
-#                          events = list(func=event_definition,
-#                                        time=event_times)))
-# 
-# sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-#                            event_definition = default_event_definition,
-#                            parameter_values = default_parameter_values,
-#                            event_interval = default_event_interval,
-#                            noise_sigma = default_noise_sigma,
-#                            minimum_abundances = default_minimum_abundances,
-#                            sim_duration = default_sim_duration,
-#                            sim_sample_interval = default_sim_sample_interval,
-#                            log10a_forcing = default_log10a_forcing,
-#                            initial_state = default_initial_state,
-#                            solver_method = "radau")
+dynamic_model = bushplus_dynamic_model
+event_definition = default_event_definition
+parameter_values = default_parameter_values
+event_interval = default_event_interval
+noise_sigma = default_noise_sigma
+minimum_abundances = default_minimum_abundances
+sim_duration = default_sim_duration
+sim_sample_interval = default_sim_sample_interval
+log10a_series = default_log10a_series
+initial_state = default_initial_state
+solver_method = "radau"
 
-#sim_res <- run_simulation()
+times <- seq(0,
+             sim_duration,
+             by = sim_sample_interval)
 
-#plot_dynamics(sim_res)
+event_times <- seq(min(times),
+                   max(times),
+                   by = event_interval)
+
+log10a_forcing <- matrix(ncol=2,
+                         byrow=F,
+                         data=c(ceiling(seq(0,
+                                            max(times),
+                                            length=length(log10a_series))),
+                                log10a_series))
+
+
+log10a_forcing <- approxfun(x = log10a_forcing[,1],
+                            y = log10a_forcing[,2],
+                            method = "linear",
+                            rule = 2)
+assign("log10a_forcing_func", log10a_forcing, envir = .GlobalEnv)
+
+out <- as.data.frame(ode(y = initial_state,
+                         times = times,
+                         func = dynamic_model,
+                         parms = parameter_values,
+                         method = solver_method,
+                         events = list(func=event_definition,
+                                       time=event_times)))
+
+bushplus_dynamic_model(1, initial_state, default_parameter_values)
+
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
+                           event_definition = default_event_definition,
+                           parameter_values = default_parameter_values,
+                           event_interval = default_event_interval,
+                           noise_sigma = default_noise_sigma,
+                           minimum_abundances = default_minimum_abundances,
+                           sim_duration = default_sim_duration,
+                           sim_sample_interval = default_sim_sample_interval,
+                           log10a_series = default_log10a_series,
+                           initial_state = default_initial_state,
+                           solver_method = "radau")
+
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model)
+
+plot_dynamics(sim_res)
 
 ```
 
@@ -276,7 +285,12 @@ init_state_favouring_anoxic <- c(N_CB = 5e1,
            O = 1e1,
            P = 1e1)
 
-sim_res <- run_simulation(initial_state = init_state_favouring_anoxic)
+parameters <- default_parameter_values
+state <- init_state_favouring_anoxic
+bushplus_dynamic_model(100, state, parameters)
+
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
+  initial_state = init_state_favouring_anoxic)
 plot_dynamics(simulation_result = sim_res)
 
 #ggsave('bacteria_no_noise.png')
@@ -303,7 +317,8 @@ init_state_favouring_oxic <- c(N_CB = 1e7,
 
 
 
-sim_res <- run_simulation(initial_state = init_state_favouring_oxic)
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
+  initial_state = init_state_favouring_oxic)
 
 plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
@@ -341,7 +356,7 @@ ssfind_init_state <- c(N_CB = NA, #this one is varied
            SR = 200,
            O = 10,
            P = 9.5)
-grid_num_a <- 100
+grid_num_a <- 2
 a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
 grid_num_N <- 2
 ```
@@ -394,5 +409,154 @@ p1 <- ss_CB_SB_PB %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species))
 print(p1)
+```
+
+
+# Repeat the results above using the functions that allow simulation of multiple strains per functional group
+
+## Test with one strain per functional group
+
+Constructing parameter set.
+
+```{r}
+CB_strain_params <- data.frame(strain_name = c("CB_1"),
+                       g_max_CB = c(0.05),
+                       k_CB_P = c(0.2),
+                       h_SR_CB = c(300),
+                       y_P_CB = c(1.67e8),
+                       Pr_CB = c(6e-9),
+                       m_CB = c(0.02),
+                       i_CB = c(0))
+
+PB_strain_params <- data.frame(strain_name = c("PB_1"),
+                       g_max_PB = c(0.07),
+                       k_PB_SR = 10,
+                       k_PB_P = 0.5,
+                       h_O_PB = 100,
+                       y_SR_PB = 1.25e7,
+                       y_P_PB = 1.67e8,
+                       m_PB = 0.028,
+                       i_PB = 0)
+
+SB_strain_params <- data.frame(strain_name = c("SB_1"),
+                       g_max_SB = c(0.1),
+                       k_SB_SO = 5,
+                       k_SB_P = 0.5,
+                       h_O_SB = 100,
+                       y_SO_SB = 3.33e7,  
+                       y_P_SB = 1.67e8,
+                       m_SB = 0.04,
+                       i_SB = 0)
+                       
+all_other_params <- c(
+  
+  ## substrate diffusivity
+  a_S = 0.001,
+  a_O = 8e-4,
+  a_P = 0.01,
+  
+  ## background substrate concentration
+  back_SR = 300,
+  back_SO = 300,
+  back_O = 300,
+  back_P = 9.5,
+  
+  ## oxidisation rate of reduced sulphur
+  c = 4e-5
+           
+) 
+
+one_strain_params <- construct_parameter_set(CB_strain_params,
+                                    PB_strain_params,
+                                    SB_strain_params,
+                                    all_other_params)
+
+
+one_strain_initial_state <- c(
+  CB_1 = 5e1,
+  PB_1 = 1e7,
+  SB_1 = 1e7,
+  SO = 300,
+  SR = 300,
+  O = 1e1,
+  P = 1e1
+  )
+
+simulation_result <- run_simulation(dynamic_model =
+                                      bushplus_dynamic_model_strains,
+                                    parameter_values = one_strain_params,
+                                    initial_state = one_strain_initial_state)
+
+plot_dynamics_strains(simulation_result)
+
+
+```
+
+
+
+### Test with N strains per functional group
+
+```{r}
+num_CB_strains <- 3
+num_PB_strains <- 3
+num_SB_strains <- 3
+
+CB_strain_params <- data.frame(strain_name = paste0("CB_", 1:num_CB_strains),
+                       g_max_CB = rep(0.05, num_CB_strains),
+                       k_CB_P = rep(0.2, num_CB_strains),
+                       h_SR_CB = rep(300, num_CB_strains),
+                       y_P_CB = rep(1.67e8, num_CB_strains),
+                       Pr_CB = rep(6e-9, num_CB_strains),
+                       m_CB = rep(0.02, num_CB_strains),
+                       i_CB = rep(0, num_CB_strains))
+
+PB_strain_params <- data.frame(strain_name = paste0("PB_", 1:num_PB_strains),
+                       g_max_PB = rep(0.07, num_PB_strains),
+                       k_PB_SR = rep(10, num_PB_strains),
+                       k_PB_P = rep(0.5, num_PB_strains),
+                       h_O_PB = rep(100, num_PB_strains),
+                       y_SR_PB = rep(1.25e7, num_PB_strains),
+                       y_P_PB = rep(1.67e8, num_PB_strains),
+                       m_PB = rep(0.028, num_PB_strains),
+                       i_PB = rep(0, num_PB_strains))
+
+SB_strain_params <- data.frame(strain_name = paste0("SB_", 1:num_SB_strains),
+                       g_max_SB = rep(0.1, num_SB_strains),
+                       k_SB_SO = rep(5, num_SB_strains),
+                       k_SB_P = rep(0.5, num_SB_strains),
+                       h_O_SB = rep(100, num_SB_strains),
+                       y_SO_SB = rep(3.33e7, num_SB_strains),  
+                       y_P_SB = rep(1.67e8, num_SB_strains),
+                       m_SB = rep(0.04, num_SB_strains),
+                       i_SB = rep(0, num_SB_strains))
+
+multi_strain_params <- construct_parameter_set(CB_strain_params,
+                                    PB_strain_params,
+                                    SB_strain_params,
+                                    all_other_parms)
+
+
+multi_strain_initial_state <- c(
+  CB_1 = 5e1,
+  CB_2 = 0,
+  CB_3 = 0,
+  PB_1 = 1e7,
+  PB_2 = 1e6,
+  PB_3 = 1e5,
+  SB_1 = 1e7,
+  SB_2 = 1e6,
+  SB_3 = 1e5,
+  SO = 300,
+  SR = 300,
+  O = 1e1,
+  P = 1e1)
+
+
+simulation_result <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+               parameter_values = multi_strain_params,
+               initial_state = multi_strain_initial_state)
+plot_dynamics_strains(simulation_result)
+
+
 ```
 

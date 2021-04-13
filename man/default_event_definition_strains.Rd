@@ -7,11 +7,11 @@
 default_event_definition_strains(times = times, y = state, parms = parameters)
 }
 \arguments{
-\item{times}{When events should take place}
+\item{times}{The time point in the simulation}
 
 \item{parms}{Model parameters}
 
-\item{state}{Current state values}
+\item{state}{Current state variable values}
 }
 \value{
 A vector of the state variables
