@@ -3,9 +3,26 @@ Version: 0.1
 Date: 2021-04-11
 Title: Oxic-anoxic regime shifts in microbial communities
 Description: TBD
-Author: Owen L Petchey <owen.petchey@ieu.uzh.ch>
+Authors@R: 
+    c(person(given = "Owen L.",
+             family = "Petchey",
+             role = c("aut", "cre"),
+             email = "Owen.Petchey@uzh.ch",
+             comment = c(ORCID = "0000-0002-7724-1633")),
+      person(given = "Rainer M.",
+             family = "Krug",
+             role = "ctb",
+             email = "Rainer.Krug@uzh.ch",
+             comment = c(ORCID = "0000-0002-7490-0066"))
+      )
 Maintainer: Owen L Petchey <owen.petchey@ieu.uzh.ch>
-RoxygenNote: 7.1.1
+URL: https://github.com/opetchey/microxanox/
+BugReports: https://github.com/opetchey/microxanox/issues
 License: MIT + file LICENSE
-Suggests: knitr, rmarkdown
-VignetteBuilder: knitr
+Suggests: knitr, 
+	rmarkdown
+Imports: moments,
+	nonlinearTseries,
+  earlywarnings
+RoxygenNote: 7.1.1
+Encoding: UTF-8

@@ -1,6 +1,3 @@
-
-
-
 #' Function that returns default parameter value set
 #'
 #' @return

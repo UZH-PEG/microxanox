@@ -41,11 +41,11 @@ inhibition <- function(X, h_X)
 #' @return Growth rate
 #' @export
 bushplus_dynamic_model_strains <- function(t, state, parameters) {
-  
+
   with(as.list(c(state, parameters)),
        {
-         
-  
+
+
          CB <- state[grep("CB", names(state))]
          names_CB <- names(CB)[order(names(CB))]
          CB <- as.numeric(CB[order(names(CB))])
@@ -56,9 +56,9 @@ bushplus_dynamic_model_strains <- function(t, state, parameters) {
          names_SB <- names(SB)[order(names(SB))]
          SB <- as.numeric(SB[order(names(SB))])
          #print(c(CB, PB, SB))
-         
-         
-         
+
+
+
          g_max_CB <- parameters[grep("g_max_CB", names(parameters))]
          g_max_CB <- as.numeric(g_max_CB[order(names(g_max_CB))])
          k_CB_P <- parameters[grep("k_CB_P", names(parameters))]
@@ -73,7 +73,7 @@ bushplus_dynamic_model_strains <- function(t, state, parameters) {
          m_CB <- as.numeric(m_CB[order(names(m_CB))])
          i_CB <- parameters[grep("i_CB", names(parameters))]
          i_CB <- as.numeric(i_CB[order(names(i_CB))])
-         
+
          g_max_PB <- parameters[grep("g_max_PB", names(parameters))]
          g_max_PB <- as.numeric(g_max_PB[order(names(g_max_PB))])
          k_PB_SR <- parameters[grep("k_PB_SR", names(parameters))]
@@ -90,7 +90,7 @@ bushplus_dynamic_model_strains <- function(t, state, parameters) {
          m_PB <- as.numeric(m_PB[order(names(m_PB))])
          i_PB <- parameters[grep("i_PB", names(parameters))]
          i_PB <- as.numeric(i_PB[order(names(i_PB))])
-             
+
          g_max_SB <- parameters[grep("g_max_SB", names(parameters))]
          g_max_SB <- as.numeric(g_max_SB[order(names(g_max_SB))])
          k_SB_SO <- parameters[grep("k_SB_SO", names(parameters))]
@@ -107,44 +107,44 @@ bushplus_dynamic_model_strains <- function(t, state, parameters) {
          m_SB <- as.numeric(m_SB[order(names(m_SB))])
          i_SB <- parameters[grep("i_SB", names(parameters))]
          i_SB <- as.numeric(i_SB[order(names(i_SB))])
-         
-         
-         
-         
+
+
+
+
          # rates of change
-         CB_growth_rate <- growth1(P, g_max_CB, k_CB_P) * inhibition(SR, h_SR_CB) * CB 
+         CB_growth_rate <- growth1(P, g_max_CB, k_CB_P) * inhibition(SR, h_SR_CB) * CB
          CB_mortality_rate <- m_CB * CB
          CB_rate <- CB_growth_rate - CB_mortality_rate + i_CB
-         
+
          PB_growth_rate <- growth2(P, SR, g_max_PB, k_PB_P, k_PB_SR) * inhibition(O, h_O_PB) * PB
          PB_mortality_rate <- m_PB * PB
          PB_rate <- PB_growth_rate - PB_mortality_rate + i_PB
-         
+
          SB_growth_rate <- growth2(P, SO, g_max_SB, k_SB_P, k_SB_SO) * inhibition(O, h_O_SB) * SB
          SB_mortality_rate <- m_SB * SB
          SB_rate <- SB_growth_rate - SB_mortality_rate + i_SB
-         
+
          SO_rate <- sum(1 / y_SR_PB * PB_growth_rate) -
            sum(1 / y_SO_SB * SB_growth_rate) +
            c * O * SR +
-           a_S * (back_SO - SO) 
-         
+           a_S * (back_SO - SO)
+
          SR_rate <- - sum(1 / y_SR_PB * PB_growth_rate) +
            sum(1 / y_SO_SB * SB_growth_rate) -
            c * O * SR +
-           a_S * (back_SR - SR) 
-         
+           a_S * (back_SR - SR)
+
          O_rate <- sum(Pr_CB * CB_growth_rate) -
            c * O * SR +
-           10^log10a_forcing_func(t) * (back_O - O) 
-         
+           10^log10a_forcing_func(t) * (back_O - O)
+
          P_rate <- - sum(1 / y_P_CB * CB_growth_rate) -
            sum(1 / y_P_PB * PB_growth_rate) -
            sum(1 / y_P_SB * PB_growth_rate) +
-           a_P * (back_P - P) 
-         
+           a_P * (back_P - P)
+
          #print(CB_rate)
-         
+
          # return the rate of change
          result <- list(c(CB_rate,
                 PB_rate,
@@ -176,43 +176,43 @@ bushplus_dynamic_model_strains <- function(t, state, parameters) {
 #' @return Growth rate
 #' @export
 bushplus_dynamic_model <- function(t, state, parameters) {
-  
+
   with(as.list(c(state, parameters)),
        {
-         
+
          # rates of change
-         N_CB_growth_rate <- growth1(P, g_max_CB, k_CB_P) * inhibition(SR, h_SR_CB) * N_CB 
+         N_CB_growth_rate <- growth1(P, g_max_CB, k_CB_P) * inhibition(SR, h_SR_CB) * N_CB
          N_CB_mortality_rate <- m_CB * N_CB
          N_CB_rate <- N_CB_growth_rate - N_CB_mortality_rate + i_CB
-         
+
          N_PB_growth_rate <- growth2(P, SR, g_max_PB, k_PB_P, k_PB_SR) * inhibition(O, h_O_PB) * N_PB
          N_PB_mortality_rate <- m_PB * N_PB
          N_PB_rate <- N_PB_growth_rate - N_PB_mortality_rate + i_PB
-         
+
          N_SB_growth_rate <- growth2(P, SO, g_max_SB, k_SB_P, k_SB_SO) * inhibition(O, h_O_SB) * N_SB
          N_SB_mortality_rate <- m_SB * N_SB
          N_SB_rate <- N_SB_growth_rate - N_SB_mortality_rate + i_SB
-         
+
          SO_rate <- 1 / Y_SR_PB * N_PB_growth_rate -
            1 / Y_SO_SB * N_SB_growth_rate +
            c * O * SR +
-           a_S * (back_SO - SO) 
-         
+           a_S * (back_SO - SO)
+
          SR_rate <- - 1 / Y_SR_PB * N_PB_growth_rate +
            1 / Y_SO_SB * N_SB_growth_rate -
            c * O * SR +
-           a_S * (back_SR - SR) 
-         
+           a_S * (back_SR - SR)
+
          O_rate <- Pr_CB * N_CB_growth_rate -
            c * O * SR +
-           10^log10a_forcing_func(t) * (back_O - O) 
-         
+           10^log10a_forcing_func(t) * (back_O - O)
+
          P_rate <- - 1 / y_P_CB * N_CB_growth_rate -
            1 / y_P_PB * N_PB_growth_rate -
            1 / y_P_SB * N_PB_growth_rate +
-           a_P * (back_P - P) 
-         
-         
+           a_P * (back_P - P)
+
+
          # return the rate of change
          list(c(N_CB_rate,
                 N_PB_rate,
@@ -222,9 +222,9 @@ bushplus_dynamic_model <- function(t, state, parameters) {
                 O_rate,
                 P_rate),
               a=log10a_forcing_func(t))
-         
+
        })
-  
+
 }
 
 
@@ -240,11 +240,11 @@ bushplus_dynamic_model <- function(t, state, parameters) {
 #' @return Growth rate
 #' @export
 bushplus_dynamic_model_strains_old <- function(t, state, parameters) {
-  
+
   with(as.list(c(state, parameters)),
        {
-         
-         
+
+
          CB <- state[grep("CB", names(state))]
          names_CB <- names(CB)[order(names(CB))]
          CB <- as.numeric(CB[order(names(CB))])
@@ -255,61 +255,61 @@ bushplus_dynamic_model_strains_old <- function(t, state, parameters) {
          names_SB <- names(SB)[order(names(SB))]
          SB <- as.numeric(SB[order(names(SB))])
          #print(c(CB, PB, SB))
-         
-         
+
+
          g_max_CB <- parameters[grep("g_max_CB", names(parameters))]
          g_max_CB <- as.numeric(g_max_CB[order(names(g_max_CB))])
          g_max_PB <- parameters[grep("g_max_PB", names(parameters))]
          g_max_PB <- as.numeric(g_max_PB[order(names(g_max_PB))])
          g_max_SB <- parameters[grep("g_max_SB", names(parameters))]
          g_max_SB <- as.numeric(g_max_SB[order(names(g_max_SB))])
-         
+
          h_SR_CB <- parameters[grep("h_SR_CB", names(parameters))]
          h_SR_CB <- as.numeric(h_SR_CB[order(names(h_SR_CB))])
          h_O_PB <- parameters[grep("h_O_PB", names(parameters))]
          h_O_PB <- as.numeric(h_O_PB[order(names(h_O_PB))])
          h_O_SB <- parameters[grep("h_O_SB", names(parameters))]
          h_O_SB <- as.numeric(h_O_SB[order(names(h_O_SB))])
-         
-         
-         
-         
-         
-         
+
+
+
+
+
+
          # rates of change
-         CB_growth_rate <- growth1(P, g_max_CB, k_CB_P) * inhibition(SR, h_SR_CB) * CB 
+         CB_growth_rate <- growth1(P, g_max_CB, k_CB_P) * inhibition(SR, h_SR_CB) * CB
          CB_mortality_rate <- m_CB * CB
          CB_rate <- CB_growth_rate - CB_mortality_rate + i_CB
-         
+
          PB_growth_rate <- growth2(P, SR, g_max_PB, k_PB_P, k_PB_SR) * inhibition(O, h_O_PB) * PB
          PB_mortality_rate <- m_PB * PB
          PB_rate <- PB_growth_rate - PB_mortality_rate + i_PB
-         
+
          SB_growth_rate <- growth2(P, SO, g_max_SB, k_SB_P, k_SB_SO) * inhibition(O, h_O_SB) * SB
          SB_mortality_rate <- m_SB * SB
          SB_rate <- SB_growth_rate - SB_mortality_rate + i_SB
-         
+
          SO_rate <- 1 / Y_SR_PB * sum(PB_growth_rate) -
            1 / Y_SO_SB * sum(SB_growth_rate) +
            c * O * SR +
-           a_S * (back_SO - SO) 
-         
+           a_S * (back_SO - SO)
+
          SR_rate <- - 1 / Y_SR_PB * sum(PB_growth_rate) +
            1 / Y_SO_SB * sum(SB_growth_rate) -
            c * O * SR +
-           a_S * (back_SR - SR) 
-         
+           a_S * (back_SR - SR)
+
          O_rate <- Pr_CB * sum(CB_growth_rate) -
            c * O * SR +
-           10^log10a_forcing_func(t) * (back_O - O) 
-         
+           10^log10a_forcing_func(t) * (back_O - O)
+
          P_rate <- - 1 / y_P_CB * sum(CB_growth_rate) -
            1 / y_P_PB * sum(PB_growth_rate) -
            1 / y_P_SB * sum(PB_growth_rate) +
-           a_P * (back_P - P) 
-         
+           a_P * (back_P - P)
+
          #print(CB_rate)
-         
+
          # return the rate of change
          result <- list(c(CB_rate,
                           PB_rate,
@@ -329,7 +329,3 @@ bushplus_dynamic_model_strains_old <- function(t, state, parameters) {
          result
        })
 }
-
-
-
-
