@@ -1,36 +1,4 @@
 
-#' Growth rate function on one resource X
-#'
-#' @param X Concentration of resource X
-#' @param g_max Maximum growth rate
-#' @param k_X Half saturation constant for resource X
-#' @return Growth rate
-#' @export
-growth1 <- function(X, g_max, k_X)
-  g_max * ( X / (k_X + X) )
-
-
-#' Growth rate function on two resources X and Y
-#'
-#' @param X Concentration of resource X
-#' @param Y Concentration of resource Y
-#' @param g_max Maximum growth rate
-#' @param k_X Half saturation constant for resource X
-#' @param k_Y Half saturation constant for resource Y
-#' @return Growth rate
-#' @export
-growth2 <- function(X, Y, g_max, k_X, k_Y)
-  g_max * ( X / (k_X + X) ) * ( Y / (k_Y + Y))
-
-
-#' Growth inhibition function
-#'
-#' @param X Concentration of substance X
-#' @param h_X Concentration of substance X at which the inhibition factor is 0.5 (i.e. the concerned rate is halved)
-#' @return Inhibition factor
-#' @export
-inhibition <- function(X, h_X)
-  1 / (1 + (X / h_X))
 
 
 #' The rate equations, as published in the paper, but with forcing of oxygen diffusivity (a_0) potential added

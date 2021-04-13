@@ -15,7 +15,8 @@ get_final_states_a_N <- function(x) {
   ss_log10a_series <- c(log10(ssfind_parameters["a_O"]),
                         log10(ssfind_parameters["a_O"]))
   
-  simres <- run_simulation(initial_state = ssfind_init_state,
+  simres <- run_simulation(dynamic_model = bushplus_dynamic_model,
+    initial_state = ssfind_init_state,
                            parameter_values = ssfind_parameters,
                            sim_duration = ssfind_simulation_duration,
                            sim_sample_interval = ssfind_simulation_sampling_interval,
