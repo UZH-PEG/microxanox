@@ -1,0 +1,279 @@
+---
+title: "EWS analysis"
+author: "Owen Petchey & Jennifer Probst"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    number_sections: true
+    code_folding: hide
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+---
+
+
+
+
+## EWS analyses 
+
+Evaluation of the switch: 
+Get the functions: 
+```{r eval = F}
+source('C:/Users/probs/Desktop/Sem 6/Internship/functions_analysis_EWS_2.R')
+```
+
+Get state shifts and calculate parameters: 
+```{r eval = F}
+x3 <- 30 #size of wished rolling window (percentage btw 0 and 100)
+x5 <- 50 #size of wished rolling window (percentage btw 0 and 100)
+
+#first switch
+name_1='anoxic_oxic 1'
+trans1 <- data.frame(out_t %>% filter(time>87500 & time<92500)) #for analysis
+trans1_f <- data.frame(out_f %>% filter(time>87500 & time<92500)) #for plotting
+n_13 <- round(length(trans1$time)*x3/100) #size of rolling window
+t_13 <- length(trans1$time) - n_13 + 1 #number of rolling windows
+n_15 <- round(length(trans1$time)*x5/100) #size of rolling window
+t_15 <- length(trans1$time) - n_15 + 1 #number of rolling windows
+out_df_1_N_CB <- data.frame(trans1$N_CB)
+colnames(out_df_1_N_CB) <- c("N_CB")
+out_df_1_N_PB <- data.frame(trans1$N_PB)
+colnames(out_df_1_N_PB) <- c("N_PB")
+out_df_1_N_SB <- data.frame(trans1$N_SB)
+colnames(out_df_1_N_SB) <- c("N_SB")
+
+ggplot(aes(x=time, y=trans_quantity, col=species), data=trans1_f) +
+  ggtitle("Anoxic_oxic 1")+
+  xlab('Time') +
+  ylab('Trans_quantity') +
+  facet_wrap(~var_type, scales = "free", ncol = 1) + #create one plot for organisms and one for substrate
+  geom_line()+
+  labs(color = "Organism/Substrate")
+ggsave("anoxic_oxic 1.png")
+
+#second switch
+name_2='oxic_anoxic 1'
+trans2 <- data.frame(out_t %>% filter(time>335000 & time<360000))
+trans2_f <- data.frame(out_f %>% filter(time>335000 & time<360000))
+n_23 <- round(length(trans2$time)*x3/100) 
+t_23 <- length(trans2$time) - n_23 + 1
+n_25 <- round(length(trans2$time)*x5/100) 
+t_25 <- length(trans2$time) - n_25 + 1
+out_df_2_N_CB <- data.frame(trans2$N_CB)
+colnames(out_df_2_N_CB) <- c("N_CB")
+out_df_2_N_PB <- data.frame(trans2$N_PB)
+colnames(out_df_2_N_PB) <- c("N_PB")
+out_df_2_N_SB <- data.frame(trans2$N_SB)
+colnames(out_df_2_N_SB) <- c("N_SB")
+
+ggplot(aes(x=time, y=trans_quantity, col=species), data=trans2_f) +
+  ggtitle("Oxic_anoxic 1")+
+  xlab('Time') +
+  ylab('Trans_quantity') +
+  facet_wrap(~var_type, scales = "free", ncol = 1) + #create one plot for organisms and one for substrate
+  geom_line()+
+  labs(color = "Organism/Substrate")
+ggsave("oxic_anoxic 1.png")
+
+#third switch
+name_3='oxic_anoxic 2'
+trans3 <- data.frame(out2_t %>% filter(time>165000 & time<185000))
+trans3_f <- data.frame(out2_f %>% filter(time>165000 & time<185000))
+n_33 <- round(length(trans3$time)*x3/100) 
+t_33 <- length(trans3$time) - n_33 + 1
+n_35 <- round(length(trans3$time)*x5/100) 
+t_35 <- length(trans3$time) - n_35 + 1
+out2_df_1_N_CB <- data.frame(trans3$N_CB)
+colnames(out2_df_1_N_CB) <- c("N_CB")
+out2_df_1_N_SB <- data.frame(trans3$N_SB)
+colnames(out2_df_1_N_SB) <- c("N_SB")
+out2_df_1_N_PB <- data.frame(trans3$N_PB)
+colnames(out2_df_1_N_PB) <- c("N_PB")
+
+ggplot(aes(x=time, y=trans_quantity, col=species), data=trans3_f) +
+  ggtitle("Oxic_anoxic 2")+
+  xlab('Time') +
+  ylab('Trans_quantity') +
+  facet_wrap(~var_type, scales = "free", ncol = 1) + #create one plot for organisms and one for substrate
+  geom_line()+
+  labs(color = "Organism/Substrate")
+ggsave("oxic_anoxic 2.png")
+
+#fourth switch
+name_4='anoxic_oxic 2'
+trans4 <- data.frame(out2_t %>% filter(time>340000 & time<348500))
+trans4_f <- data.frame(out2_f %>% filter(time>340000 & time<348500))
+n_43 <- round(length(trans4$time)*x3/100) 
+t_43 <- length(trans4$time) - n_43 + 1
+n_45 <- round(length(trans4$time)*x5/100) 
+t_45 <- length(trans4$time) - n_45 + 1
+out2_df_2_N_CB <- data.frame(trans4$N_CB)
+colnames(out2_df_2_N_CB) <- c("N_CB")
+out2_df_2_N_PB <- data.frame(trans4$N_PB)
+colnames(out2_df_2_N_PB) <- c("N_PB")
+out2_df_2_N_SB <- data.frame(trans4$N_SB)
+colnames(out2_df_2_N_SB) <- c("N_SB")
+
+ggplot(aes(x=time, y=trans_quantity, col=species), data=trans4_f) +
+  ggtitle("Anoxic_oxic 2")+
+  xlab('Time') +
+  ylab('Trans_quantity') +
+  facet_wrap(~var_type, scales = "free", ncol = 1) + #create one plot for organisms and one for substrate
+  geom_line()+
+  labs(color = "Organism/Substrate")
+ggsave("anoxic_oxic 2.png")
+```
+
+
+Rolling window analysis
+```{r eval = F}
+#analysis for 1st
+rollingwindow_analysis(trans1, 2, n_15, t_15, name_1)
+rollingwindow_analysis(trans1, 3, n_15, t_15, name_1)
+rollingwindow_analysis(trans1, 4, n_15, t_15, name_1)
+  
+#analysis for 2nd
+rollingwindow_analysis(trans2, 2, n_25, t_25, name_2)
+rollingwindow_analysis(trans2, 3, n_25, t_25, name_2)
+rollingwindow_analysis(trans2, 4, n_25, t_25, name_2)
+
+#analysis for 3rd
+rollingwindow_analysis(trans3, 2, n_35, t_35, name_3)
+rollingwindow_analysis(trans3, 3, n_35, t_35, name_3)
+rollingwindow_analysis(trans3, 4, n_35, t_35, name_3)
+
+#analysis for 4th
+rollingwindow_analysis(trans4, 2, n_45, t_45, name_4)
+rollingwindow_analysis(trans4, 3, n_45, t_45, name_4)
+rollingwindow_analysis(trans4, 4, n_45, t_45, name_4)
+
+```
+
+Metric based indicators from the earlywarnings package
+```{r eval = F}
+#analysis for 1st
+earlywarnings_plot(out_df_1_N_CB, name_1, x3)
+earlywarnings_plot(out_df_1_N_PB, name_1, x3)
+earlywarnings_plot(out_df_1_N_SB, name_1, x3)
+
+#analysis for 2nd
+earlywarnings_plot(out_df_2_N_CB, name_2, x3)
+earlywarnings_plot(out_df_2_N_PB, name_2, x3)
+earlywarnings_plot(out_df_2_N_SB, name_2, x3)
+
+#analysis for 3rd
+earlywarnings_plot(out2_df_1_N_CB, name_3, x3)
+earlywarnings_plot(out2_df_1_N_PB, name_3, x3)
+earlywarnings_plot(out2_df_1_N_SB, name_3, x3)
+
+#analysis for 4th
+earlywarnings_plot(out2_df_2_N_CB, name_4, x3)
+earlywarnings_plot(out2_df_2_N_PB, name_4, x3)
+earlywarnings_plot(out2_df_2_N_SB, name_4, x3)
+```
+
+Conditional Heteroskedasticity 
+```{r eval = F}
+#analysis for 1st
+ch <- condhet_analysis(out_df_1_N_CB, name_1)
+ch <- condhet_analysis(out_df_1_N_PB, name_1)
+ch <- condhet_analysis(out_df_1_N_SB, name_1)
+
+#analysis for 2nd
+ch2 <- condhet_analysis(out_df_2_N_CB, name_2)
+ch2 <- condhet_analysis(out_df_2_N_PB, name_2)
+ch2 <- condhet_analysis(out_df_2_N_SB, name_2)
+
+#analysis for 3rd
+ch3 <- condhet_analysis(out2_df_1_N_CB, name_3)
+ch3 <- condhet_analysis(out2_df_1_N_PB, name_3)
+ch3 <- condhet_analysis(out2_df_1_N_SB, name_3)
+
+#analysis for 4th
+ch4 <- condhet_analysis(out2_df_2_N_CB,name_4)
+ch4 <- condhet_analysis(out2_df_2_N_PB, name_4)
+ch4 <- condhet_analysis(out2_df_2_N_SB, name_4)
+```
+
+Detrending fluctuation analysis 
+```{r eval = F}
+#analysis for 1st
+dfa_analysis(trans1, 2, n_15, t_15, name_1)
+dfa_analysis(trans1, 3, n_15, t_15, name_1)
+dfa_analysis(trans1, 4, n_15, t_15, name_1)
+
+#analysis for 2nd
+dfa_analysis(trans2, 2, n_25, t_25, name_2)
+dfa_analysis(trans2, 3, n_25, t_25, name_2)
+dfa_analysis(trans2, 4, n_25, t_25, name_2)
+
+#analysis for 3rd
+dfa_analysis(trans3, 2, n_35, t_35, name_3)
+dfa_analysis(trans3, 3, n_35, t_35, name_3)
+dfa_analysis(trans3, 4, n_35, t_35, name_3)
+
+#analysis for 4th
+dfa_analysis(trans4, 2, n_45, t_45, name_4)
+dfa_analysis(trans4, 3, n_45, t_45, name_4)
+dfa_analysis(trans4, 4, n_45, t_45, name_4)
+```
+
+Drift Diffusion Jump Nonparametrics Early Warning Signals:
+```{r eval = F}
+#shift 1
+ddj11<- ddj_model(out_df_1_N_CB)
+plot_ddj_1(out_df_1_N_CB, ddj11, name_1)
+plot_ddj_2(out_df_1_N_CB, ddj11, name_1)
+
+ddj12<- ddj_model(out_df_1_N_PB)
+plot_ddj_1(out_df_1_N_PB, ddj12, name_1)
+plot_ddj_2(out_df_1_N_PB, ddj12, name_1)
+
+ddj13<- ddj_model(out_df_1_N_SB)
+plot_ddj_1(out_df_1_N_SB, ddj13, name_1)
+plot_ddj_2(out_df_1_N_SB, ddj13, name_1)
+
+
+#shift 2
+ddj21<- ddj_model(out_df_2_N_CB)
+plot_ddj_1(out_df_2_N_CB, ddj21, name_2)
+plot_ddj_2(out_df_2_N_CB, ddj21, name_2)
+
+ddj22<- ddj_model(out_df_2_N_PB)
+plot_ddj_1(out_df_2_N_PB, ddj22, name_2)
+plot_ddj_2(out_df_2_N_PB, ddj22, name_2)
+
+ddj23<- ddj_model(out_df_2_N_SB)
+plot_ddj_1(out_df_2_N_SB, ddj23, name_2)
+plot_ddj_2(out_df_2_N_SB, ddj23, name_2)
+
+
+#shift 3
+ddj31<- ddj_model(out2_df_1_N_CB)
+plot_ddj_1(out2_df_1_N_CB, ddj31, name_3)
+plot_ddj_2(out2_df_1_N_CB, ddj31, name_3)
+
+ddj32<- ddj_model(out2_df_1_N_PB)
+plot_ddj_1(out2_df_1_N_PB, ddj32, name_3)
+plot_ddj_2(out2_df_1_N_PB, ddj32, name_3)
+
+ddj33<- ddj_model(out2_df_1_N_SB)
+plot_ddj_1(out2_df_1_N_SB, ddj33, name_3)
+plot_ddj_2(out2_df_1_N_SB, ddj33, name_3)
+
+
+#shift 4
+ddj41<- ddj_model(out2_df_2_N_CB)
+plot_ddj_1(out2_df_2_N_CB, ddj41, name_4)
+plot_ddj_2(out2_df_2_N_CB, ddj41, name_4)
+
+ddj42<- ddj_model(out2_df_2_N_PB)
+plot_ddj_1(out2_df_2_N_PB, ddj42, name_4)
+plot_ddj_2(out2_df_2_N_PB, ddj42, name_4)
+
+ddj43<- ddj_model(out2_df_2_N_SB)
+plot_ddj_1(out2_df_2_N_SB, ddj43, name_4)
+plot_ddj_2(out2_df_2_N_SB, ddj43, name_4)
+```
