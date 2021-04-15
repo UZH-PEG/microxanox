@@ -1,0 +1,59 @@
+---
+title: "User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations"
+author: "Owen Petchey"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+# Introduction
+
+The aims here are:
+
+* Reproduce the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+* Add an investigation of how changes in tolerances alter the response to environmental change.
+
+We also add:
+
+* Option to include random noise in substrate concentrations.
+* Option to temporally vary oxygen diffusivity.
+* Option to include immigration.
+* Option to include a minimum abundances.
+
+Here we use only the published (Bush et al 2017) dynamical model, in which there is not biodiversity within each of the three functional groups. That is, there is only one parameter set per functional group.
+
+Here is the original publication:
+https://www.nature.com/articles/s41467-017-00912-x
+
+And here is the supplementary information, including the table of parameter values:
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-017-00912-x/MediaObjects/41467_2017_912_MOESM1_ESM.pdf
+
+Note that we here use the notation from the table S1 of the supplementary information, and not the notation in the main text. (There is only one small difference between these: In the main text the notation is simplified to y_S_PB (which is y_SR_PB ($y_{SR,PB}$) in Table S1) and y_S_SB (which is y_SO_SB ($y_{SO,SB}$) in Table S1).
+
+# Methods
+
+## Modelling framework
+
+The framework used for running a simulation, and for varying aspects of a simulation run is:
+
+* Define the default simulation conditions.
+* Use these defaults unless other conditions are specified.
+* The function call `run_simulation()` would therefore run a simulation with default conditions.
+* Whereas, for example, the function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with the specified initial state values.
+
+## Dynamic model
+
+There are two versions...
+
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model_strains()`. This is an augmented version that can handle multiple strains within each of the three functional groups. The basic version that has only one strain per functional group is `bushplus_dynamic_model()`.
+
+## Model dimensions
+
+* Time: hours
+* Volume: litres
+* Substrate quantity: micromoles
+* Organism quantity: cells
