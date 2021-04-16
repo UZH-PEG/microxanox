@@ -35,12 +35,14 @@ Imports:
   deSolve,
   dplyr
 Suggests: 
-  knitr, 
-	rmarkdown,
-	rootSolve,
-	patchwork,
-	here,
-	tidyverse
+    knitr,
+    rmarkdown,
+    rootSolve,
+    patchwork,
+    here,
+    tidyverse,
+    testthat (>= 3.0.0)
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr
+Config/testthat/edition: 3
