@@ -2,7 +2,8 @@
 % Please edit documentation in R/return_default_initial_state.R
 \name{return_default_initial_state}
 \alias{return_default_initial_state}
-\title{Function that returns default initial states.}
+\title{Function that returns default initial states.
+This particular set favours the anoxic state.}
 \usage{
 return_default_initial_state()
 }
@@ -11,4 +12,5 @@ A named vector of parameter values
 }
 \description{
 Function that returns default initial states.
+This particular set favours the anoxic state.
 }

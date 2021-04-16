@@ -194,13 +194,14 @@ Figure 2a, b in Bush et al.
 
 ```{r}
 
-init_state_favouring_anoxic <- c(N_CB = 5e1,
-           N_PB = 1e7,
-           N_SB = 1e7,
-           SO = 300,
-           SR = 300,
-           O = 1e1,
-           P = 1e1)
+init_state_favouring_anoxic <- c(
+  N_CB = 5e1,
+  N_PB = 1e7,
+  N_SB = 1e7,
+  SO = 300,
+  SR = 300,
+  O = 1e1,
+  P = 1e1)
 
 parameters <- default_parameter_values
 state <- init_state_favouring_anoxic

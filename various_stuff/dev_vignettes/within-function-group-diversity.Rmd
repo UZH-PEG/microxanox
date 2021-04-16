@@ -97,6 +97,7 @@ default_sim_sample_interval <- 1
 No forcing -- constant diffusivity at a level that allows alternate stable states.
 
 ```{r}
+default_parameter_values <- return_default_parameter_values()
 default_log10a_series <- c(log10(default_parameter_values["a_O"]),
                            log10(default_parameter_values["a_O"]))
 ```
@@ -173,10 +174,10 @@ one_strain_initial_state <- c(
   P = 1e1
   )
 
-simulation_result <- run_simulation(dynamic_model =
-                                      bushplus_dynamic_model_strains,
+simulation_result <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
                                     parameter_values = one_strain_params,
-                                    initial_state = one_strain_initial_state)
+                                    initial_state = one_strain_initial_state,
+                                    event_definition = default_event_definition_strains)
 
 plot_dynamics_strains(simulation_result)
 
@@ -224,12 +225,12 @@ SB_strain_params <- data.frame(strain_name = paste0("SB_", 1:num_SB_strains),
 multi_strain_params <- construct_parameter_set(CB_strain_params,
                                     PB_strain_params,
                                     SB_strain_params,
-                                    all_other_parms)
+                                    all_other_params)
 
 
 multi_strain_initial_state <- c(
-  CB_1 = 5e1,
-  CB_2 = 0,
+  CB_1 = 5e3,
+  CB_2 = 1e3,
   CB_3 = 0,
   PB_1 = 1e7,
   PB_2 = 1e6,
@@ -245,7 +246,10 @@ multi_strain_initial_state <- c(
 
 simulation_result <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
                parameter_values = multi_strain_params,
-               initial_state = multi_strain_initial_state)
+               initial_state = multi_strain_initial_state,
+               event_definition = default_event_definition_strains)
+
+
 plot_dynamics_strains(simulation_result)
 
 

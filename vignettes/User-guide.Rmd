@@ -170,6 +170,13 @@ default_minimum_abundances <- rep(1e2, 3)
 names(default_minimum_abundances) <- c("CB", "PB", "SB") 
 ```
 
+### Warning: Assignment to global environment
+
+ File ‘microxanox/R/run_simulation.R’:
+ assign("log10a_forcing_func", log10a_forcing_func, envir = .GlobalEnv)
+ assign("noise_sigma", noise_sigma, envir = .GlobalEnv)
+ assign("minimum_abundances", minimum_abundances, envir = .GlobalEnv)
+
 # Run a simulation
 
 ```{r}

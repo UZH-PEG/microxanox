@@ -12,8 +12,10 @@
 #' @export
 plot_dynamics_strains <- function(simulation_result, every_n = 1) {
   
+  row_nums <- 1:nrow(simulation_result$result)
+  
   simulation_result$result %>%
-    filter(row_number() %% every_n == 0) %>%
+    filter(row_nums %% every_n == 0) %>%
     mutate(a = 10^a) %>%
     gather(species, quantity, 2:ncol(.)) %>% 
     mutate(var_type=ifelse(grepl("B_", species), "Organism", "Substrate"), 
