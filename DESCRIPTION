@@ -24,7 +24,6 @@ Depends:
 Imports: 
   magrittr,
   tibble,
-  dplyr,
   ggplot2,
   graphics,
   grDevices,
@@ -33,11 +32,15 @@ Imports:
   nonlinearTseries,
   earlywarnings,
   mgcv,
-  deSolve
+  deSolve,
+  dplyr
 Suggests: 
   knitr, 
 	rmarkdown,
-	rootSolve
+	rootSolve,
+	patchwork,
+	here,
+	tidyverse
 RoxygenNote: 7.1.1
 Encoding: UTF-8
 VignetteBuilder: knitr

@@ -50,9 +50,9 @@ load_default_parameter_values <- function() {
     back_P = 9.5,
     
     ## immigration rates (cells per time)
-    i_CB <- 0,
-    i_PB <- 0,
-    i_SB <- 0,
+    i_CB = 0,
+    i_PB = 0,
+    i_SB = 0,
     
     ## oxidisation rate of reduced sulphur
     c = 4e-5
