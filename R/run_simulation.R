@@ -12,6 +12,10 @@
 #' @param initial_state The initial values of all state variables.
 #' @param solver_method The method used in the ODE solver.
 #' @return A list containing the time series of state variables and all arguments passed.
+#' 
+#' @importFrom stats approx approxfun
+#' @importFrom deSolve ode
+#' 
 #' @export
 
 

@@ -7,7 +7,7 @@
 get_final_states_a_h_N(x)
 }
 \arguments{
-\item{expt}{A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.}
+\item{x}{A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.}
 }
 \value{
 Experimental result.

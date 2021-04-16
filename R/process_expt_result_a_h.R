@@ -1,7 +1,11 @@
 #' A function to process the output of the ss_by_a_h_N (find steady states) function
 #'
-#' @param temp_results The experimental results produced by ss_by_a_N
+#' @param temp_result The experimental results produced by ss_by_a_N
 #' @return Processed experimental results.
+#' 
+#' @importFrom tibble tibble 
+#' @importFrom dplyr select mutate bind_rows arrange
+#' 
 #' @export
 process_expt_result_a_h <- function(temp_result)
 {

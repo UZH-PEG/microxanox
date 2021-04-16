@@ -14,6 +14,21 @@
 #   https://cran.r-project.org/web/packages/earlywarnings/earlywarnings.pdf
 # Standart metric diagnostics: autoregressive coefficient, return rate, density ratio, standart deviation, skewness, kurtosis
 
+#' To Add
+#'
+#' @param dataframe TODO
+#' @param name TODO
+#' @param x TODO
+#'
+#' @return TODO
+#' 
+#' @importFrom graphics abline legend lines mtext par text
+#' @importFrom grDevices pdf dev.off
+#' @importFrom stats acf approx ar.ols bw.nrd0 cor.test fitted ksmooth lm loess predict resid spec.ar
+#' 
+#' @export
+#'
+#' @examples
 earlywarnings_plot <- function(dataframe, name, x) {
   
   #input: dataframe with observed univariate time series of parameter to be analysed, name of dataset and moving window size in % of original data

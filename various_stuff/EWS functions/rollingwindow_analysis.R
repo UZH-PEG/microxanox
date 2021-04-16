@@ -12,6 +12,22 @@
 
 #Rolling window analysis for variance, skewness, kurtosis & autokorrelation from hand: 
 
+#' To Add
+#'
+#' @param switch TODO
+#' @param var_col TODO
+#' @param n TODO
+#' @param t TODO
+#' @param name TODO
+#'
+#' @return TODO
+#' 
+#' @importFrom graphics lines
+#' @importFrom stats acf ar.ols cor.test sd
+#' 
+#' @export
+#'
+#' @examples
 rollingwindow_analysis <- function(switch, var_col, n, t, name) {
   
   #input: a dataframe with data of respective switch, column of dataframe that should be analysed, 

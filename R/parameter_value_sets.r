@@ -1,9 +1,8 @@
 #' Function that returns default parameter value set
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
-#' @examples
 load_default_parameter_values <- function() {
   default_parameter_values <- c(
     

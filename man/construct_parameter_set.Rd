@@ -8,17 +8,17 @@ construct_parameter_set(
   CB_strain_params,
   PB_strain_params,
   SB_strain_params,
-  all_other_parms
+  all_other_params
 )
 }
 \arguments{
-\item{all_other_parms}{Vector of all other parameters}
+\item{CB_strain_params}{Data frame of parameter values of CB strains}
 
-\item{CB_strain_parms}{Data frame of parameter values of CB strains}
+\item{PB_strain_params}{Data frame of parameter values of PB strains}
 
-\item{PB_strain_parms}{Data frame of parameter values of PB strains}
+\item{SB_strain_params}{Data frame of parameter values of SB strains}
 
-\item{SB_strain_parms}{Data frame of parameter values of SB strains}
+\item{all_other_params}{Vector of all other parameters}
 }
 \value{
 A vector of a full set of parameter values

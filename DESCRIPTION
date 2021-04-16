@@ -2,7 +2,7 @@ Package: microxanox
 Version: 0.1
 Date: 2021-04-11
 Title: Oxic-anoxic regime shifts in microbial communities
-Description: TBD
+Description: The description will be discussed.
 Authors@R: 
     c(person(given = "Owen L.",
              family = "Petchey",
@@ -19,10 +19,25 @@ Maintainer: Owen L Petchey <owen.petchey@ieu.uzh.ch>
 URL: https://github.com/opetchey/microxanox/
 BugReports: https://github.com/opetchey/microxanox/issues
 License: MIT + file LICENSE
-Suggests: knitr, 
-	rmarkdown
-Imports: moments,
-	nonlinearTseries,
-  earlywarnings
+Depends: 
+  R (>= 3.5.0)
+Imports: 
+  magrittr,
+  tibble,
+  dplyr,
+  ggplot2,
+  graphics,
+  grDevices,
+  stats,
+  moments,
+  nonlinearTseries,
+  earlywarnings,
+  mgcv,
+  deSolve
+Suggests: 
+  knitr, 
+	rmarkdown,
+	rootSolve
 RoxygenNote: 7.1.1
 Encoding: UTF-8
+VignetteBuilder: knitr

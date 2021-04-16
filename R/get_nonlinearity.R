@@ -4,8 +4,11 @@
 #' @param x Environmental driver state variable
 #' @param y Ecosystem state variable
 #' @return Measure of non-linearity
+#' 
+#' @importFrom stats lm predict
+#' 
 #' @export
-
+#'
 get_nonlinearity <- function(x, y)
 {
   lin_pred <- predict(lm(y ~ x))

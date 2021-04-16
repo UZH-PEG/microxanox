@@ -1,16 +1,18 @@
 #' Construct set of parameter values
 #'
-#' @param CB_strain_parms Data frame of parameter values of CB strains
-#' @param PB_strain_parms Data frame of parameter values of PB strains
-#' @param SB_strain_parms Data frame of parameter values of SB strains
-#' @param all_other_parms Vector of all other parameters
+#' @param CB_strain_params Data frame of parameter values of CB strains
+#' @param PB_strain_params Data frame of parameter values of PB strains
+#' @param SB_strain_params Data frame of parameter values of SB strains
+#' @param all_other_params Vector of all other parameters
 #' @return A vector of a full set of parameter values
+#' 
+#' @importFrom dplyr select mutate bind_rows
+#' 
 #' @export
-
 construct_parameter_set <- function(CB_strain_params,
                                     PB_strain_params,
                                     SB_strain_params,
-                                    all_other_parms)
+                                    all_other_params)
 {
   
   temp_CB <- CB_strain_params %>%

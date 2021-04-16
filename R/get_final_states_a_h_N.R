@@ -1,7 +1,11 @@
 #' Function to get the steady states for combinations of a (oxygen diffusivity), inhibition strength and initial states.
 #'
-#' @param expt A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.
+#' @param x A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.
 #' @return Experimental result.
+#' 
+#' @importFrom dplyr bind_cols
+#' 
+
 #' @export
 
 get_final_states_a_h_N <- function(x) { 

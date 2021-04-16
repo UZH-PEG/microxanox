@@ -1,7 +1,7 @@
 #' A function that contains the events that should alter the state variables
 #'
 #' @param times The time point in the simulation
-#' @param state Current state variable values
+#' @param y Current state variable values
 #' @param parms Model parameters
 #' @return A vector of the state variables
 #' @export

@@ -7,7 +7,7 @@
 process_expt_result_a_h(temp_result)
 }
 \arguments{
-\item{temp_results}{The experimental results produced by ss_by_a_N}
+\item{temp_result}{The experimental results produced by ss_by_a_N}
 }
 \value{
 Processed experimental results.

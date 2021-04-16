@@ -9,9 +9,9 @@ default_event_definition(times = times, y = state, parms = parameters)
 \arguments{
 \item{times}{The time point in the simulation}
 
-\item{parms}{Model parameters}
+\item{y}{Current state variable values}
 
-\item{state}{Current state variable values}
+\item{parms}{Model parameters}
 }
 \value{
 A vector of the state variables

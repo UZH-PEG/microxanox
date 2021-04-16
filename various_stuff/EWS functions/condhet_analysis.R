@@ -10,6 +10,22 @@
 #------------------------------------------------------------------------------------#
 
 # Conditional Heteroskedasticity 
+
+#' To Add
+#'
+#' @param dataframe TODO
+#' @param name TODO
+#' @param interpolate TODO
+#'
+#' @return TODO
+#' 
+#' @importFrom graphics abline legend lines mtext par text
+#' @importFrom grDevices png dev.off
+#' @importFrom stats approx ar lm na.omit qchisq ts
+#' 
+#' @export
+#'
+#' @examples
 condhet_analysis <- function(dataframe, name, interpolate=FALSE) {
   
   #input: dataframe with observed univariate time series, name of timeseries and 'TRUE' if data needs to be interpolated
@@ -101,7 +117,7 @@ condhet_analysis <- function(dataframe, name, interpolate=FALSE) {
     # this creates a very simple plot that is well fitted to the data. it also plots the critical value line
     
     mypath <- file.path("C:","Users","probs","Desktop", "Sem 6", "Internship", paste(c(name, '_', colnames(dataframe),'_condhet.png'), collapse = ''))
-    png(file=mypath)
+    png(filename=mypath)
     par(mar = (c(0, 4, 0, 1) + 0), oma = c(5, 1, 2, 1), mfrow = c(2, 1))
     plot(timeindex, ts.in, type = "l", ylab = "data", xlab = "", cex.axis = 0.8, 
          cex.lab = 0.8, xaxt = "n", las = 1, xlim = c(timeindex[1], timeindex[length(timeindex)]))

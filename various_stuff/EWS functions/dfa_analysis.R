@@ -12,6 +12,22 @@
 # Detrending fluctuation analysis
 # https://www.rdocumentation.org/packages/nonlinearTseries/versions/0.2.3/topics/dfa
 
+#' To Add
+#'
+#' @param switch TODO
+#' @param var_col TODO
+#' @param n TODO
+#' @param t TODO
+#' @param name TODO
+#'
+#' @return TODO
+#' 
+#' @importFrom graphics lines
+#' @importFrom grDevices png dev.off
+#' 
+#' @export
+#'
+#' @examples
 dfa_analysis <- function(switch, var_col, n, t, name) {
   
   #input: a dataframe with data of respective switch, windowsize n t=totallength-n-1 and the name of timeseries
@@ -25,7 +41,7 @@ dfa_analysis <- function(switch, var_col, n, t, name) {
   
   #plot
   mypath <- file.path("C:","Users","probs","Desktop", "Sem 6", "Internship", paste(c(name, colnames(switch)[var_col], '_dfa.png'), collapse = ''))
-  png(file=mypath)
+  png(filename=mypath)
   plot(dfa_vector[0:(t-100)]~tottime[n:(length(switch[,var_col])-100)], xlab='timestep', ylab='DFA', main=paste(c('Detrended fluctuation analysis of ',colnames(switch)[var_col], ' of ', name), collapse = ''), type='l')
   dev.off()
 }

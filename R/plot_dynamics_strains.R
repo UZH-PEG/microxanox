@@ -4,6 +4,11 @@
 #' @param simulation_result Object returned by the run_simulation function.
 #' @param every_n Plot data of every other n sample.
 #' @return Nothing.
+#' 
+#' @importFrom stats filter
+#' @importFrom dplyr mutate
+#' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab
+#' 
 #' @export
 plot_dynamics_strains <- function(simulation_result, every_n = 1) {
   

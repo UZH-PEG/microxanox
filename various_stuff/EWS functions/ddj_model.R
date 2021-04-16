@@ -12,6 +12,19 @@
 # Model based indicators: 
 #   Drift Diffusion Jump Nonparametrics Early Warning Signals
 
+#' To Add
+#'
+#' @param dataframe TODO
+#'
+#' @return TODO
+#' 
+#' @importFrom graphics grid lines mtext par
+#' @importFrom grDevices dev.new graphics.off
+#' @importFrom stats approx sd ts
+#' 
+#' @export
+#'
+#' @examples
 ddj_model <- function(dataframe) {
   
   #input: dataframe with observed univariate time series
