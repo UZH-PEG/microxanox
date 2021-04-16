@@ -2,7 +2,9 @@
 title: "Partial reproduction of Bush et al (2017) Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics"
 author: "Owen Petchey"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: yes
 vignette: >
   %\VignetteIndexEntry{Reproducing some results of Bush et al 2017}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,7 +15,7 @@ vignette: >
 ```{r setup, output = FALSE, message = FALSE}
 
 knitr::opts_chunk$set(echo = TRUE, cache = FALSE,
-                      fig.align = "centre", fig.width = 8, fig.heigth = 6)
+                      fig.align = "centre", fig.width = 7, fig.height = 7)
 
 library(tidyverse)
 library(deSolve)
@@ -36,8 +38,14 @@ run_steadystate_sims <- FALSE
 The aims here are:
 
 * Reproduce the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+* Show how temporal change in oxygen diffusivity causes temporal switches between oxic and anoxic states.
+* Show how differences in the functional groups composition alters the ecosystem response to variation in oxygen diffusivity.
+* Quantify the amount of hysteresis and nonlinearity in these responses.
+* Show how amount of hysteresis and nonlinearity in ecosystem response depends on functional group composition.
 
 Please see the User manual vignette for further introduction and general methods.
+
+The only difference from the published model (Bush et al 2017) is that here the populations of the organisms are not allowed to decrease below a minimum abundance (see below for the exact implementation).
 
 # Methods
 
@@ -46,59 +54,7 @@ Please see the User manual vignette for further introduction and general methods
 Only one set of parameter values is used throughout. It gives the possibility for alternate stable states.
 
 ```{r}
-default_parameter_values <- c(
-  
-  ## maximum specific growth rates
-  g_max_CB = 0.05,
-  g_max_PB = 0.07,
-  g_max_SB = 0.1,
-  
-  ## half-saturation constants
-  k_PB_SR = 10,
-  k_SB_SO = 5,
-  k_CB_P = 0.2,
-  k_PB_P = 0.5,
-  k_SB_P = 0.5,
-  
-  ## half-inhibition constant
-  h_SR_CB = 300,
-  h_O_PB = 100,
-  h_O_SB = 100,
-  
-  ## yield (cells per micromole)
-  Y_SO_SB = 3.33e7,  
-  Y_SR_PB = 1.25e7, ## Y_S_PB in the main text
-  y_P_CB = 1.67e8,
-  y_P_PB = 1.67e8,
-  y_P_SB = 1.67e8,
-  
-  ## oxygen production per microbial cell
-  Pr_CB = 6e-9,
-  
-  ## mortality rate
-  m_CB = 0.02,
-  m_PB = 0.028,
-  m_SB = 0.04,
-  
-  ## substrate diffusivity
-  a_S = 0.001,
-  a_O = 8e-4,
-  a_P = 0.01,
-  
-  ## background substrate concentration
-  back_SR = 300,
-  back_SO = 300,
-  back_O = 300,
-  back_P = 9.5,
-  
-  ## immigration rates (cells per time)
-  i_CB = 0,
-  i_PB = 0,
-  i_SB = 0,
-  
-  ## oxidisation rate of reduced sulphur
-  c = 4e-5
-  )
+default_parameter_values <- return_default_parameter_values()
 ```
 
 ### Default initial state
@@ -106,13 +62,7 @@ default_parameter_values <- c(
 Specify the default set of initial conditions (here favouring anoxic organisms).
 
 ```{r}
-default_initial_state <- c(N_CB = 5e1,
-           N_PB = 1e7,
-           N_SB = 1e7,
-           SO = 300,
-           SR = 300,
-           O = 1e1,
-           P = 1e1)
+default_initial_state <- return_default_initial_state
 ```
 
 ### Default simulation duration
@@ -140,7 +90,7 @@ default_log10a_series <- c(log10(default_parameter_values["a_O"]),
 
 Default is to ensure abundances are not below minimum, and to add the amount of noise specified below (none in this vignette).
 
-These default are in the definition function `default_event_definition()`
+This default functionality is in the function `default_event_definition()`
 
 #### Default event schedule
 
@@ -166,9 +116,6 @@ Default to following minimum abundances:
 default_minimum_abundances <- rep(1e2, 3)
 names(default_minimum_abundances) <- c("CB", "PB", "SB") 
 ```
-
-
-
 
 
 ## Code test
@@ -316,7 +263,7 @@ ssfind_init_state <- c(N_CB = NA, #this one is varied
            SR = 200,
            O = 10,
            P = 9.5)
-grid_num_a <- 2
+grid_num_a <- 100
 a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
 grid_num_N <- 2
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
@@ -448,7 +395,7 @@ hlh_with_defaults$result %>%
 ```
 
 
-## Composition and nature of response
+## Functional group composition and nature of response
 
 
 ```{r}

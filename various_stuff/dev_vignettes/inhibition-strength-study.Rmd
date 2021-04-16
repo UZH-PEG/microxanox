@@ -75,7 +75,7 @@ default_parameter_values <- c(
   y_P_SB = 1.67e8,
   
   ## oxygen production per microbial cell
-  P_CB = 6e-9,
+  Pr_CB = 6e-9,
   
   ## mortality rate
   m_CB = 0.02,

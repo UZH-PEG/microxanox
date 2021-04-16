@@ -5,8 +5,8 @@
 \title{Function to run a simulation}
 \usage{
 run_simulation(
-  dynamic_model = bushplus_dynamic_model_strains,
-  event_definition = default_event_definition_strains,
+  dynamic_model = default_dynamic_model,
+  event_definition = default_event_definition,
   parameter_values = default_parameter_values,
   event_interval = default_event_interval,
   noise_sigma = default_noise_sigma,

@@ -1,9 +1,12 @@
-#' Function that returns default parameter value set
+#' Function that returns default parameter value set.
+#' This is the set used in Bush et al (2017) to give a system
+#' that can display alternate stable states.
 #'
-#' @return TODO
+#'
+#' @return A named vector of parameter values 
 #' @export
 #'
-load_default_parameter_values <- function() {
+return_default_parameter_values <- function() {
   default_parameter_values <- c(
     
     ## maximum specific growth rates
@@ -31,7 +34,7 @@ load_default_parameter_values <- function() {
     y_P_SB = 1.67e8,
     
     ## oxygen production per microbial cell
-    P_CB = 6e-9,
+    Pr_CB = 6e-9,
     
     ## mortality rate
     m_CB = 0.02,
