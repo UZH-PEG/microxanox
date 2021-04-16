@@ -71,63 +71,47 @@ The framework used for running a simulation, and for varying aspects of a simula
 * The function call `run_simulation()` would therefore run a simulation with default conditions.
 * The function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with the specified initial state values.
 
-# Defaults
+# (Default) conditions that must be defined
 
-Automatic defaults (i.e. will apply as soon as package is loaded):
+Conditions that must be set, with an example of setting them:
 
-* dynamic_model = bushplus_dynamic_model (a function)
-* event_definition = default_event_definition (a function)
-* solver_method = "radau"
+## The dynamic model
 
-Defaults that must be set:
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. An augmented version `bushplus_dynamic_model_strains()` can handle multiple strains within each of the three functional groups. The multiple strain version can be run with one strain per functional group, and then gives the same results as the basic version. The multiple strain versions is, however, quite a bit slower, even for one strain.
 
-* parameter_values = default_parameter_values
-* initial_state = default_initial_state
-* event_interval = default_event_interval
-* noise_sigma = default_noise_sigma
-* minimum_abundances = default_minimum_abundances
-* sim_duration = default_sim_duration
-* sim_sample_interval = default_sim_sample_interval
-* log10a_series = default_log10a_series
-
-Each is now described and, if required, given a value.
-
-## Default dynamic model
-
-The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model_strains()`. This is an augmented version that can handle multiple strains within each of the three functional groups. The basic version that has only one strain per functional group is `bushplus_dynamic_model()`. The multiple strain version will run with one strain per functional group, and then gives the same results as the basic version. The multiple strain versions is, however, quite a bit slower, even for one strain.
-
-Here we define the default dynamic model to be the basic, one strain per functional group version.
+Here we define the default dynamic model to be the basic, one strain per functional group model
 
 ```{r}
 default_dynamic_model <- bushplus_dynamic_model
 ```
 
-## Default parameter values
+## The parameter values
 
-Only one set of parameter values is used throughout. It gives the possibility for alternate stable states.
-
-```{r}
-default_parameter_values <- return_default_parameter_values()
-```
-
-## Default initial state
-
-Specify the default set of initial conditions (here favouring anoxic organisms).
+The parameter values:
 
 ```{r}
-default_initial_state <- return_default_initial_state()
+default_parameter_values <- return_bushetal2017_parameter_values()
 ```
 
-## Default simulation duration
+## The initial values of state variables:
 
-Default to the following duration and interval between samples:
+```{r}
+default_initial_state <- return_anoxic_1strain_initial_state()
+```
+
+## The duration of the simulation:
 
 ```{r}
 default_sim_duration <- 2000
+```
+
+## The sampling interval:
+
+```{r}
 default_sim_sample_interval <- 1
 ```
 
-## Default oxygen diffusivity (a) forcing
+## The oxygen diffusivity dynamics
 
 Specified by giving a vector of values of $a_0$. These are then automatically spaced equally along the duration of the simulation. Here we specify no forcing of $a_0$.
 
@@ -137,17 +121,23 @@ default_log10a_series <- c(log10(default_parameter_values["a_O"]),
 ```
 
 
-## Default event
+## Events
 
-#### Default event definition
+These are "things" that happen during the simulation. One has to specify what happens, and when it happens.
+
+#### What happens
 
 Default is to ensure abundances are not below minimum, and to add the amount of noise specified below (none in this vignette).
 
-This default functionality is in the function `default_event_definition()`
+At present there are two functions available, one for single strain simulations, and one for multi-strain simulations. Both can add noise to a state variable, and/or assure minimum abundance is not exceeded.
+
+```{r}
+default_event_definition <- event_definition_1
+```
 
 #### Default event interval
 
-Here set to an event every 10 time steps.
+Here set to an event every 10 time units.
 
 ```{r}
 default_event_interval <- 10
@@ -170,14 +160,17 @@ default_minimum_abundances <- rep(1e2, 3)
 names(default_minimum_abundances) <- c("CB", "PB", "SB") 
 ```
 
-### Warning: Assignment to global environment
+# Warning: Assignment to global environment
 
- File ‘microxanox/R/run_simulation.R’:
- assign("log10a_forcing_func", log10a_forcing_func, envir = .GlobalEnv)
- assign("noise_sigma", noise_sigma, envir = .GlobalEnv)
- assign("minimum_abundances", minimum_abundances, envir = .GlobalEnv)
+Please note that the following objects are created during simulations and are assign to the global environment:
+
+* `log10a_forcing_func`
+* `noise_sigma`
+* `minimum_abundances`
 
 # Run a simulation
+
+Once all the conditions are assigned to the default objects, then the `run_simulation` function will pick them up without being explicitly given them:
 
 ```{r}
 default_sim_results <- run_simulation()

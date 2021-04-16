@@ -5,7 +5,7 @@
 #' @return A named vector of parameter values 
 #' @export
 #'
-return_default_initial_state <- function() {
+return_anoxic_1strain_initial_state <- function() {
     
     default_initial_state <- c(N_CB = 5e1,
                                N_PB = 1e7,

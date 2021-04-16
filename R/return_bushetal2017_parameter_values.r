@@ -6,7 +6,7 @@
 #' @return A named vector of parameter values 
 #' @export
 #'
-return_default_parameter_values <- function() {
+return_bushetal2017_parameter_values <- function() {
   default_parameter_values <- c(
     
     ## maximum specific growth rates

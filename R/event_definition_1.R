@@ -5,7 +5,7 @@
 #' @param parms Model parameters
 #' @return A vector of the state variables
 #' @export
-default_event_definition <- function(times=times, y=state, parms = parameters) {
+event_definition_1 <- function(times=times, y=state, parms = parameters) {
   with(
     as.list(y),
     {
