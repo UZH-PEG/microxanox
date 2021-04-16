@@ -15,7 +15,8 @@ vignette: >
 
 ```{r setup}
 rm(list=ls())
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE,
+                      fig.align = "centre", fig.width = 7, fig.height = 7)
 
 library(tidyverse)
 library(deSolve)
@@ -178,7 +179,7 @@ simulation_result <- run_simulation(dynamic_model = bushplus_dynamic_model_strai
                                     parameter_values = one_strain_params,
                                     initial_state = one_strain_initial_state,
                                     event_definition = default_event_definition_strains)
-
+every_n <- 10
 plot_dynamics_strains(simulation_result)
 
 
