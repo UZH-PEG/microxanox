@@ -1,0 +1,270 @@
+---
+title: "User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations"
+author: "Owen Petchey"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, echo = FALSE, output = FALSE, message = FALSE}
+
+knitr::opts_chunk$set(cache = FALSE,
+                      fig.align = "centre", fig.width = 7, fig.height = 7)
+
+
+library(tidyverse)
+library(deSolve)
+library(rootSolve)
+library(here)
+library(microxanox)
+library(patchwork)
+```
+
+
+```{r echo = TRUE}
+library(microxanox)
+```
+
+
+# Introduction
+
+The aims of the `microxanox` package are:
+
+* Facilitate reproduction of the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+* Include new functionality that allows new research questions to be answered.
+
+We added functionality for:
+
+* Adding random noise in substrate concentrations.
+* Adding temporally vary oxygen diffusivity.
+* Including immigration.
+* Setting minimum population abundances
+* Changing organismal tolerances to environmental conditions.
+* Changing the number of strains per functional group. 
+
+In this user guide we use only the published (Bush et al 2017) dynamical model, in which there is not biodiversity within each of the three functional groups. That is, there is only one parameter set per functional group. Please see the vignette for multi-strain simulations for information about implementing those.
+
+Here (again) is the original publication:
+https://www.nature.com/articles/s41467-017-00912-x
+
+And here is the supplementary information, including the table of parameter values:
+https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-017-00912-x/MediaObjects/41467_2017_912_MOESM1_ESM.pdf
+
+Note that in this package we use the notation from the table S1 of the supplementary information, and not the notation in the main text. (There is only one small difference between these: In the main text the notation is simplified to y_S_PB (which is y_SR_PB ($y_{SR,PB}$) in Table S1) and y_S_SB (which is y_SO_SB ($y_{SO,SB}$) in Table S1). We also use $Pr_cB$  instead of $P_CB$.
+
+## Model dimensions
+
+* Time: hours
+* Volume: litres
+* Substrate quantity: micromoles
+* Organism quantity: cells
+
+# Modelling framework
+
+The framework used for running a simulation, and for varying aspects of a simulation run is:
+
+* Define the default simulation conditions.
+* Use these defaults unless other conditions are specified.
+* The function call `run_simulation()` would therefore run a simulation with default conditions.
+* The function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with the specified initial state values, and otherwise all the specified defaults.
+
+# Conditions that must be defined
+
+Conditions that must be set, with an example of setting them:
+
+## The dynamic model
+
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. An augmented version `bushplus_dynamic_model_strains()` can handle multiple strains within each of the three functional groups. The multiple strain version can be run with one strain per functional group, and then gives the same results as the basic version. The multiple strain versions is, however, quite a bit slower, even for one strain.
+
+Here we define the default dynamic model to be the basic, one strain per functional group model:
+
+```{r}
+default_dynamic_model <- bushplus_dynamic_model
+```
+
+## The parameter values
+
+The parameter values:
+
+```{r}
+default_parameter_values <- return_bushetal2017_parameter_values()
+```
+
+## The initial values of state variables:
+
+```{r}
+default_initial_state <- return_anoxic_1strain_initial_state()
+```
+
+## The duration of the simulation:
+
+```{r}
+default_sim_duration <- 2000
+```
+
+## The sampling interval:
+
+```{r}
+default_sim_sample_interval <- 1
+```
+
+## The oxygen diffusivity dynamics
+
+Specified by giving a vector of values of $a_0$. These are then automatically spaced equally along the duration of the simulation. Here we specify no forcing of $a_0$.
+
+```{r}
+default_log10a_series <- c(log10(default_parameter_values["a_O"]),
+                           log10(default_parameter_values["a_O"]))
+```
+
+Note that here we use the already set default value of $a_0$ and therefore must have already defined the default parameter values.
+
+## Events
+
+These are "things" that happen during the simulation. One has to specify what happens, and when it happens.
+
+#### What happens
+
+At present there are two event definition functions available, one for single strain simulations, and one for multi-strain simulations. Both can add noise to a state variable, and/or assure minimum abundance is not exceeded. Here we use the single strain event definition function:
+
+```{r}
+default_event_definition <- event_definition_1
+```
+
+#### Default event interval
+
+Here set to an event every 10 time units.
+
+```{r}
+default_event_interval <- 10
+```
+
+#### Default noise event options
+
+Default to no noise added to substrate concentrations:
+
+```{r}
+default_noise_sigma <- 0
+```
+
+#### Default minimum abundance event
+
+Default to following minimum abundances:
+
+```{r}
+default_minimum_abundances <- rep(1e2, 3)
+names(default_minimum_abundances) <- c("CB", "PB", "SB") 
+```
+
+# Warning: Assignment to global environment
+
+Please note that the following objects are created during simulations and are assign to the global environment:
+
+* `log10a_forcing_func`
+* `noise_sigma`
+* `minimum_abundances`
+
+# Run a simulation
+
+Once all the conditions are assigned to the default objects, then the `run_simulation` function will use them without being explicitly given them:
+
+```{r}
+default_sim_results <- run_simulation()
+```
+
+# Plot the results of a simulation
+
+```{r}
+plot_dynamics(default_sim_results)
+```
+
+# Run simulation with different defaults
+
+```{r}
+initial_state_favouring_oxic <- c(N_CB = 1e7,
+           N_PB = 1e5,
+           N_SB = 1e5,
+           SO = 500,
+           SR = 50,
+           O = 30,
+           P = 10)
+
+new_sim_results <- run_simulation(initial_state = initial_state_favouring_oxic)
+plot_dynamics(new_sim_results)
+```
+
+
+
+# Appendix
+
+The code below was useful for debugging.
+
+```{r eval = FALSE}
+dynamic_model = bushplus_dynamic_model
+event_definition = default_event_definition
+parameter_values = default_parameter_values
+event_interval = default_event_interval
+noise_sigma = default_noise_sigma
+minimum_abundances = default_minimum_abundances
+sim_duration = default_sim_duration
+sim_sample_interval = default_sim_sample_interval
+log10a_series = default_log10a_series
+initial_state = default_initial_state
+solver_method = "radau"
+
+times <- seq(0,
+             sim_duration,
+             by = sim_sample_interval)
+
+event_times <- seq(min(times),
+                   max(times),
+                   by = event_interval)
+
+log10a_forcing <- matrix(ncol=2,
+                         byrow=F,
+                         data=c(ceiling(seq(0,
+                                            max(times),
+                                            length=length(log10a_series))),
+                                log10a_series))
+
+
+log10a_forcing <- approxfun(x = log10a_forcing[,1],
+                            y = log10a_forcing[,2],
+                            method = "linear",
+                            rule = 2)
+assign("log10a_forcing_func", log10a_forcing, envir = .GlobalEnv)
+
+out <- as.data.frame(ode(y = initial_state,
+                         times = times,
+                         func = dynamic_model,
+                         parms = parameter_values,
+                         method = solver_method,
+                         events = list(func=event_definition,
+                                       time=event_times)))
+
+bushplus_dynamic_model(1, initial_state, default_parameter_values)
+
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
+                           event_definition = default_event_definition,
+                           parameter_values = default_parameter_values,
+                           event_interval = default_event_interval,
+                           noise_sigma = default_noise_sigma,
+                           minimum_abundances = default_minimum_abundances,
+                           sim_duration = default_sim_duration,
+                           sim_sample_interval = default_sim_sample_interval,
+                           log10a_series = default_log10a_series,
+                           initial_state = default_initial_state,
+                           solver_method = "radau")
+
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model)
+
+plot_dynamics(sim_res)
+
+```
+
+
+
+
