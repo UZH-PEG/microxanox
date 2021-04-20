@@ -7,7 +7,7 @@
 new_strain_parameter(
   CB_strain_parameter = new_CB_strain_parameter(),
   PB_strain_parameter = new_PB_strain_parameter(),
-  SB_strain_parameter = new_SB_strain_parameter,
+  SB_strain_parameter = new_SB_strain_parameter(),
   a_S = 0.001,
   a_O = 8e-04,
   a_P = 0.01,

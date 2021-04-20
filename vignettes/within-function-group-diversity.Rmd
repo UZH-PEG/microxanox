@@ -92,7 +92,7 @@ PB_strain_parameter$m_PB = 0.028
 PB_strain_parameter$i_PB = 0
 
 SB_strain_parameter <- new_SB_strain_parameter()
-SB_strain_parameter$train_name = c("SB_1")
+SB_strain_parameter$strain_name = c("SB_1")
 SB_strain_parameter$g_max_SB = c(0.1)
 SB_strain_parameter$k_SB_SO = 5
 SB_strain_parameter$k_SB_P = 0.5
