@@ -1,16 +1,16 @@
 #' Creates empty parameter
 #'
-#' @param CB_strain_parameter 
-#' @param PB_strain_parameter 
-#' @param SB_strain_parameter 
-#' @param a_S 
-#' @param a_O 
-#' @param a_P 
-#' @param back_SR 
-#' @param back_SO 
-#' @param back_O 
-#' @param back_P 
-#' @param c 
+#' @param CB_strain_parameter TODO
+#' @param PB_strain_parameter TODO 
+#' @param SB_strain_parameter TODO
+#' @param a_S TODO
+#' @param a_O TODO 
+#' @param a_P TODO 
+#' @param back_SR TODO 
+#' @param back_SO TODO 
+#' @param back_O TODO 
+#' @param back_P TODO 
+#' @param c TODO 
 #'
 #' @return
 #' @export
@@ -63,6 +63,12 @@ new_strain_parameter <- function(
 }
 
 
+#' Create empty CB strain parameter
+#'
+#' @return data.frame with additional class \code{CB_strain_parameter}
+#' @export
+#'
+#' @examples
 new_CB_strain_parameter <- function(){
   result <- data.frame(
     strain_name = c("CB_1"),
@@ -78,6 +84,12 @@ new_CB_strain_parameter <- function(){
   return(result)
 }
 
+#' Create empty PB strain parameter
+#'
+#' @return data.frame with additional class \code{PB_strain_parameter}
+#' @export
+#'
+#' @examples
 new_PB_strain_parameter <- function(){
   result <- data.frame(
     strain_name = c("PB_1"),
@@ -94,6 +106,12 @@ new_PB_strain_parameter <- function(){
   return(result)
 }
 
+#' Create empty SB strain parameter
+#'
+#' @return data.frame with additional class \code{SB_strain_parameter}
+#' @export
+#'
+#' @examples
 new_SB_strain_parameter <- function(){
   result <- data.frame(
     strain_name = c("SB_1"),
