@@ -42,7 +42,7 @@ new_strain_parameter(
 \item{c}{TODO}
 }
 \value{
-
+\code{list} with additional class \code{strain_parameter}
 }
 \description{
 Creates empty parameter

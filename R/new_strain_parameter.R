@@ -12,10 +12,9 @@
 #' @param back_P TODO 
 #' @param c TODO 
 #'
-#' @return
+#' @return \code{list} with additional class \code{strain_parameter}
 #' @export
 #'
-#' @examples
 new_strain_parameter <- function(
   ## strain parameter
   CB_strain_parameter = new_CB_strain_parameter(),
@@ -68,7 +67,6 @@ new_strain_parameter <- function(
 #' @return data.frame with additional class \code{CB_strain_parameter}
 #' @export
 #'
-#' @examples
 new_CB_strain_parameter <- function(){
   result <- data.frame(
     strain_name = c("CB_1"),
@@ -89,7 +87,6 @@ new_CB_strain_parameter <- function(){
 #' @return data.frame with additional class \code{PB_strain_parameter}
 #' @export
 #'
-#' @examples
 new_PB_strain_parameter <- function(){
   result <- data.frame(
     strain_name = c("PB_1"),
@@ -111,7 +108,6 @@ new_PB_strain_parameter <- function(){
 #' @return data.frame with additional class \code{SB_strain_parameter}
 #' @export
 #'
-#' @examples
 new_SB_strain_parameter <- function(){
   result <- data.frame(
     strain_name = c("SB_1"),
