@@ -19,7 +19,9 @@ library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-library(microxanox)
+if (!require(microxanox)) {
+  devtools::load_all(here::here())
+}
 library(patchwork)
 ```
 
