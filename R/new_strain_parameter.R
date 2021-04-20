@@ -19,7 +19,7 @@ new_strain_parameter <- function(
   ## strain parameter
   CB_strain_parameter = new_CB_strain_parameter(),
   PB_strain_parameter = new_PB_strain_parameter(),
-  SB_strain_parameter = new_SB_strain_parameter,
+  SB_strain_parameter = new_SB_strain_parameter(),
   ## substrate diffusivity
   a_S = 0.001,
   a_O = 8e-4,
