@@ -50,7 +50,7 @@ Please see the User manual vignette for further introduction and general methods
 default_dynamic_model <- bushplus_dynamic_model_strains
 ## no default_parameter_values
 ## no default_initial_state
-default_sim_duration <- 10 # 2000
+default_sim_duration <- 2000
 default_sim_sample_interval <- 1
 default_log10a_series <- c(log10(return_bushetal2017_parameter_values()["a_O"]),
                            log10(return_bushetal2017_parameter_values()["a_O"]))
