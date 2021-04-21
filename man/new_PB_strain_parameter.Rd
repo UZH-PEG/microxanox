@@ -2,16 +2,18 @@
 % Please edit documentation in R/new_strain_parameter.R
 \name{new_PB_strain_parameter}
 \alias{new_PB_strain_parameter}
-\title{Create empty PB strain parameter}
+\title{Create PB strain parameter}
 \usage{
-new_PB_strain_parameter(n = 1)
+new_PB_strain_parameter(n = 1, values = NA)
 }
 \arguments{
-\item{n}{number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used}
+\item{n}{number of strains}
+
+\item{values}{values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
 }
 \value{
 data.frame with additional class \code{PB_strain_parameter}
 }
 \description{
-Create empty PB strain parameter
+Create PB strain parameter
 }

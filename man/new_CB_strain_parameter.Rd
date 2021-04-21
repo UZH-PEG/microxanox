@@ -2,16 +2,18 @@
 % Please edit documentation in R/new_strain_parameter.R
 \name{new_CB_strain_parameter}
 \alias{new_CB_strain_parameter}
-\title{Create empty CB strain parameter}
+\title{Create CB strain parameter}
 \usage{
-new_CB_strain_parameter(n = 1)
+new_CB_strain_parameter(n = 1, values = NA)
 }
 \arguments{
-\item{n}{number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used}
+\item{n}{number of strains}
+
+\item{values}{values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
 }
 \value{
 data.frame with additional class \code{CB_strain_parameter}
 }
 \description{
-Create empty CB strain parameter
+Create CB strain parameter
 }
