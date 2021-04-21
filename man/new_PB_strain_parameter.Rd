@@ -4,7 +4,10 @@
 \alias{new_PB_strain_parameter}
 \title{Create empty PB strain parameter}
 \usage{
-new_PB_strain_parameter()
+new_PB_strain_parameter(n = 1)
+}
+\arguments{
+\item{n}{number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used}
 }
 \value{
 data.frame with additional class \code{PB_strain_parameter}

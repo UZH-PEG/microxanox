@@ -4,42 +4,10 @@
 \alias{new_strain_parameter}
 \title{Creates empty parameter}
 \usage{
-new_strain_parameter(
-  CB_strain_parameter = new_CB_strain_parameter(),
-  PB_strain_parameter = new_PB_strain_parameter(),
-  SB_strain_parameter = new_SB_strain_parameter(),
-  a_S = 0.001,
-  a_O = 8e-04,
-  a_P = 0.01,
-  back_SR = 300,
-  back_SO = 300,
-  back_O = 300,
-  back_P = 9.5,
-  c = 4e-05
-)
+new_strain_parameter(n = 1)
 }
 \arguments{
-\item{CB_strain_parameter}{TODO}
-
-\item{PB_strain_parameter}{TODO}
-
-\item{SB_strain_parameter}{TODO}
-
-\item{a_S}{TODO}
-
-\item{a_O}{TODO}
-
-\item{a_P}{TODO}
-
-\item{back_SR}{TODO}
-
-\item{back_SO}{TODO}
-
-\item{back_O}{TODO}
-
-\item{back_P}{TODO}
-
-\item{c}{TODO}
+\item{n}{number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used}
 }
 \value{
 \code{list} with additional class \code{strain_parameter}

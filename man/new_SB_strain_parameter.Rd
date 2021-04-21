@@ -4,7 +4,10 @@
 \alias{new_SB_strain_parameter}
 \title{Create empty SB strain parameter}
 \usage{
-new_SB_strain_parameter()
+new_SB_strain_parameter(n = 1)
+}
+\arguments{
+\item{n}{number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used}
 }
 \value{
 data.frame with additional class \code{SB_strain_parameter}
