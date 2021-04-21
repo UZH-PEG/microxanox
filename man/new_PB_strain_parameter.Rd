@@ -4,7 +4,7 @@
 \alias{new_PB_strain_parameter}
 \title{Create PB strain parameter}
 \usage{
-new_PB_strain_parameter(n = 1, values = NA)
+new_PB_strain_parameter(n = 1, values = "bush")
 }
 \arguments{
 \item{n}{number of strains}

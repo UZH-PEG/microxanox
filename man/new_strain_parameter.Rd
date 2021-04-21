@@ -11,19 +11,26 @@ new_strain_parameter(
   values_PB = "bush",
   n_SB = 1,
   values_SB = "bush",
-  other = "bush"
+  values_other = "bush",
+  values_initial = "bush"
 )
 }
 \arguments{
-\item{n_CB}{number of strains}
+\item{n_CB}{number of CB strains}
 
-\item{n_PB}{number of strains}
+\item{values_CB}{to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
 
-\item{n_SB}{number of strains}
+\item{n_PB}{number of PB strains}
 
-\item{values}{values_SB to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+\item{values_PB}{to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+
+\item{n_SB}{number of SB strains}
+
+\item{values_SB}{to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
 
 \item{values_other}{values to be used for other parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+
+\item{values_initial}{values to be used for initial values or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
 }
 \value{
 \code{list} with additional class \code{strain_parameter}

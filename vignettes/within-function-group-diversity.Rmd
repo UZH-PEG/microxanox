@@ -69,87 +69,23 @@ names(default_minimum_abundances) <- c("CB", "PB", "SB")
 Constructing parameter set.
 
 ```{r}
-
-# CB_strain_parameter <- new_CB_strain_parameter()
-# CB_strain_parameter$strain_name = c("CB_1")
-# CB_strain_parameter$g_max_CB = c(0.05)
-# CB_strain_parameter$k_CB_P = c(0.2)
-# CB_strain_parameter$h_SR_CB = c(300)
-# CB_strain_parameter$y_P_CB = c(1.67e8)
-# CB_strain_parameter$Pr_CB = c(6e-9)
-# CB_strain_parameter$m_CB = c(0.02)
-# CB_strain_parameter$i_CB = c(0)
-# 
-# PB_strain_parameter <- new_PB_strain_parameter()
-# PB_strain_parameter$strain_name = c("PB_1")
-# PB_strain_parameter$g_max_PB = c(0.07)
-# PB_strain_parameter$k_PB_SR = 10
-# PB_strain_parameter$k_PB_P = 0.5
-# PB_strain_parameter$h_O_PB = 100
-# PB_strain_parameter$y_SR_PB = 1.25e7
-# PB_strain_parameter$y_P_PB = 1.67e8
-# PB_strain_parameter$m_PB = 0.028
-# PB_strain_parameter$i_PB = 0
-# 
-# SB_strain_parameter <- new_SB_strain_parameter()
-# SB_strain_parameter$strain_name = c("SB_1")
-# SB_strain_parameter$g_max_SB = c(0.1)
-# SB_strain_parameter$k_SB_SO = 5
-# SB_strain_parameter$k_SB_P = 0.5
-# SB_strain_parameter$h_O_SB = 100
-# SB_strain_parameter$y_SO_SB = 3.33e7
-# SB_strain_parameter$y_P_SB = 1.67e8
-# SB_strain_parameter$m_SB = 0.04
-# SB_strain_parameter$i_SB = 0
-# 
-# one_strain_paramameter <- new_strain_parameter()
-#   CB_strain_parameter = CB_strain_parameter,
-#   PB_strain_parameter = PB_strain_parameter, 
-#   SB_strain_parameter = SB_strain_parameter
-# )
-#                        
-# 
-# ## substrate diffusivity
-# one_strain_paramameter$a_S = 0.001
-# one_strain_paramameter$a_O = 8e-4
-# one_strain_paramameter$a_P = 0.01
-# 
-# ## background substrate concentration
-# one_strain_paramameter$back_SR = 300
-# one_strain_paramameter$back_SO = 300
-# one_strain_paramameter$back_O = 300
-# one_strain_paramameter$back_P = 9.5
-# 
-# ## oxidisation rate of reduced sulphur
-# one_strain_paramameter$c = 4e-5
-
 one_strain_paramameter <- new_strain_parameter()
-one_strain_initial_state <- c(
-  CB_1 = 5e1,
-  PB_1 = 1e7,
-  SB_1 = 1e7,
-  SO = 300,
-  SR = 300,
-  O = 1e1,
-  P = 1e1
-  )
+# one_strain_initial_state <- one_strain_paramameter$initial_state
 ```
 
 
 ```{r eval = run_steadystate_sims}
 simulation_result1 <- run_simulation(
-               parameter_values = one_strain_paramameter,
-               initial_state = one_strain_initial_state)
+  parameter_values = one_strain_paramameter,
+  initial_state = one_strain_paramameter$initial_state
+)
 save(simulation_result1, file = "data/multistrain1.Rda")
-
 ```
 
 
 ```{r}
 load(file = "data/multistrain1.Rda")
 plot_dynamics_strains(simulation_result1)
-
-
 ```
 
 
@@ -157,91 +93,41 @@ plot_dynamics_strains(simulation_result1)
 ## Three strains per functional group
 
 ```{r}
-num_CB_strains <- 3
-num_PB_strains <- 3
-num_SB_strains <- 3
-
-# CB_strain_parameter <- data.frame(strain_name = paste0("CB_", 1:num_CB_strains),
-#                        g_max_CB = rep(0.05, num_CB_strains),
-#                        k_CB_P = rep(0.2, num_CB_strains),
-#                        h_SR_CB = rep(300, num_CB_strains),
-#                        y_P_CB = rep(1.67e8, num_CB_strains),
-#                        Pr_CB = rep(6e-9, num_CB_strains),
-#                        m_CB = rep(0.02, num_CB_strains),
-#                        i_CB = rep(0, num_CB_strains))
-# 
-# PB_strain_parameter <- data.frame(strain_name = paste0("PB_", 1:num_PB_strains),
-#                        g_max_PB = rep(0.07, num_PB_strains),
-#                        k_PB_SR = rep(10, num_PB_strains),
-#                        k_PB_P = rep(0.5, num_PB_strains),
-#                        h_O_PB = rep(100, num_PB_strains),
-#                        y_SR_PB = rep(1.25e7, num_PB_strains),
-#                        y_P_PB = rep(1.67e8, num_PB_strains),
-#                        m_PB = rep(0.028, num_PB_strains),
-#                        i_PB = rep(0, num_PB_strains))
-# 
-# SB_strain_parameter <- data.frame(strain_name = paste0("SB_", 1:num_SB_strains),
-#                        g_max_SB = rep(0.1, num_SB_strains),
-#                        k_SB_SO = rep(5, num_SB_strains),
-#                        k_SB_P = rep(0.5, num_SB_strains),
-#                        h_O_SB = rep(100, num_SB_strains),
-#                        y_SO_SB = rep(3.33e7, num_SB_strains),  
-#                        y_P_SB = rep(1.67e8, num_SB_strains),
-#                        m_SB = rep(0.04, num_SB_strains),
-#                        i_SB = rep(0, num_SB_strains))
-# 
-# multi_strain_paramameter <- new_strain_parameter(
-#   CB_strain_parameter = CB_strain_parameter,
-#   PB_strain_parameter = PB_strain_parameter, 
-#   SB_strain_parameter = SB_strain_parameter
-# )
-# 
-# ## substrate diffusivity
-# multi_strain_paramameter$a_S = 0.001
-# multi_strain_paramameter$a_O = 8e-4
-# multi_strain_paramameter$a_P = 0.01
-# 
-# ## background substrate concentration
-# multi_strain_paramameter$back_SR = 300
-# multi_strain_paramameter$back_SO = 300
-# multi_strain_paramameter$back_O = 300
-# multi_strain_paramameter$back_P = 9.5
-# 
-# ## oxidisation rate of reduced sulphur
-# multi_strain_paramameter$c = 4e-5
-
 multi_strain_paramameter <- new_strain_parameter(n_CB = 3, n_PB = 3, n_SB = 3)
 
-multi_strain_initial_state <- c(
-  CB_1 = 5e3,
-  CB_2 = 1e3,
-  CB_3 = 0,
-  PB_1 = 1e7,
-  PB_2 = 1e6,
-  PB_3 = 1e5,
-  SB_1 = 1e7,
-  SB_2 = 1e6,
-  SB_3 = 1e5,
-  SO = 300,
-  SR = 300,
-  O = 1e1,
-  P = 1e1)
+multi_strain_initial_state <- new_initial_state_anoxic(n_CB = 3, n_PB = 3, n_SB = 3, values = "NA")
+
+multi_strain_initial_state["CB_1"] <- 5e3
+multi_strain_initial_state["CB_2"] <- 1e3
+multi_strain_initial_state["CB_3"] <- 0
+multi_strain_initial_state["PB_1"] <- 1e7
+multi_strain_initial_state["PB_2"] <- 1e6
+multi_strain_initial_state["PB_3"] <- 1e5
+multi_strain_initial_state["SB_1"] <- 1e7
+multi_strain_initial_state["SB_2"] <- 1e6
+multi_strain_initial_state["SB_3"] <- 1e5
+multi_strain_initial_state["SO"] <- 300
+multi_strain_initial_state["SR"] <- 300
+multi_strain_initial_state["O"] <- 1e1
+multi_strain_initial_state["P"] <- 1e1
+
+multi_strain_paramameter$initial_state <- multi_strain_initial_state
+
+rm(multi_strain_initial_state)
 ```
 
 
 ```{r eval = run_steadystate_sims}
 simulation_result3 <- run_simulation(
-               parameter_values = multi_strain_paramameter,
-               initial_state = multi_strain_initial_state)
+  parameter_values = multi_strain_paramameter,
+  initial_state = multi_strain_paramameter$initial_state
+)
 save(simulation_result3, file = "data/multistrain3.Rda")
-
 ```
 
 
 ```{r}
 load(file = "data/multistrain3.Rda")
 plot_dynamics_strains(simulation_result3)
-
-
 ```
 

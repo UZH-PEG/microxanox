@@ -4,7 +4,7 @@
 \alias{new_SB_strain_parameter}
 \title{Create SB strain parameter}
 \usage{
-new_SB_strain_parameter(n = 1, values = NA)
+new_SB_strain_parameter(n = 1, values = "bush")
 }
 \arguments{
 \item{n}{number of strains}

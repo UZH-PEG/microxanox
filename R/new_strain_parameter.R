@@ -1,13 +1,14 @@
 #' Creates empty parameter
 #' 
 #' The default is to create the parameter set used in Bush et al. (2017)
-#' @param n_CB number of strains 
-#' @param values values_CB to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#' @param n_PB number of strains 
-#' @param values values_PB to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#' @param n_SB number of strains 
-#' @param values values_SB to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
+#' @param n_CB number of CB strains 
+#' @param values_CB to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
+#' @param n_PB number of PB strains 
+#' @param values_PB to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
+#' @param n_SB number of SB strains 
+#' @param values_SB to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
 #' @param values_other values to be used for other parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
+#' @param values_initial_state values to be used for initial values or \code{"bush"}, in which case the default from Bush et al (2017) will be used
 #'
 #' @return \code{list} with additional class \code{strain_parameter}
 #' @export
@@ -19,14 +20,23 @@ new_strain_parameter <- function(
   values_PB = "bush",
   n_SB = 1,
   values_SB = "bush",
-  other = "bush"
+  values_other = "bush",
+  values_initial_state = "bush"
 ){
-  if (is.na(other)) {
-    other <- "NA"
+  if (is.na(values_other)) {
+    values_other <- "NA"
   }
   
-  if (!(other %in% c("NA", "bush"))) {
-    stop("Not supported value for `other`!\n", "Only NA, 'NA' and 'bush' supported!")
+  if (!(values_other %in% c("NA", "bush"))) {
+    stop("Not supported value for `values_other`!\n", "Only NA, 'NA' and 'bush' supported!")
+  }
+  
+  if (is.na(values_initial_state)) {
+    values_initial_state <- "NA"
+  }
+  
+  if (!(values_initial_state %in% c("NA", "bush"))) {
+    stop("Not supported value for `values_initial`!\n", "Only NA, 'NA' and 'bush' supported!")
   }
   
   parms <- list()
@@ -53,7 +63,7 @@ new_strain_parameter <- function(
   ## oxidisation rate of reduced sulphur
   parms$c = as.numeric(NA)
 
-  if ( other == "bush" ) {
+  if ( values_other == "bush" ) {
     ## substrate diffusivity
     parms$a_S = 0.001
     parms$a_O = 8e-4
@@ -66,6 +76,8 @@ new_strain_parameter <- function(
     ## oxidisation rate of reduced sulphur
     parms$c = 4e-5
   }  
+  
+  parms$initial_state <- new_initial_state_anoxic(n_CB = n_CB, n_PB = n_PB, n_SB = n_SB, values = values_initial_state)
   
   class(parms) <- append("strain_parameter", class(parms))
   
@@ -83,7 +95,7 @@ new_strain_parameter <- function(
 #'
 new_CB_strain_parameter <- function(
   n = 1,
-  values = NA
+  values = "bush"
 ){
   if (is.na(values)) {
     values <- "NA"
@@ -128,7 +140,7 @@ new_CB_strain_parameter <- function(
 #'
 new_PB_strain_parameter <- function(
   n = 1,
-  values = NA
+  values = "bush"
 ){
   if (is.na(values)) {
     values <- "NA"
@@ -175,7 +187,7 @@ new_PB_strain_parameter <- function(
 #'
 new_SB_strain_parameter <- function(
   n = 1,
-  values = NA
+  values = "bush"
 ){
   if (is.na(values)) {
     values <- "NA"
@@ -214,20 +226,69 @@ new_SB_strain_parameter <- function(
 
 
 
-
-new_initial_state <- function(
-  n = 1
+#' Create initial condition
+#'
+#' @param n_CB number of CB strains 
+#' @param N_PB number of PB strains 
+#' @param N_SB number of SB strains 
+#' @param values values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used
+#'
+#' @return
+#' @export
+#'
+new_initial_state_anoxic <- function(
+  n_CB = 1,
+  n_PB = 1,
+  n_SB = 1,
+  values = "bush"
 ){
-  x <- rep(as.numeric(NA), n)
-  result <- data.frame(
-    CB = x,
-    PB = x,
-    SB = x,
-    SO = x,
-    SR = x,
-    O  = x,
-    P  = x
+  if (is.na(values)) {
+    values <- "NA"
+  }
+  
+  if (!(values %in% c("NA", "bush"))) {
+    stop("Not supported value for `valiues`!\n", "Only NA, 'NA' and 'bush' supported!")
+  }
+  
+  if (values == "bush") {
+    CB <-  5e1
+    PB <-  1e7
+    SB <-  1e7
+    SO <-  300
+    SR <-  300
+    O  <-  1e1
+    P  <-  1e1
+  } else {
+    CB <-  as.numeric(NA)
+    PB <-  as.numeric(NA)
+    SB <-  as.numeric(NA)
+    SO <-  as.numeric(NA)
+    SR <-  as.numeric(NA)
+    O <-  as.numeric(NA)
+    P <-  as.numeric(NA)
+  }
+  
+  result <- c(
+    rep(CB, n_CB),
+    rep(PB, n_PB),
+    rep(SB, n_SB),
+    ##
+    SO,
+    SR,
+    O,
+    P
   )
+  names(result) <- c(
+    paste0("CB_", 1:n_CB),
+    paste0("PB_", 1:n_CB),
+    paste0("SB_", 1:n_CB),
+    ##
+    "SO",
+    "SR",
+    "O",
+    "P"
+  )
+  class(result) <- append( "initial_state", class(result))
   return(result)
 }
 

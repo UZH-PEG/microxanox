@@ -4,7 +4,7 @@
 \alias{new_CB_strain_parameter}
 \title{Create CB strain parameter}
 \usage{
-new_CB_strain_parameter(n = 1, values = NA)
+new_CB_strain_parameter(n = 1, values = "bush")
 }
 \arguments{
 \item{n}{number of strains}
