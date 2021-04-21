@@ -1,20 +1,25 @@
 #' Creates empty parameter
-#'
-#' @param n number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used
+#' 
+#' If any of the arguments equals "bush", the default parameter from Bush et al. 2017 will be used for the general parameter
+#' @param n number of strains in the CB functional group or \code{"bush"}, in which case the default from Bush et al. 2017 will be used
+#' @param n number of strains in the PB functional group or \code{"bush"}, in which case the default from Bush et al. 2017 will be used
+#' @param n number of strains in the SB functional group or \code{"bush"}, in which case the default from Bush et al. 2017 will be used
 #'
 #' @return \code{list} with additional class \code{strain_parameter}
 #' @export
 #'
 new_strain_parameter <- function(
-  n = 1
+  n_CB = 1,
+  n_PB = 1,
+  n_SB = 1
 ){
   parms <- list()
 
 # strain parameter --------------------------------------------------------
 
-  parms$CB <- new_CB_strain_parameter(n = n)
-  parms$PB <- new_PB_strain_parameter(n = n)
-  parms$SB <- new_SB_strain_parameter(n = n)
+  parms$CB <- new_CB_strain_parameter(n = n_CB)
+  parms$PB <- new_PB_strain_parameter(n = n_PB)
+  parms$SB <- new_SB_strain_parameter(n = n_SB)
   
   # other parameter ---------------------------------------------------------
 
@@ -32,7 +37,7 @@ new_strain_parameter <- function(
   ## oxidisation rate of reduced sulphur
   parms$c = as.numeric(NA)
 
-  if (n == "bush"){
+  if ( length( grep("bush", c(n_CB, n_PB, n_SB)) ) > 0 ) {
     ## substrate diffusivity
     parms$a_S = 0.001
     parms$a_O = 8e-4

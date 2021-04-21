@@ -4,14 +4,14 @@
 \alias{new_strain_parameter}
 \title{Creates empty parameter}
 \usage{
-new_strain_parameter(n = 1)
+new_strain_parameter(n_CB = 1, n_PB = 1, n_SB = 1)
 }
 \arguments{
-\item{n}{number of strains or \code{"bush"}, in which case the default from Bush et al 2017 will be used}
+\item{n}{number of strains in the SB functional group or \code{"bush"}, in which case the default from Bush et al. 2017 will be used}
 }
 \value{
 \code{list} with additional class \code{strain_parameter}
 }
 \description{
-Creates empty parameter
+If any of the arguments equals "bush", the default parameter from Bush et al. 2017 will be used for the general parameter
 }
