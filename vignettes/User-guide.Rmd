@@ -195,7 +195,7 @@ Once all the conditions are assigned to the default objects, then the `run_simul
 
 ```{r eval = run_steadystate_sims}
 anoxic_start_sim_results <- run_simulation(parameter_values = bush_anoxicstart_1strain,
-                                      initial_state = bush_anoxic_1_strain$initial_state)
+                                      initial_state = bush_anoxicstart_1strain$initial_state)
 ```
 
 
@@ -217,8 +217,13 @@ plot_dynamics_strains(anoxic_start_sim_results)
 
 # 1 strain oxic start
 
-```{r eval = run_steadystate_sims}
+```{r}
 bush_oxicstart_1strain <- new_strain_starter(values_initial_state = "bush_oxic")
+```
+
+```{r eval = run_steadystate_sims}
+oxic_start_sim_results <- run_simulation(parameter_values = bush_oxicstart_1strain,
+                                      initial_state = bush_oxicstart_1strain$initial_state)
 ```
 
 ```{r eval = run_steadystate_sims, echo = FALSE}
