@@ -52,8 +52,8 @@ default_dynamic_model <- bushplus_dynamic_model_strains
 ## no default_initial_state
 default_sim_duration <- 2000
 default_sim_sample_interval <- 1
-default_log10a_series <- c(log10(new_strain_parameter()[["a_O"]]),
-                           log10(new_strain_parameter()[["a_O"]]))
+default_log10a_series <- c(log10(new_strain_starter()[["a_O"]]),
+                           log10(new_strain_starter()[["a_O"]]))
 default_event_definition <- event_definition_1_strains
 default_event_interval <- 10
 default_noise_sigma <- 0
@@ -69,7 +69,7 @@ names(default_minimum_abundances) <- c("CB", "PB", "SB")
 Constructing parameter set.
 
 ```{r}
-one_strain_paramameter <- new_strain_parameter()
+one_strain_paramameter <- new_strain_starter()
 # one_strain_initial_state <- one_strain_paramameter$initial_state
 ```
 
@@ -93,27 +93,23 @@ plot_dynamics_strains(simulation_result1)
 ## Three strains per functional group
 
 ```{r}
-multi_strain_paramameter <- new_strain_parameter(n_CB = 3, n_PB = 3, n_SB = 3)
+multi_strain_paramameter <- new_strain_starter(n_CB = 3, n_PB = 3, n_SB = 3)
 
-multi_strain_initial_state <- new_initial_state_anoxic(n_CB = 3, n_PB = 3, n_SB = 3, values = "NA")
+multi_strain_paramameter$initial_state <- new_initial_state(n_CB = 3, n_PB = 3, n_SB = 3, values = "bush_anoxic")
 
-multi_strain_initial_state["CB_1"] <- 5e3
-multi_strain_initial_state["CB_2"] <- 1e3
-multi_strain_initial_state["CB_3"] <- 0
-multi_strain_initial_state["PB_1"] <- 1e7
-multi_strain_initial_state["PB_2"] <- 1e6
-multi_strain_initial_state["PB_3"] <- 1e5
-multi_strain_initial_state["SB_1"] <- 1e7
-multi_strain_initial_state["SB_2"] <- 1e6
-multi_strain_initial_state["SB_3"] <- 1e5
-multi_strain_initial_state["SO"] <- 300
-multi_strain_initial_state["SR"] <- 300
-multi_strain_initial_state["O"] <- 1e1
-multi_strain_initial_state["P"] <- 1e1
-
-multi_strain_paramameter$initial_state <- multi_strain_initial_state
-
-rm(multi_strain_initial_state)
+multi_strain_paramameter$initial_state["CB_1"] <- 5e3
+multi_strain_paramameter$initial_state["CB_2"] <- 1e3
+multi_strain_paramameter$initial_state["CB_3"] <- 0
+multi_strain_paramameter$initial_state["PB_1"] <- 1e7
+multi_strain_paramameter$initial_state["PB_2"] <- 1e6
+multi_strain_paramameter$initial_state["PB_3"] <- 1e5
+multi_strain_paramameter$initial_state["SB_1"] <- 1e7
+multi_strain_paramameter$initial_state["SB_2"] <- 1e6
+multi_strain_paramameter$initial_state["SB_3"] <- 1e5
+multi_strain_paramameter$initial_state["SO"] <- 300
+multi_strain_paramameter$initial_state["SR"] <- 300
+multi_strain_paramameter$initial_state["O"] <- 1e1
+multi_strain_paramameter$initial_state["P"] <- 1e1
 ```
 
 
