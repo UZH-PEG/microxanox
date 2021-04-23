@@ -28,7 +28,7 @@ library(patchwork)
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-run_steadystate_sims <- TRUE
+run_steadystate_sims <- FALSE
 ```
 
 
@@ -193,15 +193,13 @@ Please note that the following objects are created during simulations and are as
 
 Once all the conditions are assigned to the default objects, then the `run_simulation` function will use them without being explicitly given them, though still here we pass the parameter values and the initial states:
 
-```{r eval = run_steadystate_sims}
+```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS")}
 anoxic_start_sim_results <- run_simulation(parameter_values = bush_anoxicstart_1strain,
                                       initial_state = bush_anoxicstart_1strain$initial_state)
-```
-
-
-```{r eval = run_steadystate_sims, echo = FALSE}
 saveRDS(anoxic_start_sim_results, file = "data/user_guide/anoxic_start_sim_results.RDS")
 ```
+
+
 
 The convenience function `plot_dynamics_strains` can be used to easily visualise the dynamics of a simulation:
 
@@ -221,12 +219,9 @@ plot_dynamics_strains(anoxic_start_sim_results)
 bush_oxicstart_1strain <- new_strain_starter(values_initial_state = "bush_oxic")
 ```
 
-```{r eval = run_steadystate_sims}
+```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS")}
 oxic_start_sim_results <- run_simulation(parameter_values = bush_oxicstart_1strain,
                                       initial_state = bush_oxicstart_1strain$initial_state)
-```
-
-```{r eval = run_steadystate_sims, echo = FALSE}
 saveRDS(oxic_start_sim_results, file = "data/user_guide/oxic_start_sim_results.RDS")
 ```
 
@@ -286,7 +281,7 @@ multi_strain_paramameter$initial_state["SB_3"] <- 1e5
 ```
 
 
-```{r eval = run_steadystate_sims}
+```{r eval = run_steadystate_sims | !file.exists("data/user_guide/multistrain3.RDS")}
 simulation_result3 <- run_simulation(
   parameter_values = multi_strain_paramameter,
   initial_state = multi_strain_paramameter$initial_state
