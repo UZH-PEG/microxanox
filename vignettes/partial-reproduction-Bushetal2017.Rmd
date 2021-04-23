@@ -14,8 +14,11 @@ vignette: >
 
 ```{r setup, output = FALSE, message = FALSE}
 
-knitr::opts_chunk$set(echo = TRUE, cache = FALSE,
-                      fig.align = "centre", fig.width = 7, fig.height = 7)
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = FALSE,
+                      fig.align = "centre", 
+                      fig.width = 7, 
+                      fig.height = 7)
 
 library(tidyverse)
 library(deSolve)
@@ -107,7 +110,7 @@ plot_dynamics(sim_res)
 ## Stable states
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("vignettes/data/partial_reproduction/ss_CB_SB_PB.Rds")}
 ssfind_minimum_abundances <- rep(0, 3)
 names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
 ssfind_simulation_duration <- 10000
@@ -133,12 +136,12 @@ expt <- expand.grid(N_CB = initial_CBs,
                     a_O = a_Os)
 
 ss_CB_SB_PB <- ss_by_a_N(expt)
-save(ss_CB_SB_PB, file = here("vignettes/data/ss_CB_SB_PB.Rda"))
+saveRDS(ss_CB_SB_PB, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
 
 ```{r}
-load(file = here("vignettes/data/ss_CB_SB_PB.Rda"))
+ss_CB_SB_PB <- readRDS(file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 p1 <- ss_CB_SB_PB %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -171,7 +174,7 @@ p1 / p2
 
 ### Anoxic-oxic-anoxic
 
-```{r eval = run_steadystate_sims}
+```{r sim_lhl_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
 
 ## simulation timing
 simulation_duration <- 5000
@@ -183,24 +186,24 @@ lhl_log10a_series <- c(-8, -8, -2, -2, -2, -2, -2, -8, -8)
 
 
 ## run simulation
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          initial_state = return_anoxic_1strain_initial_state(),
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+                          initial_state = new_initial_state(values = "bush_anoxic"),
                           log10a_series = lhl_log10a_series,
                           sim_duration = simulation_duration,
                           sim_sample_interval = simulation_sampling_interval,
                           event_interval = event_interval_t)
-saveRDS(sim_res, "data/lhl_with_defaults.RDS")
+saveRDS(sim_res, "data/partial_reproduction/lhl_with_defaults.RDS")
 ```
 
 ```{r}
-lhl_with_defaults <- readRDS("data/lhl_with_defaults.RDS")
+lhl_with_defaults <- readRDS("data/partial_reproduction/lhl_with_defaults.RDS")
 plot_dynamics(lhl_with_defaults)
 ```
 
 
-```{r eval = run_steadystate_sims}
+```{r}
 lhl_with_defaults$result %>%
-  filter(between(time, 1000, 73000)) %>%
+  dplyr::filter(between(time, 1000, 73000)) %>%
   ggplot() +
   geom_path(aes(x=a, y=log10(O)),
             arrow = arrow(type = "open", angle = 30, length = unit(0.1, "inches")))
@@ -210,9 +213,9 @@ lhl_with_defaults$result %>%
 ### Oxic-anoxic-oxic
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_hlh_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/hlh_with_defaults.RDS")}
 ## anoxic initial state
-init_state <- init_state_favouring_oxic
+## init_state <- init_state_favouring_oxic
 
 ## simulation timing
 simulation_duration <- 50000
@@ -225,24 +228,24 @@ hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
 
 
 ## run simulation
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          initial_state = init_state_favouring_oxic,
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+                          initial_state = new_initial_state(values = "bush_oxic"), # init_state_favouring_oxic,
                           log10a_series = hlh_log10a_series,
                           sim_duration = simulation_duration,
                           sim_sample_interval = simulation_sampling_interval,
                           event_interval = event_interval_t)
-saveRDS(sim_res, "data/hlh_with_defaults.RDS")
+saveRDS(sim_res, "data/partial_reproduction/hlh_with_defaults.RDS")
 ```
 
 ```{r}
-hlh_with_defaults <- readRDS("data/hlh_with_defaults.RDS")
+hlh_with_defaults <- readRDS("data/partial_reproduction/hlh_with_defaults.RDS")
 plot_dynamics(hlh_with_defaults)
 ```
 
 
-```{r eval = run_steadystate_sims}
+```{r}
 hlh_with_defaults$result %>%
-  filter(between(time, 1000, 100000)) %>%
+  dplyr::filter(between(time, 1000, 100000)) %>%
   ggplot() +
   geom_path(aes(x=a, y=log10(O)),
             arrow = arrow(type = "open", angle = 30, length = unit(0.1, "inches")))
@@ -285,7 +288,7 @@ grid_num_N <- 2
 #### No organisms
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_no_biology, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
 
 initial_CBs <- 0
 initial_PBs <- 0
@@ -297,11 +300,11 @@ expt <- expand.grid(N_CB = initial_CBs,
 
 
 ss_no_biology <- ss_by_a_N(expt)
-saveRDS(ss_no_biology, "data/ss_no_biology.RDS")
+saveRDS(ss_no_biology, "data/partial_reproduction/ss_no_biology.RDS")
 ```
 
 ```{r}
-ss_no_biology <- readRDS("data/ss_no_biology.RDS")
+ss_no_biology <- readRDS("data/partial_reproduction/ss_no_biology.RDS")
 ```
 
 ```{r}
@@ -326,7 +329,7 @@ ss_no_biology %>%
 
 #### CB
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_only_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
 
 
 
@@ -340,14 +343,14 @@ expt <- expand.grid(N_CB = initial_CBs,
 
 
 ss_only_CB <- ss_by_a_N(expt)
-saveRDS(ss_only_CB, "data/ss_only_CB.RDS")
+saveRDS(ss_only_CB, "data/partial_reproduction/ss_only_CB.RDS")
 ```
 
 ```{r}
-ss_only_CB <- readRDS("data/ss_only_CB.RDS")
+ss_only_CB <- readRDS("data/partial_reproduction/ss_only_CB.RDS")
 ```
 
-```{r}
+```{r, eval = FALSE}
 tempx1 <- ss_only_CB %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
   gather(key = Species, value=Quantity, 2:ncol(.))
@@ -376,7 +379,7 @@ ss_only_CB %>%
 
 #### SB
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_only_SB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
 
 
 initial_CBs <- 0  # this one is varied
@@ -390,11 +393,11 @@ expt <- expand.grid(N_CB = initial_CBs,
 
 ss_only_SB <- ss_by_a_N(expt)
 
-saveRDS(ss_only_SB, "data/ss_only_SB.RDS")
+saveRDS(ss_only_SB, "data/partial_reproduction/ss_only_SB.RDS")
 ```
 
 ```{r}
-ss_only_SB <- readRDS("data/ss_only_SB.RDS")
+ss_only_SB <- readRDS("data/partial_reproduction/ss_only_SB.RDS")
 ```
 
 
@@ -416,7 +419,7 @@ ss_only_SB %>%
 
 #### PB
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_only_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
 
 
 
@@ -431,15 +434,15 @@ expt <- expand.grid(N_CB = initial_CBs,
 
 ss_only_PB <- ss_by_a_N(expt)
 
-saveRDS(ss_only_PB, "data/ss_only_PB.RDS")
+saveRDS(ss_only_PB, "data/partial_reproduction/ss_only_PB.RDS")
 ```
 
 ```{r}
-ss_only_PB <- readRDS("data/ss_only_PB.RDS")
+ss_only_PB <- readRDS("data/partial_reproduction/ss_only_PB.RDS")
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 tempx1 <- ss_only_PB %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
   gather(key = Species, value=Quantity, 2:ncol(.))
@@ -473,7 +476,7 @@ ss_only_PB %>%
 #### SB and PB
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_only_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
 
 
 initial_CBs <- 0  # this one is varied
@@ -486,11 +489,11 @@ expt <- expand.grid(N_CB = initial_CBs,
 expt$N_SB <- expt$N_PB
 
 ss_only_SB_PB <- ss_by_a_N(expt)
-saveRDS(ss_only_SB_PB, "data/ss_only_SB_PB.RDS")
+saveRDS(ss_only_SB_PB, "data/partial_reproduction/ss_only_SB_PB.RDS")
 ```
 
 ```{r}
-ss_only_SB_PB <- readRDS("data/ss_only_SB_PB.RDS")
+ss_only_SB_PB <- readRDS("data/partial_reproduction/ss_only_SB_PB.RDS")
 ```
 
 ```{r}
@@ -513,7 +516,7 @@ ss_only_SB_PB %>%
 #### SB and CB
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_only_SB_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
 
 
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
@@ -526,11 +529,11 @@ expt <- expand.grid(N_CB = initial_CBs,
 expt$N_SB <- expt$N_CB
 
 ss_only_SB_CB <- ss_by_a_N(expt)
-saveRDS(ss_only_SB_CB, "data/ss_only_SB_CB.RDS")
+saveRDS(ss_only_SB_CB, "data/partial_reproduction/ss_only_SB_CB.RDS")
 ```
 
 ```{r}
-ss_only_SB_CB <- readRDS("data/ss_only_SB_CB.RDS")
+ss_only_SB_CB <- readRDS("data/partial_reproduction/ss_only_SB_CB.RDS")
 ```
 
 ```{r}
@@ -553,7 +556,7 @@ ss_only_SB_CB %>%
 #### CB and PB
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_only_CB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
 
 
 initial_CBs <- 0  # this one is varied
@@ -566,11 +569,11 @@ expt <- expand.grid(N_CB = initial_CBs,
 expt$N_CB <- expt$N_PB
 
 ss_only_CB_PB <- ss_by_a_N(expt)
-saveRDS(ss_only_CB_PB, "data/ss_only_CB_PB.RDS")
+saveRDS(ss_only_CB_PB, "data/partial_reproduction/ss_only_CB_PB.RDS")
 ```
 
 ```{r}
-ss_only_CB_PB <- readRDS("data/ss_only_CB_PB.RDS")
+ss_only_CB_PB <- readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")
 ```
 
 ```{r}
@@ -594,7 +597,7 @@ ss_only_SB_PB %>%
 #### CB, SB, and PB
 
 
-```{r eval = run_steadystate_sims}
+```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
 
 
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
@@ -606,11 +609,11 @@ expt <- expand.grid(N_CB = initial_CBs,
                     a_O = a_Os)
 
 ss_CB_SB_PB <- ss_by_a_N(expt)
-saveRDS(ss_CB_SB_PB, "data/ss_CB_SB_PB.RDS")
+saveRDS(ss_CB_SB_PB, "data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
 ```{r}
-ss_CB_SB_PB <- readRDS("data/ss_CB_SB_PB.RDS")
+ss_CB_SB_PB <- readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
 
@@ -643,43 +646,43 @@ ss_CB_SB_PB %>%
 
 ### All response measures
 
-```{r eval = run_steadystate_sims}
-all_ss <- bind_cols(readRDS("data/ss_no_biology.RDS"),
+```{r sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}
+all_ss <- bind_cols(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
                     composition = rep("No organisms", grid_num_a*grid_num_N),
                     direction = c(rep("up", grid_num_a),
                                   rep("down", grid_num_a)))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_only_CB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_only_CB.RDS"),
                               composition = rep("CB", grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
                                             rep("down", grid_num_a))))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_only_SB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_only_SB.RDS"),
                               composition = rep("SB", grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
                                             rep("down", grid_num_a))))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_only_PB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_only_PB.RDS"),
                               composition = rep("PB", grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
                                             rep("down", grid_num_a))))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_only_SB_PB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_only_SB_PB.RDS"),
                               composition = rep("SB-PB", grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
                                             rep("down", grid_num_a))))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_only_SB_CB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_only_SB_CB.RDS"),
                               composition = rep("SB-CB", grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
                                             rep("down", grid_num_a))))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_only_CB_PB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_only_CB_PB.RDS"),
                               composition = rep("CB-PB", grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
                                             rep("down", grid_num_a))))
 all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/ss_CB_SB_PB.RDS"),
+                    bind_cols(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
                               composition = rep("CB-SB-PB",
                                                 grid_num_a*grid_num_N),
                               direction = c(rep("up", grid_num_a),
@@ -720,12 +723,12 @@ resp_summary <- x_wide %>%
                                      ),
          var_type = ifelse(str_sub(Species, 1, 1)=="N", "Organism", "Substrate")
          )
-saveRDS(resp_summary, "data/resp_summary.RDS")
+saveRDS(resp_summary, "data/partial_reproduction/resp_summary.RDS")
 ```
 
 
 ```{r}
-resp_summary <- readRDS("data/resp_summary.RDS")
+resp_summary <- readRDS("data/partial_reproduction/resp_summary.RDS")
 resp_summary %>%
   ggplot() +
   geom_point(aes(x = composition, y = value)) +
@@ -740,7 +743,7 @@ resp_summary %>%
 
 ```{r}
 resp_summ1 <- resp_summary %>%
-  filter(resp_measure %in% c("nl_down", "nl_up")) %>%
+  dplyr::filter(resp_measure %in% c("nl_down", "nl_up")) %>%
   group_by(composition, Species, num_func_groups, var_type) %>%
   summarise(ave_nl = mean(value))
 
@@ -757,7 +760,7 @@ resp_summ1 %>%
 ```{r}
 focus_on <- "Substrate"
 ave_nl_substrate <- resp_summ1 %>%
-  filter(var_type == focus_on) %>%
+  dplyr::filter(var_type == focus_on) %>%
   group_by(composition) %>%
   summarise(ave_ave_nl = mean(ave_nl))
 ave_nl_substrate %>%
@@ -772,7 +775,7 @@ ave_nl_substrate %>%
 ```{r}
 focus_on <- "Organism"
 ave_nl_organism <- resp_summ1 %>%
-  filter(var_type == focus_on) %>%
+  dplyr::filter(var_type == focus_on) %>%
   group_by(composition) %>%
   summarise(ave_ave_nl = sum(ave_nl)/unique(num_func_groups))
 ave_nl_organism %>%
@@ -803,7 +806,7 @@ ave_nl_system %>%
 ```{r}
 focus_on <- "Substrate"
 resp_summ3 <- resp_summary %>%
-  filter(resp_measure %in% c("hyst_1", "hyst_2"),
+  dplyr::filter(resp_measure %in% c("hyst_1", "hyst_2"),
          var_type == focus_on) %>%
   group_by(composition, num_func_groups, resp_measure, var_type) %>%
   summarise(ave_hyst = mean(value))
@@ -821,7 +824,7 @@ resp_summ3 %>%
 ```{r}
 focus_on <- "Organism"
 resp_summ3 <- resp_summary %>%
-  filter(resp_measure %in% c("hyst_1", "hyst_2"),
+  dplyr::filter(resp_measure %in% c("hyst_1", "hyst_2"),
          var_type == focus_on) %>%
   group_by(composition, num_func_groups, resp_measure, var_type) %>%
   summarise(ave_hyst = sum(value) / unique(num_func_groups))
@@ -838,7 +841,7 @@ resp_summ3 %>%
 
 ```{r}
 resp_summ4 <- resp_summary %>%
-  filter(resp_measure %in% c("hyst_1", "hyst_2")) %>%
+  dplyr::filter(resp_measure %in% c("hyst_1", "hyst_2")) %>%
   group_by(resp_measure, composition) %>%
   summarise(mean_hyst = sum(value) / (unique(num_func_groups)+4))
 
