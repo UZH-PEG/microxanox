@@ -110,7 +110,7 @@ plot_dynamics(sim_res)
 ## Stable states
 
 
-```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("vignettes/data/partial_reproduction/ss_CB_SB_PB.Rds")}
+```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 ssfind_minimum_abundances <- rep(0, 3)
 names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
 ssfind_simulation_duration <- 10000
