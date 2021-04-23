@@ -200,13 +200,13 @@ anoxic_start_sim_results <- run_simulation(parameter_values = bush_anoxicstart_1
 
 
 ```{r eval = run_steadystate_sims, echo = FALSE}
-save(anoxic_start_sim_results, file = "data/anoxic_start_sim_results.Rda")
+saveRDS(anoxic_start_sim_results, file = "data/user_guide/anoxic_start_sim_results.RDS")
 ```
 
 The convenience function `plot_dynamics_strains` can be used to easily visualise the dynamics of a simulation:
 
 ```{r echo = FALSE}
-load(file = "data/anoxic_start_sim_results.Rda")
+anoxic_start_sim_results <- readRDS(file = "data/user_guide/anoxic_start_sim_results.RDS")
 ```
 
 
@@ -227,12 +227,12 @@ oxic_start_sim_results <- run_simulation(parameter_values = bush_oxicstart_1stra
 ```
 
 ```{r eval = run_steadystate_sims, echo = FALSE}
-save(oxic_start_sim_results, file = "data/oxic_start_sim_results.Rda")
+saveRDS(oxic_start_sim_results, file = "data/user_guide/oxic_start_sim_results.RDS")
 ```
 
 
 ```{r echo = FALSE}
-load(file = "data/oxic_start_sim_results.Rda")
+oxic_start_sim_results <- readRDS(file = "data/user_guide/oxic_start_sim_results.RDS")
 ```
 
 
@@ -291,12 +291,12 @@ simulation_result3 <- run_simulation(
   parameter_values = multi_strain_paramameter,
   initial_state = multi_strain_paramameter$initial_state
 )
-save(simulation_result3, file = "data/multistrain3.Rda")
+saveRDS(simulation_result3, file = "data/user_guide/multistrain3.RDS")
 ```
 
 
 ```{r}
-load(file = "data/multistrain3.Rda")
+simulation_result3 <- readRDS(file = "data/user_guide/multistrain3.RDS")
 plot_dynamics_strains(simulation_result3)
 ```
 
