@@ -350,7 +350,7 @@ saveRDS(ss_only_CB, "data/partial_reproduction/ss_only_CB.RDS")
 ss_only_CB <- readRDS("data/partial_reproduction/ss_only_CB.RDS")
 ```
 
-```{r, eval = FALSE}
+```{r}
 tempx1 <- ss_only_CB %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
   gather(key = Species, value=Quantity, 2:ncol(.))
@@ -442,7 +442,7 @@ ss_only_PB <- readRDS("data/partial_reproduction/ss_only_PB.RDS")
 ```
 
 
-```{r, eval = FALSE}
+```{r}
 tempx1 <- ss_only_PB %>%
   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
   gather(key = Species, value=Quantity, 2:ncol(.))
