@@ -34,7 +34,7 @@ library(patchwork)
 set.seed(13)
 
 ## should some of the more intense simulations be run...
-run_steadystate_sims <- FALSE
+run_steadystate_sims <- TRUE
 ```
 
 
@@ -312,7 +312,10 @@ ss_no_biology <- readRDS("data/partial_reproduction/ss_no_biology.RDS")
 
 ```{r}
 ss_no_biology %>%
-  select(a, N_CB, N_SB, N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species))
@@ -355,17 +358,21 @@ ss_only_CB <- readRDS("data/partial_reproduction/ss_only_CB.RDS")
 
 ```{r}
 tempx1 <- ss_only_CB %>%
-  select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.))
+
 tempx1 %>%
-  ggplot(aes(x = a, y = log10(Quantity), col = Species)) +
+  ggplot(aes(x = a, y = log10(Quantity +1), col = Species)) +
   geom_path(size=0.8) +
-  ylab(expression(Log[10](Abundance))) +
+  ylab(expression(Log[10](Abundance+1))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
   theme_light() +
   ylim(0,10) +
-  geom_path(data = filter(tempx1, Species == "PB"),
-            aes(y=0.2), size = 0.8) +
+  #geom_path(data = filter(tempx1, Species == "PB"),
+  #          aes(y=0.2), size = 0.8) +
   theme(plot.title=element_text(size=10, hjust=0.5)) +
   labs(title="Only CB") 
   
@@ -406,10 +413,13 @@ ss_only_SB <- readRDS("data/partial_reproduction/ss_only_SB.RDS")
 
 ```{r}
 ss_only_SB %>%
-  select(a, N_CB, N_SB, N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 ```{r}
@@ -447,19 +457,22 @@ ss_only_PB <- readRDS("data/partial_reproduction/ss_only_PB.RDS")
 
 ```{r}
 tempx1 <- ss_only_PB %>%
-  select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.))
 tempx1 %>%
-  ggplot(aes(x = a, y = log10(Quantity), col = Species)) +
+  ggplot(aes(x = a, y = log10(Quantity+1), col = Species)) +
   geom_path(size = 0.8) +
   theme_light() +
   ylim(0,10) +
   ylab(expression(Log[10](Abundance))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
-  geom_path(data = filter(tempx1, Species == "CB"),
-            aes(y=0.2), size = 0.8)+
-  geom_path(data = filter(tempx1, Species == "PB"),
-            size = 0.8) +
+  #geom_path(data = filter(tempx1, Species == "CB"),
+  #          aes(y=0.2), size = 0.8)+
+  #geom_path(data = filter(tempx1, Species == "PB"),
+  #          size = 0.8) +
   theme(plot.title=element_text(size=10, hjust=0.5)) +
   labs(title="Only PB") 
 
@@ -501,7 +514,10 @@ ss_only_SB_PB <- readRDS("data/partial_reproduction/ss_only_SB_PB.RDS")
 
 ```{r}
 ss_only_SB_PB %>%
-  select(a, N_CB, N_SB, N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species))
@@ -541,7 +557,10 @@ ss_only_SB_CB <- readRDS("data/partial_reproduction/ss_only_SB_CB.RDS")
 
 ```{r}
 ss_only_SB_CB %>%
-  select(a, N_CB, N_SB, N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species))
@@ -581,7 +600,10 @@ ss_only_CB_PB <- readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")
 
 ```{r}
 ss_only_CB_PB %>%
-  select(a, N_CB, N_SB, N_PB) %>%
+  select(a,          
+         starts_with("CB"),          
+         starts_with("PB"),          
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species))
@@ -622,17 +644,26 @@ ss_CB_SB_PB <- readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")
 
 ```{r}
 ss_CB_SB_PB %>%
-  select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
+  select(a,          
+         starts_with("CB"),          
+         starts_with("PB"),          
+         starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species),
-            size=0.8) +
-  ylab(expression(Log[10](Abundance))) +
-  xlab(expression(Log[10](Oxygen~diffusivity))) +
-  theme_light() +
-  ylim(0,10) +
-  theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="CB, SB, & PB") 
+  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+
+# ss_CB_SB_PB %>%
+#   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
+#   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+#   ggplot() +
+#   geom_path(aes(x = a, y = log10(Quantity), col = Species),
+#             size=0.8) +
+#   ylab(expression(Log[10](Abundance))) +
+#   xlab(expression(Log[10](Oxygen~diffusivity))) +
+#   theme_light() +
+#   ylim(0,10) +
+#   theme(plot.title=element_text(size=10, hjust=0.5)) +
+#   labs(title="CB, SB, & PB") 
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 ```
