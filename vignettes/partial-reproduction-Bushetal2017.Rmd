@@ -117,14 +117,14 @@ ssfind_simulation_duration <- 10000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
 ssfind_parameters <- default_parameter_values
-ssfind_init_state <- c(N_CB = NA, #this one is varied
-           N_PB = 1e8,
-           N_SB = 1e8,
-           SO = 200,
-           SR = 200,
-           O = 10,
-           P = 9.5)
-grid_num_a <- 100
+#ssfind_init_state <- c(N_CB = NA, #this one is varied
+#           N_PB = 1e8,
+#           N_SB = 1e8,
+#           SO = 200,
+#           SR = 200,
+#           O = 10,
+#           P = 9.5)
+grid_num_a <- 10
 a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
 grid_num_N <- 2
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
@@ -143,12 +143,15 @@ saveRDS(ss_CB_SB_PB, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```{r}
 ss_CB_SB_PB <- readRDS(file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 p1 <- ss_CB_SB_PB %>%
-  select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB"))  %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species),
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species),
             size=0.8) +
-  ylab(expression(Log[10](Abundance))) +
+  ylab(expression(Log[10](Abundance+1))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
   ylim(0,10) +
   #theme(plot.title=element_text(size=10, hjust=0.5)) +

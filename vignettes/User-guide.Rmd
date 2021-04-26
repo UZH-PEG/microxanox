@@ -296,3 +296,153 @@ plot_dynamics_strains(simulation_result3)
 ```
 
 
+
+
+
+
+# Get steady state 
+
+## 1 strain (though with multistrain functions)
+
+```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+
+ssfind_minimum_abundances <- rep(0, 3)
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+ssfind_simulation_duration <- 10000
+ssfind_simulation_sampling_interval <- ssfind_simulation_duration
+ssfind_event_interval <- ssfind_simulation_duration
+ssfind_parameters <- new_strain_starter(n_CB = 1,
+                                                n_PB = 1,
+                                                n_SB = 1,
+                                                values_initial_state = "bush_anoxic")
+
+#ssfind_init_state
+grid_num_a <- 100
+a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
+grid_num_N <- 2
+initial_CBs <- 10^seq(0, 8, length=grid_num_N)
+initial_PBs <- 1e5
+initial_SBs <- 1e5
+expt <- expand.grid(N_CB = initial_CBs,
+                    N_PB = initial_PBs,
+                    N_SB = initial_SBs,
+                    a_O = a_Os)
+
+x <- expt[1,]
+
+ss_1strain <- ss_by_a_N(expt)
+saveRDS(ss_1strain, file = "data/user_guide/ss_1strain.RDS")
+
+
+```
+
+
+```{r echo = FALSE}
+ss_1strain <- readRDS(file = "data/user_guide/ss_1strain.RDS")
+```
+
+
+```{r}
+
+p1 <- ss_1strain %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB"))  %>%
+  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  ggplot() +
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species),
+            size=1) +
+  ylab(expression(Log[10](Abundance+1))) +
+  xlab(expression(Log[10](Oxygen~diffusivity))) +
+  ylim(0,10) +
+  #theme(plot.title=element_text(size=10, hjust=0.5)) +
+  labs(title="Organisms")  
+##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
+
+p2 <- ss_1strain %>%
+  select(a, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  ggplot() +
+  geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
+  labs(title="Substrates") 
+
+
+p1 / p2
+
+
+```
+
+
+## 3 strain (though with multistrain functions)
+
+```{r sim_ss_CB_SB_PB3, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+
+ssfind_minimum_abundances <- rep(0, 3)
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+ssfind_simulation_duration <- 10000
+ssfind_simulation_sampling_interval <- ssfind_simulation_duration
+ssfind_event_interval <- ssfind_simulation_duration
+ssfind_parameters <- new_strain_starter(n_CB = 3,
+                                                n_PB = 3,
+                                                n_SB = 3,
+                                                values_initial_state = "bush_anoxic")
+
+#ssfind_init_state
+grid_num_a <- 100
+a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
+grid_num_N <- 2
+initial_CBs <- 10^seq(0, 8, length=grid_num_N)
+initial_PBs <- 1e5
+initial_SBs <- 1e5
+expt <- expand.grid(N_CB = initial_CBs,
+                    N_PB = initial_PBs,
+                    N_SB = initial_SBs,
+                    a_O = a_Os)
+
+x <- expt[1,]
+
+ss_3strain <- ss_by_a_N(expt)
+saveRDS(ss_3strain, file = "data/user_guide/ss_3strain.RDS")
+
+
+```
+
+
+```{r echo = FALSE}
+ss_3strain <- readRDS(file = "data/user_guide/ss_3strain.RDS")
+```
+
+
+```{r}
+
+p1 <- ss_3strain %>%
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
+         starts_with("SB"))  %>%
+  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  ggplot() +
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species),
+            size=1) +
+  ylab(expression(Log[10](Abundance+1))) +
+  xlab(expression(Log[10](Oxygen~diffusivity))) +
+  ylim(0,10) +
+  #theme(plot.title=element_text(size=10, hjust=0.5)) +
+  labs(title="Organisms")  
+##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
+
+p2 <- ss_3strain %>%
+  select(a, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  ggplot() +
+  geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
+  labs(title="Substrates") 
+
+
+p1 / p2
+
+
+```
+
+
