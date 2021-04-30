@@ -1,7 +1,7 @@
 
 
-#' The rate equations, as published in the paper, but with forcing of oxygen diffusivity (a_0) potential added.
-#' And multiple strains
+#' The rate equations, as published in the paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
+#' and the possibility to simulate multiple strains per functional group
 #'
 #' @param t The current time in the simulation
 #' @param state A vector containing the current (named) values of each state variable

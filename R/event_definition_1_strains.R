@@ -1,4 +1,5 @@
-#' A function that contains the events that should alter the state variables, with multiple strains
+#' A function that contains events that should alter the state variables, with multiple strains.
+#' It is definition 1, in case other definitions are created.
 #'
 #' @param times The time point in the simulation
 #' @param y Current state variable values

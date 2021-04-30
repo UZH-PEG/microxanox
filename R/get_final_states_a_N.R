@@ -1,4 +1,6 @@
 #' Get the steady state solutions for a set of oxygen diffusivity and initial states.
+#' Probably best to not use this directly, but rather via the function \code{"ss_by_a_N}
+#' 
 #'
 #' @param x A vector of oxygen diffusivity and initial conditions.
 #' @return A vector of steady states

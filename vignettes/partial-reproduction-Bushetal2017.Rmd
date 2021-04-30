@@ -98,7 +98,7 @@ Figure 2c, d in Bush et al.
 
 sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_oxic"))
 
-plot_dynamics(sim_res)
+plot_dynamics_strains(sim_res)
 ##ggsave("high_CB.png")
 ```
 
@@ -200,7 +200,7 @@ saveRDS(sim_res, "data/partial_reproduction/lhl_with_defaults.RDS")
 
 ```{r}
 lhl_with_defaults <- readRDS("data/partial_reproduction/lhl_with_defaults.RDS")
-plot_dynamics(lhl_with_defaults)
+plot_dynamics_strains(lhl_with_defaults)
 ```
 
 
@@ -242,7 +242,7 @@ saveRDS(sim_res, "data/partial_reproduction/hlh_with_defaults.RDS")
 
 ```{r}
 hlh_with_defaults <- readRDS("data/partial_reproduction/hlh_with_defaults.RDS")
-plot_dynamics(hlh_with_defaults)
+plot_dynamics_strains(hlh_with_defaults)
 ```
 
 
