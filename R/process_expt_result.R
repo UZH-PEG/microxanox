@@ -29,10 +29,11 @@ process_expt_result <- function(temp_result)
     arrange(-a)
   names(a_down) <- str_replace_all(names(a_down), "_max", "")
   
-  a_up_down <- bind_rows(a_up, a_down) %>%
-    mutate(N_CB = ifelse(N_CB < 1, 1, N_CB),
-           N_SB = ifelse(N_SB < 1, 1, N_SB),
-           N_PB = ifelse(N_PB < 1, 1, N_PB))
+  a_up_down <- bind_rows(a_up, a_down) 
+  #%>%
+  #  mutate(N_CB = ifelse(N_CB < 1, 1, N_CB),
+  #         N_SB = ifelse(N_SB < 1, 1, N_SB),
+  #         N_PB = ifelse(N_PB < 1, 1, N_PB))
   
   a_up_down
   

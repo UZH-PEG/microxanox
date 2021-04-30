@@ -2,7 +2,8 @@
 % Please edit documentation in R/bushplus_dynamic_model_strains.R
 \name{bushplus_dynamic_model_strains}
 \alias{bushplus_dynamic_model_strains}
-\title{The rate equations, as published in the paper, but with forcing of oxygen diffusivity (a_0) potential added}
+\title{The rate equations, as published in the paper, but with forcing of oxygen diffusivity (a_0) potential added.
+And multiple strains}
 \usage{
 bushplus_dynamic_model_strains(t, state, parameters)
 }
@@ -17,5 +18,6 @@ bushplus_dynamic_model_strains(t, state, parameters)
 Growth rate
 }
 \description{
-The rate equations, as published in the paper, but with forcing of oxygen diffusivity (a_0) potential added
+The rate equations, as published in the paper, but with forcing of oxygen diffusivity (a_0) potential added.
+And multiple strains
 }
