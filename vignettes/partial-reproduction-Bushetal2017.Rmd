@@ -34,7 +34,7 @@ library(patchwork)
 set.seed(13)
 
 ## should some of the more intense simulations be run...
-run_steadystate_sims <- TRUE
+run_steadystate_sims <- FALSE
 ```
 
 
@@ -681,63 +681,30 @@ ss_CB_SB_PB %>%
 ### All response measures
 
 ```{r sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}
-all_ss <- bind_cols(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
-                    composition = rep("No organisms", grid_num_a*grid_num_N),
-                    direction = c(rep("up", grid_num_a),
-                                  rep("down", grid_num_a)))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_only_CB.RDS"),
-                              composition = rep("CB", grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_only_SB.RDS"),
-                              composition = rep("SB", grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_only_PB.RDS"),
-                              composition = rep("PB", grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_only_SB_PB.RDS"),
-                              composition = rep("SB-PB", grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_only_SB_CB.RDS"),
-                              composition = rep("SB-CB", grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_only_CB_PB.RDS"),
-                              composition = rep("CB-PB", grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
-all_ss <- bind_rows(all_ss,
-                    bind_cols(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
-                              composition = rep("CB-SB-PB",
-                                                grid_num_a*grid_num_N),
-                              direction = c(rep("up", grid_num_a),
-                                            rep("down", grid_num_a))))
+all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
+                    composition = "No organisms") %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB.RDS"),
+                              composition = "CB")) %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB.RDS"),
+                              composition = "SB")) %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_PB.RDS"),
+                              composition = "PB")) %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_PB.RDS"),
+                              composition = "SB-PB")) %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_CB.RDS"),
+                              composition = "SB-CB")) %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB_PB.RDS"),
+                              composition = "CB-PB")) %>%
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
+                              composition = "CB-SB-PB"))
 
 
-x_long <- all_ss %>%
-  gather(key = Species, value = Quantity, 2:8)
-x_wide <- x_long %>%
-  select(-initial_N_CB) %>%
-  spread(key = direction, value=Quantity, drop=T)
-
-resp_summary <- x_wide %>%
-  group_by(composition, Species) %>%
-  summarise(hyst_1 = mean(abs(log10(up) - log10(down))),
-            hyst_2 = get_hysteresis_range(up, down, a),
-            nl_up = get_nonlinearity(a, log10(up)),
-            nl_down = get_nonlinearity(a, log10(down))) %>%
-  ungroup() %>%
-  gather(key = resp_measure, value = value, 3:6) %>%
-  mutate(composition = fct_relevel(composition,
+stab_res <- all_ss %>%
+  group_by(composition) %>%
+  do(stab_measures = get_stability_measures(.)) %>%
+  unnest(cols = c(stab_measures)) %>%
+  mutate(composition = as.factor(composition),
+         composition = fct_relevel(composition,
                                    "No organisms",
                                    "CB",
                                    "SB",
@@ -755,18 +722,18 @@ resp_summary <- x_wide %>%
                                      composition == "SB-PB" ~ 2,
                                      composition == "CB-SB-PB" ~ 3
                                      ),
-         var_type = ifelse(str_sub(Species, 1, 1)=="N", "Organism", "Substrate")
-         )
-saveRDS(resp_summary, "data/partial_reproduction/resp_summary.RDS")
+         var_type = ifelse(str_sub(Species, 3, 3)=="_", "Organism", "Substrate")) %>%
+  gather(key = "stab_measure", value = "value", 3:6)
+saveRDS(stab_res, "data/partial_reproduction/stab_res.RDS")
 ```
 
 
 ```{r}
-resp_summary <- readRDS("data/partial_reproduction/resp_summary.RDS")
-resp_summary %>%
+stab_res <- readRDS("data/partial_reproduction/stab_res.RDS")
+stab_res %>%
   ggplot() +
   geom_point(aes(x = composition, y = value)) +
-  facet_grid(Species ~ resp_measure, scales = "free") +
+  facet_grid(Species ~ stab_measure, scales = "free") +
   coord_flip()
 
 ```
@@ -776,8 +743,8 @@ resp_summary %>%
 #### All species nonlinearity 
 
 ```{r}
-resp_summ1 <- resp_summary %>%
-  dplyr::filter(resp_measure %in% c("nl_down", "nl_up")) %>%
+resp_summ1 <- stab_res %>%
+  dplyr::filter(stab_measure %in% c("nl_down", "nl_up")) %>%
   group_by(composition, Species, num_func_groups, var_type) %>%
   summarise(ave_nl = mean(value))
 
@@ -811,7 +778,7 @@ focus_on <- "Organism"
 ave_nl_organism <- resp_summ1 %>%
   dplyr::filter(var_type == focus_on) %>%
   group_by(composition) %>%
-  summarise(ave_ave_nl = sum(ave_nl)/unique(num_func_groups))
+  summarise(ave_ave_nl = mean(ave_nl, na.rm = TRUE))
 ave_nl_organism %>%
   ggplot() +
   geom_point(aes(composition, ave_ave_nl)) +
@@ -824,7 +791,7 @@ ave_nl_organism %>%
 focus_on <- "System"
 ave_nl_system <- resp_summ1 %>%
   group_by(composition) %>%
-  summarise(ave_ave_nl = sum(ave_nl) / (unique(num_func_groups)+4))
+  summarise(ave_ave_nl = mean(ave_nl, na.rm = TRUE))
 ave_nl_system %>%
   ggplot() +
   geom_point(aes(composition, ave_ave_nl)) +
@@ -839,16 +806,16 @@ ave_nl_system %>%
 
 ```{r}
 focus_on <- "Substrate"
-resp_summ3 <- resp_summary %>%
-  dplyr::filter(resp_measure %in% c("hyst_1", "hyst_2"),
+resp_summ3 <- stab_res %>%
+  dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range"),
          var_type == focus_on) %>%
-  group_by(composition, num_func_groups, resp_measure, var_type) %>%
-  summarise(ave_hyst = mean(value))
+  group_by(composition, num_func_groups, stab_measure, var_type) %>%
+  summarise(ave_hyst = mean(value, na.rm = TRUE))
 
 resp_summ3 %>%
   ggplot() +
   geom_point(aes(x = composition, y = ave_hyst)) +
-  facet_wrap( ~ resp_measure, scales="free") +
+  facet_wrap( ~ stab_measure, scales="free") +
   ggtitle(paste("Hysteresis in", focus_on, "response."))
 
 ```
@@ -857,16 +824,16 @@ resp_summ3 %>%
 
 ```{r}
 focus_on <- "Organism"
-resp_summ3 <- resp_summary %>%
-  dplyr::filter(resp_measure %in% c("hyst_1", "hyst_2"),
+resp_summ3 <- stab_res %>%
+  dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range"),
          var_type == focus_on) %>%
-  group_by(composition, num_func_groups, resp_measure, var_type) %>%
-  summarise(ave_hyst = sum(value) / unique(num_func_groups))
+  group_by(composition, num_func_groups, stab_measure, var_type) %>%
+  summarise(ave_hyst = mean(value, na.rm = TRUE))
 
 resp_summ3 %>%
   ggplot() +
   geom_point(aes(x = composition, y = ave_hyst)) +
-  facet_wrap( ~ resp_measure, scales="free") +
+  facet_wrap( ~ stab_measure, scales="free") +
   ggtitle(paste("Hysteresis in", focus_on, "response."))
 
 ```
@@ -874,15 +841,15 @@ resp_summ3 %>%
 #### System hysteresis (separate)
 
 ```{r}
-resp_summ4 <- resp_summary %>%
-  dplyr::filter(resp_measure %in% c("hyst_1", "hyst_2")) %>%
-  group_by(resp_measure, composition) %>%
-  summarise(mean_hyst = sum(value) / (unique(num_func_groups)+4))
+resp_summ4 <- stab_res %>%
+  dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range")) %>%
+  group_by(stab_measure, composition) %>%
+  summarise(mean_hyst = mean(value, na.rm = TRUE))
 
 resp_summ4 %>%
   ggplot() +
   geom_point(aes(x = composition, y = mean_hyst)) +
-  facet_wrap( ~ resp_measure) +
+  facet_wrap( ~ stab_measure) +
   ggtitle("Hysteresis in system response.")
 
 ```

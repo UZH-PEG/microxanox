@@ -449,3 +449,24 @@ p1 / p2
 
 
 ```
+
+# Get measures of nonlinearity and hysteresis
+
+The `get_stability_measures()` function takes an object of the type returned by the `ss_by_a_N()` function and returns various measures of the stability of each of the state variables. 
+
+(Warning: Care is required when processing the produced data. Some log transformations with addition of 1 are used; NAs are produced in some cases; and some measures are affected by the number of strains, even when the strains are identical.)
+
+For example:
+
+```{r}
+get_stability_measures(ss_1strain)
+```
+
+And with three strains per functional group:
+
+```{r}
+get_stability_measures(ss_3strain)
+```
+
+
+
