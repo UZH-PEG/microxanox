@@ -11,15 +11,45 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-
-```{r setup, output = FALSE, message = FALSE}
+```{r setup, output = FALSE, message = FALSE, echo = FALSE}
 
 knitr::opts_chunk$set(echo = TRUE, 
                       cache = FALSE,
                       fig.align = "centre", 
                       fig.width = 7, 
-                      fig.height = 7)
+                      fig.height = 4)
 
+
+```
+
+# Introduction
+
+The aims here are:
+
+-   Reproduce the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+
+And in addition:
+
+-   Show how temporal change in oxygen diffusivity causes temporal switches between oxic and anoxic states.
+-   Show how differences in the functional groups composition alters the ecosystem response to variation in oxygen diffusivity.
+-   Quantify the amount of hysteresis and nonlinearity in these responses.
+-   Show how amount of hysteresis and nonlinearity in ecosystem response depends on functional group composition.
+
+These additional results are only presented graphically below, and are not discussed. They will be presented and discussed in an article associated with this package (*link to be added*).
+
+Please see the User Guide vignette for further introduction and general methods.
+
+The only difference from the published model (Bush et al 2017) is that here the populations of the organisms are not allowed to decrease below a minimum abundance (see below for the exact implementation).
+
+## Code availability
+
+Much of the code used to create the content of this vignette is not shown. It is available in the [microxanox github repository](https://github.com/opetchey/microxanox/blob/main/vignettes/partial-reproduction-Bushetal2017.Rmd)
+
+# Methods
+
+## Setup R
+
+```{r}
 library(tidyverse)
 library(deSolve)
 library(rootSolve)
@@ -38,27 +68,11 @@ run_steadystate_sims <- FALSE
 ```
 
 
-# Introduction
-
-The aims here are:
-
-* Reproduce the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
-* Show how temporal change in oxygen diffusivity causes temporal switches between oxic and anoxic states.
-* Show how differences in the functional groups composition alters the ecosystem response to variation in oxygen diffusivity.
-* Quantify the amount of hysteresis and nonlinearity in these responses.
-* Show how amount of hysteresis and nonlinearity in ecosystem response depends on functional group composition.
-
-Please see the User Guide vignette for further introduction and general methods.
-
-The only difference from the published model (Bush et al 2017) is that here the populations of the organisms are not allowed to decrease below a minimum abundance (see below for the exact implementation).
-
-# Methods
-
 ## Set defaults
 
 ```{r}
 default_dynamic_model <- bushplus_dynamic_model
-default_parameter_values <- new_strain_starter()
+default_parameter_values <- new_starter()
 ## no default_initial_state
 default_sim_duration <- 2000
 default_sim_sample_interval <- 1
@@ -75,26 +89,22 @@ names(default_minimum_abundances) <- c("CB", "PB", "SB")
 
 ## Initial conditions favouring anoxic, no noise, no forcing
 
-Figure 2a, b in Bush et al.
+Reproduce dynamics when the initial conditions favour the anoxic state (Figure 2a, b in Bush et al. 2017)
 
 ```{r}
 
 sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_anoxic"))
 plot_dynamics(simulation_result = sim_res)
-#ggsave('xxx.png')
+
 ```
 
-
-Population dynamics seem as in the paper.
-Resource dynamics fluctuate more than in the paper.
-
-
+Population dynamics seem as in the paper. Resource dynamics fluctuate more than in the paper.
 
 ## Initial conditions favouring oxic, no noise, no forcing
 
-Figure 2c, d in Bush et al.
+Reproduce dynamics when the initial conditions favour the oxic state (Figure 2c, d in Bush et al. 2017)
 
-```{r} 
+```{r}
 
 sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_oxic"))
 
@@ -102,29 +112,18 @@ plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
 ```
 
-
-########## Working to here
-
-
-
 ## Stable states
 
+Here we find the stable states that correspond to specific values of oxygen diffusivity (parameter $a_0$ / `a_0`). (Code not displayed.)
 
-```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+```{r echo = FALSE, sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 ssfind_minimum_abundances <- rep(0, 3)
 names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
 ssfind_simulation_duration <- 10000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
 ssfind_parameters <- default_parameter_values
-#ssfind_init_state <- c(N_CB = NA, #this one is varied
-#           N_PB = 1e8,
-#           N_SB = 1e8,
-#           SO = 200,
-#           SR = 200,
-#           O = 10,
-#           P = 9.5)
-grid_num_a <- 10
+grid_num_a <- 100
 a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
 grid_num_N <- 2
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
@@ -136,12 +135,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     a_O = a_Os)
 
 ss_CB_SB_PB <- ss_by_a_N(expt)
-saveRDS(ss_CB_SB_PB, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
 
-```{r}
+```{r echo=FALSE, sim_ss_CB_SB_PB11, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+saveRDS(ss_CB_SB_PB, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
+```
+
+```{r echo = FALSE}
 ss_CB_SB_PB <- readRDS(file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
+```
+
+
+```{r echo = FALSE}
 p1 <- ss_CB_SB_PB %>%
   select(a,
          starts_with("CB"),
@@ -170,16 +176,13 @@ p1 / p2
 
 ```
 
-
-
-
 ## Temporal state switching
 
 ### Anoxic-oxic-anoxic
 
-```{r sim_lhl_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
+Temporal change in oxygen diffusivity is used to switch the system from anoxic to oxic and back to anoxic.
 
-## simulation timing
+```{r sim_lhl_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
 simulation_duration <- 5000
 simulation_sampling_interval <- 10
 event_interval_t <- 100
@@ -195,16 +198,25 @@ sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
                           sim_duration = simulation_duration,
                           sim_sample_interval = simulation_sampling_interval,
                           event_interval = event_interval_t)
+```
+
+
+```{r echo = FALSE, sim_lhl_with_defaults1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
 saveRDS(sim_res, "data/partial_reproduction/lhl_with_defaults.RDS")
 ```
 
-```{r}
+
+
+```{r echo = FALSE}
 lhl_with_defaults <- readRDS("data/partial_reproduction/lhl_with_defaults.RDS")
-plot_dynamics(lhl_with_defaults)
 ```
 
 
 ```{r}
+plot_dynamics(lhl_with_defaults)
+```
+
+```{r eval = FALSE, echo = FALSE}
 lhl_with_defaults$result %>%
   dplyr::filter(between(time, 1000, 73000)) %>%
   ggplot() +
@@ -212,23 +224,18 @@ lhl_with_defaults$result %>%
             arrow = arrow(type = "open", angle = 30, length = unit(0.1, "inches")))
 ```
 
-
 ### Oxic-anoxic-oxic
+
+Temporal change in oxygen diffusivity is used to switch the system from oxic to anoxic and back to oxic.
+
 
 
 ```{r sim_hlh_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/hlh_with_defaults.RDS")}
-## anoxic initial state
-## init_state <- init_state_favouring_oxic
 
-## simulation timing
 simulation_duration <- 50000
-simulation_sampling_interval <- 10
-event_interval_t <- 100
 
 ## low-high-low oxgygen diffusivity 
 hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
-
-
 
 ## run simulation
 sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
@@ -237,16 +244,23 @@ sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
                           sim_duration = simulation_duration,
                           sim_sample_interval = simulation_sampling_interval,
                           event_interval = event_interval_t)
+```
+
+
+```{r echo = FALSE, sim_hlh_with_defaults1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/hlh_with_defaults.RDS")}
 saveRDS(sim_res, "data/partial_reproduction/hlh_with_defaults.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 hlh_with_defaults <- readRDS("data/partial_reproduction/hlh_with_defaults.RDS")
-plot_dynamics(hlh_with_defaults)
 ```
 
 
 ```{r}
+plot_dynamics(hlh_with_defaults)
+```
+
+```{r eval = FALSE, echo = FALSE}
 hlh_with_defaults$result %>%
   dplyr::filter(between(time, 1000, 100000)) %>%
   ggplot() +
@@ -254,9 +268,11 @@ hlh_with_defaults$result %>%
             arrow = arrow(type = "open", angle = 30, length = unit(0.1, "inches")))
 ```
 
-
 ## Functional group composition and nature of response
 
+In this section we get the stable states corresponding to specific values of oxygen diffusivity (parameter $a_0$ / `a_0`), for each combination of presence/absence of the functional groups.
+
+Here we set the conditions common to all simulations:
 
 ```{r}
 ssfind_minimum_abundances <- rep(0, 3)
@@ -275,24 +291,21 @@ ssfind_parameters <- default_parameter_values
 ##ssfind_init_state <- default_initial_state
 ##ssfind_init_state <- return_anoxic_1strain_initial_state()
 ssfind_init_state <- c(N_CB = NA, #this one is varied
-           N_PB = 1e8,
-           N_SB = 1e8,
-           SO = 200,
-           SR = 200,
-           O = 10,
-           P = 9.5)
+                       N_PB = 1e8,
+                       N_SB = 1e8,
+                       SO = 200,
+                       SR = 200,
+                       O = 10,
+                       P = 9.5)
 grid_num_a <- 100
 a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
 grid_num_N <- 2
 ```
 
-### Each composition
 
-#### No organisms
-
+### No organisms
 
 ```{r sim_ss_no_biology, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
-
 initial_CBs <- 0
 initial_PBs <- 0
 initial_SBs <- 0
@@ -300,17 +313,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-
-
 ss_no_biology <- ss_by_a_N(expt)
+```
+
+
+```{r echo = FALSE, sim_ss_no_biology1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
 saveRDS(ss_no_biology, "data/partial_reproduction/ss_no_biology.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_no_biology <- readRDS("data/partial_reproduction/ss_no_biology.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_no_biology %>%
   select(a,
          starts_with("CB"),
@@ -321,8 +336,7 @@ ss_no_biology %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_no_biology %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -330,15 +344,9 @@ ss_no_biology %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-
-
-#### CB
+### CB
 
 ```{r sim_ss_only_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
-
-
-
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
 initial_PBs <- 0
 initial_SBs <- 0
@@ -346,17 +354,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-
-
 ss_only_CB <- ss_by_a_N(expt)
+```
+
+
+```{r  echo = FALSE, sim_ss_only_CB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
 saveRDS(ss_only_CB, "data/partial_reproduction/ss_only_CB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_CB <- readRDS("data/partial_reproduction/ss_only_CB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 tempx1 <- ss_only_CB %>%
   select(a,
          starts_with("CB"),
@@ -375,11 +385,11 @@ tempx1 %>%
   #          aes(y=0.2), size = 0.8) +
   theme(plot.title=element_text(size=10, hjust=0.5)) +
   labs(title="Only CB") 
-  
+
 ##ggsave("figures/CB.png", width = 3, height = 2)
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_CB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -387,11 +397,9 @@ ss_only_CB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-#### SB
+### SB
 
 ```{r sim_ss_only_SB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
-
-
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 0
 initial_SBs <- 10^seq(0, 8, length=grid_num_N)
@@ -399,19 +407,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-
-
 ss_only_SB <- ss_by_a_N(expt)
+```
 
+
+```{r  echo = FALSE, sim_ss_only_SB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
 saveRDS(ss_only_SB, "data/partial_reproduction/ss_only_SB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_SB <- readRDS("data/partial_reproduction/ss_only_SB.RDS")
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_only_SB %>%
   select(a,
          starts_with("CB"),
@@ -422,7 +430,7 @@ ss_only_SB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_SB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -430,12 +438,9 @@ ss_only_SB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-#### PB
+### PB
 
 ```{r sim_ss_only_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
-
-
-
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 10^seq(0, 8, length=grid_num_N)
 initial_SBs <- 0
@@ -443,19 +448,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-
-
 ss_only_PB <- ss_by_a_N(expt)
+```
 
+
+```{r  echo = FALSE, sim_ss_only_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
 saveRDS(ss_only_PB, "data/partial_reproduction/ss_only_PB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_PB <- readRDS("data/partial_reproduction/ss_only_PB.RDS")
 ```
 
-
-```{r}
+```{r echo = FALSE}
 tempx1 <- ss_only_PB %>%
   select(a,
          starts_with("CB"),
@@ -480,7 +485,7 @@ tempx1 %>%
 
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -488,13 +493,9 @@ ss_only_PB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-#### SB and PB
-
+### SB and PB
 
 ```{r sim_ss_only_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
-
-
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 10^seq(0, 8, length=grid_num_N)
 initial_SBs <- 0
@@ -503,16 +504,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_SB <- expt$N_PB
-
 ss_only_SB_PB <- ss_by_a_N(expt)
+```
+
+
+```{r  echo = FALSE, sim_ss_only_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
 saveRDS(ss_only_SB_PB, "data/partial_reproduction/ss_only_SB_PB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_SB_PB <- readRDS("data/partial_reproduction/ss_only_SB_PB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_SB_PB %>%
   select(a,
          starts_with("CB"),
@@ -523,8 +527,7 @@ ss_only_SB_PB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_only_SB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -532,12 +535,9 @@ ss_only_SB_PB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-#### SB and CB
-
+### SB and CB
 
 ```{r sim_ss_only_SB_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
-
-
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
 initial_PBs <- 0
 initial_SBs <- 0
@@ -546,16 +546,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_SB <- expt$N_CB
-
 ss_only_SB_CB <- ss_by_a_N(expt)
+```
+
+
+```{r  echo = FALSE, sim_ss_only_SB_CB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
 saveRDS(ss_only_SB_CB, "data/partial_reproduction/ss_only_SB_CB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_SB_CB <- readRDS("data/partial_reproduction/ss_only_SB_CB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_SB_CB %>%
   select(a,
          starts_with("CB"),
@@ -566,8 +569,7 @@ ss_only_SB_CB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_only_SB_CB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:5) %>%
@@ -575,12 +577,9 @@ ss_only_SB_CB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-#### CB and PB
-
+### CB and PB
 
 ```{r sim_ss_only_CB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
-
-
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 10^seq(0, 8, length=grid_num_N)
 initial_SBs <- 0
@@ -589,16 +588,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_CB <- expt$N_PB
-
 ss_only_CB_PB <- ss_by_a_N(expt)
+```
+
+
+```{r  echo = FALSE, sim_ss_only_CB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
 saveRDS(ss_only_CB_PB, "data/partial_reproduction/ss_only_CB_PB.RDS")
 ```
 
-```{r}
+```{r  echo = FALSE, }
 ss_only_CB_PB <- readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_only_CB_PB %>%
   select(a,          
          starts_with("CB"),          
@@ -609,8 +611,7 @@ ss_only_CB_PB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_only_CB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -618,13 +619,9 @@ ss_only_CB_PB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
-
-#### CB, SB, and PB
-
+### CB, SB, and PB
 
 ```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
-
-
 initial_CBs <- 10^seq(0, 8, length=grid_num_N)
 initial_PBs <- 1e5
 initial_SBs <- 1e5
@@ -632,17 +629,19 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-
 ss_CB_SB_PB <- ss_by_a_N(expt)
+```
+
+
+```{r  echo = FALSE, sim_ss_CB_SB_PB12, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
 saveRDS(ss_CB_SB_PB, "data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
-```{r}
+```{r echo = FALSE}
 ss_CB_SB_PB <- readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_CB_SB_PB %>%
   select(a,          
          starts_with("CB"),          
@@ -668,8 +667,7 @@ ss_CB_SB_PB %>%
 
 ```
 
-
-```{r}
+```{r echo = FALSE}
 ss_CB_SB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
@@ -677,26 +675,29 @@ ss_CB_SB_PB %>%
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
+## Stability measures
 
-### All response measures
+Note that here, "stability measures" quantify characteristics of the state-environment relationship (i.e. nonlinearity and hysteresis). The measures of non-linearity and hysteresis were used in [Garnier et al (2020) (link to online article)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294).
 
-```{r sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}
+Not much code is shown because all is rather standard data wrangling. The unique work is done by the `get_stability_measures` function, which is demonstrated in the User Guide.
+
+```{r echo = FALSE, sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}
 all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
-                    composition = "No organisms") %>%
+                 composition = "No organisms") %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB.RDS"),
-                              composition = "CB")) %>%
+                   composition = "CB")) %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB.RDS"),
-                              composition = "SB")) %>%
+                   composition = "SB")) %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_PB.RDS"),
-                              composition = "PB")) %>%
+                   composition = "PB")) %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_PB.RDS"),
-                              composition = "SB-PB")) %>%
+                   composition = "SB-PB")) %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_CB.RDS"),
-                              composition = "SB-CB")) %>%
+                   composition = "SB-CB")) %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB_PB.RDS"),
-                              composition = "CB-PB")) %>%
+                   composition = "CB-PB")) %>%
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
-                              composition = "CB-SB-PB"))
+                   composition = "CB-SB-PB"))
 
 
 stab_res <- all_ss %>%
@@ -721,14 +722,13 @@ stab_res <- all_ss %>%
                                      composition == "SB-CB" ~ 2,
                                      composition == "SB-PB" ~ 2,
                                      composition == "CB-SB-PB" ~ 3
-                                     ),
+         ),
          var_type = ifelse(str_sub(Species, 3, 3)=="_", "Organism", "Substrate")) %>%
   gather(key = "stab_measure", value = "value", 3:6)
 saveRDS(stab_res, "data/partial_reproduction/stab_res.RDS")
 ```
 
-
-```{r}
+```{r echo = FALSE, fig.height=8}
 stab_res <- readRDS("data/partial_reproduction/stab_res.RDS")
 stab_res %>%
   ggplot() +
@@ -740,9 +740,11 @@ stab_res %>%
 
 ### Nonlinearity
 
-#### All species nonlinearity 
+This is the amount of non-linearity in the (steady) state-environment relationship. Here, the environment is oxygen diffusivity $a_0$ / `a_0`.
 
-```{r}
+#### Organism nonlinearity
+
+```{r echo = FALSE}
 resp_summ1 <- stab_res %>%
   dplyr::filter(stab_measure %in% c("nl_down", "nl_up")) %>%
   group_by(composition, Species, num_func_groups, var_type) %>%
@@ -751,14 +753,14 @@ resp_summ1 <- stab_res %>%
 resp_summ1 %>%
   ggplot() +
   geom_point(aes(composition, ave_nl)) +
-  facet_wrap( ~ Species)
+  facet_wrap( ~ Species)+
+  coord_flip()
 
 ```
 
 #### Substrate nonlinearity
 
-
-```{r}
+```{r echo = FALSE}
 focus_on <- "Substrate"
 ave_nl_substrate <- resp_summ1 %>%
   dplyr::filter(var_type == focus_on) %>%
@@ -767,13 +769,13 @@ ave_nl_substrate <- resp_summ1 %>%
 ave_nl_substrate %>%
   ggplot() +
   geom_point(aes(composition, ave_ave_nl)) +
-  ggtitle(paste("Nonlinearity in", focus_on, "response."))
+  ggtitle(paste("Nonlinearity in", focus_on, "response."))+
+  coord_flip()
 ```
 
-#### Organism nonlinearity
+#### Average organism nonlinearity
 
-
-```{r}
+```{r echo = FALSE}
 focus_on <- "Organism"
 ave_nl_organism <- resp_summ1 %>%
   dplyr::filter(var_type == focus_on) %>%
@@ -782,12 +784,13 @@ ave_nl_organism <- resp_summ1 %>%
 ave_nl_organism %>%
   ggplot() +
   geom_point(aes(composition, ave_ave_nl)) +
-  ggtitle(paste("Nonlinearity in", focus_on, "response."))
+  ggtitle(paste("Nonlinearity in", focus_on, "response."))+
+  coord_flip()
 ```
 
 #### System nonlinearity
 
-```{r}
+```{r echo = FALSE}
 focus_on <- "System"
 ave_nl_system <- resp_summ1 %>%
   group_by(composition) %>%
@@ -795,20 +798,21 @@ ave_nl_system <- resp_summ1 %>%
 ave_nl_system %>%
   ggplot() +
   geom_point(aes(composition, ave_ave_nl)) +
-  ggtitle(paste("Nonlinearity in", focus_on, "response."))
+  ggtitle(paste("Nonlinearity in", focus_on, "response."))+
+  coord_flip()
 ##ggsave("figures/system_nonlinearity.png", width = 3, height = 2)
 
 ```
 
 ### Hysteresis
 
-#### Substrate hysteresis 
+#### Substrate hysteresis
 
-```{r}
+```{r echo = FALSE}
 focus_on <- "Substrate"
 resp_summ3 <- stab_res %>%
   dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range"),
-         var_type == focus_on) %>%
+                var_type == focus_on) %>%
   group_by(composition, num_func_groups, stab_measure, var_type) %>%
   summarise(ave_hyst = mean(value, na.rm = TRUE))
 
@@ -816,17 +820,18 @@ resp_summ3 %>%
   ggplot() +
   geom_point(aes(x = composition, y = ave_hyst)) +
   facet_wrap( ~ stab_measure, scales="free") +
-  ggtitle(paste("Hysteresis in", focus_on, "response."))
+  ggtitle(paste("Hysteresis in", focus_on, "response."))+
+  coord_flip()
 
 ```
 
-#### Organism hysteresis 
+#### Organism hysteresis
 
-```{r}
+```{r echo = FALSE}
 focus_on <- "Organism"
 resp_summ3 <- stab_res %>%
   dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range"),
-         var_type == focus_on) %>%
+                var_type == focus_on) %>%
   group_by(composition, num_func_groups, stab_measure, var_type) %>%
   summarise(ave_hyst = mean(value, na.rm = TRUE))
 
@@ -834,13 +839,14 @@ resp_summ3 %>%
   ggplot() +
   geom_point(aes(x = composition, y = ave_hyst)) +
   facet_wrap( ~ stab_measure, scales="free") +
-  ggtitle(paste("Hysteresis in", focus_on, "response."))
+  ggtitle(paste("Hysteresis in", focus_on, "response."))+
+  coord_flip()
 
 ```
 
 #### System hysteresis (separate)
 
-```{r}
+```{r echo = FALSE}
 resp_summ4 <- stab_res %>%
   dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range")) %>%
   group_by(stab_measure, composition) %>%
@@ -850,14 +856,14 @@ resp_summ4 %>%
   ggplot() +
   geom_point(aes(x = composition, y = mean_hyst)) +
   facet_wrap( ~ stab_measure) +
-  ggtitle("Hysteresis in system response.")
+  ggtitle("Hysteresis in system response.")+
+  coord_flip()
 
 ```
 
 #### System hysteresis (combined)
 
-
-```{r}
+```{r echo = FALSE}
 resp_summ5 <- resp_summ4 %>%
   group_by(composition) %>%
   summarise(mean_mean_hyst = mean(mean_hyst))
@@ -869,8 +875,8 @@ resp_summ5 %>%
   ylab("Amount of hysteresis") +
   ylim(0,2) +
   theme_light() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  coord_flip()
 ##ggsave("figures/composition_system_hysteresis.png", width = 2.5, height = 2.5)
 
 ```
-

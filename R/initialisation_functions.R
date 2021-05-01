@@ -14,7 +14,7 @@
 #' @md
 #' @export
 #'
-new_strain_starter <- function(
+new_starter <- function(
   n_CB = 1,
   values_CB = "bush",
   n_PB = 1,
