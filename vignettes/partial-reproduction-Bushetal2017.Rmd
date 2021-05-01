@@ -57,14 +57,14 @@ The only difference from the published model (Bush et al 2017) is that here the 
 ## Set defaults
 
 ```{r}
-default_dynamic_model <- bushplus_dynamic_model_strains
+default_dynamic_model <- bushplus_dynamic_model
 default_parameter_values <- new_strain_starter()
 ## no default_initial_state
 default_sim_duration <- 2000
 default_sim_sample_interval <- 1
 default_log10a_series <- c(log10(default_parameter_values$a_O),
                            log10(default_parameter_values$a_O))
-default_event_definition <- event_definition_1_strains
+default_event_definition <- event_definition_1
 default_event_interval <- 10
 default_noise_sigma <- 0
 default_minimum_abundances <- rep(1e2, 3)
@@ -80,7 +80,7 @@ Figure 2a, b in Bush et al.
 ```{r}
 
 sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_anoxic"))
-plot_dynamics_strains(simulation_result = sim_res)
+plot_dynamics(simulation_result = sim_res)
 #ggsave('xxx.png')
 ```
 
@@ -162,7 +162,7 @@ p2 <- ss_CB_SB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species)) +
   labs(title="Substrates") 
 
 
@@ -189,7 +189,7 @@ lhl_log10a_series <- c(-8, -8, -2, -2, -2, -2, -2, -8, -8)
 
 
 ## run simulation
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
                           initial_state = new_initial_state(values = "bush_anoxic"),
                           log10a_series = lhl_log10a_series,
                           sim_duration = simulation_duration,
@@ -231,7 +231,7 @@ hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
 
 
 ## run simulation
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
                           initial_state = new_initial_state(values = "bush_oxic"), # init_state_favouring_oxic,
                           log10a_series = hlh_log10a_series,
                           sim_duration = simulation_duration,
@@ -318,7 +318,7 @@ ss_no_biology %>%
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
@@ -327,7 +327,7 @@ ss_no_biology %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
@@ -384,7 +384,7 @@ ss_only_CB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 #### SB
@@ -427,7 +427,7 @@ ss_only_SB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 #### PB
@@ -485,7 +485,7 @@ ss_only_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
@@ -520,7 +520,7 @@ ss_only_SB_PB %>%
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
@@ -529,7 +529,7 @@ ss_only_SB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 #### SB and CB
@@ -563,7 +563,7 @@ ss_only_SB_CB %>%
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
@@ -572,7 +572,7 @@ ss_only_SB_CB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:5) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 #### CB and PB
@@ -606,16 +606,16 @@ ss_only_CB_PB %>%
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
 ```{r}
-ss_only_SB_PB %>%
+ss_only_CB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 
@@ -650,7 +650,7 @@ ss_CB_SB_PB %>%
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 
 # ss_CB_SB_PB %>%
 #   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
@@ -674,7 +674,7 @@ ss_CB_SB_PB %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
 ```
 
 

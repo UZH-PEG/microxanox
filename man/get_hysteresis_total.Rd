@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_stability_measures.R
 \name{get_hysteresis_total}
 \alias{get_hysteresis_total}
-\title{Get the range of environmental conditions for which alternate stable states exist}
+\title{Get the total hysteresis of a system variable.}
 \usage{
 get_hysteresis_total(up, down)
 }
@@ -12,8 +12,8 @@ get_hysteresis_total(up, down)
 \item{down}{State variable values as the environmental condition decreases}
 }
 \value{
-Growth rate
+A numeric value--the total hysteresis.
 }
 \description{
-Get the range of environmental conditions for which alternate stable states exist
+Get the total hysteresis of a system variable.
 }

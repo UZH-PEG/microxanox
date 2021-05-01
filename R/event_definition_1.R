@@ -1,11 +1,12 @@
-#' A function that contains the events that should alter the state variables, with multiple strains
+#' A function that contains events that should alter the state variables, with multiple strains.
+#' It is definition 1, in case other definitions are created.
 #'
 #' @param times The time point in the simulation
 #' @param y Current state variable values
 #' @param parms Model parameters
 #' @return A vector of the state variables
 #' @export
-event_definition_1_strains <- function(times=times, y=state, parms = parameters) {
+event_definition_1 <- function(times=times, y=state, parms = parameters) {
   with(
     as.list(y),
     {

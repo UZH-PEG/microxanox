@@ -1,7 +1,8 @@
-#' Get the range of environmental conditions for which alternate stable states exist
+#' Get various measures of the stability of an ecosystem response to environmental change.
+#' Takes steady state data as the input. 
 #'
-#' @param ss_object An environmental driver, here it is usually oxygen diffusivity
-#' @return Growth rate
+#' @param ss_object An object of the type returned by the ss_by_a_N() function
+#' @return A data frame of stability measures of each state variable
 #' @export
 get_stability_measures <- function(ss_object) {
   
@@ -29,11 +30,11 @@ get_stability_measures <- function(ss_object) {
   
 }
 
-#' Get the range of environmental conditions for which alternate stable states exist
+#' Get the total hysteresis of a system variable.
 #'
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
-#' @return Growth rate
+#' @return A numeric value--the total hysteresis.
 #' @export
 get_hysteresis_total <- function(up, down) {
   
@@ -51,7 +52,7 @@ get_hysteresis_total <- function(up, down) {
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
 #' @param a An environmental driver, here it is usually oxygen diffusivity
-#' @return Growth rate
+#' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 #' @export
 get_hysteresis_range <- function(up, down, a)
 {

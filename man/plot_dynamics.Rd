@@ -3,7 +3,7 @@
 \name{plot_dynamics}
 \alias{plot_dynamics}
 \title{Convenience function to plot the dynamics of a model run,
-without strains within functional groups}
+with strains within functional groups}
 \usage{
 plot_dynamics(simulation_result, every_n = 1)
 }
@@ -17,5 +17,5 @@ Nothing.
 }
 \description{
 Convenience function to plot the dynamics of a model run,
-without strains within functional groups
+with strains within functional groups
 }

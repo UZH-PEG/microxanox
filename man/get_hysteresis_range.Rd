@@ -14,7 +14,7 @@ get_hysteresis_range(up, down, a)
 \item{a}{An environmental driver, here it is usually oxygen diffusivity}
 }
 \value{
-Growth rate
+A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 }
 \description{
 Get the range of environmental conditions for which alternate stable states exist

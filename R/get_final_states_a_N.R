@@ -1,4 +1,6 @@
 #' Get the steady state solutions for a set of oxygen diffusivity and initial states.
+#' Probably best to not use this directly, but rather via the function \code{"ss_by_a_N}
+#' 
 #'
 #' @param x A vector of oxygen diffusivity and initial conditions.
 #' @return A vector of steady states
@@ -35,7 +37,7 @@ get_final_states_a_N <- function(x) {
   
   #print(ssfind_parameters$initial_state)
   
-  simres <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+  simres <- run_simulation(dynamic_model = bushplus_dynamic_model,
                            initial_state = ssfind_parameters$initial_state,
                            parameter_values = ssfind_parameters,
                            sim_duration = ssfind_simulation_duration,

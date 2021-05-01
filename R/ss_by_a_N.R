@@ -1,6 +1,6 @@
 #' Function to get the steady states for combinations of a (oxygen diffusivity) and initial states.
 #'
-#' @param expt A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.
+#' @param expt A data frame of oxygen diffusivities and initial conditions combinations, for example created with \code{"expand.grid"}.
 #' @return Experimental result.
 #' @export
 

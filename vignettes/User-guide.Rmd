@@ -78,10 +78,10 @@ Conditions that must be set, with an example of setting them:
 
 ## The dynamic model
 
-The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model_strains()`. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups.
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups.
 
 ```{r}
-default_dynamic_model <- bushplus_dynamic_model_strains
+default_dynamic_model <- bushplus_dynamic_model
 ```
 
 ## The parameter and initial state values
@@ -145,7 +145,7 @@ These are "things" that happen during the simulation. One has to specify what ha
 The event definition function currently available can add noise to a state variable, and/or assure minimum abundance is not exceeded:
 
 ```{r}
-default_event_definition <- event_definition_1_strains
+default_event_definition <- event_definition_1
 ```
 
 #### Default event interval
@@ -197,14 +197,14 @@ anoxic_start_sim_results <- run_simulation(parameter_values = bush_anoxicstart_1
 saveRDS(anoxic_start_sim_results, file = "data/user_guide/anoxic_start_sim_results.RDS")
 ```
 
-The convenience function `plot_dynamics_strains` can be used to easily visualise the dynamics of a simulation:
+The convenience function `plot_dynamics` can be used to easily visualise the dynamics of a simulation:
 
 ```{r echo = FALSE}
 anoxic_start_sim_results <- readRDS(file = "data/user_guide/anoxic_start_sim_results.RDS")
 ```
 
 ```{r}
-plot_dynamics_strains(anoxic_start_sim_results)
+plot_dynamics(anoxic_start_sim_results)
 ```
 
 ## 1 strain oxic start
@@ -228,7 +228,7 @@ oxic_start_sim_results <- readRDS(file = "data/user_guide/oxic_start_sim_results
 ```
 
 ```{r}
-plot_dynamics_strains(oxic_start_sim_results)
+plot_dynamics(oxic_start_sim_results)
 ```
 
 ## Three strains per functional group
@@ -288,7 +288,7 @@ saveRDS(simulation_result3, file = "data/user_guide/multistrain3.RDS")
 
 ```{r}
 simulation_result3 <- readRDS(file = "data/user_guide/multistrain3.RDS")
-plot_dynamics_strains(simulation_result3)
+plot_dynamics(simulation_result3)
 ```
 
 

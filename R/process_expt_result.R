@@ -1,4 +1,4 @@
-#' A function to process the output of the ss_by_a_N (find steady states) function
+#' A function to process the output of the \code{"get_final_states"} function
 #'
 #' @param temp_result The experimental results produced by ss_by_a_N
 #' @return Processed experimental results.

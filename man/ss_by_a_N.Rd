@@ -7,7 +7,7 @@
 ss_by_a_N(expt)
 }
 \arguments{
-\item{expt}{A data frame of oxygen diffusivities and initial conditions combinations, for example created with expand.grid.}
+\item{expt}{A data frame of oxygen diffusivities and initial conditions combinations, for example created with \code{"expand.grid"}.}
 }
 \value{
 Experimental result.
