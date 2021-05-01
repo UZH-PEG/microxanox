@@ -2,16 +2,18 @@
 % Please edit documentation in R/get_stability_measures.R
 \name{get_stability_measures}
 \alias{get_stability_measures}
-\title{Get the range of environmental conditions for which alternate stable states exist}
+\title{Get various measures of the stability of an ecosystem response to environmental change.
+Takes steady state data as the input.}
 \usage{
 get_stability_measures(ss_object)
 }
 \arguments{
-\item{ss_object}{An environmental driver, here it is usually oxygen diffusivity}
+\item{ss_object}{An object of the type returned by the ss_by_a_N() function}
 }
 \value{
-Growth rate
+A data frame of stability measures of each state variable
 }
 \description{
-Get the range of environmental conditions for which alternate stable states exist
+Get various measures of the stability of an ecosystem response to environmental change.
+Takes steady state data as the input.
 }

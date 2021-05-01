@@ -37,7 +37,7 @@ get_final_states_a_N <- function(x) {
   
   #print(ssfind_parameters$initial_state)
   
-  simres <- run_simulation(dynamic_model = bushplus_dynamic_model_strains,
+  simres <- run_simulation(dynamic_model = bushplus_dynamic_model,
                            initial_state = ssfind_parameters$initial_state,
                            parameter_values = ssfind_parameters,
                            sim_duration = ssfind_simulation_duration,

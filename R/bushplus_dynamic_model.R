@@ -8,7 +8,7 @@
 #' @param parameters A vector containing the current (named) values of each parameter
 #' @return Growth rate
 #' @export
-bushplus_dynamic_model_strains <- function(t, state, parameters) {
+bushplus_dynamic_model <- function(t, state, parameters) {
 
          CB <- state[grep("CB", names(state))]
          names_CB <- names(CB)[order(names(CB))]

@@ -2,7 +2,7 @@
 % Please edit documentation in R/process_expt_result.R
 \name{process_expt_result}
 \alias{process_expt_result}
-\title{A function to process the output of the ss_by_a_N (find steady states) function}
+\title{A function to process the output of the \code{"get_final_states"} function}
 \usage{
 process_expt_result(temp_result)
 }
@@ -13,5 +13,5 @@ process_expt_result(temp_result)
 Processed experimental results.
 }
 \description{
-A function to process the output of the ss_by_a_N (find steady states) function
+A function to process the output of the \code{"get_final_states"} function
 }

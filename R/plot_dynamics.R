@@ -10,7 +10,7 @@
 #' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab
 #' 
 #' @export
-plot_dynamics_strains <- function(simulation_result, every_n = 1) {
+plot_dynamics <- function(simulation_result, every_n = 1) {
 
   simulation_result$result %>%
     dplyr::filter(row_number() %% every_n == 0 ) %>%
