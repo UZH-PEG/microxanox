@@ -5,11 +5,12 @@
 #' @param x A vector of oxygen diffusivity and initial conditions.
 #' @return A vector of steady states
 #' @export
-get_final_states_a_N <- function(x) { 
+get_final_states_a_N <- function(x, ssfind_parameters) { 
   
   #give N_CB, N_SB, N_PB and a_O values and put these into state and parameters
   
   ssfind_parameters$a_O <- x["a_O"]
+  print(ssfind_parameters$a_O)
   
   CBs <- unlist(rep(x["N_CB"] / length(grep("CB", names(ssfind_parameters$initial_state))),
       length(grep("CB", names(ssfind_parameters$initial_state)))))

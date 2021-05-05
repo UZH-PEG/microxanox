@@ -4,10 +4,13 @@
 \alias{ss_by_a_N}
 \title{Function to get the steady states for combinations of a (oxygen diffusivity) and initial states.}
 \usage{
-ss_by_a_N(expt)
+ss_by_a_N(ss_expt, param)
 }
 \arguments{
-\item{expt}{A data frame of oxygen diffusivities and initial conditions combinations, for example created with \code{"expand.grid"}.}
+\item{ss_expt}{A data frame of oxygen diffusivities and initial conditions combinations,
+for example created with \code{"expand.grid"}.}
+
+\item{parameters}{A set of parameter values and inital states}
 }
 \value{
 Experimental result.

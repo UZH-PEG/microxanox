@@ -6,14 +6,14 @@
 #' @importFrom dplyr select mutate bind_rows arrange
 #' 
 #' @export
-process_expt_result <- function(temp_result)
+process_ss_result <- function(ss_expt, temp_result)
 {
   # print(temp_result)
   result <- temp_result %>%
     tibble() %>%
     unnest(cols = 1) %>%
-    mutate(initial_N_CB = expt$N_CB,
-           a_O = expt$a_O)
+    mutate(initial_N_CB = ss_expt$N_CB,
+           a_O = ss_expt$a_O)
   
   mm_result_wide <- result %>%
     group_by(a) %>%

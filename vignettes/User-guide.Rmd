@@ -363,7 +363,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 # next line runs the "experiment", calling various functions to do this.
-ss_1strain <- ss_by_a_N(expt)
+ss_1strain <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -437,7 +437,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 
-ss_3strain <- ss_by_a_N(expt)
+ss_3strain <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 

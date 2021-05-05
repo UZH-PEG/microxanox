@@ -3,12 +3,12 @@
 \name{plot_dynamics}
 \alias{plot_dynamics}
 \title{Convenience function to plot the dynamics of a model run,
-with strains within functional groups}
+with strains within functional groups.}
 \usage{
 plot_dynamics(simulation_result, every_n = 1)
 }
 \arguments{
-\item{simulation_result}{Object returned by the run_simulation function.}
+\item{simulation_result}{Object returned by the run_simulation function}
 
 \item{every_n}{Plot data of every other n sample.}
 }
@@ -17,5 +17,5 @@ Nothing.
 }
 \description{
 Convenience function to plot the dynamics of a model run,
-with strains within functional groups
+with strains within functional groups.
 }

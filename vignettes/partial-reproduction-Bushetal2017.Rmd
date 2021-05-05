@@ -134,7 +134,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 
-ss_CB_SB_PB <- ss_by_a_N(expt)
+ss_CB_SB_PB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -313,7 +313,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_no_biology <- ss_by_a_N(expt)
+ss_no_biology <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -354,7 +354,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_CB <- ss_by_a_N(expt)
+ss_only_CB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -407,7 +407,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_SB <- ss_by_a_N(expt)
+ss_only_SB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -448,7 +448,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_PB <- ss_by_a_N(expt)
+ss_only_PB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -504,7 +504,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_SB <- expt$N_PB
-ss_only_SB_PB <- ss_by_a_N(expt)
+ss_only_SB_PB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -546,7 +546,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_SB <- expt$N_CB
-ss_only_SB_CB <- ss_by_a_N(expt)
+ss_only_SB_CB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -588,7 +588,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_CB <- expt$N_PB
-ss_only_CB_PB <- ss_by_a_N(expt)
+ss_only_CB_PB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 
@@ -629,7 +629,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_CB_SB_PB <- ss_by_a_N(expt)
+ss_CB_SB_PB <- ss_by_a_N(expt, default_parameter_values)
 ```
 
 

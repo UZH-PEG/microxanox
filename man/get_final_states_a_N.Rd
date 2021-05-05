@@ -5,7 +5,7 @@
 \title{Get the steady state solutions for a set of oxygen diffusivity and initial states.
 Probably best to not use this directly, but rather via the function \code{"ss_by_a_N}}
 \usage{
-get_final_states_a_N(x)
+get_final_states_a_N(x, ssfind_parameters)
 }
 \arguments{
 \item{x}{A vector of oxygen diffusivity and initial conditions.}
