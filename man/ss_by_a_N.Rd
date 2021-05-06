@@ -10,7 +10,7 @@ ss_by_a_N(ss_expt, param)
 \item{ss_expt}{A data frame of oxygen diffusivities and initial conditions combinations,
 for example created with \code{"expand.grid"}.}
 
-\item{parameters}{A set of parameter values and inital states}
+\item{param}{A set of parameter values and inital states}
 }
 \value{
 Experimental result.

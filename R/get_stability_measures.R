@@ -3,6 +3,9 @@
 #'
 #' @param ss_object An object of the type returned by the ss_by_a_N() function
 #' @return A data frame of stability measures of each state variable
+#' @importFrom tidyr gather spread
+#' @importFrom dplyr summarise
+#' 
 #' @export
 get_stability_measures <- function(ss_object) {
   
@@ -14,13 +17,13 @@ get_stability_measures <- function(ss_object) {
     #rbind(ss_object) %>%
     mutate(direction = c(rep("up", nrow(ss_object)/2),
                          rep("down", nrow(ss_object)/2))) %>%
-    gather(key = "Species", value = Quantity, these) %>%
-    select(-initial_N_CB) %>%
-    spread(key = direction, value=Quantity, drop=T)
+    tidyr::gather(key = "Species", value = Quantity, these) %>%
+    dplyr::select(-initial_N_CB) %>%
+    tidyr::spread(key = direction, value=Quantity, drop=T)
   
   res <- temp %>%
-    group_by(Species) %>%
-    summarise(hyst_tot = get_hysteresis_total(log10(up+1), log10(down+1)),
+    dplyr::group_by(Species) %>%
+    dplyr::summarise(hyst_tot = get_hysteresis_total(log10(up+1), log10(down+1)),
               hyst_range = get_hysteresis_range(log10(up+1), log10(down+1), a),
               nl_up = get_nonlinearity(a, log10(up+1)),
               nl_down = get_nonlinearity(a, log10(down+1))

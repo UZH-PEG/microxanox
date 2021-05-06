@@ -33,7 +33,9 @@ Imports:
   earlywarnings,
   mgcv,
   deSolve,
-  dplyr
+  dplyr,
+  tidyr,
+  stringr
 Suggests: 
     knitr,
     rmarkdown,

@@ -7,6 +7,8 @@
 process_ss_result(ss_expt, temp_result)
 }
 \arguments{
+\item{ss_expt}{TODO}
+
 \item{temp_result}{The experimental results produced by ss_by_a_N}
 }
 \value{

@@ -6,14 +6,14 @@
 #' @return Nothing.
 #' 
 #' @importFrom stats filter
-#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate row_number
 #' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab
 #' 
 #' @export
 plot_dynamics <- function(simulation_result, every_n = 1) {
 
   simulation_result$result %>%
-    dplyr::filter(row_number() %% every_n == 0 ) %>%
+    dplyr::filter(dplyr::row_number() %% every_n == 0 ) %>%
     mutate(a = 10^a) %>%
     gather(species, quantity, 2:ncol(.)) %>% 
     mutate(var_type=ifelse(grepl("B_", species), "Organism", "Substrate"), 

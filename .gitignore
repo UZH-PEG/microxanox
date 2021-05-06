@@ -36,3 +36,9 @@ vignettes/*.pdf
 rsconnect/
 doc
 Meta
+
+# bbedit project settings
+microxanox.bbprojectd/
+
+/doc/
+/Meta/

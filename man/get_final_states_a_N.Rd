@@ -3,17 +3,19 @@
 \name{get_final_states_a_N}
 \alias{get_final_states_a_N}
 \title{Get the steady state solutions for a set of oxygen diffusivity and initial states.
-Probably best to not use this directly, but rather via the function \code{"ss_by_a_N}}
+Probably best to not use this directly, but rather via the function \code{ss_by_a_N()}}
 \usage{
 get_final_states_a_N(x, ssfind_parameters)
 }
 \arguments{
 \item{x}{A vector of oxygen diffusivity and initial conditions.}
+
+\item{ssfind_parameters}{TODO}
 }
 \value{
 A vector of steady states
 }
 \description{
 Get the steady state solutions for a set of oxygen diffusivity and initial states.
-Probably best to not use this directly, but rather via the function \code{"ss_by_a_N}
+Probably best to not use this directly, but rather via the function \code{ss_by_a_N()}
 }

@@ -1,8 +1,10 @@
 #' Get the steady state solutions for a set of oxygen diffusivity and initial states.
-#' Probably best to not use this directly, but rather via the function \code{"ss_by_a_N}
+#' Probably best to not use this directly, but rather via the function \code{ss_by_a_N()}
 #' 
 #'
 #' @param x A vector of oxygen diffusivity and initial conditions.
+#' @param ssfind_parameters TODO
+#' 
 #' @return A vector of steady states
 #' @export
 get_final_states_a_N <- function(x, ssfind_parameters) { 
