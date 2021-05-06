@@ -1,16 +1,19 @@
 #' A function to process the output of the \code{"get_final_states"} function
 #'
+#' @param ss_expt TODO
 #' @param temp_result The experimental results produced by ss_by_a_N
 #' @return Processed experimental results.
 #' 
-#' @importFrom dplyr select mutate bind_rows arrange
+#' @importFrom dplyr select mutate bind_rows arrange group_by summarise_all
+#' @importFrom tibble tibble
+#' @importFrom tidyr unnest
 #' 
 #' @export
 process_ss_result <- function(ss_expt, temp_result)
 {
   # print(temp_result)
   result <- temp_result %>%
-    tibble() %>%
+    tibble::tibble() %>%
     unnest(cols = 1) %>%
     mutate(initial_N_CB = ss_expt$N_CB,
            a_O = ss_expt$a_O)
