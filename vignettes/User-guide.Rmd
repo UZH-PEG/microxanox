@@ -1,6 +1,6 @@
 ---
 title: "User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations"
-author: "Owen Petchey"
+author: "Owen Petchey, Rainer M Krug"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_vignette:
@@ -197,7 +197,7 @@ Default to following minimum abundances:
 
 ```{r}
 default_minimum_abundances <- rep(1e2, 3)
-names(default_minimum_abundances) <- c("CB", "PB", "SB") 
+names(default_minimum_abundances) <- c("CB", "PB", "SB")
 ```
 
 # Warnings
@@ -337,7 +337,7 @@ We will work with a one strain per functional group model, and unless otherwise 
 ```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 
 ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
 ssfind_simulation_duration <- 10000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
@@ -392,7 +392,7 @@ p1 <- ss_1strain %>%
   xlab(expression(Log[10](Oxygen~diffusivity))) +
   ylim(0,10) +
   #theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="Organisms")  
+  labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 p2 <- ss_1strain %>%
@@ -400,7 +400,7 @@ p2 <- ss_1strain %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
-  labs(title="Substrates") 
+  labs(title="Substrates")
 
 
 p1 / p2
@@ -416,7 +416,7 @@ Note that the `ss_by_a_N()` function divides the specified starting abundance of
 
 ```{r sim_ss_CB_SB_PB4, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
 ssfind_simulation_duration <- 10000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
@@ -466,7 +466,7 @@ p1 <- ss_3strain %>%
   xlab(expression(Log[10](Oxygen~diffusivity))) +
   ylim(0,10) +
   #theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="Organisms")  
+  labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 p2 <- ss_3strain %>%
@@ -474,7 +474,7 @@ p2 <- ss_3strain %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
-  labs(title="Substrates") 
+  labs(title="Substrates")
 
 
 p1 / p2

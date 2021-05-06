@@ -1,6 +1,6 @@
 ---
 title: "Partial reproduction of Bush et al (2017) Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics"
-author: "Owen Petchey"
+author: "Owen Petchey, Rainer M Krug"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_vignette:
@@ -13,10 +13,10 @@ vignette: >
 
 ```{r setup, output = FALSE, message = FALSE, echo = FALSE}
 
-knitr::opts_chunk$set(echo = TRUE, 
+knitr::opts_chunk$set(echo = TRUE,
                       cache = FALSE,
-                      fig.align = "centre", 
-                      fig.width = 7, 
+                      fig.align = "centre",
+                      fig.width = 7,
                       fig.height = 4)
 
 
@@ -82,7 +82,7 @@ default_event_definition <- event_definition_1
 default_event_interval <- 10
 default_noise_sigma <- 0
 default_minimum_abundances <- rep(1e2, 3)
-names(default_minimum_abundances) <- c("CB", "PB", "SB") 
+names(default_minimum_abundances) <- c("CB", "PB", "SB")
 ```
 
 # Results
@@ -118,7 +118,7 @@ Here we find the stable states that correspond to specific values of oxygen diff
 
 ```{r echo = FALSE, sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
 ssfind_simulation_duration <- 10000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
@@ -161,7 +161,7 @@ p1 <- ss_CB_SB_PB %>%
   xlab(expression(Log[10](Oxygen~diffusivity))) +
   ylim(0,10) +
   #theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="Organisms")  
+  labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 p2 <- ss_CB_SB_PB %>%
@@ -169,7 +169,7 @@ p2 <- ss_CB_SB_PB %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
   geom_path(aes(x = a, y = log10(Quantity+1), col = Species)) +
-  labs(title="Substrates") 
+  labs(title="Substrates")
 
 
 p1 / p2
@@ -187,7 +187,7 @@ simulation_duration <- 5000
 simulation_sampling_interval <- 10
 event_interval_t <- 100
 
-## low-high-low oxgygen diffusivity 
+## low-high-low oxgygen diffusivity
 lhl_log10a_series <- c(-8, -8, -2, -2, -2, -2, -2, -8, -8)
 
 
@@ -234,7 +234,7 @@ Temporal change in oxygen diffusivity is used to switch the system from oxic to 
 
 simulation_duration <- 50000
 
-## low-high-low oxgygen diffusivity 
+## low-high-low oxgygen diffusivity
 hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
 
 ## run simulation
@@ -276,12 +276,12 @@ Here we set the conditions common to all simulations:
 
 ```{r}
 ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB") 
+names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
 ssfind_simulation_duration <- 10000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
 ssfind_parameters <- default_parameter_values
-# ssfind_init_state <- c(N_CB = NA, 
+# ssfind_init_state <- c(N_CB = NA,
 #                        N_PB = NA,
 #                        N_SB = NA,
 #                        SO = 500,
@@ -384,7 +384,7 @@ tempx1 %>%
   #geom_path(data = filter(tempx1, Species == "PB"),
   #          aes(y=0.2), size = 0.8) +
   theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="Only CB") 
+  labs(title="Only CB")
 
 ##ggsave("figures/CB.png", width = 3, height = 2)
 ```
@@ -479,7 +479,7 @@ tempx1 %>%
   #geom_path(data = filter(tempx1, Species == "PB"),
   #          size = 0.8) +
   theme(plot.title=element_text(size=10, hjust=0.5)) +
-  labs(title="Only PB") 
+  labs(title="Only PB")
 
 ##ggsave("figures/PB.png", width = 3, height = 2)
 
@@ -602,9 +602,9 @@ ss_only_CB_PB <- readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")
 
 ```{r echo = FALSE}
 ss_only_CB_PB %>%
-  select(a,          
-         starts_with("CB"),          
-         starts_with("PB"),          
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
@@ -643,9 +643,9 @@ ss_CB_SB_PB <- readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")
 
 ```{r echo = FALSE}
 ss_CB_SB_PB %>%
-  select(a,          
-         starts_with("CB"),          
-         starts_with("PB"),          
+  select(a,
+         starts_with("CB"),
+         starts_with("PB"),
          starts_with("SB")) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
@@ -662,7 +662,7 @@ ss_CB_SB_PB %>%
 #   theme_light() +
 #   ylim(0,10) +
 #   theme(plot.title=element_text(size=10, hjust=0.5)) +
-#   labs(title="CB, SB, & PB") 
+#   labs(title="CB, SB, & PB")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 ```
