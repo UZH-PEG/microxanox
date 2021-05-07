@@ -5,6 +5,7 @@
 #' 
 #' @importFrom tibble tibble 
 #' @importFrom dplyr select mutate bind_rows arrange
+#' @importFrom stringr str_replace_all
 #' 
 #' @export
 process_expt_result_a_h <- function(temp_result)
@@ -24,11 +25,11 @@ process_expt_result_a_h <- function(temp_result)
   a_up <- mm_result_wide %>%
     select(a, inhib_const_mult, ends_with("min")) %>%
     arrange(inhib_const_mult, a)
-  names(a_up) <- str_replace_all(names(a_up), "_min", "")
+  names(a_up) <- stringr::str_replace_all(names(a_up), "_min", "")
   a_down <- mm_result_wide %>%
     select(a, inhib_const_mult, ends_with("max")) %>%
     arrange(inhib_const_mult, -a)
-  names(a_down) <- str_replace_all(names(a_down), "_max", "")
+  names(a_down) <- stringr::str_replace_all(names(a_down), "_max", "")
   
   a_up_down <- bind_rows(a_up, a_down) %>%
     mutate(N_CB = ifelse(N_CB < 1, 1, N_CB),

@@ -4,7 +4,7 @@
 #' @param temp_result The experimental results produced by ss_by_a_N
 #' @return Processed experimental results.
 #' 
-#' @importFrom dplyr select arrange mutate bind_rows arrange group_by summarise_all ends_with
+#' @importFrom dplyr select mutate bind_rows arrange group_by summarise_all
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
 #' @importFrom stringr str_replace_all
@@ -27,7 +27,7 @@ process_ss_result <- function(ss_expt, temp_result)
   a_up <- mm_result_wide %>%
     dplyr::select(a, dplyr::ends_with("min")) %>%
     dplyr::arrange(a)
-  names(a_up) <- str_replace_all(names(a_up), "_min", "")
+  names(a_up) <- stringr::str_replace_all(names(a_up), "_min", "")
   a_down <- mm_result_wide %>%
     dplyr::select(a, ends_with("max")) %>%
     dplyr::arrange(-a)
