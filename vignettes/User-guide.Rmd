@@ -101,7 +101,7 @@ bush_anoxicstart_1strain <- new_starter(n_CB = 1,
                                         n_SB = 1,
                                         values_SB = "bush",
                                         values_other = "bush",
-                                        values_initial_state = "bush_anoxic")
+                                        values_initial_state = "bush_anoxic_fig2ab")
 
 ```
 
@@ -122,7 +122,7 @@ bush_anoxicstart_1strain$initial_state
 Note that the function `new_initial_state` can be used to get a couple of preset initial states:
 
 ```{r}
-new_initial_state(values = "bush_oxic")
+new_initial_state(values = "bush_oxic_fig2cd")
 ```
 
 And the function `new_CB_strain_parameter` (and SB and PB equivalents) can be used to get preset organism parameters. Currently there is only one preset, however: "bush".
@@ -196,7 +196,7 @@ default_noise_sigma <- 0
 Default to following minimum abundances:
 
 ```{r}
-default_minimum_abundances <- rep(1e2, 3)
+default_minimum_abundances <- rep(0, 3)
 names(default_minimum_abundances) <- c("CB", "PB", "SB")
 ```
 
@@ -241,7 +241,7 @@ plot_dynamics(anoxic_start_sim_results)
 ## 1 strain oxic start
 
 ```{r}
-bush_oxicstart_1strain <- new_starter(values_initial_state = "bush_oxic")
+bush_oxicstart_1strain <- new_starter(values_initial_state = "bush_oxic_fig2cd")
 ```
 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS")}
@@ -338,13 +338,13 @@ We will work with a one strain per functional group model, and unless otherwise 
 
 ssfind_minimum_abundances <- rep(0, 3)
 names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 10000
+ssfind_simulation_duration <- 50000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
 ssfind_parameters <- new_starter(n_CB = 1,
                                  n_PB = 1,
                                  n_SB = 1,
-                                 values_initial_state = "bush_anoxic")
+                                 values_initial_state = "bush_ssfig3")
 
 ```
 
@@ -352,11 +352,11 @@ Next we need to define the values of $a_0$ and initial conditions that we will g
 
 ```{r sim_ss_CB_SB_PB2, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 grid_num_a <- 100 ## number of a_0 values
-a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a) ## sequence of a_0 values
+a_Os <- 10^seq(-6, -2, length=grid_num_a) ## sequence of a_0 values
 grid_num_N <- 2 ## number of N values
-initial_CBs <- 10^seq(0, 8, length=grid_num_N) ## sequence of N values
-initial_PBs <- 1e5 ## not varied
-initial_SBs <- 1e5 ## not varied
+initial_CBs <- 10^seq(0, 10, length=grid_num_N) ## sequence of N values
+initial_PBs <- 1e8 ## not varied
+initial_SBs <- 1e8 ## not varied
 ## next line creates all possible combinations
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
@@ -415,27 +415,27 @@ And now finding the steady states of a three strain per functional group system,
 Note that the `ss_by_a_N()` function divides the specified starting abundance of a functional group and distributes that equally among the strains of that functional group.
 
 ```{r sim_ss_CB_SB_PB4, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
-ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 10000
-ssfind_simulation_sampling_interval <- ssfind_simulation_duration
-ssfind_event_interval <- ssfind_simulation_duration
+#ssfind_minimum_abundances <- rep(0, 3)
+#names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
+#ssfind_simulation_duration <- 50000
+#ssfind_simulation_sampling_interval <- ssfind_simulation_duration
+#ssfind_event_interval <- ssfind_simulation_duration
 ssfind_parameters <- new_starter(n_CB = 3,
                                  n_PB = 3,
                                  n_SB = 3,
-                                 values_initial_state = "bush_anoxic")
+                                 values_initial_state = "bush_ssfig3")
 
 #ssfind_init_state
-grid_num_a <- 100
-a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
-grid_num_N <- 2
-initial_CBs <- 10^seq(0, 8, length=grid_num_N)
-initial_PBs <- 1e5
-initial_SBs <- 1e5
-expt <- expand.grid(N_CB = initial_CBs,
-                    N_PB = initial_PBs,
-                    N_SB = initial_SBs,
-                    a_O = a_Os)
+#grid_num_a <- 100
+#a_Os <- 10^seq(-6, -2, length=grid_num_a)
+#grid_num_N <- 2
+#initial_CBs <- 10^seq(0, 10, length=grid_num_N)
+#initial_PBs <- 1e5
+#initial_SBs <- 1e5
+#expt <- expand.grid(N_CB = initial_CBs,
+#                    N_PB = initial_PBs,
+#                    N_SB = initial_SBs,
+#                    a_O = a_Os)
 
 ss_3strain <- ss_by_a_N(expt, ssfind_parameters)
 ```

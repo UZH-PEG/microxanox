@@ -12,7 +12,7 @@ new_starter(
   n_SB = 1,
   values_SB = "bush",
   values_other = "bush",
-  values_initial_state = "bush_anoxic"
+  values_initial_state = "bush_anoxic_fig2ab"
 )
 }
 \arguments{

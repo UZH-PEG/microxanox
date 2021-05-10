@@ -4,7 +4,7 @@
 \alias{new_initial_state}
 \title{Create initial condition}
 \usage{
-new_initial_state(n_CB = 1, n_PB = 1, n_SB = 1, values = "bush_oxic")
+new_initial_state(n_CB = 1, n_PB = 1, n_SB = 1, values = "bush_anoxic_fig2ab")
 }
 \arguments{
 \item{n_CB}{number of CB strains}
