@@ -93,7 +93,7 @@ Reproduce dynamics when the initial conditions favour the anoxic state (Figure 2
 
 ```{r}
 
-sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_anoxic"))
+sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_anoxic_fig2ab"))
 plot_dynamics(simulation_result = sim_res)
 
 ```
@@ -106,7 +106,7 @@ Reproduce dynamics when the initial conditions favour the oxic state (Figure 2c,
 
 ```{r}
 
-sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_oxic"))
+sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_oxic_fig2cd"))
 
 plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
@@ -119,22 +119,25 @@ Here we find the stable states that correspond to specific values of oxygen diff
 ```{r echo = FALSE, sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 ssfind_minimum_abundances <- rep(0, 3)
 names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 10000
+ssfind_simulation_duration <- 50000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- default_parameter_values
+ssfind_parameters <- new_starter(n_CB = 1,
+                                 n_PB = 1,
+                                 n_SB = 1,
+                                 values_initial_state = "bush_ssfig3")
 grid_num_a <- 100
-a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 grid_num_N <- 2
-initial_CBs <- 10^seq(0, 8, length=grid_num_N)
-initial_PBs <- 1e5
-initial_SBs <- 1e5
+initial_CBs <- 10^seq(0, 10, length=grid_num_N)
+initial_PBs <- 1e8
+initial_SBs <- 1e8
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 
-ss_CB_SB_PB <- ss_by_a_N(expt, default_parameter_values)
+ss_CB_SB_PB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -193,7 +196,7 @@ lhl_log10a_series <- c(-8, -8, -2, -2, -2, -2, -2, -8, -8)
 
 ## run simulation
 sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          initial_state = new_initial_state(values = "bush_anoxic"),
+                          initial_state = new_initial_state(values = "bush_anoxic_fig2ab"),
                           log10a_series = lhl_log10a_series,
                           sim_duration = simulation_duration,
                           sim_sample_interval = simulation_sampling_interval,
@@ -239,7 +242,7 @@ hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
 
 ## run simulation
 sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          initial_state = new_initial_state(values = "bush_oxic"), # init_state_favouring_oxic,
+                          initial_state = new_initial_state(values = "bush_oxic_fig2cd"), # init_state_favouring_oxic,
                           log10a_series = hlh_log10a_series,
                           sim_duration = simulation_duration,
                           sim_sample_interval = simulation_sampling_interval,
@@ -277,10 +280,13 @@ Here we set the conditions common to all simulations:
 ```{r}
 ssfind_minimum_abundances <- rep(0, 3)
 names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 10000
+ssfind_simulation_duration <- 50000
 ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- default_parameter_values
+ssfind_parameters <- new_starter(n_CB = 1,
+                                 n_PB = 1,
+                                 n_SB = 1,
+                                 values_initial_state = "bush_ssfig3")
 # ssfind_init_state <- c(N_CB = NA,
 #                        N_PB = NA,
 #                        N_SB = NA,
@@ -290,15 +296,15 @@ ssfind_parameters <- default_parameter_values
 #                        P = 10)
 ##ssfind_init_state <- default_initial_state
 ##ssfind_init_state <- return_anoxic_1strain_initial_state()
-ssfind_init_state <- c(N_CB = NA, #this one is varied
-                       N_PB = 1e8,
-                       N_SB = 1e8,
-                       SO = 200,
-                       SR = 200,
-                       O = 10,
-                       P = 9.5)
+#ssfind_init_state <- c(N_CB = NA, #this one is varied
+#                       N_PB = 1e8,
+#                       N_SB = 1e8,
+#                       SO = 200,
+#                       SR = 200,
+#                       O = 10,
+#                       P = 9.5)
 grid_num_a <- 100
-a_Os <- 10^seq(-4.5, -1.5, length=grid_num_a)
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 grid_num_N <- 2
 ```
 
@@ -313,7 +319,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_no_biology <- ss_by_a_N(expt, default_parameter_values)
+ss_no_biology <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -347,14 +353,14 @@ ss_no_biology %>%
 ### CB
 
 ```{r sim_ss_only_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
-initial_CBs <- 10^seq(0, 8, length=grid_num_N)
+initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 0
 initial_SBs <- 0
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_CB <- ss_by_a_N(expt, default_parameter_values)
+ss_only_CB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -407,7 +413,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_SB <- ss_by_a_N(expt, default_parameter_values)
+ss_only_SB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -448,7 +454,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_PB <- ss_by_a_N(expt, default_parameter_values)
+ss_only_PB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -504,7 +510,7 @@ expt <- expand.grid(N_CB = initial_CBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_SB <- expt$N_PB
-ss_only_SB_PB <- ss_by_a_N(expt, default_parameter_values)
+ss_only_SB_PB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -538,15 +544,15 @@ ss_only_SB_PB %>%
 ### SB and CB
 
 ```{r sim_ss_only_SB_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
-initial_CBs <- 10^seq(0, 8, length=grid_num_N)
+initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 0
-initial_SBs <- 0
+initial_SBs <- 10^8
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-expt$N_SB <- expt$N_CB
-ss_only_SB_CB <- ss_by_a_N(expt, default_parameter_values)
+#expt$N_SB <- expt$N_CB
+ss_only_SB_CB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -580,15 +586,15 @@ ss_only_SB_CB %>%
 ### CB and PB
 
 ```{r sim_ss_only_CB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
-initial_CBs <- 0  # this one is varied
-initial_PBs <- 10^seq(0, 8, length=grid_num_N)
+initial_CBs <- 10^seq(0, 10, length=grid_num_N)  # this one is varied
+initial_PBs <- 10^8
 initial_SBs <- 0
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_CB <- expt$N_PB
-ss_only_CB_PB <- ss_by_a_N(expt, default_parameter_values)
+ss_only_CB_PB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 
@@ -622,14 +628,14 @@ ss_only_CB_PB %>%
 ### CB, SB, and PB
 
 ```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
-initial_CBs <- 10^seq(0, 8, length=grid_num_N)
-initial_PBs <- 1e5
-initial_SBs <- 1e5
+initial_CBs <- 10^seq(0, 10, length=grid_num_N)
+initial_PBs <- 1e8
+initial_SBs <- 1e8
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_CB_SB_PB <- ss_by_a_N(expt, default_parameter_values)
+ss_CB_SB_PB <- ss_by_a_N(expt, ssfind_parameters)
 ```
 
 

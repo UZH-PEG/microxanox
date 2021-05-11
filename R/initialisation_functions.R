@@ -22,7 +22,7 @@ new_starter <- function(
   n_SB = 1,
   values_SB = "bush",
   values_other = "bush",
-  values_initial_state = "bush_anoxic"
+  values_initial_state = "bush_anoxic_fig2ab"
 ){
   if (is.na(values_other)) {
     values_other <- "NA"
@@ -233,7 +233,7 @@ new_initial_state <- function(
   n_CB = 1,
   n_PB = 1,
   n_SB = 1,
-  values = "bush_oxic"
+  values = "bush_anoxic_fig2ab"
 ){
   if (is.na(values)) {
     values <- "NA"
@@ -241,16 +241,16 @@ new_initial_state <- function(
 
   switch(
     EXPR = values,
-    "bush_oxic" = {
-      CB <- 1e7
-      PB <- 1e5
-      SB <- 1e5
+    "bush_oxic_fig2cd" = {
+      CB <- 1e8
+      PB <- 1e2
+      SB <- 1e2
       SO <- 500
       SR <- 50
-      O  <- 30
-      P  <- 10
+      O  <- 300
+      P  <- 4
     },
-    "bush_anoxic" = {
+    "bush_anoxic_fig2ab" = {
       CB <-  5e1
       PB <-  1e7
       SB <-  1e7
@@ -258,6 +258,15 @@ new_initial_state <- function(
       SR <-  300
       O  <-  1e1
       P  <-  1e1
+    },
+    "bush_ssfig3" = {
+      CB <-  NA
+      PB <-  1e8
+      SB <-  1e8
+      SO <-  250
+      SR <-  350
+      O  <-  150
+      P  <-  9.5
     },
     "NA" = {
       CB <-  as.numeric(NA)
@@ -268,7 +277,7 @@ new_initial_state <- function(
       O  <-  as.numeric(NA)
       P  <-  as.numeric(NA)
     },
-    stop("Not supported value for `values`!\n", "Only NA, 'NA', 'bush_oxic' and 'bush_anoxic`` are supported!")
+    stop("Not supported value for `values`!\n", "Only NA, 'NA', 'bush_oxic_figcd', 'bush_anoxic_figcd` and 'bush_ssfig3` are supported!")
   )
   
   result <- c(
