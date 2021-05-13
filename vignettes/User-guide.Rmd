@@ -52,6 +52,8 @@ We added functionality for:
 -   Setting minimum population abundances.
 -   Multiple strains per functional group.
 
+We also include functions for visualising results, though *please note that these plotting functions are provided for convenience, and not for production of perfectly formatted print-ready graphs.*
+
 Here (again) is the original publication: <https://www.nature.com/articles/s41467-017-00912-x>
 
 And here is the Supplementary Information, including the table of parameter values: <https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-017-00912-x/MediaObjects/41467_2017_912_MOESM1_ESM.pdf>

@@ -35,15 +35,15 @@ And in addition:
 -   Quantify the amount of hysteresis and nonlinearity in these responses.
 -   Show how amount of hysteresis and nonlinearity in ecosystem response depends on functional group composition.
 
-These additional results are only presented graphically below, and are not discussed. They will be presented and discussed in an article associated with this package (*link to be added*).
+These additional results are only presented graphically below, and are not discussed. Some will be presented and discussed in an article associated with this package (*link to be added*).
 
-Please see the User Guide vignette for further introduction and general methods.
+Please see the *User Guide* vignette for further introduction and general methods.
 
-The only difference from the published model (Bush et al 2017) is that here the populations of the organisms are not allowed to decrease below a minimum abundance (see below for the exact implementation).
+*Please note that the plotting functions in the `microxanox` package are provided for convenience, and not for production of perfectly formatted print-ready graphs.*
 
 ## Code availability
 
-Much of the code used to create the content of this vignette is not shown. It is available in the [microxanox github repository](https://github.com/opetchey/microxanox/blob/main/vignettes/partial-reproduction-Bushetal2017.Rmd)
+Much of the code used to create the content of this vignette is not shown in the rendered (pdf or html) document. It is available in the [microxanox github repository](https://github.com/opetchey/microxanox/blob/main/vignettes/partial-reproduction-Bushetal2017.Rmd)
 
 # Methods
 

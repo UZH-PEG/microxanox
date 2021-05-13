@@ -1,14 +1,14 @@
-#' Creates empty startter values for the simulation
+#' Creates a set of parameters and starting conditions for a simulation
 #' 
-#' The default is to create the parameter set used in Bush et al. (2017) and anoxic initial conditions, 
-#' @param n_CB number of CB strains 
-#' @param values_CB to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#' @param n_PB number of PB strains 
-#' @param values_PB to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#' @param n_SB number of SB strains 
-#' @param values_SB to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#' @param values_other values to be used for other parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#' @param values_initial_state values to be used for initial values or \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from Bush et al (2017) will be used
+#' The default is to create the parameter set used in Bush et al. (2017) and the anoxic favourable initial conditions used in the simulations for Figure 2a&b of that publication. 
+#' @param n_CB number of CB strains.
+#' @param values_CB to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.
+#' @param n_PB number of PB strains. 
+#' @param values_PB to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.
+#' @param n_SB number of SB strains. 
+#' @param values_SB to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.
+#' @param values_other values to be used for other parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.
+#' @param values_initial_state values to be used for initial values or \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from Bush et al (2017) will be used.
 #'
 #' @return \code{list} with additional class \code{strain_parameter}
 #' @md
