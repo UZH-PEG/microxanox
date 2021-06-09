@@ -3,17 +3,16 @@
 #' 
 #'
 #' @param x A vector of oxygen diffusivity and initial conditions.
-#' @param ssfind_parameters TODO
+#' @param ssfind_parameters The parameters to use
 #' 
 #' @return A vector of steady states
 #' @export
 get_final_states_a_N <- function(x, ssfind_parameters) { 
   
-  #give N_CB, N_SB, N_PB and a_O values and put these into state and parameters
-  
+  ## set the oxygen diffusivity in the parameters to the required value
   ssfind_parameters$a_O <- x["a_O"]
-  #print(ssfind_parameters$a_O)
   
+  ## and set all the initial states in the parameter object to the required values
   CBs <- unlist(rep(x["N_CB"] / length(grep("CB", names(ssfind_parameters$initial_state))),
       length(grep("CB", names(ssfind_parameters$initial_state)))))
   names(CBs) <- NULL
@@ -29,18 +28,11 @@ get_final_states_a_N <- function(x, ssfind_parameters) {
   names(SBs) <- NULL
   ssfind_parameters$initial_state[grep("SB", names(ssfind_parameters$initial_state))] <- SBs
   
-  #ssfind_init_state["N_CB"] <-  x["N_CB"]   
-  #ssfind_init_state["N_PB"] <-  x["N_PB"]   
-  #ssfind_init_state["N_SB"] <-  x["N_SB"]   
-  #ssfind_parameters["a_O"] <- x["a_O"]      
-  
-  ## update forcing series
+ ## update forcing series with the required oxygen diffus. value
   ss_log10a_series <- c(log10(ssfind_parameters[["a_O"]]),
                         log10(ssfind_parameters[["a_O"]]))
   
-  #print(ssfind_parameters$initial_state)
-  
-  
+  ## run the simulation
   simres <- run_simulation(dynamic_model = bushplus_dynamic_model,
                            initial_state = ssfind_parameters$initial_state,
                            parameter_values = ssfind_parameters,
@@ -49,7 +41,7 @@ get_final_states_a_N <- function(x, ssfind_parameters) {
                            event_interval = ssfind_event_interval,
                            log10a_series = ss_log10a_series,
                            minimum_abundances = ssfind_minimum_abundances)
-  #print(simres$result[2,-1])
-  simres$result[2,-1] 
+   ## return only the final values of the state variables
+   simres$result[2,-1] 
   
 }

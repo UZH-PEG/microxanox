@@ -3,7 +3,7 @@
 #' @param ss_expt A data frame of oxygen diffusivities and initial conditions combinations,
 #' for example created with \code{"expand.grid"}.
 #' @param param A set of parameter values and initial states
-#' @return Experimental result.
+#' @return Processed data about steady states
 #' @export
 
 ss_by_a_N <- function(ss_expt, param)

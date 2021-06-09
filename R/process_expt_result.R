@@ -1,4 +1,5 @@
-#' A function to process the output of the \code{"get_final_states"} function
+#' A function to process the output of the \code{"get_final_states"} function.
+#' Unlikely to be used directly by a user. Is called by the \code{"ss_by_a_N"} function.
 #'
 #' @param ss_expt TODO
 #' @param temp_result The experimental results produced by ss_by_a_N

@@ -1,10 +1,10 @@
-#' A function that contains events that should alter the state variables, with multiple strains.
-#' It is definition 1, in case other definitions are created.
+#' A function that contains events that should alter the state variables.
+#' (It is named definition "1", in case other definitions are created.)
 #'
 #' @param times The time point in the simulation
 #' @param y Current state variable values
 #' @param parms Model parameters
-#' @return A vector of the state variables
+#' @return A vector of the new state variables
 #' @export
 event_definition_1 <- function(times=times, y=state, parms = parameters) {
   with(
@@ -16,7 +16,7 @@ event_definition_1 <- function(times=times, y=state, parms = parameters) {
       O <- O + rnorm(1, 0, noise_sigma*O)*noise_sigma*O
       P <- P + rnorm(1, 0, noise_sigma*P)*noise_sigma*P
       
-      
+      ## and below setting the abundance to the minimum, in case it happens to be below it
       CB <- y[grep("CB", names(y))]
       names_CB <- names(CB)[order(names(CB))]
       CB <- as.numeric(CB[order(names(CB))])

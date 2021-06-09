@@ -9,14 +9,12 @@
 #' making them less suitable for other organisms. This creates mutual
 #' inhibition. Which state occurs also depends on numerous
 #' abiotic and biotic factors. This package facilitates simulation studies
-#' of the influence of several of these factors.
+#' of the influence of several of these factors, and is based on work described in (Bush et al) 2017 (DOI: 10.1038/s41467-017-00912-x)
 #'
 #' Vignettes include:
 #'
-#' - A user guide (maybe).
+#' - A user guide.
 #' - A reproduction of some results of Bush et al 2017, on which the simulation is based. It shows the alternate stable states. It also extends the original study by adding temporal forcing and therefore switching between states, and also effects of biotic composition on the response to environmental change.
-#' - A study of the effect of weaker or strong inbihibtion on the response to environmental change, include the extent of environmental conditions for which alternate stable states are present.
-#' - A study of the effects of within functional group diversity on the response to environmental change.
 #'
 #' 
 #' @name microxanox-package

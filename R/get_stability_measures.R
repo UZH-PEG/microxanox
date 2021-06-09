@@ -1,4 +1,4 @@
-#' Get various measures of the stability of an ecosystem response to environmental change.
+#' Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 #' Takes steady state data as the input. 
 #'
 #' @param ss_object An object of the type returned by the ss_by_a_N() function

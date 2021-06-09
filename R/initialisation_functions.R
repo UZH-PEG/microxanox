@@ -1,5 +1,5 @@
 #' Creates a set of parameters and starting conditions for a simulation
-#' 
+#' A function to assist with the initialisation of a simulation, by providing various reference sets of parameter values and initial conditions.
 #' The default is to create the parameter set used in Bush et al. (2017) and the anoxic favourable initial conditions used in the simulations for Figure 2a&b of that publication. 
 #' @param n_CB number of CB strains.
 #' @param values_CB to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.
