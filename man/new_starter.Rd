@@ -2,7 +2,9 @@
 % Please edit documentation in R/initialisation_functions.R
 \name{new_starter}
 \alias{new_starter}
-\title{Creates empty startter values for the simulation}
+\title{Creates a set of parameters and starting conditions for a simulation
+A function to assist with the initialisation of a simulation, by providing various reference sets of parameter values and initial conditions.
+The default is to create the parameter set used in Bush et al. (2017) and the anoxic favourable initial conditions used in the simulations for Figure 2a&b of that publication.}
 \usage{
 new_starter(
   n_CB = 1,
@@ -16,25 +18,27 @@ new_starter(
 )
 }
 \arguments{
-\item{n_CB}{number of CB strains}
+\item{n_CB}{number of CB strains.}
 
-\item{values_CB}{to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+\item{values_CB}{to be used for CB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.}
 
-\item{n_PB}{number of PB strains}
+\item{n_PB}{number of PB strains.}
 
-\item{values_PB}{to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+\item{values_PB}{to be used for PB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.}
 
-\item{n_SB}{number of SB strains}
+\item{n_SB}{number of SB strains.}
 
-\item{values_SB}{to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+\item{values_SB}{to be used for SB strains parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.}
 
-\item{values_other}{values to be used for other parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used}
+\item{values_other}{values to be used for other parameter or \code{"bush"}, in which case the default from Bush et al (2017) will be used.}
 
-\item{values_initial_state}{values to be used for initial values or \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from Bush et al (2017) will be used}
+\item{values_initial_state}{values to be used for initial values or \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from Bush et al (2017) will be used.}
 }
 \value{
 \code{list} with additional class \code{strain_parameter}
 }
 \description{
-The default is to create the parameter set used in Bush et al. (2017) and anoxic initial conditions,
+Creates a set of parameters and starting conditions for a simulation
+A function to assist with the initialisation of a simulation, by providing various reference sets of parameter values and initial conditions.
+The default is to create the parameter set used in Bush et al. (2017) and the anoxic favourable initial conditions used in the simulations for Figure 2a&b of that publication.
 }

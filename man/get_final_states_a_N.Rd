@@ -10,7 +10,7 @@ get_final_states_a_N(x, ssfind_parameters)
 \arguments{
 \item{x}{A vector of oxygen diffusivity and initial conditions.}
 
-\item{ssfind_parameters}{TODO}
+\item{ssfind_parameters}{The parameters to use}
 }
 \value{
 A vector of steady states

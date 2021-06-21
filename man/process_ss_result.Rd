@@ -2,7 +2,8 @@
 % Please edit documentation in R/process_expt_result.R
 \name{process_ss_result}
 \alias{process_ss_result}
-\title{A function to process the output of the \code{"get_final_states"} function}
+\title{A function to process the output of the \code{"get_final_states"} function.
+Unlikely to be used directly by a user. Is called by the \code{"ss_by_a_N"} function.}
 \usage{
 process_ss_result(ss_expt, temp_result)
 }
@@ -15,5 +16,6 @@ process_ss_result(ss_expt, temp_result)
 Processed experimental results.
 }
 \description{
-A function to process the output of the \code{"get_final_states"} function
+A function to process the output of the \code{"get_final_states"} function.
+Unlikely to be used directly by a user. Is called by the \code{"ss_by_a_N"} function.
 }
