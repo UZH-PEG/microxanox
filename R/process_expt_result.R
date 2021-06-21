@@ -20,26 +20,29 @@ process_ss_result <- function(ss_expt, temp_result)
     dplyr::mutate(initial_N_CB = ss_expt$N_CB,
            a_O = ss_expt$a_O)
   
-  mm_result_wide <- result %>%
-    dplyr::group_by(a) %>%
-    dplyr::summarise_all(list(min = min, max = max))
+  result
   
-  
-  a_up <- mm_result_wide %>%
-    dplyr::select(a, dplyr::ends_with("min")) %>%
-    dplyr::arrange(a)
-  names(a_up) <- stringr::str_replace_all(names(a_up), "_min", "")
-  a_down <- mm_result_wide %>%
-    dplyr::select(a, ends_with("max")) %>%
-    dplyr::arrange(-a)
-  names(a_down) <- stringr::str_replace_all(names(a_down), "_max", "")
-  
-  a_up_down <- dplyr::bind_rows(a_up, a_down) 
-  #%>%
-  #  mutate(N_CB = ifelse(N_CB < 1, 1, N_CB),
-  #         N_SB = ifelse(N_SB < 1, 1, N_SB),
-  #         N_PB = ifelse(N_PB < 1, 1, N_PB))
-  
-  a_up_down
-  
+  ## OP 21.6.2021 :: I think there is an error in what comes below. Also it is not really necessary, I think... we see what this breaks!
+  # mm_result_wide <- result %>%
+  #   dplyr::group_by(a) %>%
+  #   dplyr::summarise_all(list(min = min, max = max))
+  # 
+  # 
+  # a_up <- mm_result_wide %>%
+  #   dplyr::select(a, dplyr::ends_with("min")) %>%
+  #   dplyr::arrange(a)
+  # names(a_up) <- stringr::str_replace_all(names(a_up), "_min", "")
+  # a_down <- mm_result_wide %>%
+  #   dplyr::select(a, ends_with("max")) %>%
+  #   dplyr::arrange(-a)
+  # names(a_down) <- stringr::str_replace_all(names(a_down), "_max", "")
+  # 
+  # a_up_down <- dplyr::bind_rows(a_up, a_down) 
+  # #%>%
+  # #  mutate(N_CB = ifelse(N_CB < 1, 1, N_CB),
+  # #         N_SB = ifelse(N_SB < 1, 1, N_SB),
+  # #         N_PB = ifelse(N_PB < 1, 1, N_PB))
+  # 
+  # a_up_down
+  # 
 }
