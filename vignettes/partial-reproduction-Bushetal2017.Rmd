@@ -152,13 +152,14 @@ ss_CB_SB_PB <- readRDS(file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 
 ```{r echo = FALSE}
 p1 <- ss_CB_SB_PB %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB"))  %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species),
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction),
             size=0.8) +
   ylab(expression(Log[10](Abundance+1))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
@@ -168,10 +169,11 @@ p1 <- ss_CB_SB_PB %>%
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 p2 <- ss_CB_SB_PB %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down"))%>%
+  select(a, direction, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species)) +
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction)) +
   labs(title="Substrates")
 
 
@@ -385,7 +387,7 @@ tempx1 %>%
   geom_path(size=0.8) +
   ylab(expression(Log[10](Abundance+1))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
-  theme_light() +
+  #theme_light() +
   ylim(0,10) +
   #geom_path(data = filter(tempx1, Species == "PB"),
   #          aes(y=0.2), size = 0.8) +
@@ -427,21 +429,23 @@ ss_only_SB <- readRDS("data/partial_reproduction/ss_only_SB.RDS")
 
 ```{r echo = FALSE}
 ss_only_SB %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_SB == 1, "down", "up")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB")) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ```{r echo = FALSE}
 ss_only_SB %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_SB == 1, "down", "up"))%>%
+  select(a, direction, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ### PB
@@ -476,7 +480,7 @@ tempx1 <- ss_only_PB %>%
 tempx1 %>%
   ggplot(aes(x = a, y = log10(Quantity+1), col = Species)) +
   geom_path(size = 0.8) +
-  theme_light() +
+  #theme_light() +
   ylim(0,10) +
   ylab(expression(Log[10](Abundance))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
@@ -524,21 +528,23 @@ ss_only_SB_PB <- readRDS("data/partial_reproduction/ss_only_SB_PB.RDS")
 
 ```{r echo = FALSE}
 ss_only_SB_PB %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_SB == 1, "down", "up")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB")) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ```{r echo = FALSE}
 ss_only_SB_PB %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_SB == 1, "down", "up")) %>%
+  select(a, direction, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ### SB and CB
@@ -565,22 +571,24 @@ ss_only_SB_CB <- readRDS("data/partial_reproduction/ss_only_SB_CB.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_only_SB_CB %>%
-  select(a,
+ss_only_SB_CB  %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB")) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ```{r echo = FALSE}
 ss_only_SB_CB %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:5) %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:6) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ### CB and PB
@@ -608,21 +616,23 @@ ss_only_CB_PB <- readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")
 
 ```{r echo = FALSE}
 ss_only_CB_PB %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB")) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ```{r echo = FALSE}
 ss_only_CB_PB %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ### CB, SB, and PB
@@ -649,13 +659,14 @@ ss_CB_SB_PB <- readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")
 
 ```{r echo = FALSE}
 ss_CB_SB_PB %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB")) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 
 # ss_CB_SB_PB %>%
 #   select(a, CB=N_CB, SB=N_SB, PB=N_PB) %>%
@@ -675,10 +686,11 @@ ss_CB_SB_PB %>%
 
 ```{r echo = FALSE}
 ss_CB_SB_PB %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction, SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species))
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction))
 ```
 
 ## Stability measures
@@ -686,6 +698,10 @@ ss_CB_SB_PB %>%
 Note that here, "stability measures" quantify characteristics of the state-environment relationship (i.e. nonlinearity and hysteresis). The measures of non-linearity and hysteresis were used in [Garnier et al (2020) (link to online article)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294).
 
 Not much code is shown because all is rather standard data wrangling. The unique work is done by the `get_stability_measures` function, which is demonstrated in the User Guide.
+
+
+### Next part not working... also need to check again the user guide
+
 
 ```{r echo = FALSE, sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}
 all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS"),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_stability_measures.R
 \name{get_stability_measures}
 \alias{get_stability_measures}
-\title{Get various measures of the stability of an ecosystem response to environmental change.
+\title{Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 Takes steady state data as the input.}
 \usage{
 get_stability_measures(ss_object)
@@ -14,6 +14,6 @@ get_stability_measures(ss_object)
 A data frame of stability measures of each state variable
 }
 \description{
-Get various measures of the stability of an ecosystem response to environmental change.
+Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 Takes steady state data as the input.
 }

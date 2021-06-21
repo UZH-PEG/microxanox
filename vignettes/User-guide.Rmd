@@ -31,6 +31,8 @@ library(patchwork)
 set.seed(13)
 
 run_steadystate_sims <- FALSE
+#setwd("vignettes"); getwd()
+
 ```
 
 ```{r echo = TRUE}
@@ -376,19 +378,21 @@ saveRDS(ss_1strain, file = "data/user_guide/ss_1strain.RDS")
 
 ```{r echo = FALSE}
 ss_1strain <- readRDS(file = "data/user_guide/ss_1strain.RDS")
+  
 ```
 
 And the results (plotting code hidden):
 
 ```{r echo = FALSE}
 p1 <- ss_1strain %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB"))  %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species),
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction),
             size=1) +
   ylab(expression(Log[10](Abundance+1))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
@@ -398,10 +402,11 @@ p1 <- ss_1strain %>%
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 p2 <- ss_1strain %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction ,SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
+  geom_path(aes(x = a, y = log10(Quantity), col = Species, linetype = direction)) +
   labs(title="Substrates")
 
 
@@ -456,13 +461,14 @@ And the results (plotting code hidden):
 ```{r echo = FALSE}
 
 p1 <- ss_3strain %>%
-  select(a,
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction,
          starts_with("CB"),
          starts_with("PB"),
          starts_with("SB"))  %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species),
+  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction),
             size=1) +
   ylab(expression(Log[10](Abundance+1))) +
   xlab(expression(Log[10](Oxygen~diffusivity))) +
@@ -472,10 +478,11 @@ p1 <- ss_3strain %>%
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
 p2 <- ss_3strain %>%
-  select(a, SO, SR, O, P) %>%
-  gather(key = Species, value=Quantity, 2:ncol(.)) %>%
+  mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+  select(a, direction ,SO, SR, O, P) %>%
+  gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity), col = Species)) +
+  geom_path(aes(x = a, y = log10(Quantity), col = Species, linetype = direction)) +
   labs(title="Substrates")
 
 
@@ -495,6 +502,8 @@ The measures of non-linearity and hysteresis were used in [Garnier et al (2020) 
 For example:
 
 ```{r}
+#ss_object <- ss_1strain
+
 get_stability_measures(ss_1strain)
 ```
 

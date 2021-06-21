@@ -15,8 +15,7 @@ get_stability_measures <- function(ss_object) {
   these <- c(these, which(names(ss_object) %in% c("SO", "SR", "O", "P")))
   temp <- ss_object %>%
     #rbind(ss_object) %>%
-    mutate(direction = c(rep("up", nrow(ss_object)/2),
-                         rep("down", nrow(ss_object)/2))) %>%
+    mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
     tidyr::gather(key = "Species", value = Quantity, these) %>%
     dplyr::select(-initial_N_CB) %>%
     tidyr::spread(key = direction, value=Quantity, drop=T)
@@ -24,12 +23,13 @@ get_stability_measures <- function(ss_object) {
   res <- temp %>%
     dplyr::group_by(Species) %>%
     dplyr::summarise(hyst_tot = get_hysteresis_total(log10(up+1), log10(down+1)),
-              hyst_range = get_hysteresis_range(log10(up+1), log10(down+1), a),
-              nl_up = get_nonlinearity(a, log10(up+1)),
-              nl_down = get_nonlinearity(a, log10(down+1))
+                     hyst_range = get_hysteresis_range(log10(up+1), log10(down+1), a),
+                     hyst_min = get_hysteresis_min(log10(up+1), log10(down+1), a),
+                     hyst_max = get_hysteresis_max(log10(up+1), log10(down+1), a),
+                     nl_up = get_nonlinearity(a, log10(up+1)),
+                     nl_down = get_nonlinearity(a, log10(down+1))
     )
   res
-  
   
 }
 
@@ -57,18 +57,90 @@ get_hysteresis_total <- function(up, down) {
 #' @param a An environmental driver, here it is usually oxygen diffusivity
 #' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 #' @export
+get_hysteresis_min <- function(up, down, a)
+{
+  
+  temp1 <- abs(up - down) > 0.1
+  
+  if(sum((up+down)) == 0) {
+    res = NA
+    min_flip = NA
+    max_flip = NA
+  }
+  else(
+    if(sum(temp1)==0) {
+      res <- 0
+      min_flip = 0
+      max_flip = 0
+    }
+      
+    else({
+      res <-  min(a[temp1])
+    }
+    )
+  )
+  res
+}
+
+#' Get the range of environmental conditions for which alternate stable states exist
+#'
+#' @param up State variable values as the environmental condition increases
+#' @param down State variable values as the environmental condition decreases
+#' @param a An environmental driver, here it is usually oxygen diffusivity
+#' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
+#' @export
+get_hysteresis_max <- function(up, down, a)
+{
+  
+  temp1 <- abs(up - down) > 0.1
+  
+  if(sum((up+down)) == 0) {
+    res = NA
+  }
+  else(
+    if(sum(temp1)==0) {
+      res <- 0
+    }
+    
+    else({
+      res <- max(a[temp1])
+          }
+    )
+  )
+  res
+}
+
+
+
+#' Get the range of environmental conditions for which alternate stable states exist
+#'
+#' @param up State variable values as the environmental condition increases
+#' @param down State variable values as the environmental condition decreases
+#' @param a An environmental driver, here it is usually oxygen diffusivity
+#' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
+#' @export
 get_hysteresis_range <- function(up, down, a)
 {
   
   temp1 <- abs(up - down) > 0.1
   
-  if(sum((up+down)) == 0)
+  if(sum((up+down)) == 0) {
     res = NA
+    #min_flip = NA
+    #max_flip = NA
+  }
   else(
-    if(sum(temp1)==0)
+    if(sum(temp1)==0) {
       res <- 0
-    else(
+      #min_flip = 0
+      #max_flip = 0
+    }
+    
+    else({
       res <- max(a[temp1]) - min(a[temp1])
+      #min_flip = min(a[temp1])
+      #max_flip = max(a[temp1])
+    }
     )
   )
   res

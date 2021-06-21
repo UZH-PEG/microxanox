@@ -10,10 +10,10 @@ ss_by_a_N(ss_expt, param)
 \item{ss_expt}{A data frame of oxygen diffusivities and initial conditions combinations,
 for example created with \code{"expand.grid"}.}
 
-\item{param}{A set of parameter values and inital states}
+\item{param}{A set of parameter values and initial states}
 }
 \value{
-Experimental result.
+Processed data about steady states
 }
 \description{
 Function to get the steady states for combinations of a (oxygen diffusivity) and initial states.

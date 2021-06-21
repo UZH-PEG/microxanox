@@ -3,7 +3,7 @@
 \name{get_nonlinearity}
 \alias{get_nonlinearity}
 \title{Get the amount of non-linearity in a state-environment relationship.
-Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772}
+Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772}
 \usage{
 get_nonlinearity(x, y)
 }
@@ -17,5 +17,5 @@ Measure of non-linearity
 }
 \description{
 Get the amount of non-linearity in a state-environment relationship.
-Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772
+Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772
 }

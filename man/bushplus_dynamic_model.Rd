@@ -2,7 +2,7 @@
 % Please edit documentation in R/bushplus_dynamic_model.R
 \name{bushplus_dynamic_model}
 \alias{bushplus_dynamic_model}
-\title{The rate equations, as published in the paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
+\title{The rate equations, as published in the Bush et al 2017 paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
 and the possibility to simulate multiple strains per functional group}
 \usage{
 bushplus_dynamic_model(t, state, parameters)
@@ -12,12 +12,12 @@ bushplus_dynamic_model(t, state, parameters)
 
 \item{state}{A vector containing the current (named) values of each state variable}
 
-\item{parameters}{A vector containing the current (named) values of each parameter}
+\item{parameters}{A list containing the parameter values}
 }
 \value{
-Growth rate
+A list containing the rate of change of each state variable, and also the current values of oxygen diffusivity.
 }
 \description{
-The rate equations, as published in the paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
+The rate equations, as published in the Bush et al 2017 paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
 and the possibility to simulate multiple strains per functional group
 }

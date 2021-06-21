@@ -2,8 +2,8 @@
 % Please edit documentation in R/event_definition_1.R
 \name{event_definition_1}
 \alias{event_definition_1}
-\title{A function that contains events that should alter the state variables, with multiple strains.
-It is definition 1, in case other definitions are created.}
+\title{A function that contains events that should alter the state variables.
+(It is named definition "1", in case other definitions are created.)}
 \usage{
 event_definition_1(times = times, y = state, parms = parameters)
 }
@@ -15,9 +15,9 @@ event_definition_1(times = times, y = state, parms = parameters)
 \item{parms}{Model parameters}
 }
 \value{
-A vector of the state variables
+A vector of the new state variables
 }
 \description{
-A function that contains events that should alter the state variables, with multiple strains.
-It is definition 1, in case other definitions are created.
+A function that contains events that should alter the state variables.
+(It is named definition "1", in case other definitions are created.)
 }

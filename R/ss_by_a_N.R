@@ -9,6 +9,14 @@
 ss_by_a_N <- function(ss_expt, param)
 {
   temp_result <- apply(ss_expt, 1, function(x) get_final_states_a_N(x, param))
-  result <- process_ss_result(ss_expt, temp_result)
-  result
+  
+  result <- temp_result %>%
+    tibble::tibble() %>%
+    tidyr::unnest(cols = 1) %>%
+    dplyr::mutate(initial_N_CB = ss_expt$N_CB,
+                  initial_N_PB = ss_expt$N_PB,
+                  initial_N_SB = ss_expt$N_SB,
+                  a_O = ss_expt$a_O)
+
+   result
 }
