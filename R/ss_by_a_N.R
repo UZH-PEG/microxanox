@@ -6,24 +6,23 @@
 #' @return Processed data about steady states
 #' @export
 
-ss_by_a_N <- function(ss_expt, param, mc.cores = getOption("mc.cores", 0))
-{
-  
+ss_by_a_N <- function(ss_expt, param, mc.cores = getOption("mc.cores", 0)) {
+
   if (mc.cores == 0) {
     temp_result <- apply(ss_expt, 1, function(x) get_final_states_a_N(x, param))
   } else {
     temp_result <- parallel::mclapply(
-      1:nrow(ss_expt), 
+      1:nrow(ss_expt),
       function(i) {
-        get_final_states_a_N(ss_expt[i,], param)
-      }, mc.preschedule = FALSE, 
+        get_final_states_a_N(ss_expt[i, ], param)
+      }, mc.preschedule = FALSE,
       mc.cores = mc.cores
     )
     temp_result <- tibble::as_tibble(
       do.call(rbind, temp_result)
     )
   }
-  
+
   result <- temp_result %>%
     tibble::tibble() %>%
     tidyr::unnest(cols = 1) %>%
