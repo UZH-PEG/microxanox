@@ -9,17 +9,34 @@
 #' @export
 get_stability_measures <- function(ss_object) {
   
+  ## which initial condition varies?
+  init_varying <- NA
+  if(length(unique(ss_object$initial_N_CB)) > 1)
+     init_varying <- "initial_N_CB"
+  if(length(unique(ss_object$initial_N_SB)) > 1)
+    init_varying <- "initial_N_SB"
+  if(length(unique(ss_object$initial_N_PB)) > 1)
+    init_varying <- "initial_N_PB"
+  
+  if(!is.na(init_varying)) {
+  
+  ss_object$init_varying <- pull(ss_object[,init_varying],1)
+  
+  min_iniN <- min(ss_object$init_varying)
+  max_iniN <- max(ss_object$init_varying)
+  
   ## The following is preparing the data
-  these <- grep("_", names(ss_object))
-  these <- these[c(-(length(these)-1), -length(these))]
+  these <- grep("B_", names(ss_object))
+  #these <- these[c(-(length(these)-1), -length(these))]
   these <- c(these, which(names(ss_object) %in% c("SO", "SR", "O", "P")))
   temp <- ss_object %>%
     #rbind(ss_object) %>%
-    mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
+    mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
     tidyr::gather(key = "Species", value = Quantity, these) %>%
-    dplyr::select(-initial_N_CB) %>%
+    dplyr::select(-starts_with("initial_N_"), -init_varying) %>%
     tidyr::spread(key = direction, value=Quantity, drop=T)
   
+  ## then get the stability measures
   res <- temp %>%
     dplyr::group_by(Species) %>%
     dplyr::summarise(hyst_tot = get_hysteresis_total(log10(up+1), log10(down+1)),
@@ -29,6 +46,29 @@ get_stability_measures <- function(ss_object) {
                      nl_up = get_nonlinearity(a, log10(up+1)),
                      nl_down = get_nonlinearity(a, log10(down+1))
     )
+  
+  }
+  
+  if(is.na(init_varying)) {
+     
+    these <- grep("B_", names(ss_object))
+    these <- c(these, which(names(ss_object) %in% c("SO", "SR", "O", "P")))
+    Species <- names(ss_object)[these]
+    
+  temp <- ss_object %>%
+    tidyr::gather(key = "Species", value = Quantity, these) %>%
+    dplyr::select(-starts_with("initial_N_")) 
+  
+  res <- temp %>%
+    dplyr::group_by(Species) %>%
+    dplyr::summarise(hyst_tot = 0,
+                     hyst_range = 0,
+                     hyst_min = 0,
+                     hyst_max = 0,
+                     nl_up = get_nonlinearity(a, log10(Quantity+1)),
+                     nl_down = get_nonlinearity(a, log10(Quantity+1)))
+  }
+  
   res
   
 }

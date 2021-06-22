@@ -721,6 +721,8 @@ all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
                    composition = "CB-SB-PB"))
 
+ss_object <- all_ss %>%
+  filter(composition == "No organisms")
 
 stab_res <- all_ss %>%
   group_by(composition) %>%
