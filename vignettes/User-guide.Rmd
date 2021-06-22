@@ -31,6 +31,7 @@ library(patchwork)
 set.seed(13)
 
 run_steadystate_sims <- FALSE
+options(mc.cores=8)
 #setwd("vignettes"); getwd()
 
 ```
@@ -333,6 +334,8 @@ plot_dynamics(simulation_result3)
 ## 1 strain per functional group
 
 Finding the steady state of the system is a common task. The function `ss_by_a_N()` finds the steady state (`ss`) for different values of the $a_0$ (oxygen diffusivity) parameter, and for different initial conditions ($N$).
+
+Note: The function `ss_by_a_N()` can be told to use multiple cores by setting the relevant option, e.g., `options(mc.cores=8)`
 
 We first set the conditions that will apply to all simulations. Note that these are automatically picked up by the functions called by `ss_by_a_N()` and so do not need to be passed.
 

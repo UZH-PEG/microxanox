@@ -65,6 +65,7 @@ set.seed(13)
 
 ## should some of the more intense simulations be run...
 run_steadystate_sims <- FALSE
+options(mc.cores=8)
 ```
 
 
@@ -718,8 +719,8 @@ all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
   bind_rows(tibble(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
                    composition = "CB-SB-PB"))
 
-ss_object <- all_ss %>%
-  filter(composition == "No organisms")
+#ss_object <- all_ss %>%
+#  filter(composition == "No organisms")
 
 stab_res <- all_ss %>%
   group_by(composition) %>%
@@ -745,7 +746,7 @@ stab_res <- all_ss %>%
                                      composition == "CB-SB-PB" ~ 3
          ),
          var_type = ifelse(str_sub(Species, 3, 3)=="_", "Organism", "Substrate")) %>%
-  gather(key = "stab_measure", value = "value", 3:6)
+  gather(key = "stab_measure", value = "value", 3:8)
 saveRDS(stab_res, "data/partial_reproduction/stab_res.RDS")
 ```
 
@@ -894,7 +895,7 @@ resp_summ5 %>%
   geom_point(aes(x = composition, y = mean_mean_hyst)) +
   xlab("Functional groups present") +
   ylab("Amount of hysteresis") +
-  ylim(0,2) +
+  #ylim(0,2) +
   theme_light() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))+
   coord_flip()
