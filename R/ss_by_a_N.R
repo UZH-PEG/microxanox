@@ -3,6 +3,8 @@
 #' @param ss_expt A data frame of oxygen diffusivities and initial conditions combinations,
 #' for example created with \code{"expand.grid"}.
 #' @param param A set of parameter values and initial states
+#' @param mc.cores the number of cores to be used. If 0, the old sequential version is used.
+#'   The default is read from the option \code{mc.cores}, i.e. using \code{getOption("mc.cores", 0)}
 #' @return Processed data about steady states
 #' @export
 

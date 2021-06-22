@@ -4,13 +4,16 @@
 \alias{ss_by_a_N}
 \title{Function to get the steady states for combinations of a (oxygen diffusivity) and initial states.}
 \usage{
-ss_by_a_N(ss_expt, param)
+ss_by_a_N(ss_expt, param, mc.cores = getOption("mc.cores", 0))
 }
 \arguments{
 \item{ss_expt}{A data frame of oxygen diffusivities and initial conditions combinations,
 for example created with \code{"expand.grid"}.}
 
 \item{param}{A set of parameter values and initial states}
+
+\item{mc.cores}{the number of cores to be used. If 0, the old sequential version is used.
+The default is read from the option \code{mc.cores}, i.e. using \code{getOption("mc.cores", 0)}}
 }
 \value{
 Processed data about steady states

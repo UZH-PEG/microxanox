@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/opetchey/microxanox/",
   "issueTracker": "https://github.com/opetchey/microxanox/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1",
+  "version": "0.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.5 (2021-03-31)",
+  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
   "author": [
     {
       "@type": "Person",
@@ -288,7 +288,7 @@
       "sameAs": "https://CRAN.R-project.org/package=stringr"
     }
   ],
-  "readme": "https://github.com/opetchey/microxanox/blob/main/README.md",
-  "fileSize": "3338.798KB",
+  "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
+  "fileSize": "3349.573KB",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#experimental", "https://www.repostatus.org/#wip"]
 }
