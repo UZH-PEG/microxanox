@@ -10,6 +10,11 @@
 
 ss_by_a_N <- function(ss_expt, param, mc.cores = getOption("mc.cores", 0)) {
 
+  if (Sys.info()['sysname'] == "Window") {
+    warning("On windows, mc.cores will always be set to one!")
+    mc.cores <- 1
+  }
+  
   if (mc.cores == 0) {
     temp_result <- apply(ss_expt, 1, function(x) get_final_states_a_N(x, param))
   } else {
