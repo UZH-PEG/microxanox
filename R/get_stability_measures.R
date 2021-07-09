@@ -32,10 +32,13 @@ get_stability_measures <- function(ss_object) {
   temp <- ss_object %>%
     #rbind(ss_object) %>%
     mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
+    filter(across(these, ~ .x >-0.001)) %>% ## there are rarely negative abundances greater than -0.001. This line and the na.omit removes them 
     tidyr::gather(key = "Species", value = Quantity, these) %>%
     dplyr::select(-starts_with("initial_N_"), -init_varying) %>%
-    tidyr::spread(key = direction, value=Quantity, drop=T)
+    tidyr::spread(key = direction, value=Quantity, drop=T) %>%
+    na.omit()  ## 31000 to 30969
   
+
   ## then get the stability measures
   res <- temp %>%
     dplyr::group_by(Species) %>%

@@ -32,6 +32,7 @@ run_simulation <- function(dynamic_model = default_dynamic_model,
                            solver_method = "radau")
 {
   
+  if(sim_sample_interval > sim_duration) stop("Simulation sample interval is greater than simualution duration... it should be shorter.")
   
   times <- seq(0,
                sim_duration,
