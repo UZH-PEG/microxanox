@@ -4,28 +4,16 @@
 \alias{run_simulation}
 \title{Function to run a simulation}
 \usage{
-run_simulation(
-  dynamic_model = default_dynamic_model,
-  event_definition = default_event_definition,
-  parameter_values = default_parameter_values,
-  event_interval = default_event_interval,
-  noise_sigma = default_noise_sigma,
-  minimum_abundances = default_minimum_abundances,
-  sim_duration = default_sim_duration,
-  sim_sample_interval = default_sim_sample_interval,
-  log10a_series = default_log10a_series,
-  initial_state = default_initial_state,
-  solver_method = "radau"
-)
+run_simulation(parameter)
 }
 \arguments{
 \item{dynamic_model}{A function that defines the dynamical model to use.}
 
 \item{event_definition}{A function that defines events that periodically take place.}
 
-\item{parameter_values}{A named vector of parameter values.}
-
 \item{event_interval}{The amount of time between events.}
+
+\item{parameter_values}{A named vector of parameter values.}
 
 \item{noise_sigma}{The amount of noise added to a state variable.}
 

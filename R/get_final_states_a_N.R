@@ -33,14 +33,17 @@ get_final_states_a_N <- function(x, ssfind_parameters) {
                         log10(ssfind_parameters[["a_O"]]))
   
   ## run the simulation
-  simres <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                           initial_state = ssfind_parameters$initial_state,
-                           parameter_values = ssfind_parameters,
-                           sim_duration = ssfind_simulation_duration,
-                           sim_sample_interval = ssfind_simulation_sampling_interval,
-                           event_interval = ssfind_event_interval,
-                           log10a_series = ss_log10a_series,
-                           minimum_abundances = ssfind_minimum_abundances)
+  simres <- run_simulation(
+    parameter
+  #   dynamic_model = bushplus_dynamic_model,
+  #   initial_state = ssfind_parameters$initial_state,
+  #   parameter_values = ssfind_parameters,
+  #   sim_duration = ssfind_simulation_duration,
+  #   sim_sample_interval = ssfind_simulation_sampling_interval,
+  #   event_interval = ssfind_event_interval,
+  #   log10a_series = ss_log10a_series,
+  #   minimum_abundances = ssfind_minimum_abundances
+  )
    ## return only the final values of the state variables
    simres$result[2,-1] 
   
