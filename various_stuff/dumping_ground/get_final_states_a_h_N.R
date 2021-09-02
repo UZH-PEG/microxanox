@@ -26,13 +26,16 @@ get_final_states_a_h_N <- function(x) {
   ss_log10a_series <- c(log10(ssfind_parameters_use["a_O"]),
                         log10(ssfind_parameters_use["a_O"]))
   
-  simres <- run_simulation(initial_state = ssfind_init_state,
-                           parameter_values = ssfind_parameters_use,
-                           sim_duration = ssfind_simulation_duration,
-                           sim_sample_interval = ssfind_simulation_sampling_interval,
-                           event_interval = ssfind_event_interval,
-                           log10a_series = ss_log10a_series,
-                           minimum_abundances = ssfind_minimum_abundances)
+  simres <- run_simulation(
+    parameter
+    # initial_state = ssfind_init_state,
+    # parameter_values = ssfind_parameters_use,
+    # sim_duration = ssfind_simulation_duration,
+    # sim_sample_interval = ssfind_simulation_sampling_interval,
+    # event_interval = ssfind_event_interval,
+    # log10a_series = ss_log10a_series,
+    # minimum_abundances = ssfind_minimum_abundances
+  )
   #print(simres$result[2,-1])
   full_result <- bind_cols(simres$result[2,-1],
                            inhib_const_mult = x["inhib_const_mult"])

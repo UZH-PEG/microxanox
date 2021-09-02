@@ -45,19 +45,25 @@ out <- as.data.frame(ode(y = initial_state,
 
 bushplus_dynamic_model(1, initial_state, default_parameter_values)
 
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          event_definition = default_event_definition,
-                          parameter_values = default_parameter_values,
-                          event_interval = default_event_interval,
-                          noise_sigma = default_noise_sigma,
-                          minimum_abundances = default_minimum_abundances,
-                          sim_duration = default_sim_duration,
-                          sim_sample_interval = default_sim_sample_interval,
-                          log10a_series = default_log10a_series,
-                          initial_state = default_initial_state,
-                          solver_method = "radau")
+sim_res <- run_simulation(
+  parameter
+  # dynamic_model = bushplus_dynamic_model,
+  # event_definition = default_event_definition,
+  # parameter_values = default_parameter_values,
+  # event_interval = default_event_interval,
+  # noise_sigma = default_noise_sigma,
+  # minimum_abundances = default_minimum_abundances,
+  # sim_duration = default_sim_duration,
+  # sim_sample_interval = default_sim_sample_interval,
+  # log10a_series = default_log10a_series,
+  # initial_state = default_initial_state,
+  # solver_method = "radau"
+)
 
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model)
+sim_res <- run_simulation(
+  parameter
+  # dynamic_model = bushplus_dynamic_model
+)
 
 plot_dynamics(sim_res)
 
