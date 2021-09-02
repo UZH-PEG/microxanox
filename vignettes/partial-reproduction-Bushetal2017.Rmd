@@ -72,18 +72,22 @@ options(mc.cores=8)
 ## Set defaults
 
 ```{r}
-default_dynamic_model <- bushplus_dynamic_model
-default_parameter_values <- new_starter()
-## no default_initial_state
-default_sim_duration <- 2000
-default_sim_sample_interval <- 1
-default_log10a_series <- c(log10(default_parameter_values$a_O),
-                           log10(default_parameter_values$a_O))
-default_event_definition <- event_definition_1
-default_event_interval <- 10
-default_noise_sigma <- 0
-default_minimum_abundances <- rep(1e2, 3)
-names(default_minimum_abundances) <- c("CB", "PB", "SB")
+parameter <- new_runsim_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  parameter_values = new_starter(),
+  ## no default_initial_state
+  sim_duration = 2000,
+  sim_sample_interval = 1,
+  log10a_series = c(
+    log10(new_starter()$a_O),
+    log10(new_starter()$a_O)
+  ),
+  event_definition = event_definition_1,
+  event_interval = 10,
+  noise_sigma = 0,
+  minimum_abundances = rep(1e2, 3)
+)
+names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
 ```
 
 # Results
@@ -94,9 +98,9 @@ Reproduce dynamics when the initial conditions favour the anoxic state (Figure 2
 
 ```{r}
 
-sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_anoxic_fig2ab"))
+parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
+sim_res <- run_simulation(parameter)
 plot_dynamics(simulation_result = sim_res)
-
 ```
 
 Population dynamics seem as in the paper. Resource dynamics fluctuate more than in the paper.
@@ -106,9 +110,8 @@ Population dynamics seem as in the paper. Resource dynamics fluctuate more than 
 Reproduce dynamics when the initial conditions favour the oxic state (Figure 2c, d in Bush et al. 2017)
 
 ```{r}
-
-sim_res <- run_simulation(initial_state = new_initial_state(values = "bush_oxic_fig2cd"))
-
+parameter$initial_state = new_initial_state(values = "bush_oxic_fig2cd")
+sim_res <- run_simulation(parameter)
 plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
 ```
@@ -117,28 +120,31 @@ plot_dynamics(sim_res)
 
 Here we find the stable states that correspond to specific values of oxygen diffusivity (parameter $a_0$ / `a_0`). (Code not displayed.)
 
-```{r echo = FALSE, sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
-ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 50000
-ssfind_simulation_sampling_interval <- ssfind_simulation_duration
-ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- new_starter(n_CB = 1,
+```{r echo = FALSE, sim_ss_CB_SB_PB1}
+parameter <- new_ss_by_a_N_parameter(
+  minimum_abundances = rep(0, 3),
+  sim_duration = 50000,
+  sim_sample_interval = 50000,
+  event_interval = 50000,
+  parameter_values = new_starter(n_CB = 1,
                                  n_PB = 1,
                                  n_SB = 1,
                                  values_initial_state = "bush_ssfig3")
+)
+names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
+
 grid_num_a <- 100
 a_Os <- 10^seq(-6, -2, length=grid_num_a)
 grid_num_N <- 2
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 1e8
 initial_SBs <- 1e8
-expt <- expand.grid(N_CB = initial_CBs,
+parameter$ss_expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 
-ss_CB_SB_PB <- ss_by_a_N(expt, ssfind_parameters)
+ss_CB_SB_PB <- ss_by_a_N(parameter)
 ```
 
 

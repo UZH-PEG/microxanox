@@ -1,5 +1,5 @@
-new_microxanox_parameter <- function(
-  help = FALSE
+new_runsim_parameter <- function(
+  ..., help = FALSE
 ){
   if (help) {
     p <- list(
@@ -29,7 +29,17 @@ new_microxanox_parameter <- function(
       initial_state = NULL, # default_initial_state,
       solver_method = NULL # "radau",
     )
-    class(p) <- append(class(p), "microxanox_parameter")
+    class(p) <- append(class(p), "runsim_parameter")
+    if (...length() > 0) {
+      valid <- ...names() %in% names(p)
+      if (!all(valid)) {
+        stop(paste0("Non defined parameter supplied: ", paste(...names()[!valid], collapse = ", ")))
+      } else {
+        for (nm in 1:...length()) {
+          p[[...names()[[nm]]]] <- ...elt(nm)
+        }
+      }
+    }
     
   }
   return(p)

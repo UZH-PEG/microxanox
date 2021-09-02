@@ -33,6 +33,9 @@ run_simulation <- function(
   #                          initial_state = default_initial_state,
   #                          solver_method = "radau")
 ){
+  if (!inherits(parameter, "runsim_parameter")) {
+    stop("parameter has to be an object of type `runsim_parameter`!")
+  }
   
   if(parameter$sim_sample_interval > parameter$sim_duration){
     stop("Simulation sample interval is greater than simualution duration... it should be shorter.")
@@ -94,27 +97,28 @@ run_simulation <- function(
       method = parameter$solver_method,
       events = list(
         func = parameter$event_definition,
-        time = parameter$event_times
+        time = event_times
       )
     )
   )
   
-  return(
-    list(
-      result = out,
-      dynamic_model = parameter$dynamic_model,
-      event_definition = parameter$event_definition,
-      parameter_values = parameter$parameter_values,
-      event_interval = parameter$event_interval,
-      noise_sigma = parameter$noise_sigma,
-      minimum_abundances = parameter$minimum_abundances,
-      sim_duration = parameter$sim_duration,
-      sim_sample_interval = parameter$sim_sample_interval,
-      log10a_forcing = log10a_forcing,
-      log10a_forcing_func = log10a_forcing_func,
-      initial_state = parameter$initial_state,
-      solver_method = parameter$solver_method
-    )
-  )
+  result <- new_runsim_results(parameter, out)
+
+  return(result)
+    # list(
+    #   result = out,
+    #   dynamic_model = parameter$dynamic_model,
+    #   event_definition = parameter$event_definition,
+    #   parameter_values = parameter$parameter_values,
+    #   event_interval = parameter$event_interval,
+    #   noise_sigma = parameter$noise_sigma,
+    #   minimum_abundances = parameter$minimum_abundances,
+    #   sim_duration = parameter$sim_duration,
+    #   sim_sample_interval = parameter$sim_sample_interval,
+    #   log10a_forcing = log10a_forcing,
+    #   log10a_forcing_func = log10a_forcing_func,
+    #   initial_state = parameter$initial_state,
+    #   solver_method = parameter$solver_method
+    # )
               
 }
