@@ -1,3 +1,13 @@
+#' Create parameter to run the simulation by using the function \code{ss_by_a_N()}
+#'
+#' @param ... named parameter for the simulation to be set. 
+#'   An error will be raised, if they are not part of the parameter set.
+#' @param help if \code{TRUE}, the parameter will be listed and explained.
+#'
+#' @return parameter object of the class \code{ss_by_a_N_parameter}
+#' @export
+#'
+#' @examples
 new_ss_by_a_N_parameter <- function(..., help = FALSE) {
     if (help) {
         p <- list(

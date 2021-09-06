@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/opetchey/microxanox/",
   "issueTracker": "https://github.com/opetchey/microxanox/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -301,6 +301,6 @@
     }
   ],
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
-  "fileSize": "1301.387KB",
+  "fileSize": "1304.088KB",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#experimental", "https://www.repostatus.org/#wip"]
 }

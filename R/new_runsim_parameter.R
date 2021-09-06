@@ -1,3 +1,13 @@
+#' Create parameter to run the simulation by using the function \code{run_sim()}
+#'
+#' @param ... named parameter for the simulation to be set. 
+#'   An error will be raised, if they are not part of the parameter set.
+#' @param help if \code{TRUE}, the parameter will be listed and explained.
+#'
+#' @return parameter object of the class \code{runsim_parameter}
+#' @export
+#'
+#' @examples
 new_runsim_parameter <- function(
   ..., help = FALSE
 ){

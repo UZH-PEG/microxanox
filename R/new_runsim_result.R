@@ -1,3 +1,15 @@
+#' Create result object of the function \code{run_sim()}.
+#'
+#' This object of class \code{runsim_result} is identical to the parameter object plus an additional field
+#'   \code{result} which contains the result of the simulation.
+#' @param parameter object of class \code{runsim_parameter} which has been used to run the simulation
+#' @param result a dataframe containing the results of the simulation
+#' @param help if \code{TRUE}, the parameter will be listed and explained.
+#'
+#' @return parameter object of the class \code{runsim_result}
+#' @export
+#'
+#' @examples
 new_runsim_results <- function(
   parameter, result, help = FALSE
 ){
