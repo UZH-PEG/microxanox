@@ -13,20 +13,20 @@ get_final_states_a_N <- function(x, parameter) {
   parameter$a_O <- x["a_O"]
   
   ## and set all the initial states in the parameter object to the required values
-  CBs <- unlist(rep(x["N_CB"] / length(grep("CB", names(parameter$initial_state))),
-      length(grep("CB", names(parameter$initial_state)))))
+  CBs <- unlist(rep(x["N_CB"] / length(grep("CB", names(parameter$strain_parameter$initial_state))),
+      length(grep("CB", names(parameter$strain_parameter$initial_state)))))
   names(CBs) <- NULL
-  parameter$initial_state[grep("CB", names(parameter$initial_state))] <- CBs
+  parameter$strain_parameter$initial_state[grep("CB", names(parameter$strain_parameter$initial_state))] <- CBs
     
-  PBs <- unlist(rep(x["N_PB"] / length(grep("PB", names(parameter$initial_state))),
-                    length(grep("PB", names(parameter$initial_state)))))
+  PBs <- unlist(rep(x["N_PB"] / length(grep("PB", names(parameter$strain_parameter$initial_state))),
+                    length(grep("PB", names(parameter$strain_parameter$initial_state)))))
   names(PBs) <- NULL
-  parameter$initial_state[grep("PB", names(parameter$initial_state))] <- PBs
+  parameter$strain_parameter$initial_state[grep("PB", names(parameter$strain_parameter$initial_state))] <- PBs
   
-  SBs <- unlist(rep(x["N_SB"] / length(grep("SB", names(parameter$initial_state))),
-                    length(grep("SB", names(parameter$initial_state)))))
+  SBs <- unlist(rep(x["N_SB"] / length(grep("SB", names(parameter$strain_parameter$initial_state))),
+                    length(grep("SB", names(parameter$strain_parameter$initial_state)))))
   names(SBs) <- NULL
-  parameter$initial_state[grep("SB", names(parameter$initial_state))] <- SBs
+  parameter$strain_parameter$initial_state[grep("SB", names(parameter$strain_parameter$initial_state))] <- SBs
   
  ## update forcing series with the required oxygen diffus. value
   parameter$log10a_series <- c(
@@ -34,6 +34,7 @@ get_final_states_a_N <- function(x, parameter) {
     log10(parameter[["a_O"]])
   )
   
+  parameter$initial_state = parameter$strain_parameter$initial_state
   ## run the simulation
   simres <- run_simulation(
     parameter
@@ -46,7 +47,8 @@ get_final_states_a_N <- function(x, parameter) {
   #   log10a_series = ss_log10a_series,
   #   minimum_abundances = ssfind_minimum_abundances
   )
-   ## return only the final values of the state variables
-   simres$result[2,-1] 
+  ## return only the final values of the state variables
+  
+  simres$result[2,-1] 
   
 }

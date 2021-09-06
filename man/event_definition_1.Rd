@@ -5,7 +5,14 @@
 \title{A function that contains events that should alter the state variables.
 (It is named definition "1", in case other definitions are created.)}
 \usage{
-event_definition_1(times = times, y = state, parms = parameters)
+event_definition_1(
+  times = times,
+  y = state,
+  parms = parameters,
+  log10a_forcing_func,
+  noise_sigma,
+  minimum_abundances
+)
 }
 \arguments{
 \item{times}{The time point in the simulation}

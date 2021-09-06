@@ -39,5 +39,5 @@ ss_by_a_N <- function(parameter, mc.cores = getOption("mc.cores", 0)) {
                   initial_N_SB = parameter$ss_expt$N_SB,
                   a_O = parameter$ss_expt$a_O)
 
-   result
+   return(new_ss_by_a_N_results(parameter, result))
 }

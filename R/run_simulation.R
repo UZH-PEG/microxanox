@@ -1,16 +1,6 @@
 #' Function to run a simulation
 #'
-#' @param dynamic_model A function that defines the dynamical model to use.
-#' @param event_definition A function that defines events that periodically take place.
-#' @param event_interval The amount of time between events.
-#' @param parameter_values A named vector of parameter values.
-#' @param noise_sigma The amount of noise added to a state variable.
-#' @param minimum_abundances The minimum abundances that a group of organisms can have; if less than this, then the abundance is increased to the minimum.
-#' @param sim_duration The duration of the simulation.
-#' @param sim_sample_interval The amount of time between samples.
-#' @param log10a_series The time series of values of the log of parameter a (oxygen diffusivity).
-#' @param initial_state The initial values of all state variables.
-#' @param solver_method The method used in the ODE solver.
+#' @param parameter An object of class \code{runsim_parameter} as returned by \code{new_runsim_parameter()}.
 #' @return A list containing the time series of state variables and all arguments passed.
 #' 
 #' @importFrom stats approx approxfun
@@ -66,7 +56,7 @@ run_simulation <- function(
     )
   )
                                       
-  log10a_forcing_func <- approxfun(
+  l_f_f <- approxfun(
     x = log10a_forcing[,1],
     y = log10a_forcing[,2],
     method = "linear",
@@ -75,30 +65,33 @@ run_simulation <- function(
   
   ## assign the changed a_forcing2 into the global environment,
   ## from where the model gets it
-  assign("log10a_forcing_func",
-         log10a_forcing_func,
-         envir = .GlobalEnv)
-  
-  assign("noise_sigma",
-         parameter$noise_sigma,
-         envir = .GlobalEnv)
-  
-  assign("minimum_abundances",
-         parameter$minimum_abundances,
-         envir = .GlobalEnv)
-  
+  # assign("log10a_forcing_func",
+  #        log10a_forcing_func,
+  #        envir = .GlobalEnv)
+  # 
+  # assign("noise_sigma",
+  #        parameter$noise_sigma,
+  #        envir = .GlobalEnv)
+  # 
+  # assign("minimum_abundances",
+  #        parameter$minimum_abundances,
+  #        envir = .GlobalEnv)
+
   
   out <- as.data.frame(
     ode(
       y = parameter$initial_state,
       times = times,
       func = parameter$dynamic_model,
-      parms = parameter$parameter_values,
+      parms = parameter$strain_parameter,
       method = parameter$solver_method,
       events = list(
         func = parameter$event_definition,
         time = event_times
-      )
+      ),
+      log10a_forcing_func = l_f_f,
+      noise_sigma = parameter$noise_sigma,
+      minimum_abundances = parameter$minimum_abundances
     )
   )
   

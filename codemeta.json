@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/opetchey/microxanox/",
   "issueTracker": "https://github.com/opetchey/microxanox/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -178,6 +178,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "patchwork",
+      "name": "patchwork",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=patchwork"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "graphics",
       "name": "graphics"
     },
@@ -289,6 +301,6 @@
     }
   ],
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
-  "fileSize": "947.561KB",
+  "fileSize": "1301.387KB",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#experimental", "https://www.repostatus.org/#wip"]
 }

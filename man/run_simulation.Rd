@@ -7,27 +7,7 @@
 run_simulation(parameter)
 }
 \arguments{
-\item{dynamic_model}{A function that defines the dynamical model to use.}
-
-\item{event_definition}{A function that defines events that periodically take place.}
-
-\item{event_interval}{The amount of time between events.}
-
-\item{parameter_values}{A named vector of parameter values.}
-
-\item{noise_sigma}{The amount of noise added to a state variable.}
-
-\item{minimum_abundances}{The minimum abundances that a group of organisms can have; if less than this, then the abundance is increased to the minimum.}
-
-\item{sim_duration}{The duration of the simulation.}
-
-\item{sim_sample_interval}{The amount of time between samples.}
-
-\item{log10a_series}{The time series of values of the log of parameter a (oxygen diffusivity).}
-
-\item{initial_state}{The initial values of all state variables.}
-
-\item{solver_method}{The method used in the ODE solver.}
+\item{parameter}{An object of class \code{runsim_parameter} as returned by \code{new_runsim_parameter()}.}
 }
 \value{
 A list containing the time series of state variables and all arguments passed.

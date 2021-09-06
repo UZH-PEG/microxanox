@@ -6,7 +6,7 @@
 #' @param parms Model parameters
 #' @return A vector of the new state variables
 #' @export
-event_definition_1 <- function(times=times, y=state, parms = parameters) {
+event_definition_1 <- function(times=times, y=state, parms = parameters, log10a_forcing_func, noise_sigma, minimum_abundances) {
   with(
     as.list(y),
     {

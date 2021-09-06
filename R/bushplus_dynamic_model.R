@@ -5,10 +5,11 @@
 #'
 #' @param t The current time in the simulation
 #' @param state A vector containing the current (named) values of each state variable
-#' @param parameters A list containing the parameter values
+#' @param parameters A list containing the parameter values.
+#'   An object of class \code{runsim_parameter} as returned by \code{new_runsim_parameter()}
 #' @return A list containing the rate of change of each state variable, and also the current values of oxygen diffusivity.
 #' @export
-bushplus_dynamic_model <- function(t, state, parameters) {
+bushplus_dynamic_model <- function(t, state, parameters, log10a_forcing_func, noise_sigma, minimum_abundances) {
 
          CB <- state[grep("CB", names(state))]
          names_CB <- names(CB)[order(names(CB))]
@@ -21,8 +22,7 @@ bushplus_dynamic_model <- function(t, state, parameters) {
          SB <- as.numeric(SB[order(names(SB))])
          # print(c(CB, PB, SB))
          
-    
-         
+
          # rates of change
          CB_growth_rate <- growth1(state["P"], parameters$CB$g_max_CB, parameters$CB$k_CB_P) * inhibition(state["SR"], parameters$CB$h_SR_CB) * CB
          CB_mortality_rate <- parameters$CB$m_CB * CB

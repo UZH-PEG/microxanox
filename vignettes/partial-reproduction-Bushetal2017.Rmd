@@ -54,9 +54,9 @@ library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-if (!require(microxanox)) {
-  devtools::load_all(here::here())
-}
+
+devtools::load_all(here::here())
+
 library(patchwork)
 
 ## Set random number generator seed
@@ -64,7 +64,7 @@ library(patchwork)
 set.seed(13)
 
 ## should some of the more intense simulations be run...
-run_steadystate_sims <- FALSE
+run_steadystate_sims <- TRUE
 options(mc.cores=8)
 ```
 
@@ -72,22 +72,25 @@ options(mc.cores=8)
 ## Set defaults
 
 ```{r}
+ma <- rep(1e2, 3)
+names(ma) <- c("CB", "PB", "SB")
 parameter <- new_runsim_parameter(
   dynamic_model = bushplus_dynamic_model,
-  parameter_values = new_starter(),
+  strain_parameter = new_strain_parameter(),
   ## no default_initial_state
   sim_duration = 2000,
   sim_sample_interval = 1,
   log10a_series = c(
-    log10(new_starter()$a_O),
-    log10(new_starter()$a_O)
+    log10(new_strain_parameter()$a_O),
+    log10(new_strain_parameter()$a_O)
   ),
   event_definition = event_definition_1,
   event_interval = 10,
   noise_sigma = 0,
-  minimum_abundances = rep(1e2, 3)
+  minimum_abundances = ma
 )
-names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
+
+rm(ma)
 ```
 
 # Results
@@ -121,17 +124,6 @@ plot_dynamics(sim_res)
 Here we find the stable states that correspond to specific values of oxygen diffusivity (parameter $a_0$ / `a_0`). (Code not displayed.)
 
 ```{r echo = FALSE, sim_ss_CB_SB_PB1}
-parameter <- new_ss_by_a_N_parameter(
-  minimum_abundances = rep(0, 3),
-  sim_duration = 50000,
-  sim_sample_interval = 50000,
-  event_interval = 50000,
-  parameter_values = new_starter(n_CB = 1,
-                                 n_PB = 1,
-                                 n_SB = 1,
-                                 values_initial_state = "bush_ssfig3")
-)
-names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
 
 grid_num_a <- 100
 a_Os <- 10^seq(-6, -2, length=grid_num_a)
@@ -139,17 +131,33 @@ grid_num_N <- 2
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 1e8
 initial_SBs <- 1e8
-parameter$ss_expt <- expand.grid(N_CB = initial_CBs,
+ss_expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 
-ss_CB_SB_PB <- ss_by_a_N(parameter)
-```
+ma <- rep(0, 3)
+names(ma) <- c("CB", "PB", "SB")
 
+parameter <- new_ss_by_a_N_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(n_CB = 1,
+                                 n_PB = 1,
+                                 n_SB = 1,
+                                 values_initial_state = "bush_ssfig3"),
+  sim_duration = 50000,
+  sim_sample_interval = 50000,
+  event_definition = event_definition_1,
+  event_interval = 50000,
+  ss_expt = ss_expt,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
+rm(grid_num_a, a_Os, grid_num_N, initial_CBs, initial_PBs, initial_SBs, ma, ss_expt)
 
-```{r echo=FALSE, sim_ss_CB_SB_PB11, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
-saveRDS(ss_CB_SB_PB, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
+rm(sim_res)
 ```
 
 ```{r echo = FALSE}
@@ -158,7 +166,7 @@ ss_CB_SB_PB <- readRDS(file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 
 
 ```{r echo = FALSE}
-p1 <- ss_CB_SB_PB %>%
+p1 <- ss_CB_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -175,7 +183,7 @@ p1 <- ss_CB_SB_PB %>%
   labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
-p2 <- ss_CB_SB_PB %>%
+p2 <- ss_CB_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down"))%>%
   select(a, direction, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -194,29 +202,37 @@ p1 / p2
 
 Temporal change in oxygen diffusivity is used to switch the system from anoxic to oxic and back to anoxic.
 
-```{r sim_lhl_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
-simulation_duration <- 5000
-simulation_sampling_interval <- 10
-event_interval_t <- 100
+```{r sim_lhl_with_defaults}
 
 ## low-high-low oxgygen diffusivity
 lhl_log10a_series <- c(-8, -8, -2, -2, -2, -2, -2, -8, -8)
 
+ma <- rep(1e2, 3)
+names(ma) <- c("CB", "PB", "SB") 
+
+parameter <- new_runsim_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(),
+  initial_state = new_initial_state(values = "bush_anoxic_fig2ab"),
+#   strain_parameter = new_strain_parameter(),
+  ## no default_initial_state
+  sim_duration = 5000,
+  sim_sample_interval = 10,
+  log10a_series = lhl_log10a_series,
+  event_definition = event_definition_1,
+  event_interval = 100,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
+
+rm(ma, lhl_log10a_series)
 
 ## run simulation
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          initial_state = new_initial_state(values = "bush_anoxic_fig2ab"),
-                          log10a_series = lhl_log10a_series,
-                          sim_duration = simulation_duration,
-                          sim_sample_interval = simulation_sampling_interval,
-                          event_interval = event_interval_t)
-```
 
-
-```{r echo = FALSE, sim_lhl_with_defaults1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
+sim_res <- run_simulation(parameter)
 saveRDS(sim_res, "data/partial_reproduction/lhl_with_defaults.RDS")
+rm(sim_res)
 ```
-
 
 
 ```{r echo = FALSE}
@@ -243,25 +259,39 @@ Temporal change in oxygen diffusivity is used to switch the system from oxic to 
 
 
 ```{r sim_hlh_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/hlh_with_defaults.RDS")}
+hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
+
+ma <- rep(1e2, 3)
+names(ma) <- c("CB", "PB", "SB") 
+
+parameter <- new_runsim_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(),
+  initial_state = new_initial_state(values = "bush_oxic_fig2cd"),
+#   strain_parameter = new_strain_parameter(),
+  ## no default_initial_state
+  sim_duration = 50000,
+  sim_sample_interval = 10,
+  log10a_series = hlh_log10a_series,
+  event_definition = event_definition_1,
+  event_interval = 100,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
+
+rm(ma, hlh_log10a_series)
+
 
 simulation_duration <- 50000
 
 ## low-high-low oxgygen diffusivity
-hlh_log10a_series <- c(-2, -2, -10, -14, -18, -22, -2, -2, -2)
 
 ## run simulation
-sim_res <- run_simulation(dynamic_model = bushplus_dynamic_model,
-                          initial_state = new_initial_state(values = "bush_oxic_fig2cd"), # init_state_favouring_oxic,
-                          log10a_series = hlh_log10a_series,
-                          sim_duration = simulation_duration,
-                          sim_sample_interval = simulation_sampling_interval,
-                          event_interval = event_interval_t)
-```
-
-
-```{r echo = FALSE, sim_hlh_with_defaults1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/hlh_with_defaults.RDS")}
+sim_res <- run_simulation(parameter)
 saveRDS(sim_res, "data/partial_reproduction/hlh_with_defaults.RDS")
+rm(sim_res)
 ```
+
 
 ```{r echo = FALSE}
 hlh_with_defaults <- readRDS("data/partial_reproduction/hlh_with_defaults.RDS")
@@ -287,53 +317,50 @@ In this section we get the stable states corresponding to specific values of oxy
 Here we set the conditions common to all simulations:
 
 ```{r}
-ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 50000
-ssfind_simulation_sampling_interval <- ssfind_simulation_duration
-ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- new_starter(n_CB = 1,
-                                 n_PB = 1,
-                                 n_SB = 1,
-                                 values_initial_state = "bush_ssfig3")
-# ssfind_init_state <- c(N_CB = NA,
-#                        N_PB = NA,
-#                        N_SB = NA,
-#                        SO = 500,
-#                        SR = 50,
-#                        O = 30,
-#                        P = 10)
-##ssfind_init_state <- default_initial_state
-##ssfind_init_state <- return_anoxic_1strain_initial_state()
-#ssfind_init_state <- c(N_CB = NA, #this one is varied
-#                       N_PB = 1e8,
-#                       N_SB = 1e8,
-#                       SO = 200,
-#                       SR = 200,
-#                       O = 10,
-#                       P = 9.5)
-grid_num_a <- 100
-a_Os <- 10^seq(-6, -2, length=grid_num_a)
-grid_num_N <- 2
+ma <- rep(0, 3)
+names(ma) <- c("CB", "PB", "SB")
+
+parameter <- new_ss_by_a_N_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(
+    n_CB = 1,
+    n_PB = 1,
+    n_SB = 1,
+    values_initial_state = "bush_ssfig3"
+  ),
+  sim_duration = 50000,
+  sim_sample_interval = 50000,
+  event_definition = event_definition_1,
+  event_interval = 50000,
+  ss_expt = NA,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
+
+rm(ma)
 ```
 
 
 ### No organisms
 
 ```{r sim_ss_no_biology, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 0
 initial_PBs <- 0
 initial_SBs <- 0
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_no_biology <- ss_by_a_N(expt, ssfind_parameters)
-```
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
 
-
-```{r echo = FALSE, sim_ss_no_biology1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
-saveRDS(ss_no_biology, "data/partial_reproduction/ss_no_biology.RDS")
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_no_biology.RDS")
+rm(sim_res)
 ```
 
 ```{r echo = FALSE}
@@ -341,7 +368,7 @@ ss_no_biology <- readRDS("data/partial_reproduction/ss_no_biology.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_no_biology %>%
+ss_no_biology$result %>%
   select(a,
          starts_with("CB"),
          starts_with("PB"),
@@ -352,7 +379,7 @@ ss_no_biology %>%
 ```
 
 ```{r echo = FALSE}
-ss_no_biology %>%
+ss_no_biology$result %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
@@ -362,27 +389,32 @@ ss_no_biology %>%
 ### CB
 
 ```{r sim_ss_only_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 0
 initial_SBs <- 0
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_CB <- ss_by_a_N(expt, ssfind_parameters)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_only_CB.RDS")
+rm(sim_res)
 ```
 
-
-```{r  echo = FALSE, sim_ss_only_CB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
-saveRDS(ss_only_CB, "data/partial_reproduction/ss_only_CB.RDS")
-```
 
 ```{r echo = FALSE}
 ss_only_CB <- readRDS("data/partial_reproduction/ss_only_CB.RDS")
 ```
 
 ```{r echo = FALSE}
-tempx1 <- ss_only_CB %>%
+tempx1 <- ss_only_CB$result %>%
   select(a,
          starts_with("CB"),
          starts_with("PB"),
@@ -405,7 +437,7 @@ tempx1 %>%
 ```
 
 ```{r echo = FALSE}
-ss_only_CB %>%
+ss_only_CB$result %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
@@ -415,27 +447,33 @@ ss_only_CB %>%
 ### SB
 
 ```{r sim_ss_only_SB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 0
 initial_SBs <- 10^seq(0, 8, length=grid_num_N)
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_SB <- ss_by_a_N(expt, ssfind_parameters)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_only_SB.RDS")
+rm(sim_res)
 ```
 
 
-```{r  echo = FALSE, sim_ss_only_SB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
-saveRDS(ss_only_SB, "data/partial_reproduction/ss_only_SB.RDS")
-```
 
 ```{r echo = FALSE}
 ss_only_SB <- readRDS("data/partial_reproduction/ss_only_SB.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_only_SB %>%
+ss_only_SB$result %>%
   mutate(direction = ifelse(initial_N_SB == 1, "down", "up")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -447,7 +485,7 @@ ss_only_SB %>%
 ```
 
 ```{r echo = FALSE}
-ss_only_SB %>%
+ss_only_SB$result %>%
   mutate(direction = ifelse(initial_N_SB == 1, "down", "up"))%>%
   select(a, direction, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -458,27 +496,33 @@ ss_only_SB %>%
 ### PB
 
 ```{r sim_ss_only_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 10^seq(0, 8, length=grid_num_N)
 initial_SBs <- 0
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_only_PB <- ss_by_a_N(expt, ssfind_parameters)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_only_PB.RDS")
+rm(sim_res)
 ```
 
 
-```{r  echo = FALSE, sim_ss_only_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
-saveRDS(ss_only_PB, "data/partial_reproduction/ss_only_PB.RDS")
-```
 
 ```{r echo = FALSE}
 ss_only_PB <- readRDS("data/partial_reproduction/ss_only_PB.RDS")
 ```
 
 ```{r echo = FALSE}
-tempx1 <- ss_only_PB %>%
+tempx1 <- ss_only_PB$result %>%
   select(a,
          starts_with("CB"),
          starts_with("PB"),
@@ -503,7 +547,7 @@ tempx1 %>%
 ```
 
 ```{r echo = FALSE}
-ss_only_PB %>%
+ss_only_PB$result %>%
   select(a, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 2:ncol(.)) %>%
   ggplot() +
@@ -513,28 +557,34 @@ ss_only_PB %>%
 ### SB and PB
 
 ```{r sim_ss_only_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 0  # this one is varied
 initial_PBs <- 10^seq(0, 8, length=grid_num_N)
 initial_SBs <- 0
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_SB <- expt$N_PB
-ss_only_SB_PB <- ss_by_a_N(expt, ssfind_parameters)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_only_SB_PB.RDS")
+rm(sim_res)
 ```
 
 
-```{r  echo = FALSE, sim_ss_only_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
-saveRDS(ss_only_SB_PB, "data/partial_reproduction/ss_only_SB_PB.RDS")
-```
 
 ```{r echo = FALSE}
 ss_only_SB_PB <- readRDS("data/partial_reproduction/ss_only_SB_PB.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_only_SB_PB %>%
+ss_only_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_SB == 1, "down", "up")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -546,7 +596,7 @@ ss_only_SB_PB %>%
 ```
 
 ```{r echo = FALSE}
-ss_only_SB_PB %>%
+ss_only_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_SB == 1, "down", "up")) %>%
   select(a, direction, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -557,28 +607,33 @@ ss_only_SB_PB %>%
 ### SB and CB
 
 ```{r sim_ss_only_SB_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 0
 initial_SBs <- 10^8
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-#expt$N_SB <- expt$N_CB
-ss_only_SB_CB <- ss_by_a_N(expt, ssfind_parameters)
+# expt$N_SB <- expt$N_CB
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_only_SB_CB.RDS")
+rm(sim_res)
 ```
 
-
-```{r  echo = FALSE, sim_ss_only_SB_CB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
-saveRDS(ss_only_SB_CB, "data/partial_reproduction/ss_only_SB_CB.RDS")
-```
 
 ```{r echo = FALSE}
 ss_only_SB_CB <- readRDS("data/partial_reproduction/ss_only_SB_CB.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_only_SB_CB  %>%
+ss_only_SB_CB$result  %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -590,7 +645,7 @@ ss_only_SB_CB  %>%
 ```
 
 ```{r echo = FALSE}
-ss_only_SB_CB %>%
+ss_only_SB_CB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:6) %>%
@@ -601,28 +656,33 @@ ss_only_SB_CB %>%
 ### CB and PB
 
 ```{r sim_ss_only_CB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)  # this one is varied
 initial_PBs <- 10^8
 initial_SBs <- 0
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
 expt$N_CB <- expt$N_PB
-ss_only_CB_PB <- ss_by_a_N(expt, ssfind_parameters)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_only_CB_PB.RDS")
+rm(sim_res)
 ```
 
-
-```{r  echo = FALSE, sim_ss_only_CB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
-saveRDS(ss_only_CB_PB, "data/partial_reproduction/ss_only_CB_PB.RDS")
-```
 
 ```{r  echo = FALSE, }
 ss_only_CB_PB <- readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_only_CB_PB %>%
+ss_only_CB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -634,7 +694,7 @@ ss_only_CB_PB %>%
 ```
 
 ```{r echo = FALSE}
-ss_only_CB_PB %>%
+ss_only_CB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -645,27 +705,32 @@ ss_only_CB_PB %>%
 ### CB, SB, and PB
 
 ```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
+grid_num_a <- 100
+grid_num_N <- 2
+
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 1e8
 initial_SBs <- 1e8
+a_Os <- 10^seq(-6, -2, length=grid_num_a)
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
-ss_CB_SB_PB <- ss_by_a_N(expt, ssfind_parameters)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
+sim_res <- ss_by_a_N(parameter)
+saveRDS(sim_res, "data/partial_reproduction/ss_CB_SB_PB.RDS")
+rm(sim_res)
 ```
 
-
-```{r  echo = FALSE, sim_ss_CB_SB_PB12, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
-saveRDS(ss_CB_SB_PB, "data/partial_reproduction/ss_CB_SB_PB.RDS")
-```
 
 ```{r echo = FALSE}
 ss_CB_SB_PB <- readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```
 
 ```{r echo = FALSE}
-ss_CB_SB_PB %>%
+ss_CB_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -692,7 +757,7 @@ ss_CB_SB_PB %>%
 ```
 
 ```{r echo = FALSE}
-ss_CB_SB_PB %>%
+ss_CB_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction, SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -708,21 +773,21 @@ Not much code is shown because all is rather standard data wrangling. The unique
 
 
 ```{r echo = FALSE, sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}
-all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS"),
+all_ss <- tibble(readRDS("data/partial_reproduction/ss_no_biology.RDS")$result,
                  composition = "No organisms") %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB.RDS")$result,
                    composition = "CB")) %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB.RDS")$result,
                    composition = "SB")) %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_PB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_PB.RDS")$result,
                    composition = "PB")) %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_PB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_PB.RDS")$result,
                    composition = "SB-PB")) %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_CB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_SB_CB.RDS")$result,
                    composition = "SB-CB")) %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB_PB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_only_CB_PB.RDS")$result,
                    composition = "CB-PB")) %>%
-  bind_rows(tibble(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS"),
+  bind_rows(tibble(readRDS("data/partial_reproduction/ss_CB_SB_PB.RDS")$result,
                    composition = "CB-SB-PB"))
 
 #ss_object <- all_ss %>%
