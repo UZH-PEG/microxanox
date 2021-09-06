@@ -30,7 +30,7 @@ library(patchwork)
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-run_steadystate_sims <- FALSE
+run_steadystate_sims <- TRUE
 options(mc.cores=8)
 #setwd("vignettes"); getwd()
 
@@ -83,6 +83,23 @@ The framework used for running a simulation, and for varying aspects of a simula
 
 # Conditions that must be defined
 
+All parameter needed to run the simulations are encapsulated in an S3 object of class `runsim_parameter`. This object is returned by the function `new_runsim_parameter()`. 
+
+```{r}
+new_runsim_parameter(help = TRUE)
+```
+All parameter values are set initially to NA and need to be set. This can either be done by providing the parameters to be set as named arguments to the function `new_runsim_parameter()` or setting it afterwards:
+
+```{r}
+new_runsim_parameter(dynamic_model = bushplus_dynamic_model)
+```
+
+We now assyume, that an empty parameter set has been created by using
+
+```{r}
+parameter <- new_runsim_parameter()
+```
+
 Conditions that must be set, with an example of setting them:
 
 ## The dynamic model
@@ -90,7 +107,7 @@ Conditions that must be set, with an example of setting them:
 The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events (see below for event definition).
 
 ```{r}
-default_dynamic_model <- bushplus_dynamic_model
+parameter$dynamic_model <- bushplus_dynamic_model
 ```
 
 ## The parameter and initial state values
@@ -99,7 +116,7 @@ The parameter values and initial state values are held in one object. The functi
 
 ```{r}
 
-bush_anoxicstart_1strain <- new_starter(n_CB = 1,
+bush_anoxicstart_1strain <- new_strain_parameter(n_CB = 1,
                                         values_CB = "bush",
                                         n_PB = 1,
                                         values_PB = "bush",
@@ -246,7 +263,7 @@ plot_dynamics(anoxic_start_sim_results)
 ## 1 strain oxic start
 
 ```{r}
-bush_oxicstart_1strain <- new_starter(values_initial_state = "bush_oxic_fig2cd")
+bush_oxicstart_1strain <- new_strain_parameter(values_initial_state = "bush_oxic_fig2cd")
 ```
 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS")}
