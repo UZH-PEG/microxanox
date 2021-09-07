@@ -101,7 +101,7 @@ Reproduce dynamics when the initial conditions favour the anoxic state (Figure 2
 
 ```{r}
 
-parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
+parameter$strain_parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
 sim_res <- run_simulation(parameter)
 plot_dynamics(simulation_result = sim_res)
 ```
@@ -113,7 +113,7 @@ Population dynamics seem as in the paper. Resource dynamics fluctuate more than 
 Reproduce dynamics when the initial conditions favour the oxic state (Figure 2c, d in Bush et al. 2017)
 
 ```{r}
-parameter$initial_state = new_initial_state(values = "bush_oxic_fig2cd")
+parameter$strain_parameter$initial_state = new_initial_state(values = "bush_oxic_fig2cd")
 sim_res <- run_simulation(parameter)
 plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
@@ -212,8 +212,8 @@ names(ma) <- c("CB", "PB", "SB")
 
 parameter <- new_runsim_parameter(
   dynamic_model = bushplus_dynamic_model,
-  strain_parameter = new_strain_parameter(),
-  initial_state = new_initial_state(values = "bush_anoxic_fig2ab"),
+  strain_parameter = new_strain_parameter(values_initial_state ="bush_anoxic_fig2ab"),
+#   initial_state = new_initial_state(values = "bush_anoxic_fig2ab"),
 #   strain_parameter = new_strain_parameter(),
   ## no default_initial_state
   sim_duration = 5000,
@@ -266,8 +266,8 @@ names(ma) <- c("CB", "PB", "SB")
 
 parameter <- new_runsim_parameter(
   dynamic_model = bushplus_dynamic_model,
-  strain_parameter = new_strain_parameter(),
-  initial_state = new_initial_state(values = "bush_oxic_fig2cd"),
+  strain_parameter = new_strain_parameter(values_initial_state = "bush_oxic_fig2cd"),
+#  initial_state = new_initial_state(values = "bush_oxic_fig2cd"),
 #   strain_parameter = new_strain_parameter(),
   ## no default_initial_state
   sim_duration = 50000,

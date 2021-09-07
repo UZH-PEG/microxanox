@@ -34,7 +34,7 @@ get_final_states_a_N <- function(x, parameter) {
     log10(parameter[["a_O"]])
   )
   
-  parameter$initial_state = parameter$strain_parameter$initial_state
+  # parameter$initial_state = parameter$strain_parameter$initial_state
   ## run the simulation
   simres <- run_simulation(
     parameter

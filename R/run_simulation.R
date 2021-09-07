@@ -80,7 +80,7 @@ run_simulation <- function(
   
   out <- as.data.frame(
     ode(
-      y = parameter$initial_state,
+      y = parameter$strain_parameter$initial_state,
       times = times,
       func = parameter$dynamic_model,
       parms = parameter$strain_parameter,

@@ -22,7 +22,7 @@ new_runsim_parameter <- function(
       sim_duration = NA, # default_sim_duration,
       sim_sample_interval = NA, # default_sim_sample_interval,
       log10a_series = NA, # default_log10a_series,
-      initial_state = NA, # default_initial_state,
+      # initial_state = NA, # default_initial_state,
       solver_method = "radau" # "radau",
     )
   } else {
@@ -36,7 +36,7 @@ new_runsim_parameter <- function(
       sim_duration = NA, # default_sim_duration,
       sim_sample_interval = NA, # default_sim_sample_interval,
       log10a_series = NA, # default_log10a_series,
-      initial_state = NA, # default_initial_state,
+      # initial_state = NA, # default_initial_state,
       solver_method = "radau" # "radau",
     )
     class(p) <- append(class(p), "runsim_parameter")
