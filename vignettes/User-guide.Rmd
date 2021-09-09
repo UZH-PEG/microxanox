@@ -22,6 +22,7 @@ library(deSolve)
 library(rootSolve)
 library(here)
 if (!require(microxanox)) {
+  stop("Install microxanox!")
   devtools::load_all(here::here())
 }
 library(patchwork)
@@ -34,10 +35,6 @@ run_steadystate_sims <- TRUE
 options(mc.cores = 8)
 #setwd("vignettes"); getwd()
 
-```
-
-```{r echo = TRUE}
-library(microxanox)
 ```
 
 # Introduction
@@ -281,8 +278,7 @@ parameter <- new_runsim_parameter(
 	event_definition = event_definition_1,
 	event_interval = 10,
 	noise_sigma = 0,
-	minimum_abundances = rep(0, 3),
-	initial_state = sp$initial_state
+	minimum_abundances = rep(0, 3)
 )
 names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
 rm(sp)
@@ -428,52 +424,63 @@ We first set the conditions that will apply to all simulations. Note that these 
 We will work with a one strain per functional group model, and unless otherwise changed (which we do) starting with oxic favouring initial conditions.
 
 ```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+ma <- rep(0, 3)
+names(ma) <- c("CB", "PB", "SB")
 
-ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 50000
-ssfind_simulation_sampling_interval <- ssfind_simulation_duration
-ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- new_starter(n_CB = 1,
-                                 n_PB = 1,
-                                 n_SB = 1,
-                                 values_initial_state = "bush_ssfig3")
+parameter <- new_ss_by_a_N_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(
+    n_CB = 1,
+    n_PB = 1,
+    n_SB = 1,
+    values_initial_state = "bush_ssfig3"
+  ),
+  sim_duration = 50000,
+  sim_sample_interval = 50000,
+  event_definition = event_definition_1,
+  event_interval = 50000,
+  ss_expt = NA,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
 
+rm(ma)
 ```
 
 Next we need to define the values of $a_0$ and initial conditions that we will get the steady states of. We create quite continuous variation $a_0$. We, however, only need to vary the initial abundance of CB and have it either high or low, in order to find which of the two possible states that can occur do occur.
 
 ```{r sim_ss_CB_SB_PB2, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 grid_num_a <- 100 ## number of a_0 values
-a_Os <- 10^seq(-6, -2, length=grid_num_a) ## sequence of a_0 values
 grid_num_N <- 2 ## number of N values
+
 initial_CBs <- 10^seq(0, 10, length=grid_num_N) ## sequence of N values
 initial_PBs <- 1e8 ## not varied
 initial_SBs <- 1e8 ## not varied
+a_Os <- 10^seq(-6, -2, length=grid_num_a) ## sequence of a_0 values
 ## next line creates all possible combinations
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
+parameter$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
 # next line runs the "experiment", calling various functions to do this.
-ss_1strain <- ss_by_a_N(expt, ssfind_parameters)
+sim_res <- ss_by_a_N(parameter)
+
+saveRDS(sim_res, file = "data/user_guide/ss_1strain.RDS")
 ```
 
 
-```{r sim_ss_CB_SB_PB3, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds"), echo = FALSE}
-saveRDS(ss_1strain, file = "data/user_guide/ss_1strain.RDS")
-
-```
 
 ```{r echo = FALSE}
 ss_1strain <- readRDS(file = "data/user_guide/ss_1strain.RDS")
-
 ```
 
 And the results (plotting code hidden):
 
 ```{r echo = FALSE}
-p1 <- ss_1strain %>%
+p1 <- ss_1strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -490,7 +497,7 @@ p1 <- ss_1strain %>%
   labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
-p2 <- ss_1strain %>%
+p2 <- ss_1strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction ,SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -516,10 +523,12 @@ Note that the `ss_by_a_N()` function divides the specified starting abundance of
 #ssfind_simulation_duration <- 50000
 #ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 #ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- new_starter(n_CB = 3,
-                                 n_PB = 3,
-                                 n_SB = 3,
-                                 values_initial_state = "bush_ssfig3")
+parameter$strain_parameter <- new_strain_parameter(
+  n_CB = 3,
+  n_PB = 3,
+  n_SB = 3,
+  values_initial_state = "bush_ssfig3"
+)
 
 #ssfind_init_state
 #grid_num_a <- 100
@@ -533,13 +542,10 @@ ssfind_parameters <- new_starter(n_CB = 3,
 #                    N_SB = initial_SBs,
 #                    a_O = a_Os)
 
-ss_3strain <- ss_by_a_N(expt, ssfind_parameters)
-```
-
-
-```{r sim_ss_CB_SB_PB5, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds"), echo = FALSE}
+ss_3strain <- ss_by_a_N(parameter)
 saveRDS(ss_3strain, file = "data/user_guide/ss_3strain.RDS")
 ```
+
 
 ```{r echo = FALSE}
 ss_3strain <- readRDS(file = "data/user_guide/ss_3strain.RDS")
@@ -549,7 +555,7 @@ And the results (plotting code hidden):
 
 ```{r echo = FALSE}
 
-p1 <- ss_3strain %>%
+p1 <- ss_3strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -566,7 +572,7 @@ p1 <- ss_3strain %>%
   labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
-p2 <- ss_3strain %>%
+p2 <- ss_3strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction ,SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%

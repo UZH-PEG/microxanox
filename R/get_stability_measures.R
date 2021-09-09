@@ -1,36 +1,43 @@
 #' Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 #' Takes steady state data as the input. 
 #'
-#' @param ss_object An object of the type returned by the ss_by_a_N() function
+#' @param ss_object An object of class \code{ss_by_a_N_result} as returned by the ss_by_a_N() function or
+#'   the \code{result} e;ement of that object, i.e. \code{x$result}.
 #' @return A data frame of stability measures of each state variable
 #' @importFrom tidyr gather spread
 #' @importFrom dplyr summarise
 #' 
 #' @export
 get_stability_measures <- function(ss_object) {
+  if (inherits(ss_object, "ss_by_a_N_result")) {
+    result <- ss_object$result
+  } else {
+    result <- ss_object
+  }
+
   
   ## which initial condition varies?
   init_varying <- NA
-  if(length(unique(ss_object$initial_N_CB)) > 1)
+  if(length(unique(result$initial_N_CB)) > 1)
      init_varying <- "initial_N_CB"
-  if(length(unique(ss_object$initial_N_SB)) > 1)
+  if(length(unique(result$initial_N_SB)) > 1)
     init_varying <- "initial_N_SB"
-  if(length(unique(ss_object$initial_N_PB)) > 1)
+  if(length(unique(result$initial_N_PB)) > 1)
     init_varying <- "initial_N_PB"
   
   if(!is.na(init_varying)) {
   
-  ss_object$init_varying <- pull(ss_object[,init_varying],1)
+  result$init_varying <- pull(result[,init_varying],1)
   
-  min_iniN <- min(ss_object$init_varying)
-  max_iniN <- max(ss_object$init_varying)
+  min_iniN <- min(result$init_varying)
+  max_iniN <- max(result$init_varying)
   
   ## The following is preparing the data
-  these <- grep("B_", names(ss_object))
+  these <- grep("B_", names(result))
   #these <- these[c(-(length(these)-1), -length(these))]
-  these <- c(these, which(names(ss_object) %in% c("SO", "SR", "O", "P")))
-  temp <- ss_object %>%
-    #rbind(ss_object) %>%
+  these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
+  temp <- result %>%
+    #rbind(result) %>%
     mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
     filter(across(these, ~ .x >-0.001)) %>% ## there are rarely negative abundances greater than -0.001. This line and the na.omit removes them 
     tidyr::gather(key = "Species", value = Quantity, these) %>%
@@ -54,11 +61,11 @@ get_stability_measures <- function(ss_object) {
   
   if(is.na(init_varying)) {
      
-    these <- grep("B_", names(ss_object))
-    these <- c(these, which(names(ss_object) %in% c("SO", "SR", "O", "P")))
-    Species <- names(ss_object)[these]
+    these <- grep("B_", names(result))
+    these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
+    Species <- names(result)[these]
     
-  temp <- ss_object %>%
+  temp <- result %>%
     tidyr::gather(key = "Species", value = Quantity, these) %>%
     dplyr::select(-starts_with("initial_N_")) 
   
