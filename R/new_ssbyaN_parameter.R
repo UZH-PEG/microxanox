@@ -27,7 +27,9 @@ new_ss_by_a_N_parameter <- function(..., help = FALSE) {
     } else {
         p <- new_runsim_parameter()
         p$ss_expt <- NA
-        class(p) <- append(class(p), "ss_by_a_N_parameter")
+        if (!inherits(p, "ss_by_a_N_parameter")) {
+            class(p) <- append(class(p), "ss_by_a_N_parameter")
+        }
         if (...length() > 0) {
             valid <- ...names() %in% names(p)
             if (!all(valid)) {

@@ -39,7 +39,9 @@ new_runsim_parameter <- function(
       # initial_state = NA, # default_initial_state,
       solver_method = "radau" # "radau",
     )
-    class(p) <- append(class(p), "runsim_parameter")
+    if (!inherits(p, "runsim_parameter")) {
+      class(p) <- append(class(p), "runsim_parameter")
+    }
     if (...length() > 0) {
       valid <- ...names() %in% names(p)
       if (!all(valid)) {
