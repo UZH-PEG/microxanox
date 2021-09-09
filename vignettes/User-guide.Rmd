@@ -5,6 +5,7 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_vignette:
     toc: yes
+
 vignette: >
   %\VignetteIndexEntry{User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations}
   %\VignetteEngine{knitr::rmarkdown}
@@ -331,15 +332,10 @@ plot_dynamics(anoxic_start_sim_results)
 
 ```{r}
 parameter$strain_parameter <- new_strain_parameter(values_initial_state = "bush_oxic_fig2cd")
-parameter$initial_state <- parameter$strain_parameter$initial_state
 ```
 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS")}
 oxic_start_sim_results <- run_simulation(parameter)
-```
-
-
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS"), echo = FALSE}
 saveRDS(oxic_start_sim_results, file = "data/user_guide/oxic_start_sim_results.RDS")
 ```
 
@@ -398,10 +394,6 @@ parameter$strain_parameter$initial_state["SB_3"] <- 1e5
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/multistrain3.RDS")}
 parameter$initial_state <- parameter$strain_parameter$initial_state
 simulation_result3 <- run_simulation(parameter)
-```
-
-
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/multistrain3.RDS"), echo = FALSE}
 saveRDS(simulation_result3, file = "data/user_guide/multistrain3.RDS")
 ```
 
