@@ -42,6 +42,6 @@ get_final_states_a_N <- function(x, ssfind_parameters) {
                            log10a_series = ss_log10a_series,
                            minimum_abundances = ssfind_minimum_abundances)
    ## return only the final values of the state variables
-   simres$result[2,-1] 
+   simres$result[nrow(simres$result),-1] 
   
 }
