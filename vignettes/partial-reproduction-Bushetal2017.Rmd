@@ -54,9 +54,9 @@ library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-
-devtools::load_all(here::here())
-
+if (!require("microxanox")) {
+  devtools::load_all(here::here())
+}
 library(patchwork)
 
 ## Set random number generator seed
@@ -100,7 +100,6 @@ rm(ma)
 Reproduce dynamics when the initial conditions favour the anoxic state (Figure 2a, b in Bush et al. 2017)
 
 ```{r}
-
 parameter$strain_parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
 sim_res <- run_simulation(parameter)
 plot_dynamics(simulation_result = sim_res)
@@ -123,7 +122,7 @@ plot_dynamics(sim_res)
 
 Here we find the stable states that correspond to specific values of oxygen diffusivity (parameter $a_0$ / `a_0`). (Code not displayed.)
 
-```{r echo = FALSE, sim_ss_CB_SB_PB1}
+```{r echo = FALSE, sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
 
 grid_num_a <- 100
 a_Os <- 10^seq(-6, -2, length=grid_num_a)
@@ -202,7 +201,7 @@ p1 / p2
 
 Temporal change in oxygen diffusivity is used to switch the system from anoxic to oxic and back to anoxic.
 
-```{r sim_lhl_with_defaults}
+```{r sim_lhl_with_defaults, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/lhl_with_defaults.RDS")}
 
 ## low-high-low oxgygen diffusivity
 lhl_log10a_series <- c(-8, -8, -2, -2, -2, -2, -2, -8, -8)

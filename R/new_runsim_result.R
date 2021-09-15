@@ -35,7 +35,9 @@ new_runsim_results <- function(
     
     p <- parameter
     p$result <- result
-    class(p) <- append(class(p), "runsim_result")
+    if (!inherits(p, "runsim_result")) {
+      class(p) <- append(class(p), "runsim_result")
+    }
 
   }
   return(p)

@@ -21,10 +21,12 @@ new_ss_by_a_N_results <- function(
     if (!inherits(parameter, "ss_by_a_N_parameter")) {
       stop("`parameter` has to be of class ss_by_a_N_parameter")
     }
-    
+
     p <- parameter
     p$result <- result
-    class(p) <- append(class(p), "ss_by_a_N_result")
+    if (!inherits(p, "ss_by_a_N_result")) {
+      class(p) <- append(class(p), "ss_by_a_N_result")
+    }
 
   }
   return(p)
