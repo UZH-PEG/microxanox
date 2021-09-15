@@ -281,8 +281,7 @@ parameter <- new_runsim_parameter(
 	event_definition = event_definition_1,
 	event_interval = 10,
 	noise_sigma = 0,
-	minimum_abundances = rep(0, 3),
-	initial_state = sp$initial_state
+	minimum_abundances = rep(0, 3)
 )
 names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
 rm(sp)
