@@ -49,14 +49,25 @@ get_stability_measures <- function(ss_object) {
   ## then get the stability measures
   res <- temp %>%
     dplyr::group_by(Species) %>%
-    dplyr::summarise(hyst_tot = get_hysteresis_total(log10(up+1), log10(down+1)),
-                     hyst_range = get_hysteresis_range(log10(up+1), log10(down+1), a),
-                     hyst_min = get_hysteresis_min(log10(up+1), log10(down+1), a),
-                     hyst_max = get_hysteresis_max(log10(up+1), log10(down+1), a),
-                     nl_up = get_nonlinearity(a, log10(up+1)),
-                     nl_down = get_nonlinearity(a, log10(down+1))
+    dplyr::summarise(
     )
-  
+ 
+  res <- temp %>%
+    dplyr::group_by(Species) %>%
+    dplyr::summarise(hyst_tot_raw = get_hysteresis_total(up, down),
+                     hyst_range_raw = get_hysteresis_range(up, down, a),
+                     hyst_min_raw = get_hysteresis_min(up, down, a),
+                     hyst_max_raw = get_hysteresis_max(up, down, a),
+                     nl_up_raw = get_nonlinearity(a, up),
+                     nl_down_raw = get_nonlinearity(a, down),
+                     
+                     hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
+                     hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a),
+                     hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a),
+                     hyst_max_log = get_hysteresis_max(log10(up+1), log10(down+1), a),
+                     nl_up_log = get_nonlinearity(a, log10(up+1)),
+                     nl_down_log = get_nonlinearity(a, log10(down+1))
+    ) 
   }
   
   if(is.na(init_varying)) {
@@ -71,12 +82,20 @@ get_stability_measures <- function(ss_object) {
   
   res <- temp %>%
     dplyr::group_by(Species) %>%
-    dplyr::summarise(hyst_tot = 0,
-                     hyst_range = 0,
-                     hyst_min = 0,
-                     hyst_max = 0,
-                     nl_up = get_nonlinearity(a, log10(Quantity+1)),
-                     nl_down = get_nonlinearity(a, log10(Quantity+1)))
+    dplyr::summarise(
+      hyst_tot_raw = 0,
+      hyst_tot_log = 0,
+      hyst_range_raw = 0,
+      hyst_range_log = 0,
+      hyst_min_raw = 0,
+      hyst_min_log = 0,
+      hyst_max_raw = 0,
+      hyst_max_log = 0,
+      nl_up_raw = get_nonlinearity(a, Quantity),
+      nl_up_raw = get_nonlinearity(a, Quantity),
+      nl_down_log = get_nonlinearity(a, log10(Quantity+1)),
+      nl_down_log = get_nonlinearity(a, log10(Quantity+1))
+    )
   }
   
   res

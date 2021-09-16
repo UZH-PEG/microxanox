@@ -32,7 +32,7 @@ library(patchwork)
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-run_steadystate_sims <- TRUE
+run_steadystate_sims <- FALSE
 options(mc.cores = 8)
 #setwd("vignettes"); getwd()
 
