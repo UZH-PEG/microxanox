@@ -746,7 +746,7 @@ stab_res <- all_ss %>%
                                      composition == "CB-SB-PB" ~ 3
          ),
          var_type = ifelse(str_sub(Species, 3, 3)=="_", "Organism", "Substrate")) %>%
-  gather(key = "stab_measure", value = "value", 3:8)
+  gather(key = "stab_measure", value = "value", 3:14)
 saveRDS(stab_res, "data/partial_reproduction/stab_res.RDS")
 ```
 
@@ -768,7 +768,7 @@ This is the amount of non-linearity in the (steady) state-environment relationsh
 
 ```{r echo = FALSE}
 resp_summ1 <- stab_res %>%
-  dplyr::filter(stab_measure %in% c("nl_down", "nl_up")) %>%
+  dplyr::filter(stab_measure %in% c("nl_down_log", "nl_up_log")) %>%
   group_by(composition, Species, num_func_groups, var_type) %>%
   summarise(ave_nl = mean(value))
 
@@ -833,7 +833,7 @@ ave_nl_system %>%
 ```{r echo = FALSE}
 focus_on <- "Substrate"
 resp_summ3 <- stab_res %>%
-  dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range"),
+  dplyr::filter(stab_measure %in% c("hyst_tot_log", "hyst_range_log"),
                 var_type == focus_on) %>%
   group_by(composition, num_func_groups, stab_measure, var_type) %>%
   summarise(ave_hyst = mean(value, na.rm = TRUE))
@@ -852,7 +852,7 @@ resp_summ3 %>%
 ```{r echo = FALSE}
 focus_on <- "Organism"
 resp_summ3 <- stab_res %>%
-  dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range"),
+  dplyr::filter(stab_measure %in% c("hyst_tot_log", "hyst_range_log"),
                 var_type == focus_on) %>%
   group_by(composition, num_func_groups, stab_measure, var_type) %>%
   summarise(ave_hyst = mean(value, na.rm = TRUE))
@@ -870,7 +870,7 @@ resp_summ3 %>%
 
 ```{r echo = FALSE}
 resp_summ4 <- stab_res %>%
-  dplyr::filter(stab_measure %in% c("hyst_tot", "hyst_range")) %>%
+  dplyr::filter(stab_measure %in% c("hyst_tot_log", "hyst_range_log")) %>%
   group_by(stab_measure, composition) %>%
   summarise(mean_hyst = mean(value, na.rm = TRUE))
 
