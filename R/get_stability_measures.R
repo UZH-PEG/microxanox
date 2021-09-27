@@ -55,11 +55,11 @@ get_stability_measures <- function(ss_object) {
   res <- temp %>%
     dplyr::group_by(Species) %>%
     dplyr::summarise(hyst_tot_raw = get_hysteresis_total(up, down),
-                     hyst_range_raw = get_hysteresis_range(up, down, a),
-                     hyst_min_raw = get_hysteresis_min(up, down, a),
-                     hyst_max_raw = get_hysteresis_max(up, down, a),
-                     nl_up_raw = get_nonlinearity(a, up),
-                     nl_down_raw = get_nonlinearity(a, down),
+                     hyst_range_raw = get_hysteresis_range(up, down, a_O),
+                     hyst_min_raw = get_hysteresis_min(up, down, a_O),
+                     hyst_max_raw = get_hysteresis_max(up, down, a_O),
+                     nl_up_raw = get_nonlinearity(a_O, up),
+                     nl_down_raw = get_nonlinearity(a_O, down),
                      
                      hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
                      hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a),
@@ -91,8 +91,8 @@ get_stability_measures <- function(ss_object) {
       hyst_min_log = 0,
       hyst_max_raw = 0,
       hyst_max_log = 0,
-      nl_up_raw = get_nonlinearity(a, Quantity),
-      nl_up_raw = get_nonlinearity(a, Quantity),
+      nl_up_raw = get_nonlinearity(a_O, Quantity),
+      nl_up_raw = get_nonlinearity(a_O, Quantity),
       nl_down_log = get_nonlinearity(a, log10(Quantity+1)),
       nl_down_log = get_nonlinearity(a, log10(Quantity+1))
     )
