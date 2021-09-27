@@ -47,8 +47,8 @@ get_stability_measures <- function(ss_object) {
         hyst_range_raw = get_hysteresis_range(up, down, a_O),
         hyst_min_raw = get_hysteresis_min(up, down, a_O),
         hyst_max_raw = get_hysteresis_max(up, down, a_O),
-        nl_up_raw = get_nonlinearity(a, up_O),
-        nl_down_raw = get_nonlinearity(a, down_O),
+        nl_up_raw = get_nonlinearity(a_O, up),
+        nl_down_raw = get_nonlinearity(a_O, down),
         
         hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
         hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a),
