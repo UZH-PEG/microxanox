@@ -81,8 +81,8 @@ get_stability_measures <- function(ss_object) {
         hyst_min_log = 0,
         hyst_max_raw = 0,
         hyst_max_log = 0,
-        nl_up_raw = get_nonlinearity(a, Quantity),
-        nl_up_raw = get_nonlinearity(a, Quantity),
+        nl_up_raw = get_nonlinearity(a_O, Quantity),
+        nl_up_raw = get_nonlinearity(a_O, Quantity),
         nl_down_log = get_nonlinearity(a, log10(Quantity+1)),
         nl_down_log = get_nonlinearity(a, log10(Quantity+1))
       )
