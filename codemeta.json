@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/opetchey/microxanox/",
   "issueTracker": "https://github.com/opetchey/microxanox/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -289,6 +289,6 @@
     }
   ],
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
-  "fileSize": "947.561KB",
+  "fileSize": "8697.122KB",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#experimental", "https://www.repostatus.org/#wip"]
 }
