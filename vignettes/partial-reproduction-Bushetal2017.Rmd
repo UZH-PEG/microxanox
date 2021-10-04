@@ -54,7 +54,7 @@ library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-#if (!require("microxanox")) {
+#if (!require("microxanoxBeta")) {
   devtools::load_all(here::here())
 #}
 library(patchwork)
