@@ -22,7 +22,7 @@ library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-if (!require(microxanox)) {
+if (!require(microxanoxBeta)) {
   stop("Install microxanox!")
   devtools::load_all(here::here())
 }
