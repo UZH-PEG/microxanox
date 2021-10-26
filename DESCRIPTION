@@ -17,7 +17,7 @@ Authors@R:
       )
 Maintainer: Owen L Petchey <owen.petchey@ieu.uzh.ch>
 URL: https://github.com/opetchey/microxanox/
-BugReports: https://github.com/opetchey/microxanox/issues
+BugReports: https://github.com/opetchey/microxanox/issues 
 License: MIT + file LICENSE
 Depends: 
   R (>= 3.5.0),
@@ -41,11 +41,10 @@ Suggests:
     knitr,
     rmarkdown,
     rootSolve,
-    patchwork,
     here,
     tidyverse,
     testthat (>= 3.0.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 Config/testthat/edition: 3
