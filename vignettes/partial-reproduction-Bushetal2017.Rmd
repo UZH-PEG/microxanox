@@ -20,6 +20,22 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.height = 4)
 
 
+library(tidyverse)
+library(deSolve)
+library(rootSolve)
+library(here)
+#if (!require("microxanoxBeta")) {
+  devtools::load_all(here::here())
+#}
+library(patchwork)
+
+## Set random number generator seed
+## Is redundant if there are no stochastic components in the model
+set.seed(13)
+
+## should some of the more intense simulations be run...
+run_steadystate_sims <- FALSE
+options(mc.cores=8)
 ```
 
 # Introduction
@@ -48,26 +64,6 @@ Much of the code used to create the content of this vignette is not shown in the
 # Methods
 
 ## Setup R
-
-```{r}
-library(tidyverse)
-library(deSolve)
-library(rootSolve)
-library(here)
-#if (!require("microxanoxBeta")) {
-  devtools::load_all(here::here())
-#}
-library(patchwork)
-
-## Set random number generator seed
-## Is redundant if there are no stochastic components in the model
-set.seed(13)
-
-## should some of the more intense simulations be run...
-run_steadystate_sims <- FALSE
-options(mc.cores=8)
-```
-
 
 ## Set defaults
 

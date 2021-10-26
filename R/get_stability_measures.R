@@ -4,8 +4,12 @@
 #' @param ss_object An object of class \code{ss_by_a_N_result} as returned by the ss_by_a_N() function or
 #'   the \code{result} e;ement of that object, i.e. \code{x$result}.
 #' @return A data frame of stability measures of each state variable
+#' 
+#' @global Quantity starts_with direction up down a_O a 
+#' 
 #' @importFrom tidyr gather spread
-#' @importFrom dplyr summarise
+#' @importFrom dplyr summarise pull filter across
+#' @importFrom stats na.omit
 #' 
 #' @export
 get_stability_measures <- function(ss_object) {
@@ -27,7 +31,7 @@ get_stability_measures <- function(ss_object) {
   
   if(!is.na(init_varying)) {
   
-  result$init_varying <- pull(result[,init_varying],1)
+  result$init_varying <- dplyr::pull(result[,init_varying],1)
   
   min_iniN <- min(result$init_varying)
   max_iniN <- max(result$init_varying)
@@ -38,8 +42,8 @@ get_stability_measures <- function(ss_object) {
   these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
   temp <- result %>%
     #rbind(result) %>%
-    mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
-    filter(across(these, ~ .x >-0.001)) %>% ## there are rarely negative abundances greater than -0.001. This line and the na.omit removes them 
+    dplyr::mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
+    dplyr::filter(dplyr::across(these, ~ .x >-0.001)) %>% ## there are rarely negative abundances greater than -0.001. This line and the na.omit removes them 
     tidyr::gather(key = "Species", value = Quantity, these) %>%
     dplyr::select(-starts_with("initial_N_"), -init_varying) %>%
     tidyr::spread(key = direction, value=Quantity, drop=T) %>%

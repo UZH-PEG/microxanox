@@ -1,12 +1,20 @@
 #' A function that contains events that should alter the state variables.
 #' (It is named definition "1", in case other definitions are created.)
 #'
-#' @param times The time point in the simulation
-#' @param y Current state variable values
-#' @param parms Model parameters
-#' @return A vector of the new state variables
+#' @param times the time point in the simulation
+#' @param y current state variable values
+#' @param parms object of class `strain_parameter`
+#' @return a vector of the new state variables
+#' @md
 #' @export
-event_definition_1 <- function(times=times, y=state, parms = parameters, log10a_forcing_func, noise_sigma, minimum_abundances) {
+event_definition_1 <- function(
+  times = times, 
+  y = state, 
+  parms = parameters, 
+  log10a_forcing_func, 
+  noise_sigma, 
+  minimum_abundances
+) {
   with(
     as.list(y),
     {

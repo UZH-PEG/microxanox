@@ -14,8 +14,12 @@ vignette: >
 
 ```{r setup, echo = FALSE, output = FALSE, message = FALSE}
 
-knitr::opts_chunk$set(cache = FALSE,
-                      fig.align = "centre", fig.width = 7, fig.height = 7)
+knitr::opts_chunk$set(
+  cache = FALSE,
+  fig.align = "centre", 
+  fig.width = 7, 
+  fig.height = 7
+)
 
 
 library(tidyverse)
@@ -32,7 +36,7 @@ library(patchwork)
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-run_steadystate_sims <- FALSE
+run_steadystate_sims <- TRUE
 options(mc.cores = 8)
 #setwd("vignettes"); getwd()
 
@@ -283,7 +287,7 @@ The advantage of this approach is that the names of the parameter are checked an
 
 ```{r, error = TRUE}
 parameter <- new_runsim_parameter(
-	dynamik_model = bushplus_dynamic_model
+	dynamic_model = bushplus_dynamic_model
 )
 ```
 

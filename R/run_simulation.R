@@ -1,8 +1,10 @@
-#' Function to run a simulation
+#' Run the simulation
 #'
-#' @param parameter An object of class \code{runsim_parameter} as returned by \code{new_runsim_parameter()}.
-#' @return A list containing the time series of state variables and all arguments passed.
-#' 
+#' @param parameter an object of class `runsim_parameter` as returned by
+#'   `new_runsim_parameter()`.
+#' @return an object of class 'runsim_result`, obtained from running the
+#'   su=imulation as defined in `parameter`.`
+#' @md
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
 #' 
@@ -79,7 +81,7 @@ run_simulation <- function(
 
   
   out <- as.data.frame(
-    ode(
+    deSolve::ode(
       y = parameter$strain_parameter$initial_state,
       times = times,
       func = parameter$dynamic_model,

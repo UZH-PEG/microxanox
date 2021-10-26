@@ -7,13 +7,26 @@
 new_runsim_parameter(..., help = FALSE)
 }
 \arguments{
-\item{...}{named parameter for the simulation to be set. 
+\item{...}{named parameter for the simulation to be set.
 An error will be raised, if they are not part of the parameter set.}
 
 \item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
-parameter object of the class \code{runsim_parameter}
+parameter object of the class \code{runsim_parameter}.
+The object contains the following elements:
+\itemize{
+\item dynamic_model      : the dynamic model to be used. At the moment, only \code{bushplus_dynamic_model} is implemented. Fir further info, see the documen tation of \code{bushplus_dynamic_model}.
+\item event_definition   : XXX
+\item strain_parameter   : object of class \code{strain_parameter} as returned by \code{new_strain_parameter()}
+\item event_interval     : XXX
+\item noise_sigma        : XXX
+\item minimum_abundances : XXX
+\item sim_duration       : duration of the simulation
+\item sim_sample_interval: interval, at which the simulation will be sampled
+\item log10a_series      : XXX
+\item solver_method      : Used for the solver. Default is \code{"radau"}. For other options, see the documentatioom of \code{odeSolve::ode}.
+}
 }
 \description{
 Create parameter to run the simulation by using the function \code{run_sim()}

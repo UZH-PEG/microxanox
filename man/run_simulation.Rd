@@ -2,16 +2,17 @@
 % Please edit documentation in R/run_simulation.R
 \name{run_simulation}
 \alias{run_simulation}
-\title{Function to run a simulation}
+\title{Run the simulation}
 \usage{
 run_simulation(parameter)
 }
 \arguments{
-\item{parameter}{An object of class \code{runsim_parameter} as returned by \code{new_runsim_parameter()}.}
+\item{parameter}{an object of class \code{runsim_parameter} as returned by
+\code{new_runsim_parameter()}.}
 }
 \value{
-A list containing the time series of state variables and all arguments passed.
+an object of class 'runsim_result\verb{, obtained from running the su=imulation as defined in }parameter\code{.}
 }
 \description{
-Function to run a simulation
+Run the simulation
 }

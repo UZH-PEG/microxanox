@@ -15,14 +15,14 @@ event_definition_1(
 )
 }
 \arguments{
-\item{times}{The time point in the simulation}
+\item{times}{the time point in the simulation}
 
-\item{y}{Current state variable values}
+\item{y}{current state variable values}
 
-\item{parms}{Model parameters}
+\item{parms}{object of class \code{strain_parameter}}
 }
 \value{
-A vector of the new state variables
+a vector of the new state variables
 }
 \description{
 A function that contains events that should alter the state variables.
