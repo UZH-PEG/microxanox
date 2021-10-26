@@ -1,10 +1,22 @@
-#' Create parameter to run the simulation by using the function \code{run_sim()}
+#' Create parameter to run the simulation by using the function `run_sim()`
 #'
 #' @param ... named parameter for the simulation to be set. 
 #'   An error will be raised, if they are not part of the parameter set.
 #' @param help if \code{TRUE}, the parameter will be listed and explained.
 #'
-#' @return parameter object of the class \code{runsim_parameter}
+#' @return parameter object of the class `runsim_parameter`. 
+#' The object contains the following elements:
+#' - dynamic_model      : the dynamic model to be used. At the moment, only `bushplus_dynamic_model` is implemented. Fir further info, see the documen tation of `bushplus_dynamic_model`.
+#' - event_definition   : XXX
+#' - strain_parameter   : object of class `strain_parameter` as returned by `new_strain_parameter()`
+#' - event_interval     : XXX
+#' - noise_sigma        : XXX
+#' - minimum_abundances : XXX
+#' - sim_duration       : duration of the simulation
+#' - sim_sample_interval: interval, at which the simulation will be sampled
+#' - log10a_series      : XXX
+#' - solver_method      : Used for the solver. Default is `"radau"`. For other options, see the documentatioom of `odeSolve::ode`.
+#' @md
 #' @export
 #'
 #' @examples

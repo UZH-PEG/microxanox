@@ -1,13 +1,18 @@
-
-
-#' The rate equations, as published in the Bush et al 2017 paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
-#' and the possibility to simulate multiple strains per functional group
+#' The rate equations, as published in the Bush et al 2017 paper, but with
+#' forcing of oxygen diffusivity `a_0` potential added, and the
+#' possibility to simulate multiple strains per functional group
 #'
 #' @param t The current time in the simulation
-#' @param state A vector containing the current (named) values of each state variable
-#' @param parameters A list containing the parameter values.
-#'   An object of class \code{runsim_parameter} as returned by \code{new_runsim_parameter()}
-#' @return A list containing the rate of change of each state variable, and also the current values of oxygen diffusivity.
+#' @param state A vector containing the current (named) values of each state
+#'   variable
+#' @param parameters An object of class `runsim_parameter` as returned by
+#'   `new_runsim_parameter()``
+#' @param log10a_forcing_func XXX
+#'   
+#' @return An objec of type `runsim_result` containing the parameter and
+#'   the results of the simulation, namely the rate of change of each state
+#'   variable, and also the current values of oxygen diffusivity.
+#' @md
 #' @export
 bushplus_dynamic_model <- function(t, state, parameters, log10a_forcing_func, noise_sigma, minimum_abundances) {
 

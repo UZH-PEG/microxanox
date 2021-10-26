@@ -6,6 +6,8 @@
 #' @return returns the ggplot object of the plot. If it is assigned to a 
 #'    variable, the plot needs to be plotted, otherwise it is plotted.
 #' 
+#' @global a species quantity a functional_group log10_quantity var_type . time
+#' 
 #' @importFrom dplyr filter mutate row_number case_when
 #' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab geom_line scale_colour_manual guides guide_legend
 #' @importFrom tidyr gather

@@ -1,9 +1,24 @@
 #' Create CB strain parameter
 #'
-#' @param n number of strains 
-#' @param values values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#'
-#' @return data.frame with additional class \code{CB_strain_parameter}
+#' @param n number of strains
+#' @param values Allowed values are:
+#' - `"bush"`: default values from Bush et al (2017) will be used
+#' - `"NA"`: all parameter will be set to `NA`. Usable for e.g. setting own parameter
+#'  
+#' @return object of class \code{CB_strain_parameter}. The object contains a
+#'   `data.frame` with 8 columns and `n` rows. The columns are:
+#' 
+#' columns: 
+#' - strain_name: the name of the strain
+#' - g_max_CB:
+#' - k_CB_P:
+#' - h_SR_CB:
+#' - y_P_CB:
+#' - Pr_CB:
+#' - m_CB:
+#' - i_CB:
+#' 
+#' @md
 #' @export
 #'
 new_CB_strain_parameter <- function(
@@ -45,10 +60,25 @@ new_CB_strain_parameter <- function(
 
 #' Create PB strain parameter
 #'
-#' @param n number of strains 
-#' @param values values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used
+#' @param n number of strains
+#' @param values values to be used or \code{"bush"}, in which case the default
+#'   from Bush et al (2017) will be used
+#'
+#' @return object of class \code{PB_strain_parameter}. The object contains a
+#'   `data.frame` with 8 columns and `n` rows. The columns are:
 #' 
-#' @return data.frame with additional class \code{PB_strain_parameter}
+#' columns: 
+#' - strain_name: the name of the strain
+#' - g_max_PB:
+#' - k_PB_SR:
+#' - k_PB_P:
+#' - h_O_PB:
+#' - y_SR_PB:
+#' - y_P_PB:
+#' - m_PB:
+#' - i_CB:
+#' 
+#' @md 
 #' @export
 #'
 new_PB_strain_parameter <- function(
@@ -95,7 +125,22 @@ new_PB_strain_parameter <- function(
 #' @param n number of strains 
 #' @param values values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used
 #'
-#' @return data.frame with additional class \code{SB_strain_parameter}
+#' @return object of class \code{PB_strain_parameter}. The object contains a
+#'   `data.frame` with 8 columns and `n` rows. The columns are:
+#' 
+#' columns: 
+#' - strain_name: the name of the strain
+#' - g_max_SB:
+#' - k_PB_SO:
+#' - k_SB_P:
+#' - h_O_SB:
+#' - y_SO_SB:
+#' - y_PB_SB:
+#' - m_SB:
+#' - i_SB:
+#' 
+#' @md
+#' 
 #' @export
 #'
 new_SB_strain_parameter <- function(
@@ -139,14 +184,19 @@ new_SB_strain_parameter <- function(
 
 
 
-#' Create initial condition
+#' Create initial state of the system
 #'
-#' @param n_CB number of CB strains 
-#' @param n_PB number of PB strains 
-#' @param n_SB number of SB strains 
-#' @param values values to be used or \code{"bush"}, in which case the default from Bush et al (2017) will be used
-#'
-#' @return initial state \code{vector} as part of the strain_starter
+#' @param n_CB number of CB strains
+#' @param n_PB number of PB strains
+#' @param n_SB number of SB strains
+#' @param values Allowed values are:
+#' - `"bush_anoxic_fig2ab"`: initial conditions for Bush et al 2017 figure 2 a & b 
+#' - `"bush_oxic_fig2cd"`: initial conditions for Bush et al 2017 figure 2 c & d 
+#' - `"bush_ssfig3"`: initial conditions for Bush et al 2017 figure e
+#' - `"NA"`: all initial values set to `NA`. Usable for e.g. setting own initial state
+#'   
+#' @return initial state \code{vector} aof the system s part of the strain_starter
+#' @md
 #' @export
 #'
 new_initial_state <- function(

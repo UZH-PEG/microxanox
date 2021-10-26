@@ -1,17 +1,32 @@
-#' Create result object of the function \code{run_sim()}.
+#' Create object of type `runsim_result` which is used as the result of the
+#' function `run_sim()`.
 #'
-#' This object of class \code{runsim_result} is identical to the parameter object plus an additional field
-#'   \code{result} which contains the result of the simulation.
-#' @param parameter object of class \code{runsim_parameter} which has been used to run the simulation
+#' @param parameter object of class `runsim_parameter` which has been used
+#'   to run the simulation
 #' @param result a dataframe containing the results of the simulation
-#' @param help if \code{TRUE}, the parameter will be listed and explained.
+#' @param help if `TRUE`, the parameter will be listed and explained.
 #'
-#' @return parameter object of the class \code{runsim_result}
+#' @return object of the class `runsim_result`. ' This object of class
+#'   `runsim_result` is identical to the parameter object plus an additional
+#'   field `result` which contains the result of the simulation. It contains 
+#'   the following columns:
+#'   - time: timestep of the simulation
+#'   - CB_n: n ranges from 1 to number of CB strains. XXX of cyano bacteria. 
+#'   - PB_n: n ranges from 1 to number of CB strains. XXX of phototrophic bacteria
+#'   - SB_n: n ranges from 1 to number of CB strains. XXX of sulphur bacteria
+#'   - SO  : XXX
+#'   - SR  : XXX
+#'   - O   : oxygen XXX
+#'   - P   : phosphorous XXX
+#'   - a   : XXX
+#' @md
 #' @export
 #'
 #' @examples
 new_runsim_results <- function(
-  parameter, result, help = FALSE
+  parameter, 
+  result, 
+  help = FALSE
 ){
   if (help) {
     p <- list(
