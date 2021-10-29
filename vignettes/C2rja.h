@@ -9,9 +9,9 @@
  */
 
 /*
- *====================================================================================================================================
+ *=================================================================================================================
  *  DEFINITION OF PROBLEM DIMENSIONS AND NUMERICAL SETTINGS
- *====================================================================================================================================
+ *=================================================================================================================
  */
 // Dimension settings: Required
 #define EQUATIONS_DIM             4
@@ -19,15 +19,15 @@
 #define PARAMETER_NR              14
 
 // Numerical settings: Optional (default values adopted otherwise)
-#define DYTOL                     1.0E-8                                            // Variable tolerance
-#define RHSTOL                    1.0E-9                                            // Function tolerance
-#define ALLOWNEGATIVE             0                                                 // Negative solution components allowed?
+#define DYTOL                     1.0E-8                                  // Variable tolerance
+#define RHSTOL                    1.0E-9                                  // Function tolerance
+#define ALLOWNEGATIVE             0                                       // Negative solution components allowed?
 
 
 /*
- *====================================================================================================================================
+ *=================================================================================================================
  *  DEFINITION OF ALIASES
- *====================================================================================================================================
+ *=================================================================================================================
  */
 // Define aliases for the parameters
 #define DELTA                     parameter[0]
@@ -54,9 +54,9 @@
 #define INTERVAL                  parameter[13]
 
 /*
- *====================================================================================================================================
+ *=================================================================================================================
  *  DEFINITION OF NAMES AND DEFAULT VALUES OF THE PARAMETERS
- *====================================================================================================================================
+ *=================================================================================================================
  */
 // At least two parameters should be specified in this array
 char *parameternames[PARAMETER_NR] = {"Delta", "Rmax1", "Rmax2", "Sigma",   "Zc",       "Imax",     "Q",
@@ -66,9 +66,9 @@ char *parameternames[PARAMETER_NR] = {"Delta", "Rmax1", "Rmax2", "Sigma",   "Zc"
 double parameter[PARAMETER_NR] = {10.0, 2.0, 2.0, 0.5, 0.1, 100.0, 10.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 
 /*
- *====================================================================================================================================
+ *=================================================================================================================
  *  DEFINITION OF THE SYSTEM OF EQUATIONS TO SOLVE
- *====================================================================================================================================
+ *=================================================================================================================
  */
 
 #undef MAX_EXP
@@ -97,7 +97,7 @@ double Maturation(double z, double nuj, double muj)
 }
 
 
-/*==================================================================================================================================*/
+/*=================================================================================================================*/
 
 // The ODE system defining the change in state variables during the growth period
 
@@ -105,17 +105,17 @@ double Maturation(double z, double nuj, double muj)
 static double                     StoredVals[ODEDIM];
 static int                        OdeDim = ODEDIM;
 
-#define R1                        argument[0]                                       // Resource #1
-#define R2                        argument[1]                                       // Resource #2
-#define CJ                        argument[2]                                       // Juvenile consumers
-#define CA                        argument[3]                                       // Adult consumers
-#define B                         argument[4]                                       // energy storage
+#define R1                        argument[0]                             // Resource #1
+#define R2                        argument[1]                             // Resource #2
+#define CJ                        argument[2]                             // Juvenile consumers
+#define CA                        argument[3]                             // Adult consumers
+#define B                         argument[4]                             // energy storage
 
-#define DR1DT                     derivative[0]                                     // Resource #1
-#define DR2DT                     derivative[1]                                     // Resource #2
-#define DCJDT                     derivative[2]                                     // Juvenile consumers
-#define DCADT                     derivative[3]                                     // Adult consumers
-#define DBDT                      derivative[4]                                     // Energy storage
+#define DR1DT                     derivative[0]                           // Resource #1
+#define DR2DT                     derivative[1]                           // Resource #2
+#define DCJDT                     derivative[2]                           // Juvenile consumers
+#define DCADT                     derivative[3]                           // Adult consumers
+#define DBDT                      derivative[4]                           // Energy storage
 
 void WithinSeason(double t, double *argument, double *derivative)
 {
@@ -129,7 +129,8 @@ void WithinSeason(double t, double *argument, double *derivative)
   ingest_R1 = IMAX*(R1*CJ + ETA*R1*CA);
   ingest_R2 = IMAX*(1.0 - ETA)*R2*CA;
 
-  mort_J = MUC + MUCJPLUS + MUCPLUS;                                                // Starvation mortality (max(nu_J, 0.0)-nu_J) not included here !
+  mort_J = MUC + MUCJPLUS + MUCPLUS;                                      // Starvation mortality (max(nu_J, 0.0)-nu_J)
+                                                                          // not included here !
   mort_A = MUC + MUCAPLUS + MUCPLUS + max(nu_A, 0.0) - nu_A;
 
   maturation = Maturation(ZC, nu_J, mort_J)*CJ;
@@ -156,7 +157,7 @@ void WithinSeason(double t, double *argument, double *derivative)
 }
 
 
-/*==================================================================================================================================*/
+/*=================================================================================================================*/
 // Routine specifying the system of equalities from which to solve for
 // R, J and A at equilibrium
 #define PERIOD 1
@@ -193,8 +194,8 @@ int Equations(double *argument, double *result)
           return FAILURE;
         }
       if (!result) memcpy(StoredVals, x, ODEDIM*sizeof(double));
-      x[2] += x[4];                                                                 // Add reproductive mass to juveniles
-      x[4] = 0.0;                                                                   // Reset reproductive mass
+      x[2] += x[4];                                                       // Add reproductive mass to juveniles
+      x[4] = 0.0;                                                         // Reset reproductive mass
     }
 
   //================================================================================
@@ -212,7 +213,7 @@ int Equations(double *argument, double *result)
 }
 
 
-/*==================================================================================================================================*/
+/*=================================================================================================================*/
 
 // Define all variables to be written to the output file (column-organized ASCII file)
 
@@ -222,15 +223,15 @@ int DefineExtraOutput(double *argument, double *ExtraOutput)
   // Invoke the routine that sets the right-hand side for setting the output variables
   if (Equations(argument, NULL) == FAILURE) return FAILURE;
 
-  ExtraOutput[0] = StoredVals[5]/INTERVAL;                                          // Average resource 1
-  ExtraOutput[1] = StoredVals[6]/INTERVAL;                                          // Average resource 2
-  ExtraOutput[2] = StoredVals[7]/INTERVAL;                                          // Avergae Cj
-  ExtraOutput[3] = StoredVals[8]/INTERVAL;                                          // Average Ca
-  ExtraOutput[4] = StoredVals[9]/INTERVAL;                                          // Average Ca+Cb
-  ExtraOutput[5] = StoredVals[10]/INTERVAL;                                         // Average Cj+Ca+Cb
+  ExtraOutput[0] = StoredVals[5]/INTERVAL;                                // Average resource 1
+  ExtraOutput[1] = StoredVals[6]/INTERVAL;                                // Average resource 2
+  ExtraOutput[2] = StoredVals[7]/INTERVAL;                                // Avergae Cj
+  ExtraOutput[3] = StoredVals[8]/INTERVAL;                                // Average Ca
+  ExtraOutput[4] = StoredVals[9]/INTERVAL;                                // Average Ca+Cb
+  ExtraOutput[5] = StoredVals[10]/INTERVAL;                               // Average Cj+Ca+Cb
 
   return SUCCES;
 }
 
 
-/*==================================================================================================================================*/
+/*=================================================================================================================*/

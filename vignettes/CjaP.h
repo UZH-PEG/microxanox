@@ -9,17 +9,19 @@
  ***/
 
 /*
- *====================================================================================================================================
+ *=====================================================================================================
  *  PROGRAM SETTINGS
- *====================================================================================================================================
+ *=====================================================================================================
  */
 
-#define RESFLUC                   0                                                 // Set resource dynamics to Semi-chemostat ( = 0) or fluctuating dynamics ( = 1)
+#define RESFLUC                   0                                     // Set resource dynamics to  
+ 																																				// Semi-chemostat ( = 0) or
+ 																																				// fluctuating dynamics ( = 1)
 
 /*
- *====================================================================================================================================
+ *=====================================================================================================
  *  DEFINITION OF PROBLEM DIMENSIONS AND NUMERICAL SETTINGS
- *====================================================================================================================================
+ *=====================================================================================================
  */
 // Dimension settings: Required
 #define EQUATIONS_DIM             4
@@ -27,18 +29,20 @@
 #define PARAMETER_NR              24
 
 // Numerical settings: Optional (default values adopted otherwise)
-#define ODESOLVE_MAX_STEP         0.1                                               // Largest step size in odesolver
+#define ODESOLVE_MAX_STEP         0.1                                   // Largest step size in 
+																																				// odesolver
 #define ODESOLVE_REL_ERR          1.0E-10
 
-#define DYTOL                     1.0E-8                                            // Variable tolerance
-#define RHSTOL                    1.0E-9                                            // Function tolerance
-#define ALLOWNEGATIVE             0                                                 // Negative solution components allowed?
+#define DYTOL                     1.0E-8                                // Variable tolerance
+#define RHSTOL                    1.0E-9                                // Function tolerance
+#define ALLOWNEGATIVE             0                                     // Negative solution 
+																																				// components allowed?
 
 
 /*
- *====================================================================================================================================
+ *=====================================================================================================
  *  DEFINITION OF ALIASES
- *====================================================================================================================================
+ *=====================================================================================================
  */
 // Define aliases for the parameters
 #define DELTAR                    parameter[0]
@@ -48,8 +52,8 @@
 #define MC                        parameter[2]
 #define TC                        parameter[3]
 #define SIGMAC                    parameter[4]
-#define ZC                        parameter[5]                                      // Body size maturation ratio
-#define MUC                       parameter[6]                                      // Background mortality
+#define ZC                        parameter[5]                          // Body size maturation ratio
+#define MUC                       parameter[6]                          // Background mortality
 #define QC                        parameter[7]
 #define HC                        parameter[8]
 
@@ -58,16 +62,19 @@
 #define MUCAPLUS                  parameter[11]
 
 // Parameters for consumer related to discrete reproduction
-#define EPS                       parameter[12]                                     // Conversion factor maintenance rate gonads
-#define INTERVAL                  parameter[13]                                     // Duration of period between spawning events
-#define PSI                       parameter[14]                                     // Rep. enrg. all. 2 cont. rep.
+#define EPS                       parameter[12]                         // Conversion factor maintenance 
+																																				// rate gonads
+#define INTERVAL                  parameter[13]                         // Duration of period between 
+																																				// spawning events
+#define PSI                       parameter[14]                         // Rep. enrg. all. 2 cont. rep.
 
 // Parameters for predator
 #define MP                        parameter[15]
 #define TP                        parameter[16]
 #define SIGMAP                    parameter[17]
 #define MUP                       parameter[18]
-#define PHI                       parameter[19]                                     // Preference for Juvenile stage of consumer
+#define PHI                       parameter[19]                         // Preference for Juvenile stage 
+																																				// of consumer
 #define HP                        parameter[20]
 
 #define MUPLUSP                   parameter[21]
@@ -78,22 +85,24 @@
 
 
 /*
- *====================================================================================================================================
+ *=====================================================================================================
  *  DEFINITION OF NAMES AND DEFAULT VALUES OF THE PARAMETERS
- *====================================================================================================================================
+ *=====================================================================================================
  */
 // At least two parameters should be specified in this array
-char *parameternames[PARAMETER_NR] = {"Delta", "Rmax",     "Mc",  "Tc", "Sigmac", "Zc",     "Muc", "Qc",  "Hc", "MucPlus", "MucjPlus", "MucaPlus",
-                                      "EPS",   "Interval", "Psi", "Mp", "Tp",     "Sigmap", "Mup", "Phi", "Hp", "Muplusp", "FuncResp", "AresF"};
+char *parameternames[PARAMETER_NR] = {"Delta", "Rmax",     "Mc",  "Tc", "Sigmac", "Zc",     
+																			"Muc", "Qc",  "Hc", "MucPlus", "MucjPlus", "MucaPlus",
+                                      "EPS",   "Interval", "Psi", "Mp", "Tp",     "Sigmap", 
+                                      "Mup", "Phi", "Hp", "Muplusp", "FuncResp", "AresF"};
 
 // These are the default parameters values
 double parameter[PARAMETER_NR] = {0.1, 30.0, 1.0, 0.1,  0.5,   0.1, 0.015, 1.5, 3.0, 0.0, 0.0, 0.0,
                                   0.0, 70.0, 0.0, 0.32, 0.032, 0.5, 0.005, 0.0, 3.0, 0.0, 1.0, 0.0};
 
 /*
- *====================================================================================================================================
+ *=====================================================================================================
  *  DEFINITION OF THE SYSTEM OF EQUATIONS TO SOLVE
- *====================================================================================================================================
+ *=====================================================================================================
  */
 
 #undef MAX_EXP
@@ -122,7 +131,7 @@ double Maturation(double z, double nuj, double muj)
 }
 
 
-/*==================================================================================================================================*/
+/*====================================================================================================*/
 
 // The ODE system defining the change in state variables during the growth period
 
@@ -130,17 +139,17 @@ double Maturation(double z, double nuj, double muj)
 static double                     StoredVals[ODEDIM];
 static int                        OdeDim = ODEDIM;
 
-#define R                         argument[0]                                       // Resource
-#define CJ                        argument[1]                                       // Juvenile consumers
-#define CA                        argument[2]                                       // Adult consumers
-#define P                         argument[3]                                       // Predator biomass
-#define B                         argument[4]                                       // energy storage
+#define R                         argument[0]                           // Resource
+#define CJ                        argument[1]                           // Juvenile consumers
+#define CA                        argument[2]                           // Adult consumers
+#define P                         argument[3]                           // Predator biomass
+#define B                         argument[4]                           // energy storage
 
-#define DRDT                      derivative[0]                                     // Resource
-#define DCJDT                     derivative[1]                                     // Juvenile consumers
-#define DCADT                     derivative[2]                                     // Adult consumers
-#define DPDT                      derivative[3]                                     // Predator
-#define DBDT                      derivative[4]                                     // Energy storage
+#define DRDT                      derivative[0]                         // Resource
+#define DCJDT                     derivative[1]                         // Juvenile consumers
+#define DCADT                     derivative[2]                         // Adult consumers
+#define DPDT                      derivative[3]                         // Predator
+#define DBDT                      derivative[4]                         // Energy storage
 
 void WithinSeason(double t, double *argument, double *derivative)
 {
@@ -191,7 +200,7 @@ void WithinSeason(double t, double *argument, double *derivative)
 }
 
 
-/*==================================================================================================================================*/
+/*====================================================================================================*/
 
 // Routine specifying the system of equalities from which to solve for
 // R, J and A at equilibrium
@@ -229,8 +238,9 @@ int Equations(double *argument, double *result)
           return FAILURE;
         }
       if (!result) memcpy(StoredVals, x, ODEDIM*sizeof(double));
-      x[1] += x[4];                                                                 // Add reproductive mass to juveniles
-      x[4] = 0.0;                                                                   // Reset reproductive mass
+      x[1] += x[4];                                                     // Add reproductive mass 
+      																																	// to juveniles
+      x[4] = 0.0;                                                       // Reset reproductive mass
     }
 
   //================================================================================
@@ -248,7 +258,7 @@ int Equations(double *argument, double *result)
 }
 
 
-/*==================================================================================================================================*/
+/*====================================================================================================*/
 
 // Define all variables to be written to the output file (column-organized ASCII file)
 
@@ -258,15 +268,15 @@ int DefineExtraOutput(double *argument, double *ExtraOutput)
   // Invoke the routine that sets the right-hand side for setting the output variables
   if (Equations(argument, NULL) == FAILURE) return FAILURE;
 
-  ExtraOutput[0] = StoredVals[5]/INTERVAL;                                          // Average resource
-  ExtraOutput[1] = StoredVals[6]/INTERVAL;                                          // Average Cj
-  ExtraOutput[2] = StoredVals[7]/INTERVAL;                                          // Avergae Ca+Cb
-  ExtraOutput[3] = StoredVals[8]/INTERVAL;                                          // Average Cj+Ca+Cb
-  ExtraOutput[4] = StoredVals[9]/INTERVAL;                                          // Average P
-  ExtraOutput[5] = StoredVals[10]/INTERVAL;                                         // P.C. growth rate P
+  ExtraOutput[0] = StoredVals[5]/INTERVAL;                              // Average resource
+  ExtraOutput[1] = StoredVals[6]/INTERVAL;                              // Average Cj
+  ExtraOutput[2] = StoredVals[7]/INTERVAL;                              // Avergae Ca+Cb
+  ExtraOutput[3] = StoredVals[8]/INTERVAL;                              // Average Cj+Ca+Cb
+  ExtraOutput[4] = StoredVals[9]/INTERVAL;                              // Average P
+  ExtraOutput[5] = StoredVals[10]/INTERVAL;                             // P.C. growth rate P
 
   return SUCCES;
 }
 
 
-/*==================================================================================================================================*/
+/*====================================================================================================*/

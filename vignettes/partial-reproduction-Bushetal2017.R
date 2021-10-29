@@ -7,15 +7,13 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.height = 4)
 
 
-
-## -----------------------------------------------------------------------------
 library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-
-devtools::load_all(here::here())
-
+#if (!require("microxanoxBeta")) {
+  devtools::load_all(here::here())
+#}
 library(patchwork)
 
 ## Set random number generator seed
@@ -23,7 +21,7 @@ library(patchwork)
 set.seed(13)
 
 ## should some of the more intense simulations be run...
-run_steadystate_sims <- TRUE
+run_steadystate_sims <- FALSE
 options(mc.cores=8)
 
 ## -----------------------------------------------------------------------------
@@ -48,13 +46,12 @@ parameter <- new_runsim_parameter(
 rm(ma)
 
 ## -----------------------------------------------------------------------------
-
-parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
+parameter$strain_parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
 sim_res <- run_simulation(parameter)
 plot_dynamics(simulation_result = sim_res)
 
 ## -----------------------------------------------------------------------------
-parameter$initial_state = new_initial_state(values = "bush_oxic_fig2cd")
+parameter$strain_parameter$initial_state = new_initial_state(values = "bush_oxic_fig2cd")
 sim_res <- run_simulation(parameter)
 plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
