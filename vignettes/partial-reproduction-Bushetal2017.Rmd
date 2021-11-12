@@ -13,11 +13,13 @@ vignette: >
 
 ```{r setup, output = FALSE, message = FALSE, echo = FALSE}
 
-knitr::opts_chunk$set(echo = TRUE,
-                      cache = FALSE,
-                      fig.align = "centre",
-                      fig.width = 7,
-                      fig.height = 4)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  cache = FALSE,
+  fig.align = "centre",
+  fig.width = 7,
+  fig.height = 4
+)
 
 
 library(tidyverse)
@@ -87,9 +89,11 @@ parameter <- new_runsim_parameter(
 )
 
 rm(ma)
+
+saveRDS(parameter, file = "data/partial_reproduction/parameter_default.RDS")
 ```
 
-# Results
+# Simulations
 
 ## Initial conditions favouring anoxic, no noise, no forcing
 
@@ -98,6 +102,8 @@ Reproduce dynamics when the initial conditions favour the anoxic state (Figure 2
 ```{r}
 parameter$strain_parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
 sim_res <- run_simulation(parameter)
+saveRDS(sim_res, file = "data/partial_reproduction/bush_anoxic_fig2ab.RDS")
+
 plot_dynamics(simulation_result = sim_res)
 ```
 
@@ -110,6 +116,8 @@ Reproduce dynamics when the initial conditions favour the oxic state (Figure 2c,
 ```{r}
 parameter$strain_parameter$initial_state = new_initial_state(values = "bush_oxic_fig2cd")
 sim_res <- run_simulation(parameter)
+saveRDS(sim_res, file = "data/partial_reproduction/bush_oxic_fig2cd.RDS")
+
 plot_dynamics(sim_res)
 ##ggsave("high_CB.png")
 ```
@@ -126,20 +134,24 @@ grid_num_N <- 2
 initial_CBs <- 10^seq(0, 10, length=grid_num_N)
 initial_PBs <- 1e8
 initial_SBs <- 1e8
-ss_expt <- expand.grid(N_CB = initial_CBs,
-                    N_PB = initial_PBs,
-                    N_SB = initial_SBs,
-                    a_O = a_Os)
+ss_expt <- expand.grid(
+  N_CB = initial_CBs,
+  N_PB = initial_PBs,
+  N_SB = initial_SBs,
+  a_O = a_Os
+)
 
 ma <- rep(0, 3)
 names(ma) <- c("CB", "PB", "SB")
 
 parameter <- new_ss_by_a_N_parameter(
   dynamic_model = bushplus_dynamic_model,
-  strain_parameter = new_strain_parameter(n_CB = 1,
-                                 n_PB = 1,
-                                 n_SB = 1,
-                                 values_initial_state = "bush_ssfig3"),
+  strain_parameter = new_strain_parameter(
+     n_CB = 1,
+     n_PB = 1,
+     n_SB = 1,
+     values_initial_state = "bush_ssfig3"
+  ),
   sim_duration = 50000,
   sim_sample_interval = 50000,
   event_definition = event_definition_1,
@@ -149,6 +161,7 @@ parameter <- new_ss_by_a_N_parameter(
   minimum_abundances = ma
 )
 rm(grid_num_a, a_Os, grid_num_N, initial_CBs, initial_PBs, initial_SBs, ma, ss_expt)
+saveRDS(sim_res, file = "data/partial_reproduction/parameter_ss_CB_SB_PB.RDS")
 
 sim_res <- ss_by_a_N(parameter)
 saveRDS(sim_res, file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
@@ -163,17 +176,27 @@ ss_CB_SB_PB <- readRDS(file = "data/partial_reproduction/ss_CB_SB_PB.RDS")
 ```{r echo = FALSE}
 p1 <- ss_CB_SB_PB$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
-  select(a, direction,
-         starts_with("CB"),
-         starts_with("PB"),
-         starts_with("SB"))  %>%
+  select(
+    a, 
+    direction,
+    starts_with("CB"),
+    starts_with("PB"),
+    starts_with("SB")
+  )  %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
   ggplot() +
-  geom_path(aes(x = a, y = log10(Quantity+1), col = Species, linetype = direction),
-            size=0.8) +
-  ylab(expression(Log[10](Abundance+1))) +
-  xlab(expression(Log[10](Oxygen~diffusivity))) +
-  ylim(0,10) +
+  geom_path(
+    aes(
+        x = a, 
+        y = log10(Quantity+1), 
+        col = Species, 
+        linetype = direction
+    ), 
+    size = 0.8
+  ) +
+    ylab(expression(Log[10](Abundance+1))) +
+    xlab(expression(Log[10](Oxygen~diffusivity))) +
+    ylim(0,10) +
   #theme(plot.title=element_text(size=10, hjust=0.5)) +
   labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
