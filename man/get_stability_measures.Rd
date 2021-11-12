@@ -8,7 +8,8 @@ Takes steady state data as the input.}
 get_stability_measures(ss_object)
 }
 \arguments{
-\item{ss_object}{An object of the type returned by the ss_by_a_N() function}
+\item{ss_object}{An object of class \code{ss_by_a_N_result} as returned by the ss_by_a_N() function or
+the \code{result} e;ement of that object, i.e. \code{x$result}.}
 }
 \value{
 A data frame of stability measures of each state variable

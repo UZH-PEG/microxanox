@@ -2,22 +2,37 @@
 % Please edit documentation in R/bushplus_dynamic_model.R
 \name{bushplus_dynamic_model}
 \alias{bushplus_dynamic_model}
-\title{The rate equations, as published in the Bush et al 2017 paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
-and the possibility to simulate multiple strains per functional group}
+\title{The rate equations, as published in the Bush et al 2017 paper, but with
+forcing of oxygen diffusivity \code{a_0} potential added, and the
+possibility to simulate multiple strains per functional group}
 \usage{
-bushplus_dynamic_model(t, state, parameters)
+bushplus_dynamic_model(
+  t,
+  state,
+  parameters,
+  log10a_forcing_func,
+  noise_sigma,
+  minimum_abundances
+)
 }
 \arguments{
 \item{t}{The current time in the simulation}
 
-\item{state}{A vector containing the current (named) values of each state variable}
+\item{state}{A vector containing the current (named) values of each state
+variable}
 
-\item{parameters}{A list containing the parameter values}
+\item{parameters}{An object of class \code{runsim_parameter} as returned by
+`new_runsim_parameter()``}
+
+\item{log10a_forcing_func}{XXX}
 }
 \value{
-A list containing the rate of change of each state variable, and also the current values of oxygen diffusivity.
+An objec of type \code{runsim_result} containing the parameter and
+the results of the simulation, namely the rate of change of each state
+variable, and also the current values of oxygen diffusivity.
 }
 \description{
-The rate equations, as published in the Bush et al 2017 paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
-and the possibility to simulate multiple strains per functional group
+The rate equations, as published in the Bush et al 2017 paper, but with
+forcing of oxygen diffusivity \code{a_0} potential added, and the
+possibility to simulate multiple strains per functional group
 }

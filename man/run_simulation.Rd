@@ -2,48 +2,17 @@
 % Please edit documentation in R/run_simulation.R
 \name{run_simulation}
 \alias{run_simulation}
-\title{Function to run a simulation}
+\title{Run the simulation}
 \usage{
-run_simulation(
-  dynamic_model = default_dynamic_model,
-  event_definition = default_event_definition,
-  parameter_values = default_parameter_values,
-  event_interval = default_event_interval,
-  noise_sigma = default_noise_sigma,
-  minimum_abundances = default_minimum_abundances,
-  sim_duration = default_sim_duration,
-  sim_sample_interval = default_sim_sample_interval,
-  log10a_series = default_log10a_series,
-  initial_state = default_initial_state,
-  solver_method = "radau"
-)
+run_simulation(parameter)
 }
 \arguments{
-\item{dynamic_model}{A function that defines the dynamical model to use.}
-
-\item{event_definition}{A function that defines events that periodically take place.}
-
-\item{parameter_values}{A named vector of parameter values.}
-
-\item{event_interval}{The amount of time between events.}
-
-\item{noise_sigma}{The amount of noise added to a state variable.}
-
-\item{minimum_abundances}{The minimum abundances that a group of organisms can have; if less than this, then the abundance is increased to the minimum.}
-
-\item{sim_duration}{The duration of the simulation.}
-
-\item{sim_sample_interval}{The amount of time between samples.}
-
-\item{log10a_series}{The time series of values of the log of parameter a (oxygen diffusivity).}
-
-\item{initial_state}{The initial values of all state variables.}
-
-\item{solver_method}{The method used in the ODE solver.}
+\item{parameter}{an object of class \code{runsim_parameter} as returned by
+\code{new_runsim_parameter()}.}
 }
 \value{
-A list containing the time series of state variables and all arguments passed.
+an object of class 'runsim_result\verb{, obtained from running the su=imulation as defined in }parameter\code{.}
 }
 \description{
-Function to run a simulation
+Run the simulation
 }

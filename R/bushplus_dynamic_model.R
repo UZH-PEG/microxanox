@@ -1,14 +1,20 @@
-
-
-#' The rate equations, as published in the Bush et al 2017 paper, but with forcing of oxygen diffusivity \code{"a_0"} potential added,
-#' and the possibility to simulate multiple strains per functional group
+#' The rate equations, as published in the Bush et al 2017 paper, but with
+#' forcing of oxygen diffusivity `a_0` potential added, and the
+#' possibility to simulate multiple strains per functional group
 #'
 #' @param t The current time in the simulation
-#' @param state A vector containing the current (named) values of each state variable
-#' @param parameters A list containing the parameter values
-#' @return A list containing the rate of change of each state variable, and also the current values of oxygen diffusivity.
+#' @param state A vector containing the current (named) values of each state
+#'   variable
+#' @param parameters An object of class `runsim_parameter` as returned by
+#'   `new_runsim_parameter()``
+#' @param log10a_forcing_func XXX
+#'   
+#' @return An objec of type `runsim_result` containing the parameter and
+#'   the results of the simulation, namely the rate of change of each state
+#'   variable, and also the current values of oxygen diffusivity.
+#' @md
 #' @export
-bushplus_dynamic_model <- function(t, state, parameters) {
+bushplus_dynamic_model <- function(t, state, parameters, log10a_forcing_func, noise_sigma, minimum_abundances) {
 
          CB <- state[grep("CB", names(state))]
          names_CB <- names(CB)[order(names(CB))]
@@ -21,8 +27,7 @@ bushplus_dynamic_model <- function(t, state, parameters) {
          SB <- as.numeric(SB[order(names(SB))])
          # print(c(CB, PB, SB))
          
-    
-         
+
          # rates of change
          CB_growth_rate <- growth1(state["P"], parameters$CB$g_max_CB, parameters$CB$k_CB_P) * inhibition(state["SR"], parameters$CB$h_SR_CB) * CB
          CB_mortality_rate <- parameters$CB$m_CB * CB

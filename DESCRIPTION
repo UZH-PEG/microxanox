@@ -1,5 +1,5 @@
-Package: microxanox
-Version: 0.2.2
+Package: microxanoxBeta
+Version: 0.2.5
 Date: 2021-04-11
 Title: Oxic-anoxic regime shifts in microbial communities
 Description: The description will be discussed.
@@ -17,14 +17,15 @@ Authors@R:
       )
 Maintainer: Owen L Petchey <owen.petchey@ieu.uzh.ch>
 URL: https://github.com/opetchey/microxanox/
-BugReports: https://github.com/opetchey/microxanox/issues
+BugReports: https://github.com/opetchey/microxanox/issues 
 License: MIT + file LICENSE
 Depends: 
-  R (>= 3.5.0)
+  R (>= 3.5.0),
 Imports: 
   magrittr,
   tibble,
   ggplot2,
+  patchwork,
   graphics,
   grDevices,
   stats,
@@ -40,11 +41,10 @@ Suggests:
     knitr,
     rmarkdown,
     rootSolve,
-    patchwork,
     here,
     tidyverse,
     testthat (>= 3.0.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 Config/testthat/edition: 3

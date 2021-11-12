@@ -5,6 +5,7 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   rmarkdown::html_vignette:
     toc: yes
+
 vignette: >
   %\VignetteIndexEntry{User guide -- microxanox R Package for microbial oxic and anoxic ecosystem simulations}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,15 +14,20 @@ vignette: >
 
 ```{r setup, echo = FALSE, output = FALSE, message = FALSE}
 
-knitr::opts_chunk$set(cache = FALSE,
-                      fig.align = "centre", fig.width = 7, fig.height = 7)
+knitr::opts_chunk$set(
+  cache = FALSE,
+  fig.align = "centre", 
+  fig.width = 7, 
+  fig.height = 7
+)
 
 
 library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-if (!require(microxanox)) {
+if (!require(microxanoxBeta)) {
+  stop("Install microxanox!")
   devtools::load_all(here::here())
 }
 library(patchwork)
@@ -31,13 +37,9 @@ library(patchwork)
 set.seed(13)
 
 run_steadystate_sims <- TRUE
-options(mc.cores=8)
+options(mc.cores = 8)
 #setwd("vignettes"); getwd()
 
-```
-
-```{r echo = TRUE}
-library(microxanox)
 ```
 
 # Introduction
@@ -83,14 +85,38 @@ The framework used for running a simulation, and for varying aspects of a simula
 
 # Conditions that must be defined
 
-Conditions that must be set, with an example of setting them:
+All parameter needed to run the simulations are encapsulated in an S3 object of class `runsim_parameter`. This object is returned by the function `new_runsim_parameter()`.
+
+```{r}
+new_runsim_parameter(help = TRUE)
+```
+All parameter values are set initially to NA and need to be set. This can either be done by providing the parameters to be set as named arguments to the function `new_runsim_parameter()`:
+
+```{r}
+new_runsim_parameter(dynamic_model = bushplus_dynamic_model)
+```
+
+Parameters can also be set after creation of a parameter set:
+
+```{r}
+parameter_set1 <- new_runsim_parameter()
+parameter_set1$dynamic_model <- bushplus_dynamic_model
+```
+
+This parameter set has the following elements:
+```{r}
+parameter_set1
+```
+
+
+Now we will discuss elements in the parameter set that must be set, with an example of setting them:
 
 ## The dynamic model
 
 The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events (see below for event definition).
 
 ```{r}
-default_dynamic_model <- bushplus_dynamic_model
+parameter_set1$dynamic_model <- bushplus_dynamic_model
 ```
 
 ## The parameter and initial state values
@@ -98,8 +124,7 @@ default_dynamic_model <- bushplus_dynamic_model
 The parameter values and initial state values are held in one object. The function `new_starter` can be used to create this object. In the follow, we specify one strain per functional group, all parameter values as defined in Bush et al 2017, and starting conditions as the anoxic favouring conditions in Bush et al 2017.
 
 ```{r}
-
-bush_anoxicstart_1strain <- new_starter(n_CB = 1,
+parameter_set1$strain_parameter <- new_strain_parameter(n_CB = 1,
                                         values_CB = "bush",
                                         n_PB = 1,
                                         values_PB = "bush",
@@ -107,19 +132,34 @@ bush_anoxicstart_1strain <- new_starter(n_CB = 1,
                                         values_SB = "bush",
                                         values_other = "bush",
                                         values_initial_state = "bush_anoxic_fig2ab")
-
 ```
+
+Here, $n_CB$, $n_PB$, and $n_SB$ are the number of strains within each functional group and $values_CB$ (etc) are the parameter values of the strains. The final argument sets the initial state of the system to a preset from the Bush et al (2007) publication.
 
 Here are the parameter values of the CB strain, for example
 
 ```{r}
-bush_anoxicstart_1strain$CB
+parameter_set1$strain_parameter$CB
 ```
 
-And here are the initial state values:
+There are two initial state values:
 
 ```{r}
-bush_anoxicstart_1strain$initial_state
+parameter_set1$initial_state
+```
+
+is used to start a simulation, while
+
+```{r}
+parameter_set1$strain_parameter$initial_state
+```
+
+is by the function `ss_by_a_N()` (this is a function used to get stable states).
+
+A good way to set these is:
+
+```{r}
+parameter_set1$initial_state <- parameter_set1$strain_parameter$initial_state
 ```
 
 ### Modifying initial states and parameter values
@@ -136,37 +176,31 @@ And the function `new_CB_strain_parameter` (and SB and PB equivalents) can be us
 new_CB_strain_parameter(values = "bush")
 ```
 
-Here we make a new set of parameters, in which there are three strains of CB, and one of each of SB and PB.
-
-```{r}
-bush_anoxicstart_311strain <- bush_anoxicstart_1strain
-bush_anoxicstart_311strain$CB <- new_CB_strain_parameter(n=3, values = "bush")
-bush_anoxicstart_311strain
-```
-
 
 ## The duration of the simulation:
 
 ```{r}
-default_sim_duration <- 2000
+parameter_set1$sim_duration <- 2000
 ```
 
 ## The sampling interval:
 
 ```{r}
-default_sim_sample_interval <- 1
+parameter_set1$sim_sample_interval <- 1
 ```
 
 ## The oxygen diffusivity dynamics
 
-Specified by giving a vector of values of $a_0$. These are then automatically spaced equally along the duration of the simulation. Here we specify no forcing of $a_0$.
+Specified by giving a vector of values of $a_O$. These are then automatically spaced equally along the duration of the simulation. Here we specify only two values of $a_O$, and so these are the start and end vlaues, and they are the same. Hence there is no temporal change in $a_O$.
 
 ```{r}
-default_log10a_series <- c(log10(bush_anoxicstart_1strain$a_O),
-                           log10(bush_anoxicstart_1strain$a_O))
+parameter_set1$log10a_series <- c(
+  log10(parameter_set1$strain_parameter$a_O),
+  log10(parameter_set1$strain_parameter$a_O)
+)
 ```
 
-Note that here we use the already set default value of $a_0$ and therefore must have already defined the default parameter values.
+Note that here we use the already set default value of $a_O$ and therefore must have already defined the default parameter values.
 
 ## Events
 
@@ -174,10 +208,10 @@ These are "things" that happen during the simulation. One has to specify what ha
 
 #### What happens
 
-The event definition function currently available can add noise to a state variable, and/or assure minimum abundance is not exceeded:
+The only event definition function currently available can add noise to a state variable, and/or assure minimum abundance is not exceeded:
 
 ```{r}
-default_event_definition <- event_definition_1
+parameter_set1$event_definition <- event_definition_1
 ```
 
 #### When it happens
@@ -185,7 +219,7 @@ default_event_definition <- event_definition_1
 Here set to an event every 10 time units.
 
 ```{r}
-default_event_interval <- 10
+parameter_set1$event_interval <- 10
 ```
 
 #### Default noise event options
@@ -193,7 +227,7 @@ default_event_interval <- 10
 Default to no noise added to substrate concentrations:
 
 ```{r}
-default_noise_sigma <- 0
+parameter_set1$noise_sigma <- 0
 ```
 
 #### Default minimum abundance event
@@ -201,10 +235,11 @@ default_noise_sigma <- 0
 Default to following minimum abundances:
 
 ```{r}
-default_minimum_abundances <- rep(0, 3)
-names(default_minimum_abundances) <- c("CB", "PB", "SB")
+parameter_set1$minimum_abundances <- rep(0, 3)
+names(parameter_set1$minimum_abundances) <- c("CB", "PB", "SB")
 ```
 
+<!-- 
 # Warnings
 
 Please note that the following objects are created during simulations and are assign to the global environment:
@@ -214,24 +249,72 @@ Please note that the following objects are created during simulations and are as
 -   `minimum_abundances`
 
 There are quite possibly some other dangerous programming practices. Sorry if they cause you problems.
+ -->
+
+The parameters can also be set in the command that creates the `run_sim_parameter` object:
+
+```{r}
+sp <- new_strain_parameter(
+		n_CB = 1,
+		values_CB = "bush",
+		n_PB = 1,
+		values_PB = "bush",
+		n_SB = 1,
+		values_SB = "bush",
+		values_other = "bush",
+		values_initial_state = "bush_anoxic_fig2ab"
+  )
+  
+parameter_set1 <- new_runsim_parameter(
+	dynamic_model = bushplus_dynamic_model,
+	strain_parameter = sp,
+	sim_duration = 2000,
+	sim_sample_interval = 1,
+	log10a_series = c(
+		log10(sp$a_O),
+		log10(sp$a_O)
+	),
+	event_definition = event_definition_1,
+	event_interval = 10,
+	noise_sigma = 0,
+	minimum_abundances = rep(0, 3)
+)
+names(parameter_set1$minimum_abundances) <- c("CB", "PB", "SB")
+rm(sp)
+```
+
+The advantage of this approach is that the names of the parameter are checked and an error is raised when it does not match, e.g.
+
+```{r, error = TRUE}
+parameter <- new_runsim_parameter(
+	dynamic_model = bushplus_dynamic_model
+)
+```
 
 # Run some example simulations
 
 ## 1 strain anoxic start
 
-Once all the conditions are assigned to the default objects, then the `run_simulation` function will use them without being explicitly given them, though still here we pass the parameter values and the initial states:
+Once all the conditions are assigned to the parameter object, then these can be given to the `run_simulation()`:
 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS")}
-anoxic_start_sim_results <- run_simulation(
-  parameter_values = bush_anoxicstart_1strain,
-  initial_state = bush_anoxicstart_1strain$initial_state
-)
+anoxic_start_sim_results <- run_simulation(parameter_set1)
 ```
 
+This will return an object of class `run_sim_results` which is identical to `parameter`, except that it contains one additional element, namely `result`, which contains the results of the simulation.
 
+Consequently, saving `anoxic_start_sim_results` will save all parameters needed to run the simulation as well as the result:
+ 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS"), echo = FALSE}
 saveRDS(anoxic_start_sim_results, file = "data/user_guide/anoxic_start_sim_results.RDS")
 ```
+
+As a sidenote, the simulation can be run again by simply calling
+
+```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS")}
+anoxic_start_sim_results_2 <- run_simulation(anoxic_start_sim_results)
+```
+
 
 The convenience function `plot_dynamics` can be used to easily visualise the dynamics of a simulation:
 
@@ -246,18 +329,11 @@ plot_dynamics(anoxic_start_sim_results)
 ## 1 strain oxic start
 
 ```{r}
-bush_oxicstart_1strain <- new_starter(values_initial_state = "bush_oxic_fig2cd")
+parameter_set1$strain_parameter <- new_strain_parameter(values_initial_state = "bush_oxic_fig2cd")
 ```
 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS")}
-oxic_start_sim_results <- run_simulation(
-  parameter_values = bush_oxicstart_1strain,
-  initial_state = bush_oxicstart_1strain$initial_state
-)
-```
-
-
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS"), echo = FALSE}
+oxic_start_sim_results <- run_simulation(parameter_set1)
 saveRDS(oxic_start_sim_results, file = "data/user_guide/oxic_start_sim_results.RDS")
 ```
 
@@ -275,51 +351,47 @@ Here we simulate a system with three strains per functional group. The system dy
 
 
 ```{r}
-multi_strain_paramameter <- new_starter(n_CB = 3,
-                                        n_PB = 3,
-                                        n_SB = 3)
+parameter_set1$strain_parameter <- new_strain_parameter(
+  n_CB = 3,
+  n_PB = 3,
+  n_SB = 3
+)
 ```
 
 For example, here are the parameters of the three CB strains:
 
 ```{r}
-multi_strain_paramameter$CB
+parameter_set1$strain_parameter$CB
 ```
 
 And the initial state values
 
 ```{r}
-multi_strain_paramameter$initial_state
+parameter_set1$strain_parameter$initial_state
 ```
 
 So we can see the different strains, we now give them slightly different initial abundances:
 
 ```{r}
 
-multi_strain_paramameter$initial_state["CB_1"] <- 5e3
-multi_strain_paramameter$initial_state["CB_2"] <- 1e3
-multi_strain_paramameter$initial_state["CB_3"] <- 0
-multi_strain_paramameter$initial_state["PB_1"] <- 1e7
-multi_strain_paramameter$initial_state["PB_2"] <- 1e6
-multi_strain_paramameter$initial_state["PB_3"] <- 1e5
-multi_strain_paramameter$initial_state["SB_1"] <- 1e7
-multi_strain_paramameter$initial_state["SB_2"] <- 1e6
-multi_strain_paramameter$initial_state["SB_3"] <- 1e5
-#multi_strain_paramameter$initial_state["SO"] <- 300
-#multi_strain_paramameter$initial_state["SR"] <- 300
-#multi_strain_paramameter$initial_state["O"] <- 1e1
-#multi_strain_paramameter$initial_state["P"] <- 1e1
+parameter_set1$strain_parameter$initial_state["CB_1"] <- 5e3
+parameter_set1$strain_parameter$initial_state["CB_2"] <- 1e3
+parameter_set1$strain_parameter$initial_state["CB_3"] <- 0
+parameter_set1$strain_parameter$initial_state["PB_1"] <- 1e7
+parameter_set1$strain_parameter$initial_state["PB_2"] <- 1e6
+parameter_set1$strain_parameter$initial_state["PB_3"] <- 1e5
+parameter_set1$strain_parameter$initial_state["SB_1"] <- 1e7
+parameter_set1$strain_parameter$initial_state["SB_2"] <- 1e6
+parameter_set1$strain_parameter$initial_state["SB_3"] <- 1e5
+# parameter$strain_parameter$initial_state["SO"] <- 300
+# parameter$strain_parameter$initial_state["SR"] <- 300
+# parameter$strain_parameter$initial_state["O"] <- 1e1
+# parameter$strain_parameter$initial_state["P"] <- 1e1
 ```
 
 ```{r eval = run_steadystate_sims | !file.exists("data/user_guide/multistrain3.RDS")}
-simulation_result3 <- run_simulation(
-  parameter_values = multi_strain_paramameter,
-  initial_state = multi_strain_paramameter$initial_state
-)
-```
-
-
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/multistrain3.RDS"), echo = FALSE}
+parameter_set1$initial_state <- parameter_set1$strain_parameter$initial_state
+simulation_result3 <- run_simulation(parameter_set1)
 saveRDS(simulation_result3, file = "data/user_guide/multistrain3.RDS")
 ```
 
@@ -333,7 +405,7 @@ plot_dynamics(simulation_result3)
 
 ## 1 strain per functional group
 
-Finding the steady state of the system is a common task. The function `ss_by_a_N()` finds the steady state (`ss`) for different values of the $a_0$ (oxygen diffusivity) parameter, and for different initial conditions ($N$).
+Finding the steady state of the system is a common task. The function `ss_by_a_N()` finds the state of a system after a certain length of simulation, for different values of the $a_0$ (oxygen diffusivity) parameter, and for different initial conditions ($N$).
 
 Note: The function `ss_by_a_N()` can be told to use multiple cores by setting the relevant option, e.g., `options(mc.cores=8)`
 
@@ -342,52 +414,63 @@ We first set the conditions that will apply to all simulations. Note that these 
 We will work with a one strain per functional group model, and unless otherwise changed (which we do) starting with oxic favouring initial conditions.
 
 ```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+ma <- rep(0, 3)
+names(ma) <- c("CB", "PB", "SB")
 
-ssfind_minimum_abundances <- rep(0, 3)
-names(ssfind_minimum_abundances) <- c("CB", "PB", "SB")
-ssfind_simulation_duration <- 50000
-ssfind_simulation_sampling_interval <- ssfind_simulation_duration
-ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- new_starter(n_CB = 1,
-                                 n_PB = 1,
-                                 n_SB = 1,
-                                 values_initial_state = "bush_ssfig3")
+parameter_set2 <- new_ss_by_a_N_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(
+    n_CB = 1,
+    n_PB = 1,
+    n_SB = 1,
+    values_initial_state = "bush_ssfig3"
+  ),
+  sim_duration = 50000,
+  sim_sample_interval = 50000,
+  event_definition = event_definition_1,
+  event_interval = 50000,
+  ss_expt = NA,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
 
+rm(ma)
 ```
 
 Next we need to define the values of $a_0$ and initial conditions that we will get the steady states of. We create quite continuous variation $a_0$. We, however, only need to vary the initial abundance of CB and have it either high or low, in order to find which of the two possible states that can occur do occur.
 
 ```{r sim_ss_CB_SB_PB2, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
 grid_num_a <- 100 ## number of a_0 values
-a_Os <- 10^seq(-6, -2, length=grid_num_a) ## sequence of a_0 values
 grid_num_N <- 2 ## number of N values
+
 initial_CBs <- 10^seq(0, 10, length=grid_num_N) ## sequence of N values
 initial_PBs <- 1e8 ## not varied
 initial_SBs <- 1e8 ## not varied
+a_Os <- 10^seq(-6, -2, length=grid_num_a) ## sequence of a_0 values
 ## next line creates all possible combinations
 expt <- expand.grid(N_CB = initial_CBs,
                     N_PB = initial_PBs,
                     N_SB = initial_SBs,
                     a_O = a_Os)
+parameter_set2$ss_expt <- expt
+rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
+
 # next line runs the "experiment", calling various functions to do this.
-ss_1strain <- ss_by_a_N(expt, ssfind_parameters)
+sim_res <- ss_by_a_N(parameter_set2)
+
+saveRDS(sim_res, file = "data/user_guide/ss_1strain.RDS")
 ```
 
 
-```{r sim_ss_CB_SB_PB3, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds"), echo = FALSE}
-saveRDS(ss_1strain, file = "data/user_guide/ss_1strain.RDS")
-
-```
 
 ```{r echo = FALSE}
 ss_1strain <- readRDS(file = "data/user_guide/ss_1strain.RDS")
-  
 ```
 
 And the results (plotting code hidden):
 
 ```{r echo = FALSE}
-p1 <- ss_1strain %>%
+p1 <- ss_1strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -404,7 +487,7 @@ p1 <- ss_1strain %>%
   labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
-p2 <- ss_1strain %>%
+p2 <- ss_1strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction ,SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%
@@ -430,10 +513,12 @@ Note that the `ss_by_a_N()` function divides the specified starting abundance of
 #ssfind_simulation_duration <- 50000
 #ssfind_simulation_sampling_interval <- ssfind_simulation_duration
 #ssfind_event_interval <- ssfind_simulation_duration
-ssfind_parameters <- new_starter(n_CB = 3,
-                                 n_PB = 3,
-                                 n_SB = 3,
-                                 values_initial_state = "bush_ssfig3")
+parameter_set2$strain_parameter <- new_strain_parameter(
+  n_CB = 3,
+  n_PB = 3,
+  n_SB = 3,
+  values_initial_state = "bush_ssfig3"
+)
 
 #ssfind_init_state
 #grid_num_a <- 100
@@ -447,13 +532,10 @@ ssfind_parameters <- new_starter(n_CB = 3,
 #                    N_SB = initial_SBs,
 #                    a_O = a_Os)
 
-ss_3strain <- ss_by_a_N(expt, ssfind_parameters)
-```
-
-
-```{r sim_ss_CB_SB_PB5, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds"), echo = FALSE}
+ss_3strain <- ss_by_a_N(parameter_set2)
 saveRDS(ss_3strain, file = "data/user_guide/ss_3strain.RDS")
 ```
+
 
 ```{r echo = FALSE}
 ss_3strain <- readRDS(file = "data/user_guide/ss_3strain.RDS")
@@ -463,7 +545,7 @@ And the results (plotting code hidden):
 
 ```{r echo = FALSE}
 
-p1 <- ss_3strain %>%
+p1 <- ss_3strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction,
          starts_with("CB"),
@@ -480,7 +562,7 @@ p1 <- ss_3strain %>%
   labs(title="Organisms")
 ##ggsave("figures/CB_SB_PB.png", width = 3, height = 2)
 
-p2 <- ss_3strain %>%
+p2 <- ss_3strain$result %>%
   mutate(direction = ifelse(initial_N_CB == 1, "up", "down")) %>%
   select(a, direction ,SO, SR, O, P) %>%
   gather(key = Species, value=Quantity, 3:ncol(.)) %>%

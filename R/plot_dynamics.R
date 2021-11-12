@@ -6,10 +6,14 @@
 #' @return returns the ggplot object of the plot. If it is assigned to a 
 #'    variable, the plot needs to be plotted, otherwise it is plotted.
 #' 
+#' @global a species quantity a functional_group log10_quantity var_type . time
+#' 
 #' @importFrom dplyr filter mutate row_number case_when
-#' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab geom_line scale_colour_manual guides
+#' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab geom_line scale_colour_manual guides guide_legend
 #' @importFrom tidyr gather
 #' @importFrom grDevices colorRampPalette
+#' @importFrom stringr str_detect
+#' @import patchwork
 #' 
 #' @export
 plot_dynamics <- function(simulation_result, every_n = 1) {
@@ -28,9 +32,9 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
                                         str_detect(species, "PB_") ~ "PB"),
            log10_quantity=log10(quantity))
   
-  num_CB_strains <- nrow(simulation_result$parameter_values$CB)
-  num_SB_strains <- nrow(simulation_result$parameter_values$SB)
-  num_PB_strains <- nrow(simulation_result$parameter_values$PB)
+  num_CB_strains <- nrow(simulation_result$strain_parameter$CB)
+  num_SB_strains <- nrow(simulation_result$strain_parameter$SB)
+  num_PB_strains <- nrow(simulation_result$strain_parameter$PB)
   
   p1 <- temp %>%
     dplyr::filter(functional_group == "CB") %>%
@@ -39,7 +43,7 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
     ylab('log10(quantity [cells])') +
     xlab('time [hours]') +
     ggplot2::scale_colour_manual(values = colfunc_CB(num_CB_strains)) +
-    ggplot2::guides(colour = guide_legend(ncol = 3))
+    ggplot2::guides(colour = ggplot2::guide_legend(ncol = 3))
   
   p2 <- temp %>%
     dplyr::filter(functional_group == "SB") %>%
