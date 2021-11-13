@@ -19,10 +19,12 @@ event_definition_1 <- function(
     as.list(y),
     {
       ## here adding a bit of noise to the abiotics
+      if(noise_sigma!=0) {
       SO <- SO + rnorm(1, 0, noise_sigma*SO)*noise_sigma*SO
       SR <- SR + rnorm(1, 0, noise_sigma*SR)*noise_sigma*SR
       O <- O + rnorm(1, 0, noise_sigma*O)*noise_sigma*O
       P <- P + rnorm(1, 0, noise_sigma*P)*noise_sigma*P
+      }
       
       ## and below setting the abundance to the minimum, in case it happens to be below it
       CB <- y[grep("CB", names(y))]

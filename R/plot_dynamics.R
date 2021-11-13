@@ -36,8 +36,11 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
   num_SB_strains <- nrow(simulation_result$strain_parameter$SB)
   num_PB_strains <- nrow(simulation_result$strain_parameter$PB)
   
+  temp$species
+  
   p1 <- temp %>%
     dplyr::filter(functional_group == "CB") %>%
+    mutate(species = factor(species, levels = unique(species))) %>%
     ggplot2::ggplot(aes(x=time, y=log10_quantity, col=species)) +
     ggplot2::geom_line() +
     ylab('log10(quantity [cells])') +
@@ -47,6 +50,7 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
   
   p2 <- temp %>%
     dplyr::filter(functional_group == "SB") %>%
+    mutate(species = factor(species, levels = unique(species))) %>%
     ggplot2::ggplot(aes(x=time, y=log10_quantity, col=species)) +
     ggplot2::geom_line() +
     ylab('log10(quantity [cells])') +
@@ -56,6 +60,7 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
   
   p3 <- temp %>%
     dplyr::filter(functional_group == "PB") %>%
+    mutate(species = factor(species, levels = unique(species))) %>%
     ggplot2::ggplot(aes(x=time, y=log10_quantity, col=species)) +
     ggplot2::geom_line() +
     ylab('log10(quantity [cells])') +
