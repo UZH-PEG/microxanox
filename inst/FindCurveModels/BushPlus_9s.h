@@ -43,46 +43,134 @@
 #define ALLOWNEGATIVE             0                                     // Negative solution 
 																																				// components allowed?
 
+#define NO_STRAINS								9
+
+/*
+ *=====================================================================================================
+ *  DEFINITION OF NAMES AND DEFAULT VALUES OF THE PARAMETERS
+ *=====================================================================================================
+ */
+ 
+ 
+// At least two parameters should be specified in this array
+// cat(paste0(paste0("\"CB_", rep(1:9, each = 8)), "_", names(x$strain_parameter$CB), "\", "))
+// cat(paste0(paste0("\"PB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$PB), "\", "))
+// cat(paste0(paste0("\"SB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$SB), "\", "))
+char *parameternames[PARAMETER_NR] = {
+"CB_1_strain_name",  "CB_1_g_max_CB",  "CB_1_k_CB_P",  "CB_1_h_SR_CB",  "CB_1_y_P_CB",  "CB_1_Pr_CB",  "CB_1_m_CB",  "CB_1_i_CB",  
+"CB_2_strain_name",  "CB_2_g_max_CB",  "CB_2_k_CB_P",  "CB_2_h_SR_CB",  "CB_2_y_P_CB",  "CB_2_Pr_CB",  "CB_2_m_CB",  "CB_2_i_CB",  
+"CB_3_strain_name",  "CB_3_g_max_CB",  "CB_3_k_CB_P",  "CB_3_h_SR_CB",  "CB_3_y_P_CB",  "CB_3_Pr_CB",  "CB_3_m_CB",  "CB_3_i_CB",  
+"CB_4_strain_name",  "CB_4_g_max_CB",  "CB_4_k_CB_P",  "CB_4_h_SR_CB",  "CB_4_y_P_CB",  "CB_4_Pr_CB",  "CB_4_m_CB",  "CB_4_i_CB",  
+"CB_5_strain_name",  "CB_5_g_max_CB",  "CB_5_k_CB_P",  "CB_5_h_SR_CB",  "CB_5_y_P_CB",  "CB_5_Pr_CB",  "CB_5_m_CB",  "CB_5_i_CB",  
+"CB_6_strain_name",  "CB_6_g_max_CB",  "CB_6_k_CB_P",  "CB_6_h_SR_CB",  "CB_6_y_P_CB",  "CB_6_Pr_CB",  "CB_6_m_CB",  "CB_6_i_CB",  
+"CB_7_strain_name",  "CB_7_g_max_CB",  "CB_7_k_CB_P",  "CB_7_h_SR_CB",  "CB_7_y_P_CB",  "CB_7_Pr_CB",  "CB_7_m_CB",  "CB_7_i_CB",  
+"CB_8_strain_name",  "CB_8_g_max_CB",  "CB_8_k_CB_P",  "CB_8_h_SR_CB",  "CB_8_y_P_CB",  "CB_8_Pr_CB",  "CB_8_m_CB",  "CB_8_i_CB",  
+"CB_9_strain_name",  "CB_9_g_max_CB",  "CB_9_k_CB_P",  "CB_9_h_SR_CB",  "CB_9_y_P_CB",  "CB_9_Pr_CB",  "CB_9_m_CB",  "CB_9_i_CB", 
+
+"PB_1_strain_name",  "PB_1_g_max_PB",  "PB_1_k_PB_SR",  "PB_1_k_PB_P",  "PB_1_h_O_PB",  "PB_1_y_SO_SB",  "PB_1_y_P_PB",  "PB_1_m_PB",  "PB_1_i_PB",  
+"PB_2_strain_name",  "PB_2_g_max_PB",  "PB_2_k_PB_SR",  "PB_2_k_PB_P",  "PB_2_h_O_PB",  "PB_2_y_SO_SB",  "PB_2_y_P_PB",  "PB_2_m_PB",  "PB_2_i_PB",  
+"PB_3_strain_name",  "PB_3_g_max_PB",  "PB_3_k_PB_SR",  "PB_3_k_PB_P",  "PB_3_h_O_PB",  "PB_3_y_SO_SB",  "PB_3_y_P_PB",  "PB_3_m_PB",  "PB_3_i_PB",  
+"PB_4_strain_name",  "PB_4_g_max_PB",  "PB_4_k_PB_SR",  "PB_4_k_PB_P",  "PB_4_h_O_PB",  "PB_4_y_SO_SB",  "PB_4_y_P_PB",  "PB_4_m_PB",  "PB_4_i_PB",  
+"PB_5_strain_name",  "PB_5_g_max_PB",  "PB_5_k_PB_SR",  "PB_5_k_PB_P",  "PB_5_h_O_PB",  "PB_5_y_SO_SB",  "PB_5_y_P_PB",  "PB_5_m_PB",  "PB_5_i_PB",  
+"PB_6_strain_name",  "PB_6_g_max_PB",  "PB_6_k_PB_SR",  "PB_6_k_PB_P",  "PB_6_h_O_PB",  "PB_6_y_SO_SB",  "PB_6_y_P_PB",  "PB_6_m_PB",  "PB_6_i_PB",  
+"PB_7_strain_name",  "PB_7_g_max_PB",  "PB_7_k_PB_SR",  "PB_7_k_PB_P",  "PB_7_h_O_PB",  "PB_7_y_SO_SB",  "PB_7_y_P_PB",  "PB_7_m_PB",  "PB_7_i_PB",  
+"PB_8_strain_name",  "PB_8_g_max_PB",  "PB_8_k_PB_SR",  "PB_8_k_PB_P",  "PB_8_h_O_PB",  "PB_8_y_SO_SB",  "PB_8_y_P_PB",  "PB_8_m_PB",  "PB_8_i_PB",  
+"PB_9_strain_name",  "PB_9_g_max_PB",  "PB_9_k_PB_SR",  "PB_9_k_PB_P",  "PB_9_h_O_PB",  "PB_9_y_SO_SB",  "PB_9_y_P_PB",  "PB_9_m_PB",  "PB_9_i_PB",
+
+"SB_1_strain_name",  "SB_1_g_max_SB",  "SB_1_k_SB_SO",  "SB_1_k_SB_P",  "SB_1_h_O_SB",  "SB_1_y_SO_SB",  "SB_1_y_P_SB",  "SB_1_m_SB",  "SB_1_i_SB",  
+"SB_2_strain_name",  "SB_2_g_max_SB",  "SB_2_k_SB_SO",  "SB_2_k_SB_P",  "SB_2_h_O_SB",  "SB_2_y_SO_SB",  "SB_2_y_P_SB",  "SB_2_m_SB",  "SB_2_i_SB",  
+"SB_3_strain_name",  "SB_3_g_max_SB",  "SB_3_k_SB_SO",  "SB_3_k_SB_P",  "SB_3_h_O_SB",  "SB_3_y_SO_SB",  "SB_3_y_P_SB",  "SB_3_m_SB",  "SB_3_i_SB", 
+"SB_4_strain_name",  "SB_4_g_max_SB",  "SB_4_k_SB_SO",  "SB_4_k_SB_P",  "SB_4_h_O_SB",  "SB_4_y_SO_SB",  "SB_4_y_P_SB",  "SB_4_m_SB",  "SB_4_i_SB",  
+"SB_5_strain_name",  "SB_5_g_max_SB",  "SB_5_k_SB_SO",  "SB_5_k_SB_P",  "SB_5_h_O_SB",  "SB_5_y_SO_SB",  "SB_5_y_P_SB",  "SB_5_m_SB",  "SB_5_i_SB",  
+"SB_6_strain_name",  "SB_6_g_max_SB",  "SB_6_k_SB_SO",  "SB_6_k_SB_P",  "SB_6_h_O_SB",  "SB_6_y_SO_SB",  "SB_6_y_P_SB",  "SB_6_m_SB",  "SB_6_i_SB",  
+"SB_7_strain_name",  "SB_7_g_max_SB",  "SB_7_k_SB_SO",  "SB_7_k_SB_P",  "SB_7_h_O_SB",  "SB_7_y_SO_SB",  "SB_7_y_P_SB",  "SB_7_m_SB",  "SB_7_i_SB",  
+"SB_8_strain_name",  "SB_8_g_max_SB",  "SB_8_k_SB_SO",  "SB_8_k_SB_P",  "SB_8_h_O_SB",  "SB_8_y_SO_SB",  "SB_8_y_P_SB",  "SB_8_m_SB",  "SB_8_i_SB",  
+"SB_9_strain_name",  "SB_9_g_max_SB",  "SB_9_k_SB_SO",  "SB_9_k_SB_P",  "SB_9_h_O_SB",  "SB_9_y_SO_SB",  "SB_9_y_P_SB",  "SB_9_m_SB",  "SB_9_i_SB", 
+"a_S", "a_O", "a_P", "back_SR", "back_SO", "back_O", "back_P", "c"
+// "noise_sigma", "minimum_abundances_CB", "minimum_abundances_PB", "minimum_abundances_SB"
+};
+
+// These are the default parameters values
+// x$strain_parameter$CB
+// x$strain_parameter$SB
+double parameter[PARAMETER_NR] = {
+1.1, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.2, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.3, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.4, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.5, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.6, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.7, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.8, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+1.9, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
+
+2.1, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.2, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.3, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.4, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.5, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.6, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.7, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.8, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+2.9, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
+
+3.1, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.2, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.3, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.4, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.5, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.6, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.7, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.8, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+3.9, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
+
+0.001, 8E-04, 0.01, 300, 300, 300, 9.5, 4E-05
+// 0, 1, 1, 1
+};
+
 
 /*
  *=====================================================================================================y_SO_SB\t\t\t
- *  DEFINITION OF ALIASES
+ *  DEFINITION OF ALIASES AND VARIABLES
  *=====================================================================================================
  */
 
-// Define state for the 9 strain model
-// cat(paste0("#define ", names(new_initial_state(9, 9, 9)), "			state[", 0:30, "]", collapse = "\n"), "\n")
-#define CB_1			state[0]
-#define CB_2			state[1]
-#define CB_3			state[2]
-#define CB_4			state[3]
-#define CB_5			state[4]
-#define CB_6			state[5]
-#define CB_7			state[6]
-#define CB_8			state[7]
-#define CB_9			state[8]
-#define PB_1			state[9]
-#define PB_2			state[10]
-#define PB_3			state[11]
-#define PB_4			state[12]
-#define PB_5			state[13]
-#define PB_6			state[14]
-#define PB_7			state[15]
-#define PB_8			state[16]
-#define PB_9			state[17]
-#define SB_1			state[18]
-#define SB_2			state[19]
-#define SB_3			state[20]
-#define SB_4			state[21]
-#define SB_5			state[22]
-#define SB_6			state[23]
-#define SB_7			state[24]
-#define SB_8			state[25]
-#define SB_9			state[26]
-#define SO  			state[27]
-#define SR  			state[28]
-#define O   			state[29]
-#define P				state[30]
+// Define rate for the 9 strain model
+// cat(paste0("#define ", names(new_initial_state(9, 9, 9)), "			rate[", 0:30, "]", collapse = "\n"), "\n")
+double rate[NO_STRAINS * 3 + 4]
+//
+#define R_CB_1			rate[0]
+#define R_CB_2			rate[1]
+#define R_CB_3			rate[2]
+#define R_CB_4			rate[3]
+#define R_CB_5			rate[4]
+#define R_CB_6			rate[5]
+#define R_CB_7			rate[6]
+#define R_CB_8			rate[7]
+#define R_CB_9			rate[8]
+#define R_PB_1			rate[9]
+#define R_PB_2			rate[10]
+#define R_PB_3			rate[11]
+#define R_PB_4			rate[12]
+#define R_PB_5			rate[13]
+#define R_PB_6			rate[14]
+#define R_PB_7			rate[15]
+#define R_PB_8			rate[16]
+#define R_PB_9			rate[17]
+#define R_SB_1			rate[18]
+#define R_SB_2			rate[19]
+#define R_SB_3			rate[20]
+#define R_SB_4			rate[21]
+#define R_SB_5			rate[22]
+#define R_SB_6			rate[23]
+#define R_SB_7			rate[24]
+#define R_SB_8			rate[25]
+#define R_SB_9			rate[26]
+#define R_SO  			rate[27]
+#define R_SR  			rate[28]
+#define R_O   			rate[29]
+#define R_P					rate[30]
+
 
 
 // Define CB strain parameter strain 1
@@ -160,6 +248,9 @@
 #define CB_9_m_CB			parameter[70]
 #define CB_9_i_CB			parameter[71]
 
+const double y_P_CB[]  = {CB_1_y_P_CB, CB_2_y_P_CB, CB_3_y_P_CB, CB_4_y_P_CB, CB_5_y_P_CB,
+													CB_6_y_P_CB, CB_7_y_P_CB, CB_8_y_P_CB, CB_9_y_P_CB};
+
 // Define PB strain parameter
 // cat(paste0(paste0("#define PB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$PB),  "			parameter[", (1:81) + 71, "]", collapse = "\n"))
 #define PB_1_strain_name	parameter[72]
@@ -167,7 +258,7 @@
 #define PB_1_k_PB_SR		parameter[74]
 #define PB_1_k_PB_P			parameter[75]
 #define PB_1_h_O_PB			parameter[76]
-#define PB_1_y_SR_PB		parameter[77]
+#define PB_1_y_SO_SB		parameter[77]
 #define PB_1_y_P_PB			parameter[78]
 #define PB_1_m_PB			parameter[79]
 #define PB_1_i_PB			parameter[80]
@@ -176,7 +267,7 @@
 #define PB_2_k_PB_SR		parameter[83]
 #define PB_2_k_PB_P			parameter[84]
 #define PB_2_h_O_PB			parameter[85]
-#define PB_2_y_SR_PB		parameter[86]
+#define PB_2_y_SO_SB		parameter[86]
 #define PB_2_y_P_PB			parameter[87]
 #define PB_2_m_PB			parameter[88]
 #define PB_2_i_PB			parameter[89]
@@ -185,7 +276,7 @@
 #define PB_3_k_PB_SR		parameter[92]
 #define PB_3_k_PB_P			parameter[93]
 #define PB_3_h_O_PB			parameter[94]
-#define PB_3_y_SR_PB		parameter[95]
+#define PB_3_y_SO_SB		parameter[95]
 #define PB_3_y_P_PB			parameter[96]
 #define PB_3_m_PB			parameter[97]
 #define PB_3_i_PB			parameter[98]
@@ -194,7 +285,7 @@
 #define PB_4_k_PB_SR		parameter[101]
 #define PB_4_k_PB_P			parameter[102]
 #define PB_4_h_O_PB			parameter[103]
-#define PB_4_y_SR_PB		parameter[104]
+#define PB_4_y_SO_SB		parameter[104]
 #define PB_4_y_P_PB			parameter[105]
 #define PB_4_m_PB			parameter[106]
 #define PB_4_i_PB			parameter[107]
@@ -203,7 +294,7 @@
 #define PB_5_k_PB_SR		parameter[110]
 #define PB_5_k_PB_P			parameter[111]
 #define PB_5_h_O_PB			parameter[112]
-#define PB_5_y_SR_PB		parameter[113]
+#define PB_5_y_SO_SB		parameter[113]
 #define PB_5_y_P_PB			parameter[114]
 #define PB_5_m_PB			parameter[115]
 #define PB_5_i_PB			parameter[116]
@@ -212,7 +303,7 @@
 #define PB_6_k_PB_SR		parameter[119]
 #define PB_6_k_PB_P			parameter[120]
 #define PB_6_h_O_PB			parameter[121]
-#define PB_6_y_SR_PB		parameter[122]
+#define PB_6_y_SO_SB		parameter[122]
 #define PB_6_y_P_PB			parameter[123]
 #define PB_6_m_PB			parameter[124]
 #define PB_6_i_PB			parameter[125]
@@ -221,7 +312,7 @@
 #define PB_7_k_PB_SR		parameter[128]
 #define PB_7_k_PB_P			parameter[129]
 #define PB_7_h_O_PB			parameter[130]
-#define PB_7_y_SR_PB		parameter[131]
+#define PB_7_y_SO_SB		parameter[131]
 #define PB_7_y_P_PB			parameter[132]
 #define PB_7_m_PB			parameter[133]
 #define PB_7_i_PB			parameter[134]
@@ -230,7 +321,7 @@
 #define PB_8_k_PB_SR		parameter[137]
 #define PB_8_k_PB_P			parameter[138]
 #define PB_8_h_O_PB			parameter[139]
-#define PB_8_y_SR_PB		parameter[140]
+#define PB_8_y_SO_SB		parameter[140]
 #define PB_8_y_P_PB			parameter[141]
 #define PB_8_m_PB			parameter[142]
 #define PB_8_i_PB			parameter[143]
@@ -239,11 +330,16 @@
 #define PB_9_k_PB_SR		parameter[146]
 #define PB_9_k_PB_P			parameter[147]
 #define PB_9_h_O_PB			parameter[148]
-#define PB_9_y_SR_PB		parameter[149]
+#define PB_9_y_SO_SB		parameter[149]
 #define PB_9_y_P_PB			parameter[150]
 #define PB_9_m_PB			parameter[151]
 #define PB_9_i_PB			parameter[152]
 
+const double PB_y_SO_SB[] = {PB_1_y_SO_SB, PB_2_y_SO_SB, PB_3_y_SO_SB, PB_4_y_SO_SB, PB_5_y_SO_SB,
+													PB_6_y_SO_SB, PB_7_y_SO_SB, PB_8_y_SO_SB, PB_9_y_SO_SB};
+const double y_P_PB[]  = {PB_1_y_P_PB, PB_2_y_P_PB, PB_3_y_P_PB, PB_4_y_P_PB, PB_5_y_P_PB,
+													PB_6_y_P_PB, PB_7_y_P_PB, PB_8_y_P_PB, PB_9_y_P_PB};
+													
 // Define SB strain parameter
 // cat(paste0(paste0("#define SB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$SB),  "			parameter[", (1:81) + 152, "]", collapse = "\n"))
 #define SB_1_strain_name	parameter[153]
@@ -328,7 +424,10 @@
 #define SB_9_m_SB			parameter[232]
 #define SB_9_i_SB			parameter[233]
 
-
+const double SB_y_SO_SB[] = {SB_1_y_SO_SB, SB_2_y_SO_SB, SB_3_y_SO_SB, SB_4_y_SO_SB, SB_5_y_SO_SB,
+													SB_6_y_SO_SB, SB_7_y_SO_SB, SB_8_y_SO_SB, SB_9_y_SO_SB};
+const double y_P_SB[]  = {SB_1_y_P_SB, SB_2_y_P_SB, SB_3_y_P_SB, SB_4_y_P_SB, SB_5_y_P_SB,
+													SB_6_y_P_SB, SB_7_y_P_SB, SB_8_y_P_SB, SB_9_y_P_SB};
 // general strain parameter
 #define a_S            			parameter[234]
 #define a_O            			parameter[235]
@@ -347,89 +446,6 @@
 // #define minimum_abundances_SB   parameter[245]
 
 
-
-/*
- *=====================================================================================================
- *  DEFINITION OF NAMES AND DEFAULT VALUES OF THE PARAMETERS
- *=====================================================================================================
- */
- 
- 
-// At least two parameters should be specified in this array
-// cat(paste0(paste0("\"CB_", rep(1:9, each = 8)), "_", names(x$strain_parameter$CB), "\", "))
-// cat(paste0(paste0("\"PB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$PB), "\", "))
-// cat(paste0(paste0("\"SB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$SB), "\", "))
-char *parameternames[PARAMETER_NR] = {
-"CB_1_strain_name",  "CB_1_g_max_CB",  "CB_1_k_CB_P",  "CB_1_h_SR_CB",  "CB_1_y_P_CB",  "CB_1_Pr_CB",  "CB_1_m_CB",  "CB_1_i_CB",  
-"CB_2_strain_name",  "CB_2_g_max_CB",  "CB_2_k_CB_P",  "CB_2_h_SR_CB",  "CB_2_y_P_CB",  "CB_2_Pr_CB",  "CB_2_m_CB",  "CB_2_i_CB",  
-"CB_3_strain_name",  "CB_3_g_max_CB",  "CB_3_k_CB_P",  "CB_3_h_SR_CB",  "CB_3_y_P_CB",  "CB_3_Pr_CB",  "CB_3_m_CB",  "CB_3_i_CB",  
-"CB_4_strain_name",  "CB_4_g_max_CB",  "CB_4_k_CB_P",  "CB_4_h_SR_CB",  "CB_4_y_P_CB",  "CB_4_Pr_CB",  "CB_4_m_CB",  "CB_4_i_CB",  
-"CB_5_strain_name",  "CB_5_g_max_CB",  "CB_5_k_CB_P",  "CB_5_h_SR_CB",  "CB_5_y_P_CB",  "CB_5_Pr_CB",  "CB_5_m_CB",  "CB_5_i_CB",  
-"CB_6_strain_name",  "CB_6_g_max_CB",  "CB_6_k_CB_P",  "CB_6_h_SR_CB",  "CB_6_y_P_CB",  "CB_6_Pr_CB",  "CB_6_m_CB",  "CB_6_i_CB",  
-"CB_7_strain_name",  "CB_7_g_max_CB",  "CB_7_k_CB_P",  "CB_7_h_SR_CB",  "CB_7_y_P_CB",  "CB_7_Pr_CB",  "CB_7_m_CB",  "CB_7_i_CB",  
-"CB_8_strain_name",  "CB_8_g_max_CB",  "CB_8_k_CB_P",  "CB_8_h_SR_CB",  "CB_8_y_P_CB",  "CB_8_Pr_CB",  "CB_8_m_CB",  "CB_8_i_CB",  
-"CB_9_strain_name",  "CB_9_g_max_CB",  "CB_9_k_CB_P",  "CB_9_h_SR_CB",  "CB_9_y_P_CB",  "CB_9_Pr_CB",  "CB_9_m_CB",  "CB_9_i_CB", 
-
-"PB_1_strain_name",  "PB_1_g_max_PB",  "PB_1_k_PB_SR",  "PB_1_k_PB_P",  "PB_1_h_O_PB",  "PB_1_y_SR_PB",  "PB_1_y_P_PB",  "PB_1_m_PB",  "PB_1_i_PB",  
-"PB_2_strain_name",  "PB_2_g_max_PB",  "PB_2_k_PB_SR",  "PB_2_k_PB_P",  "PB_2_h_O_PB",  "PB_2_y_SR_PB",  "PB_2_y_P_PB",  "PB_2_m_PB",  "PB_2_i_PB",  
-"PB_3_strain_name",  "PB_3_g_max_PB",  "PB_3_k_PB_SR",  "PB_3_k_PB_P",  "PB_3_h_O_PB",  "PB_3_y_SR_PB",  "PB_3_y_P_PB",  "PB_3_m_PB",  "PB_3_i_PB",  
-"PB_4_strain_name",  "PB_4_g_max_PB",  "PB_4_k_PB_SR",  "PB_4_k_PB_P",  "PB_4_h_O_PB",  "PB_4_y_SR_PB",  "PB_4_y_P_PB",  "PB_4_m_PB",  "PB_4_i_PB",  
-"PB_5_strain_name",  "PB_5_g_max_PB",  "PB_5_k_PB_SR",  "PB_5_k_PB_P",  "PB_5_h_O_PB",  "PB_5_y_SR_PB",  "PB_5_y_P_PB",  "PB_5_m_PB",  "PB_5_i_PB",  
-"PB_6_strain_name",  "PB_6_g_max_PB",  "PB_6_k_PB_SR",  "PB_6_k_PB_P",  "PB_6_h_O_PB",  "PB_6_y_SR_PB",  "PB_6_y_P_PB",  "PB_6_m_PB",  "PB_6_i_PB",  
-"PB_7_strain_name",  "PB_7_g_max_PB",  "PB_7_k_PB_SR",  "PB_7_k_PB_P",  "PB_7_h_O_PB",  "PB_7_y_SR_PB",  "PB_7_y_P_PB",  "PB_7_m_PB",  "PB_7_i_PB",  
-"PB_8_strain_name",  "PB_8_g_max_PB",  "PB_8_k_PB_SR",  "PB_8_k_PB_P",  "PB_8_h_O_PB",  "PB_8_y_SR_PB",  "PB_8_y_P_PB",  "PB_8_m_PB",  "PB_8_i_PB",  
-"PB_9_strain_name",  "PB_9_g_max_PB",  "PB_9_k_PB_SR",  "PB_9_k_PB_P",  "PB_9_h_O_PB",  "PB_9_y_SR_PB",  "PB_9_y_P_PB",  "PB_9_m_PB",  "PB_9_i_PB",
-
-"SB_1_strain_name",  "SB_1_g_max_SB",  "SB_1_k_SB_SO",  "SB_1_k_SB_P",  "SB_1_h_O_SB",  "SB_1_y_SO_SB",  "SB_1_y_P_SB",  "SB_1_m_SB",  "SB_1_i_SB",  
-"SB_2_strain_name",  "SB_2_g_max_SB",  "SB_2_k_SB_SO",  "SB_2_k_SB_P",  "SB_2_h_O_SB",  "SB_2_y_SO_SB",  "SB_2_y_P_SB",  "SB_2_m_SB",  "SB_2_i_SB",  
-"SB_3_strain_name",  "SB_3_g_max_SB",  "SB_3_k_SB_SO",  "SB_3_k_SB_P",  "SB_3_h_O_SB",  "SB_3_y_SO_SB",  "SB_3_y_P_SB",  "SB_3_m_SB",  "SB_3_i_SB", 
-"SB_4_strain_name",  "SB_4_g_max_SB",  "SB_4_k_SB_SO",  "SB_4_k_SB_P",  "SB_4_h_O_SB",  "SB_4_y_SO_SB",  "SB_4_y_P_SB",  "SB_4_m_SB",  "SB_4_i_SB",  
-"SB_5_strain_name",  "SB_5_g_max_SB",  "SB_5_k_SB_SO",  "SB_5_k_SB_P",  "SB_5_h_O_SB",  "SB_5_y_SO_SB",  "SB_5_y_P_SB",  "SB_5_m_SB",  "SB_5_i_SB",  
-"SB_6_strain_name",  "SB_6_g_max_SB",  "SB_6_k_SB_SO",  "SB_6_k_SB_P",  "SB_6_h_O_SB",  "SB_6_y_SO_SB",  "SB_6_y_P_SB",  "SB_6_m_SB",  "SB_6_i_SB",  
-"SB_7_strain_name",  "SB_7_g_max_SB",  "SB_7_k_SB_SO",  "SB_7_k_SB_P",  "SB_7_h_O_SB",  "SB_7_y_SO_SB",  "SB_7_y_P_SB",  "SB_7_m_SB",  "SB_7_i_SB",  
-"SB_8_strain_name",  "SB_8_g_max_SB",  "SB_8_k_SB_SO",  "SB_8_k_SB_P",  "SB_8_h_O_SB",  "SB_8_y_SO_SB",  "SB_8_y_P_SB",  "SB_8_m_SB",  "SB_8_i_SB",  
-"SB_9_strain_name",  "SB_9_g_max_SB",  "SB_9_k_SB_SO",  "SB_9_k_SB_P",  "SB_9_h_O_SB",  "SB_9_y_SO_SB",  "SB_9_y_P_SB",  "SB_9_m_SB",  "SB_9_i_SB", 
-"a_S", "a_O", "a_P", "back_SR", "back_SO", "back_O", "back_P", "c"
-// "noise_sigma", "minimum_abundances_CB", "minimum_abundances_PB", "minimum_abundances_SB"
-};
-
-// These are the default parameters values
-// x$strain_parameter$CB
-// x$strain_parameter$SB
-double parameter[PARAMETER_NR] = {
-1.1, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.2, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.3, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.4, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.5, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.6, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.7, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.8, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-1.9, 0.05, 0.2, 300, 1.67E+08, 6E-09, 0.02, 0,
-
-2.1, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.2, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.3, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.4, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.5, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.6, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.7, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.8, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-2.9, 0.07,  10, 0.5, 100, 12500000, 1.67E+08, 0.028, 0,
-
-3.1, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.2, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.3, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.4, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.5, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.6, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.7, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.8, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-3.9, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
-
-0.001, 8E-04, 0.01, 300, 300, 300, 9.5, 4E-05
-// 0, 1, 1, 1
-};
 
 /*
  *=====================================================================================================
@@ -511,62 +527,211 @@ double Inhibition(double x, double h_x)
 //   the results of the simulation, namely the rate of change of each state
 //   variable, and also the current values of oxygen diffusivity.
 
-Bushplus_dynamic_model <- function(double t, double *state, double *parameters) {
+Bushplus_dynamic_model <- function(double t, double *state, double *parameters) 
+{
 
-         CB <- state[grep("CB", names(state))]
-         names_CB <- names(CB)[order(names(CB))]
-         CB <- as.numeric(CB[order(names(CB))])
-         
-         
-         PB <- state[grep("PB", names(state))]
-         names_PB <- names(PB)[order(names(PB))]
-         PB <- as.numeric(PB[order(names(PB))])
-         SB <- state[grep("SB", names(state))]
-         names_SB <- names(SB)[order(names(SB))]
-         SB <- as.numeric(SB[order(names(SB))])
+	double CB_growth_rate[9];
+	double CB_mortality_rate[9];
+	double CB_rate[9];
 
-         # print(c(CB, PB, SB))
-         
+	double PB_growth_rate[9];
+	double PB_mortality_rate[9];
+	double PB_rate[9];
 
-         # rates of change=
-//          CB_growth_rate <- growth1(state["P"], parameters$CB$g_max_CB, parameters$CB$k_CB_P) * inhibition(state["SR"], parameters$CB$h_SR_CB) * CB
-	CB_growth_rate = growth1(P, CB$g_max_CB, CB$k_CB_P) * inhibition(SR, h_SR_CB) * CB
- 
-         CB_mortality_rate <- parameters$CB$m_CB * CB
-         CB_rate <- CB_growth_rate - CB_mortality_rate + parameters$CB$i_CB
+	double SB_growth_rate[9];
+	double SB_mortality_rate[9];
+	double SB_rate[9];
+	
+	double sum1, sum21, sum3;
+	
+	double SO_rate, SR_rate, P_rate;
+	
+//  CB <- state[grep("CB", names(state))]
+//  names_CB <- names(CB)[order(names(CB))]
+//  CB <- as.numeric(CB[order(names(CB))])
+//  
+//  PB <- state[grep("PB", names(state))]
+//  names_PB <- names(PB)[order(names(PB))]
+//  PB <- as.numeric(PB[order(names(PB))])
+//  
+//  SB <- state[grep("SB", names(state))]
+//  names_SB <- names(SB)[order(names(SB))]
+//  SB <- as.numeric(SB[order(names(SB))])
+// 
+//  # print(c(CB, PB, SB))
+//  
+// 
+
+//  rates of change=
+// CB_growth_rate <- growth1(state["P"], parameters$CB$g_max_CB, parameters$CB$k_CB_P) * inhibition(state["SR"], parameters$CB$h_SR_CB) * CB
+	CB_growth_rate[0] = growth1(P, CB_1_g_max_CB, CB_1_k_CB_P) * inhibition(SR, CB_1_h_SR_CB) * CB_1
+	CB_growth_rate[1] = growth1(P, CB_2_g_max_CB, CB_2_k_CB_P) * inhibition(SR, CB_2_h_SR_CB) * CB_2
+	CB_growth_rate[2] = growth1(P, CB_3_g_max_CB, CB_3_k_CB_P) * inhibition(SR, CB_3_h_SR_CB) * CB_3
+	CB_growth_rate[3] = growth1(P, CB_4_g_max_CB, CB_4_k_CB_P) * inhibition(SR, CB_4_h_SR_CB) * CB_4
+	CB_growth_rate[4] = growth1(P, CB_5_g_max_CB, CB_5_k_CB_P) * inhibition(SR, CB_5_h_SR_CB) * CB_5
+	CB_growth_rate[5] = growth1(P, CB_6_g_max_CB, CB_6_k_CB_P) * inhibition(SR, CB_6_h_SR_CB) * CB_6
+	CB_growth_rate[6] = growth1(P, CB_7_g_max_CB, CB_7_k_CB_P) * inhibition(SR, CB_7_h_SR_CB) * CB_7
+	CB_growth_rate[7] = growth1(P, CB_8_g_max_CB, CB_9_k_CB_P) * inhibition(SR, CB_8_h_SR_CB) * CB_8
+	CB_growth_rate[8] = growth1(P, CB_9_g_max_CB, CB_1_k_CB_P) * inhibition(SR, CB_9_h_SR_CB) * CB_9
+   
+// 	CB_mortality_rate <- parameters$CB$m_CB * CB
+	CB_mortality_rate[0] = CB_1_m_CB * CB_1
+	CB_mortality_rate[1] = CB_2_m_CB * CB_2
+	CB_mortality_rate[2] = CB_3_m_CB * CB_3
+	CB_mortality_rate[3] = CB_4_m_CB * CB_4
+	CB_mortality_rate[4] = CB_5_m_CB * CB_5
+	CB_mortality_rate[5] = CB_6_m_CB * CB_6
+	CB_mortality_rate[6] = CB_7_m_CB * CB_7
+	CB_mortality_rate[7] = CB_8_m_CB * CB_8
+	CB_mortality_rate[8] = CB_9_m_CB * CB_9
+
+
+//	CB_rate <- CB_growth_rate - CB_mortality_rate + parameters$CB$i_CB
+	CB_rate[1] = CB_growth_rate[0] - CB_mortality_rate[0] + CB_1_i_CB
+	CB_rate[2] = CB_growth_rate[1] - CB_mortality_rate[1] + CB_2_i_CB
+	CB_rate[3] = CB_growth_rate[2] - CB_mortality_rate[2] + CB_3_i_CB
+	CB_rate[4] = CB_growth_rate[3] - CB_mortality_rate[3] + CB_4_i_CB
+	CB_rate[5] = CB_growth_rate[4] - CB_mortality_rate[4] + CB_5_i_CB
+	CB_rate[6] = CB_growth_rate[5] - CB_mortality_rate[5] + CB_6_i_CB
+	CB_rate[7] = CB_growth_rate[6] - CB_mortality_rate[6] + CB_7_i_CB
+	CB_rate[8] = CB_growth_rate[7] - CB_mortality_rate[7] + CB_8_i_CB
+	CB_rate[8] = CB_growth_rate[8] - CB_mortality_rate[8] + CB_9_i_CB
+	
+	
+	
+//	PB_growth_rate <- growth2(state["P"], state["SR"], parameters$PB$g_max_PB, parameters$PB$k_PB_P, parameters$PB$k_PB_SR) * inhibition(state["O"], parameters$PB$h_O_PB) * PB
+	PB_growth_rate[0] = growth2(P, SR, PB_1_g_max_PB, PB_1_k_PB_P, PB_1_k_PB_SR) * inhibition(O, PB_1_h_O_PB) * PB_1
+	PB_growth_rate[1] = growth2(P, SR, PB_2_g_max_PB, PB_2_k_PB_P, PB_2_k_PB_SR) * inhibition(O, PB_2_h_O_PB) * PB_2
+	PB_growth_rate[2] = growth2(P, SR, PB_3_g_max_PB, PB_3_k_PB_P, PB_3_k_PB_SR) * inhibition(O, PB_3_h_O_PB) * PB_3
+	PB_growth_rate[3] = growth2(P, SR, PB_4_g_max_PB, PB_4_k_PB_P, PB_4_k_PB_SR) * inhibition(O, PB_4_h_O_PB) * PB_4
+	PB_growth_rate[4] = growth2(P, SR, PB_5_g_max_PB, PB_5_k_PB_P, PB_5_k_PB_SR) * inhibition(O, PB_5_h_O_PB) * PB_5
+	PB_growth_rate[5] = growth2(P, SR, PB_6_g_max_PB, PB_6_k_PB_P, PB_6_k_PB_SR) * inhibition(O, PB_6_h_O_PB) * PB_6
+	PB_growth_rate[6] = growth2(P, SR, PB_7_g_max_PB, PB_7_k_PB_P, PB_7_k_PB_SR) * inhibition(O, PB_7_h_O_PB) * PB_7
+	PB_growth_rate[7] = growth2(P, SR, PB_8_g_max_PB, PB_8_k_PB_P, PB_8_k_PB_SR) * inhibition(O, PB_8_h_O_PB) * PB_8
+	PB_growth_rate[8] = growth2(P, SR, PB_9_g_max_PB, PB_9_k_PB_P, PB_9_k_PB_SR) * inhibition(O, PB_9_h_O_PB) * PB_9
+	
+	
+// PB_mortality_rate <- parameters$PB$m_PB * PB
+	PB_mortality_rate[0] = PB_1_m_PB * PB_1
+	PB_mortality_rate[1] = PB_2_m_PB * PB_2
+	PB_mortality_rate[2] = PB_3_m_PB * PB_3
+	PB_mortality_rate[3] = PB_4_m_PB * PB_4 
+	PB_mortality_rate[4] = PB_5_m_PB * PB_5
+	PB_mortality_rate[5] = PB_6_m_PB * PB_6
+	PB_mortality_rate[6] = PB_7_m_PB * PB_7
+	PB_mortality_rate[7] = PB_8_m_PB * PB_8
+	PB_mortality_rate[8] = PB_9_m_PB * PB_9
+	
+// PB_rate <- PB_growth_rate - PB_mortality_rate + parameters$PB$i_PB
+	PB_rate[0] = PB_growth_rate[0] - PB_mortality_rate[0] + PB_1_i_PB
+	PB_rate[1] = PB_growth_rate[1] - PB_mortality_rate[1] + PB_2_i_PB
+	PB_rate[2] = PB_growth_rate[2] - PB_mortality_rate[2] + PB_3_i_PB
+	PB_rate[3] = PB_growth_rate[3] - PB_mortality_rate[3] + PB_4_i_PB
+	PB_rate[4] = PB_growth_rate[4] - PB_mortality_rate[4] + PB_5_i_PB
+	PB_rate[5] = PB_growth_rate[5] - PB_mortality_rate[5] + PB_6_i_PB
+	PB_rate[6] = PB_growth_rate[6] - PB_mortality_rate[6] + PB_7_i_PB
+	PB_rate[7] = PB_growth_rate[7] - PB_mortality_rate[7] + PB_8_i_PB
+	PB_rate[8] = PB_growth_rate[8] - PB_mortality_rate[8] + PB_9_i_PB
+
          
-         PB_growth_rate <- growth2(state["P"], state["SR"], parameters$PB$g_max_PB, parameters$PB$k_PB_P, parameters$PB$k_PB_SR) * inhibition(state["O"], parameters$PB$h_O_PB) * PB
-         PB_mortality_rate <- parameters$PB$m_PB * PB
-         PB_rate <- PB_growth_rate - PB_mortality_rate + parameters$PB$i_PB
+// SB_growth_rate <- growth2(state["P"], state["SO"], parameters$SB$g_max_SB, parameters$SB$k_SB_P, parameters$SB$k_SB_SO) * inhibition(state["O"], parameters$SB$h_O_SB) * SB
+	SB_growth_rate[0] = growth2(P, SO, SB_1_g_max_SB, SB_1_k_SB_P, SB_1_k_SB_SO) * inhibition(O, SB_1_h_O_SB) * SB_1
+	SB_growth_rate[1] = growth2(P, SO, SB_2_g_max_SB, SB_2_k_SB_P, SB_2_k_SB_SO) * inhibition(O, SB_2_h_O_SB) * SB_2
+	SB_growth_rate[2] = growth2(P, SO, SB_3_g_max_SB, SB_3_k_SB_P, SB_3_k_SB_SO) * inhibition(O, SB_3_h_O_SB) * SB_3
+	SB_growth_rate[3] = growth2(P, SO, SB_4_g_max_SB, SB_4_k_SB_P, SB_4_k_SB_SO) * inhibition(O, SB_4_h_O_SB) * SB_4
+	SB_growth_rate[4] = growth2(P, SO, SB_5_g_max_SB, SB_5_k_SB_P, SB_5_k_SB_SO) * inhibition(O, SB_5_h_O_SB) * SB_5
+	SB_growth_rate[5] = growth2(P, SO, SB_6_g_max_SB, SB_6_k_SB_P, SB_6_k_SB_SO) * inhibition(O, SB_6_h_O_SB) * SB_6
+	SB_growth_rate[6] = growth2(P, SO, SB_7_g_max_SB, SB_7_k_SB_P, SB_7_k_SB_SO) * inhibition(O, SB_7_h_O_SB) * SB_7
+	SB_growth_rate[7] = growth2(P, SO, SB_8_g_max_SB, SB_8_k_SB_P, SB_8_k_SB_SO) * inhibition(O, SB_8_h_O_SB) * SB_8
+	SB_growth_rate[8] = growth2(P, SO, SB_9_g_max_SB, SB_9_k_SB_P, SB_9_k_SB_SO) * inhibition(O, SB_9_h_O_SB) * SB_9
+	
+	
+// SB_mortality_rate <- parameters$SB$m_SB * SB
+	SB_mortality_rate[0] = SB_1_m_SB * SB_1
+	SB_mortality_rate[1] = SB_2_m_SB * SB_2
+	SB_mortality_rate[2] = SB_3_m_SB * SB_3
+	SB_mortality_rate[3] = SB_4_m_SB * SB_4
+	SB_mortality_rate[4] = SB_5_m_SB * SB_5
+	SB_mortality_rate[4] = SB_6_m_SB * SB_6
+	SB_mortality_rate[5] = SB_7_m_SB * SB_7
+	SB_mortality_rate[6] = SB_8_m_SB * SB_8
+	SB_mortality_rate[7] = SB_9_m_SB * SB_9
+
+// SB_rate <- SB_growth_rate - SB_mortality_rate + parameters$SB$i_SB
+	SB_rate[0] = SB_growth_rate[0] - SB_mortality_rate[0] + SB_1_i_SB
+	SB_rate[1] = SB_growth_rate[1] - SB_mortality_rate[1] + SB_2_i_SB
+	SB_rate[2] = SB_growth_rate[2] - SB_mortality_rate[2] + SB_3_i_SB
+	SB_rate[3] = SB_growth_rate[3] - SB_mortality_rate[3] + SB_4_i_SB
+	SB_rate[4] = SB_growth_rate[4] - SB_mortality_rate[4] + SB_5_i_SB
+	SB_rate[5] = SB_growth_rate[5] - SB_mortality_rate[5] + SB_6_i_SB
+	SB_rate[6] = SB_growth_rate[6] - SB_mortality_rate[6] + SB_7_i_SB
+	SB_rate[7] = SB_growth_rate[7] - SB_mortality_rate[7] + SB_8_i_SB
+	SB_rate[8] = SB_growth_rate[8] - SB_mortality_rate[8] + SB_9_i_SB
          
-         SB_growth_rate <- growth2(state["P"], state["SO"], parameters$SB$g_max_SB, parameters$SB$k_SB_P, parameters$SB$k_SB_SO) * inhibition(state["O"], parameters$SB$h_O_SB) * SB
-         SB_mortality_rate <- parameters$SB$m_SB * SB
-         SB_rate <- SB_growth_rate - SB_mortality_rate + parameters$SB$i_SB
          
-         SO_rate <- sum(1 / parameters$PB$y_SR_PB * PB_growth_rate) -
-           sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) +
-			parameters$c * state["O"] * state["SR"] +
-			parameters$a_S * (parameters$back_SO -state[["SO"]])
          
-         SR_rate <- - sum(1 / parameters$PB$y_SR_PB * PB_growth_rate) +
-           sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) -
-			parameters$c * state["O"] * state["SR"] +
-			parameters$a_S * (parameters$back_SR - state["SR"])
+// SO_rate <- sum(1 / parameters$PB$y_SO_SB * PB_growth_rate) -
+//            sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) +
+// 					 parameters$c * state["O"] * state["SR"] +
+// 					 parameters$a_S * (parameters$back_SO -state[["SO"]])
+sum1 = 0;
+for(i = 8; i >= 0; i--) {
+      sum1 = sum1 + (1 / PB_y_SO_SB[i] * PB_growth_rate) -
+      			 				(1 / SB_y_SO_SB[i] * SB_growth_rate)
+}
+
+SO_rate = sum1 +
+      		c * O * SR +
+      		a_S * (back_S - SO);      
+      			 
+      			 
+      			 
+
          
-         O_rate <- sum(parameters$CB$Pr_CB * CB_growth_rate) -
-			parameters$c * state["O"] * state["SR"] +
-           10^log10a_forcing_func(t) * (parameters$back_O - state["O"])
+// SR_rate <- - sum(1 / parameters$PB$y_SO_SB * PB_growth_rate) +
+//            sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) -
+// 					 parameters$c * state["O"] * state["SR"] +
+// 					 parameters$a_S * (parameters$back_SR - state["SR"])
+sum1 = 0;
+for(i = 8; i >= 0; i--) {
+      sum1 = sum1 + (1 / y_SO_SB[i] * PB_growth_rate) +
+      			 				(1 / y_SO_SB[i] * SB_growth_rate)
+}
+
+SR_rate = sum1 +
+      		c * O * SR +
+      		a_S * (back_SR - SR);      
+      			 
+
+// O_rate <- sum(parameters$CB$Pr_CB * CB_growth_rate) -
+// 					parameters$c * state["O"] * state["SR"] +
+//           10^log10a_forcing_func(t) * (parameters$back_O - state["O"])
+sum1 = 0;
+for(i = 8; i >= 0; i--) {
+      sum1 = sum1 + (Pr_CB[i] * CB_growth_rate)
+}
+O_rate = sum1 +
+				 back_O * O
+
          
-         P_rate <- - sum(1 / parameters$CB$y_P_CB * CB_growth_rate) -
-           sum(1 / parameters$PB$y_P_PB * PB_growth_rate) -
-           sum(1 / parameters$SB$y_P_SB * PB_growth_rate) +
-			parameters$a_P * (parameters$back_P - state["P"])
+// P_rate <- - sum(1 / parameters$CB$y_P_CB * CB_growth_rate) -
+//           sum(1 / parameters$PB$y_P_PB * PB_growth_rate) -
+//           sum(1 / parameters$SB$y_P_SB * PB_growth_rate) +
+// 					parameters$a_P * (parameters$back_P - state["P"])
+sum1 = 0;
+for(i = 8; i >= 0; i--) {
+      sum1 = sum1 + (1 / y_P_CB[i] * CB_growth_rate) - 
+      							(1 / y_P_PB[i] * PB_growth_rate) -
+      							(1 / y_P_SB[i] * PB_growth_rate)
+}
+P_rate = sum1 + 	
+				 a_P * (back_P - P)
          
-         # print(CB_growth_rate)
-         # print(CB_mortality_rate)
-         # print(parameters$CB$m_CB)
-         # print(CB)
-         # print(CB_rate)
+//  # print(CB_growth_rate)
+//  # print(CB_mortality_rate)
+//  # print(parameters$CB$m_CB)
+//  # print(CB)
+//  # print(CB_rate)
          
          # return the rate of change
          result <- list(c(CB_rate,
