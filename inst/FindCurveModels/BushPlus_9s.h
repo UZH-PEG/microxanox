@@ -1,12 +1,16 @@
 /***
-   NAME
-     BushPlus
-   PURPOSE
-     To Be Added
-	 BASED ON
-	 	 Based on the function 'bushplus_dynamic_model.R' as implemented in this package
-	 	 	
-    Last modification: RMK - Nov 03, 2021
+   	NAME
+    	BushPlus
+   	PURPOSE
+    	To Be Added
+	BASED ON
+	 	Based on the function 'bushplus_dynamic_model.R' as implemented in this package
+	COMMENTS
+		1. no events included in this C implementation 	 	
+		2. no minimum_abundances
+		3. no noise_sigma
+		4. no forcing function log10a_forcing_func
+    Last modification: RMK - Nov 15, 2021
  ***/
 
 /*
@@ -27,7 +31,7 @@
 // Dimension settings: Required
 #define EQUATIONS_DIM             3
 #define EXTRAOUTPUT_DIM           6
-#define PARAMETER_NR              254
+#define PARAMETER_NR              241
 
 // Numerical settings: Optional (default values adopted otherwise)
 #define ODESOLVE_MAX_STEP         0.1                                   // Largest step size in 
@@ -41,270 +45,306 @@
 
 
 /*
- *=====================================================================================================
+ *=====================================================================================================y_SO_SB\t\t\t
  *  DEFINITION OF ALIASES
  *=====================================================================================================
  */
+
+// Define state for the 9 strain model
+// cat(paste0("#define ", names(new_initial_state(9, 9, 9)), "			state[", 0:30, "]", collapse = "\n"), "\n")
+#define CB_1			state[0]
+#define CB_2			state[1]
+#define CB_3			state[2]
+#define CB_4			state[3]
+#define CB_5			state[4]
+#define CB_6			state[5]
+#define CB_7			state[6]
+#define CB_8			state[7]
+#define CB_9			state[8]
+#define PB_1			state[9]
+#define PB_2			state[10]
+#define PB_3			state[11]
+#define PB_4			state[12]
+#define PB_5			state[13]
+#define PB_6			state[14]
+#define PB_7			state[15]
+#define PB_8			state[16]
+#define PB_9			state[17]
+#define SB_1			state[18]
+#define SB_2			state[19]
+#define SB_3			state[20]
+#define SB_4			state[21]
+#define SB_5			state[22]
+#define SB_6			state[23]
+#define SB_7			state[24]
+#define SB_8			state[25]
+#define SB_9			state[26]
+#define SO  			state[27]
+#define SR  			state[28]
+#define O   			state[29]
+#define P				state[30]
+
+
 // Define CB strain parameter strain 1
-// cat(paste0(paste0("#define CB_", rep(1:9, each = 8)), "_", names(x$strain_parameter$CB),  "           parameter[", (0:71), "]", collapse = "\n"))
-#define CB_1_strain_name           parameter[0]
-#define CB_1_g_max_CB           parameter[1]
-#define CB_1_k_CB_P           parameter[2]
-#define CB_1_h_SR_CB           parameter[3]
-#define CB_1_y_P_CB           parameter[4]
-#define CB_1_Pr_CB           parameter[5]
-#define CB_1_m_CB           parameter[6]
-#define CB_1_i_CB           parameter[7]
-#define CB_2_strain_name           parameter[8]
-#define CB_2_g_max_CB           parameter[9]
-#define CB_2_k_CB_P           parameter[10]
-#define CB_2_h_SR_CB           parameter[11]
-#define CB_2_y_P_CB           parameter[12]
-#define CB_2_Pr_CB           parameter[13]
-#define CB_2_m_CB           parameter[14]
-#define CB_2_i_CB           parameter[15]
-#define CB_3_strain_name           parameter[16]
-#define CB_3_g_max_CB           parameter[17]
-#define CB_3_k_CB_P           parameter[18]
-#define CB_3_h_SR_CB           parameter[19]
-#define CB_3_y_P_CB           parameter[20]
-#define CB_3_Pr_CB           parameter[21]
-#define CB_3_m_CB           parameter[22]
-#define CB_3_i_CB           parameter[23]
-#define CB_4_strain_name           parameter[24]
-#define CB_4_g_max_CB           parameter[25]
-#define CB_4_k_CB_P           parameter[26]
-#define CB_4_h_SR_CB           parameter[27]
-#define CB_4_y_P_CB           parameter[28]
-#define CB_4_Pr_CB           parameter[29]
-#define CB_4_m_CB           parameter[30]
-#define CB_4_i_CB           parameter[31]
-#define CB_5_strain_name           parameter[32]
-#define CB_5_g_max_CB           parameter[33]
-#define CB_5_k_CB_P           parameter[34]
-#define CB_5_h_SR_CB           parameter[35]
-#define CB_5_y_P_CB           parameter[36]
-#define CB_5_Pr_CB           parameter[37]
-#define CB_5_m_CB           parameter[38]
-#define CB_5_i_CB           parameter[39]
-#define CB_6_strain_name           parameter[40]
-#define CB_6_g_max_CB           parameter[41]
-#define CB_6_k_CB_P           parameter[42]
-#define CB_6_h_SR_CB           parameter[43]
-#define CB_6_y_P_CB           parameter[44]
-#define CB_6_Pr_CB           parameter[45]
-#define CB_6_m_CB           parameter[46]
-#define CB_6_i_CB           parameter[47]
-#define CB_7_strain_name           parameter[48]
-#define CB_7_g_max_CB           parameter[49]
-#define CB_7_k_CB_P           parameter[50]
-#define CB_7_h_SR_CB           parameter[51]
-#define CB_7_y_P_CB           parameter[52]
-#define CB_7_Pr_CB           parameter[53]
-#define CB_7_m_CB           parameter[54]
-#define CB_7_i_CB           parameter[55]
-#define CB_8_strain_name           parameter[56]
-#define CB_8_g_max_CB           parameter[57]
-#define CB_8_k_CB_P           parameter[58]
-#define CB_8_h_SR_CB           parameter[59]
-#define CB_8_y_P_CB           parameter[60]
-#define CB_8_Pr_CB           parameter[61]
-#define CB_8_m_CB           parameter[62]
-#define CB_8_i_CB           parameter[63]
-#define CB_9_strain_name           parameter[64]
-#define CB_9_g_max_CB           parameter[65]
-#define CB_9_k_CB_P           parameter[66]
-#define CB_9_h_SR_CB           parameter[67]
-#define CB_9_y_P_CB           parameter[68]
-#define CB_9_Pr_CB           parameter[69]
-#define CB_9_m_CB           parameter[70]
-#define CB_9_i_CB           parameter[71]
+// cat(paste0(paste0("#define CB_", rep(1:9, each = 8)), "_", names(x$strain_parameter$CB),  "			parameter[", (0:71), "]", collapse = "\n"))
+#define CB_1_strain_name	parameter[0]
+#define CB_1_g_max_CB		parameter[1]
+#define CB_1_k_CB_P			parameter[2]
+#define CB_1_h_SR_CB		parameter[3]
+#define CB_1_y_P_CB			parameter[4]
+#define CB_1_Pr_CB			parameter[5]
+#define CB_1_m_CB			parameter[6]
+#define CB_1_i_CB			parameter[7]
+#define CB_2_strain_name	parameter[8]
+#define CB_2_g_max_CB		parameter[9]
+#define CB_2_k_CB_P			parameter[10]
+#define CB_2_h_SR_CB		parameter[11]
+#define CB_2_y_P_CB			parameter[12]
+#define CB_2_Pr_CB			parameter[13]
+#define CB_2_m_CB			parameter[14]
+#define CB_2_i_CB			parameter[15]
+#define CB_3_strain_name	parameter[16]
+#define CB_3_g_max_CB		parameter[17]
+#define CB_3_k_CB_P			parameter[18]
+#define CB_3_h_SR_CB		parameter[19]
+#define CB_3_y_P_CB			parameter[20]
+#define CB_3_Pr_CB			parameter[21]
+#define CB_3_m_CB			parameter[22]
+#define CB_3_i_CB			parameter[23]
+#define CB_4_strain_name	parameter[24]
+#define CB_4_g_max_CB		parameter[25]
+#define CB_4_k_CB_P			parameter[26]
+#define CB_4_h_SR_CB		parameter[27]
+#define CB_4_y_P_CB			parameter[28]
+#define CB_4_Pr_CB			parameter[29]
+#define CB_4_m_CB			parameter[30]
+#define CB_4_i_CB			parameter[31]
+#define CB_5_strain_name	parameter[32]
+#define CB_5_g_max_CB		parameter[33]
+#define CB_5_k_CB_P			parameter[34]
+#define CB_5_h_SR_CB		parameter[35]
+#define CB_5_y_P_CB			parameter[36]
+#define CB_5_Pr_CB			parameter[37]
+#define CB_5_m_CB			parameter[38]
+#define CB_5_i_CB			parameter[39]
+#define CB_6_strain_name	parameter[40]
+#define CB_6_g_max_CB		parameter[41]
+#define CB_6_k_CB_P			parameter[42]
+#define CB_6_h_SR_CB		parameter[43]
+#define CB_6_y_P_CB			parameter[44]
+#define CB_6_Pr_CB			parameter[45]
+#define CB_6_m_CB			parameter[46]
+#define CB_6_i_CB			parameter[47]
+#define CB_7_strain_name	parameter[48]
+#define CB_7_g_max_CB		parameter[49]
+#define CB_7_k_CB_P			parameter[50]
+#define CB_7_h_SR_CB		parameter[51]
+#define CB_7_y_P_CB			parameter[52]
+#define CB_7_Pr_CB			parameter[53]
+#define CB_7_m_CB			parameter[54]
+#define CB_7_i_CB			parameter[55]
+#define CB_8_strain_name	parameter[56]
+#define CB_8_g_max_CB		parameter[57]
+#define CB_8_k_CB_P			parameter[58]
+#define CB_8_h_SR_CB		parameter[59]
+#define CB_8_y_P_CB			parameter[60]
+#define CB_8_Pr_CB			parameter[61]
+#define CB_8_m_CB			parameter[62]
+#define CB_8_i_CB			parameter[63]
+#define CB_9_strain_name	parameter[64]
+#define CB_9_g_max_CB		parameter[65]
+#define CB_9_k_CB_P			parameter[66]
+#define CB_9_h_SR_CB		parameter[67]
+#define CB_9_y_P_CB			parameter[68]
+#define CB_9_Pr_CB			parameter[69]
+#define CB_9_m_CB			parameter[70]
+#define CB_9_i_CB			parameter[71]
 
 // Define PB strain parameter
-// cat(paste0(paste0("#define PB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$PB),  "           parameter[", (1:81) + 71, "]", collapse = "\n"))
-#define PB_1_strain_name           parameter[72]
-#define PB_1_g_max_PB           parameter[73]
-#define PB_1_k_PB_SR           parameter[74]
-#define PB_1_k_PB_P           parameter[75]
-#define PB_1_h_O_PB           parameter[76]
-#define PB_1_y_SR_PB           parameter[77]
-#define PB_1_y_P_PB           parameter[78]
-#define PB_1_m_PB           parameter[79]
-#define PB_1_i_PB           parameter[80]
-#define PB_2_strain_name           parameter[81]
-#define PB_2_g_max_PB           parameter[82]
-#define PB_2_k_PB_SR           parameter[83]
-#define PB_2_k_PB_P           parameter[84]
-#define PB_2_h_O_PB           parameter[85]
-#define PB_2_y_SR_PB           parameter[86]
-#define PB_2_y_P_PB           parameter[87]
-#define PB_2_m_PB           parameter[88]
-#define PB_2_i_PB           parameter[89]
-#define PB_3_strain_name           parameter[90]
-#define PB_3_g_max_PB           parameter[91]
-#define PB_3_k_PB_SR           parameter[92]
-#define PB_3_k_PB_P           parameter[93]
-#define PB_3_h_O_PB           parameter[94]
-#define PB_3_y_SR_PB           parameter[95]
-#define PB_3_y_P_PB           parameter[96]
-#define PB_3_m_PB           parameter[97]
-#define PB_3_i_PB           parameter[98]
-#define PB_4_strain_name           parameter[99]
-#define PB_4_g_max_PB           parameter[100]
-#define PB_4_k_PB_SR           parameter[101]
-#define PB_4_k_PB_P           parameter[102]
-#define PB_4_h_O_PB           parameter[103]
-#define PB_4_y_SR_PB           parameter[104]
-#define PB_4_y_P_PB           parameter[105]
-#define PB_4_m_PB           parameter[106]
-#define PB_4_i_PB           parameter[107]
-#define PB_5_strain_name           parameter[108]
-#define PB_5_g_max_PB           parameter[109]
-#define PB_5_k_PB_SR           parameter[110]
-#define PB_5_k_PB_P           parameter[111]
-#define PB_5_h_O_PB           parameter[112]
-#define PB_5_y_SR_PB           parameter[113]
-#define PB_5_y_P_PB           parameter[114]
-#define PB_5_m_PB           parameter[115]
-#define PB_5_i_PB           parameter[116]
-#define PB_6_strain_name           parameter[117]
-#define PB_6_g_max_PB           parameter[118]
-#define PB_6_k_PB_SR           parameter[119]
-#define PB_6_k_PB_P           parameter[120]
-#define PB_6_h_O_PB           parameter[121]
-#define PB_6_y_SR_PB           parameter[122]
-#define PB_6_y_P_PB           parameter[123]
-#define PB_6_m_PB           parameter[124]
-#define PB_6_i_PB           parameter[125]
-#define PB_7_strain_name           parameter[126]
-#define PB_7_g_max_PB           parameter[127]
-#define PB_7_k_PB_SR           parameter[128]
-#define PB_7_k_PB_P           parameter[129]
-#define PB_7_h_O_PB           parameter[130]
-#define PB_7_y_SR_PB           parameter[131]
-#define PB_7_y_P_PB           parameter[132]
-#define PB_7_m_PB           parameter[133]
-#define PB_7_i_PB           parameter[134]
-#define PB_8_strain_name           parameter[135]
-#define PB_8_g_max_PB           parameter[136]
-#define PB_8_k_PB_SR           parameter[137]
-#define PB_8_k_PB_P           parameter[138]
-#define PB_8_h_O_PB           parameter[139]
-#define PB_8_y_SR_PB           parameter[140]
-#define PB_8_y_P_PB           parameter[141]
-#define PB_8_m_PB           parameter[142]
-#define PB_8_i_PB           parameter[143]
-#define PB_9_strain_name           parameter[144]
-#define PB_9_g_max_PB           parameter[145]
-#define PB_9_k_PB_SR           parameter[146]
-#define PB_9_k_PB_P           parameter[147]
-#define PB_9_h_O_PB           parameter[148]
-#define PB_9_y_SR_PB           parameter[149]
-#define PB_9_y_P_PB           parameter[150]
-#define PB_9_m_PB           parameter[151]
-#define PB_9_i_PB           parameter[152]
+// cat(paste0(paste0("#define PB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$PB),  "			parameter[", (1:81) + 71, "]", collapse = "\n"))
+#define PB_1_strain_name	parameter[72]
+#define PB_1_g_max_PB		parameter[73]
+#define PB_1_k_PB_SR		parameter[74]
+#define PB_1_k_PB_P			parameter[75]
+#define PB_1_h_O_PB			parameter[76]
+#define PB_1_y_SR_PB		parameter[77]
+#define PB_1_y_P_PB			parameter[78]
+#define PB_1_m_PB			parameter[79]
+#define PB_1_i_PB			parameter[80]
+#define PB_2_strain_name	parameter[81]
+#define PB_2_g_max_PB		parameter[82]
+#define PB_2_k_PB_SR		parameter[83]
+#define PB_2_k_PB_P			parameter[84]
+#define PB_2_h_O_PB			parameter[85]
+#define PB_2_y_SR_PB		parameter[86]
+#define PB_2_y_P_PB			parameter[87]
+#define PB_2_m_PB			parameter[88]
+#define PB_2_i_PB			parameter[89]
+#define PB_3_strain_name	parameter[90]
+#define PB_3_g_max_PB		parameter[91]
+#define PB_3_k_PB_SR		parameter[92]
+#define PB_3_k_PB_P			parameter[93]
+#define PB_3_h_O_PB			parameter[94]
+#define PB_3_y_SR_PB		parameter[95]
+#define PB_3_y_P_PB			parameter[96]
+#define PB_3_m_PB			parameter[97]
+#define PB_3_i_PB			parameter[98]
+#define PB_4_strain_name	parameter[99]
+#define PB_4_g_max_PB		parameter[100]
+#define PB_4_k_PB_SR		parameter[101]
+#define PB_4_k_PB_P			parameter[102]
+#define PB_4_h_O_PB			parameter[103]
+#define PB_4_y_SR_PB		parameter[104]
+#define PB_4_y_P_PB			parameter[105]
+#define PB_4_m_PB			parameter[106]
+#define PB_4_i_PB			parameter[107]
+#define PB_5_strain_name	parameter[108]
+#define PB_5_g_max_PB		parameter[109]
+#define PB_5_k_PB_SR		parameter[110]
+#define PB_5_k_PB_P			parameter[111]
+#define PB_5_h_O_PB			parameter[112]
+#define PB_5_y_SR_PB		parameter[113]
+#define PB_5_y_P_PB			parameter[114]
+#define PB_5_m_PB			parameter[115]
+#define PB_5_i_PB			parameter[116]
+#define PB_6_strain_name	parameter[117]
+#define PB_6_g_max_PB		parameter[118]
+#define PB_6_k_PB_SR		parameter[119]
+#define PB_6_k_PB_P			parameter[120]
+#define PB_6_h_O_PB			parameter[121]
+#define PB_6_y_SR_PB		parameter[122]
+#define PB_6_y_P_PB			parameter[123]
+#define PB_6_m_PB			parameter[124]
+#define PB_6_i_PB			parameter[125]
+#define PB_7_strain_name	parameter[126]
+#define PB_7_g_max_PB		parameter[127]
+#define PB_7_k_PB_SR		parameter[128]
+#define PB_7_k_PB_P			parameter[129]
+#define PB_7_h_O_PB			parameter[130]
+#define PB_7_y_SR_PB		parameter[131]
+#define PB_7_y_P_PB			parameter[132]
+#define PB_7_m_PB			parameter[133]
+#define PB_7_i_PB			parameter[134]
+#define PB_8_strain_name	parameter[135]
+#define PB_8_g_max_PB		parameter[136]
+#define PB_8_k_PB_SR		parameter[137]
+#define PB_8_k_PB_P			parameter[138]
+#define PB_8_h_O_PB			parameter[139]
+#define PB_8_y_SR_PB		parameter[140]
+#define PB_8_y_P_PB			parameter[141]
+#define PB_8_m_PB			parameter[142]
+#define PB_8_i_PB			parameter[143]
+#define PB_9_strain_name	parameter[144]
+#define PB_9_g_max_PB		parameter[145]
+#define PB_9_k_PB_SR		parameter[146]
+#define PB_9_k_PB_P			parameter[147]
+#define PB_9_h_O_PB			parameter[148]
+#define PB_9_y_SR_PB		parameter[149]
+#define PB_9_y_P_PB			parameter[150]
+#define PB_9_m_PB			parameter[151]
+#define PB_9_i_PB			parameter[152]
 
 // Define SB strain parameter
-// cat(paste0(paste0("#define SB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$SB),  "           parameter[", (1:81) + 152, "]", collapse = "\n"))
-#define SB_1_strain_name           parameter[153]
-#define SB_1_g_max_SB           parameter[154]
-#define SB_1_k_SB_SO           parameter[155]
-#define SB_1_k_SB_P           parameter[156]
-#define SB_1_h_O_SB           parameter[157]
-#define SB_1_y_SO_SB           parameter[158]
-#define SB_1_y_P_SB           parameter[159]
-#define SB_1_m_SB           parameter[160]
-#define SB_1_i_SB           parameter[161]
-#define SB_2_strain_name           parameter[162]
-#define SB_2_g_max_SB           parameter[163]
-#define SB_2_k_SB_SO           parameter[164]
-#define SB_2_k_SB_P           parameter[165]
-#define SB_2_h_O_SB           parameter[166]
-#define SB_2_y_SO_SB           parameter[167]
-#define SB_2_y_P_SB           parameter[168]
-#define SB_2_m_SB           parameter[169]
-#define SB_2_i_SB           parameter[170]
-#define SB_3_strain_name           parameter[171]
-#define SB_3_g_max_SB           parameter[172]
-#define SB_3_k_SB_SO           parameter[173]
-#define SB_3_k_SB_P           parameter[174]
-#define SB_3_h_O_SB           parameter[175]
-#define SB_3_y_SO_SB           parameter[176]
-#define SB_3_y_P_SB           parameter[177]
-#define SB_3_m_SB           parameter[178]
-#define SB_3_i_SB           parameter[179]
-#define SB_4_strain_name           parameter[180]
-#define SB_4_g_max_SB           parameter[181]
-#define SB_4_k_SB_SO           parameter[182]
-#define SB_4_k_SB_P           parameter[183]
-#define SB_4_h_O_SB           parameter[184]
-#define SB_4_y_SO_SB           parameter[185]
-#define SB_4_y_P_SB           parameter[186]
-#define SB_4_m_SB           parameter[187]
-#define SB_4_i_SB           parameter[188]
-#define SB_5_strain_name           parameter[189]
-#define SB_5_g_max_SB           parameter[190]
-#define SB_5_k_SB_SO           parameter[191]
-#define SB_5_k_SB_P           parameter[192]
-#define SB_5_h_O_SB           parameter[193]
-#define SB_5_y_SO_SB           parameter[194]
-#define SB_5_y_P_SB           parameter[195]
-#define SB_5_m_SB           parameter[196]
-#define SB_5_i_SB           parameter[197]
-#define SB_6_strain_name           parameter[198]
-#define SB_6_g_max_SB           parameter[199]
-#define SB_6_k_SB_SO           parameter[200]
-#define SB_6_k_SB_P           parameter[201]
-#define SB_6_h_O_SB           parameter[202]
-#define SB_6_y_SO_SB           parameter[203]
-#define SB_6_y_P_SB           parameter[204]
-#define SB_6_m_SB           parameter[205]
-#define SB_6_i_SB           parameter[206]
-#define SB_7_strain_name           parameter[207]
-#define SB_7_g_max_SB           parameter[208]
-#define SB_7_k_SB_SO           parameter[209]
-#define SB_7_k_SB_P           parameter[210]
-#define SB_7_h_O_SB           parameter[211]
-#define SB_7_y_SO_SB           parameter[212]
-#define SB_7_y_P_SB           parameter[213]
-#define SB_7_m_SB           parameter[214]
-#define SB_7_i_SB           parameter[215]
-#define SB_8_strain_name           parameter[216]
-#define SB_8_g_max_SB           parameter[217]
-#define SB_8_k_SB_SO           parameter[218]
-#define SB_8_k_SB_P           parameter[219]
-#define SB_8_h_O_SB           parameter[220]
-#define SB_8_y_SO_SB           parameter[221]
-#define SB_8_y_P_SB           parameter[222]
-#define SB_8_m_SB           parameter[223]
-#define SB_8_i_SB           parameter[224]
-#define SB_9_strain_name           parameter[225]
-#define SB_9_g_max_SB           parameter[226]
-#define SB_9_k_SB_SO           parameter[227]
-#define SB_9_k_SB_P           parameter[228]
-#define SB_9_h_O_SB           parameter[229]
-#define SB_9_y_SO_SB           parameter[230]
-#define SB_9_y_P_SB           parameter[231]
-#define SB_9_m_SB           parameter[232]
-#define SB_9_i_SB           parameter[233]
+// cat(paste0(paste0("#define SB_", rep(1:9, each = 9)), "_", names(x$strain_parameter$SB),  "			parameter[", (1:81) + 152, "]", collapse = "\n"))
+#define SB_1_strain_name	parameter[153]
+#define SB_1_g_max_SB		parameter[154]
+#define SB_1_k_SB_SO		parameter[155]
+#define SB_1_k_SB_P			parameter[156]
+#define SB_1_h_O_SB			parameter[157]
+#define SB_1_y_SO_SB		parameter[158]
+#define SB_1_y_P_SB			parameter[159]
+#define SB_1_m_SB			parameter[160]
+#define SB_1_i_SB			parameter[161]
+#define SB_2_strain_name	parameter[162]
+#define SB_2_g_max_SB		parameter[163]
+#define SB_2_k_SB_SO		parameter[164]
+#define SB_2_k_SB_P			parameter[165]
+#define SB_2_h_O_SB			parameter[166]
+#define SB_2_y_SO_SB		parameter[167]
+#define SB_2_y_P_SB			parameter[168]
+#define SB_2_m_SB			parameter[169]
+#define SB_2_i_SB			parameter[170]
+#define SB_3_strain_name	parameter[171]
+#define SB_3_g_max_SB		parameter[172]
+#define SB_3_k_SB_SO		parameter[173]
+#define SB_3_k_SB_P			parameter[174]
+#define SB_3_h_O_SB			parameter[175]
+#define SB_3_y_SO_SB		parameter[176]
+#define SB_3_y_P_SB			parameter[177]
+#define SB_3_m_SB			parameter[178]
+#define SB_3_i_SB			parameter[179]
+#define SB_4_strain_name	parameter[180]
+#define SB_4_g_max_SB		parameter[181]
+#define SB_4_k_SB_SO		parameter[182]
+#define SB_4_k_SB_P			parameter[183]
+#define SB_4_h_O_SB			parameter[184]
+#define SB_4_y_SO_SB		parameter[185]
+#define SB_4_y_P_SB			parameter[186]
+#define SB_4_m_SB			parameter[187]
+#define SB_4_i_SB			parameter[188]
+#define SB_5_strain_name	parameter[189]
+#define SB_5_g_max_SB		parameter[190]
+#define SB_5_k_SB_SO		parameter[191]
+#define SB_5_k_SB_P			parameter[192]
+#define SB_5_h_O_SB			parameter[193]
+#define SB_5_y_SO_SB		parameter[194]
+#define SB_5_y_P_SB			parameter[195]
+#define SB_5_m_SB			parameter[196]
+#define SB_5_i_SB			parameter[197]
+#define SB_6_strain_name	parameter[198]
+#define SB_6_g_max_SB		parameter[199]
+#define SB_6_k_SB_SO		parameter[200]
+#define SB_6_k_SB_P			parameter[201]
+#define SB_6_h_O_SB			parameter[202]
+#define SB_6_y_SO_SB		parameter[203]
+#define SB_6_y_P_SB			parameter[204]
+#define SB_6_m_SB			parameter[205]
+#define SB_6_i_SB			parameter[206]
+#define SB_7_strain_name	parameter[207]
+#define SB_7_g_max_SB		parameter[208]
+#define SB_7_k_SB_SO		parameter[209]
+#define SB_7_k_SB_P			parameter[210]
+#define SB_7_h_O_SB			parameter[211]
+#define SB_7_y_SO_SB		parameter[212]
+#define SB_7_y_P_SB			parameter[213]
+#define SB_7_m_SB			parameter[214]
+#define SB_7_i_SB			parameter[215]
+#define SB_8_strain_name	parameter[216]
+#define SB_8_g_max_SB		parameter[217]
+#define SB_8_k_SB_SO		parameter[218]
+#define SB_8_k_SB_P			parameter[219]
+#define SB_8_h_O_SB			parameter[220]
+#define SB_8_y_SO_SB		parameter[221]
+#define SB_8_y_P_SB			parameter[222]
+#define SB_8_m_SB			parameter[223]
+#define SB_8_i_SB			parameter[224]
+#define SB_9_strain_name	parameter[225]
+#define SB_9_g_max_SB		parameter[226]
+#define SB_9_k_SB_SO		parameter[227]
+#define SB_9_k_SB_P			parameter[228]
+#define SB_9_h_O_SB			parameter[229]
+#define SB_9_y_SO_SB		parameter[230]
+#define SB_9_y_P_SB			parameter[231]
+#define SB_9_m_SB			parameter[232]
+#define SB_9_i_SB			parameter[233]
 
 
 // general strain parameter
-#define a_S                       parameter[234]
-#define a_O                       parameter[235]
-#define a_P                       parameter[236]
-#define back_SR                   parameter[237]
-#define back_SO                   parameter[238]
-#define back_O                    parameter[239]
-#define back_P                    parameter[240]
-#define c                         parameter[241]
+#define a_S            			parameter[234]
+#define a_O            			parameter[235]
+#define a_P            			parameter[236]
+#define back_SR        			parameter[237]
+#define back_SO        			parameter[238]
+#define back_O         			parameter[239]
+#define back_P         			parameter[240]
+#define c              			parameter[241]
 
 
 // additional parameter
-#define noise_sigma               parameter[242]
-#define minimum_abundances_CB     parameter[243]
-#define minimum_abundances_PB     parameter[244]
-#define minimum_abundances_SB     parameter[245]
+// #define noise_sigma    			parameter[242]
+// #define minimum_abundances_CB	parameter[243]
+// #define minimum_abundances_PB   parameter[244]
+// #define minimum_abundances_SB   parameter[245]
 
 
 
@@ -349,8 +389,8 @@ char *parameternames[PARAMETER_NR] = {
 "SB_7_strain_name",  "SB_7_g_max_SB",  "SB_7_k_SB_SO",  "SB_7_k_SB_P",  "SB_7_h_O_SB",  "SB_7_y_SO_SB",  "SB_7_y_P_SB",  "SB_7_m_SB",  "SB_7_i_SB",  
 "SB_8_strain_name",  "SB_8_g_max_SB",  "SB_8_k_SB_SO",  "SB_8_k_SB_P",  "SB_8_h_O_SB",  "SB_8_y_SO_SB",  "SB_8_y_P_SB",  "SB_8_m_SB",  "SB_8_i_SB",  
 "SB_9_strain_name",  "SB_9_g_max_SB",  "SB_9_k_SB_SO",  "SB_9_k_SB_P",  "SB_9_h_O_SB",  "SB_9_y_SO_SB",  "SB_9_y_P_SB",  "SB_9_m_SB",  "SB_9_i_SB", 
-"a_S", "a_O", "a_P", "back_SR", "back_SO", "back_O", "back_P", "c", 
-"noise_sigma", "minimum_abundances_CB", "minimum_abundances_PB", "minimum_abundances_SB"
+"a_S", "a_O", "a_P", "back_SR", "back_SO", "back_O", "back_P", "c"
+// "noise_sigma", "minimum_abundances_CB", "minimum_abundances_PB", "minimum_abundances_SB"
 };
 
 // These are the default parameters values
@@ -387,8 +427,8 @@ double parameter[PARAMETER_NR] = {
 3.8, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
 3.9, 0.1, 5, 0.5, 100, 33300000, 1.67E+08, 0.04, 0,
 
-0.001, 8E-04, 0.01, 300, 300, 300, 9.5, 4E-05,
-0, 1, 1, 1
+0.001, 8E-04, 0.01, 300, 300, 300, 9.5, 4E-05
+// 0, 1, 1, 1
 };
 
 /*
@@ -396,6 +436,173 @@ double parameter[PARAMETER_NR] = {
  *  DEFINITION OF THE SYSTEM OF EQUATIONS TO SOLVE
  *=====================================================================================================
  */
+
+
+/*====================================================================================================*/
+
+// growth1()
+// Growth rate function on one resource X 
+//
+// x Concentration of resource X
+// g_max Maximum growth rate
+// k_x Half saturation constant for resource X
+//
+// return Growth rate
+
+double Growth1(double x, double g_max, double k_x)
+{
+	double growth_rate;
+	growth_rate = g_max * ( x / (k_x + x) );
+	return(growth_rate);
+}
+
+
+/*====================================================================================================*/
+
+// growth2()
+// Growth rate function on two resources X and Y
+//
+// x Concentration of resource X
+// y Concentration of resource Y
+// g_max Maximum growth rate
+// k_x Half saturation constant for resource X
+// k_y Half saturation constant for resource Y
+//
+// return Growth rate
+
+double Growth2(double x, double y, double g_max, double k_x, double k_y)
+{
+	double growth_rate;
+	growth_rate = g_max * ( x / (k_x + x) ) * ( x / (k_x + x));
+	return(growth_rate);
+}
+
+
+/*====================================================================================================*/
+// inhibition()
+// Growth inhibition function
+//
+// x Concentration of substance X
+// h_x Concentration of substance X at which the inhibition factor is 0.5 (i.e. the concerned rate is halved)
+//
+// return Inhibition factor
+
+double Inhibition(double x, double h_x)
+{
+	double inhibition_factor;
+  	inhibition_factor = 1 / (1 + (x / h_x));
+  	return(inhibition_factor);
+}
+
+
+
+/*====================================================================================================*/
+// bushplus_dynamic_model()
+//
+// The rate equations, as published in the Bush et al 2017 paper, but with
+// forcing of oxygen diffusivity `a_0` potential added, and the
+// possibility to simulate multiple strains per functional group
+//
+// t The current time in the simulation state A vector containing the current (named) values of 
+//		each state variable
+//  parameters An object of class `runsim_parameter` as returned by `new_runsim_parameter()``
+//   
+// return An objec of type `runsim_result` containing the parameter and
+//   the results of the simulation, namely the rate of change of each state
+//   variable, and also the current values of oxygen diffusivity.
+
+Bushplus_dynamic_model <- function(double t, double *state, double *parameters) {
+
+         CB <- state[grep("CB", names(state))]
+         names_CB <- names(CB)[order(names(CB))]
+         CB <- as.numeric(CB[order(names(CB))])
+         
+         
+         PB <- state[grep("PB", names(state))]
+         names_PB <- names(PB)[order(names(PB))]
+         PB <- as.numeric(PB[order(names(PB))])
+         SB <- state[grep("SB", names(state))]
+         names_SB <- names(SB)[order(names(SB))]
+         SB <- as.numeric(SB[order(names(SB))])
+
+         # print(c(CB, PB, SB))
+         
+
+         # rates of change=
+//          CB_growth_rate <- growth1(state["P"], parameters$CB$g_max_CB, parameters$CB$k_CB_P) * inhibition(state["SR"], parameters$CB$h_SR_CB) * CB
+	CB_growth_rate = growth1(P, CB$g_max_CB, CB$k_CB_P) * inhibition(SR, h_SR_CB) * CB
+ 
+         CB_mortality_rate <- parameters$CB$m_CB * CB
+         CB_rate <- CB_growth_rate - CB_mortality_rate + parameters$CB$i_CB
+         
+         PB_growth_rate <- growth2(state["P"], state["SR"], parameters$PB$g_max_PB, parameters$PB$k_PB_P, parameters$PB$k_PB_SR) * inhibition(state["O"], parameters$PB$h_O_PB) * PB
+         PB_mortality_rate <- parameters$PB$m_PB * PB
+         PB_rate <- PB_growth_rate - PB_mortality_rate + parameters$PB$i_PB
+         
+         SB_growth_rate <- growth2(state["P"], state["SO"], parameters$SB$g_max_SB, parameters$SB$k_SB_P, parameters$SB$k_SB_SO) * inhibition(state["O"], parameters$SB$h_O_SB) * SB
+         SB_mortality_rate <- parameters$SB$m_SB * SB
+         SB_rate <- SB_growth_rate - SB_mortality_rate + parameters$SB$i_SB
+         
+         SO_rate <- sum(1 / parameters$PB$y_SR_PB * PB_growth_rate) -
+           sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) +
+			parameters$c * state["O"] * state["SR"] +
+			parameters$a_S * (parameters$back_SO -state[["SO"]])
+         
+         SR_rate <- - sum(1 / parameters$PB$y_SR_PB * PB_growth_rate) +
+           sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) -
+			parameters$c * state["O"] * state["SR"] +
+			parameters$a_S * (parameters$back_SR - state["SR"])
+         
+         O_rate <- sum(parameters$CB$Pr_CB * CB_growth_rate) -
+			parameters$c * state["O"] * state["SR"] +
+           10^log10a_forcing_func(t) * (parameters$back_O - state["O"])
+         
+         P_rate <- - sum(1 / parameters$CB$y_P_CB * CB_growth_rate) -
+           sum(1 / parameters$PB$y_P_PB * PB_growth_rate) -
+           sum(1 / parameters$SB$y_P_SB * PB_growth_rate) +
+			parameters$a_P * (parameters$back_P - state["P"])
+         
+         # print(CB_growth_rate)
+         # print(CB_mortality_rate)
+         # print(parameters$CB$m_CB)
+         # print(CB)
+         # print(CB_rate)
+         
+         # return the rate of change
+         result <- list(c(CB_rate,
+                          PB_rate,
+                          SB_rate,
+                          SO_rate = SO_rate,
+                          SR_rate = SR_rate,
+                          O_rate = O_rate,
+                          P_rate = P_rate),
+                        a=log10a_forcing_func(t))
+         names(result[[1]]) <- c(parameters$CB$strain_name,
+                      			parameters$PB$strain_name,
+                      			parameters$SB$strain_name,
+                                 "SO_rate",
+                                 "SR_rate",
+                                 "O_rate",
+                                 "P_rate")
+         result
+
+}
+
+
+
+
+
+
+
+/*====================================================================================================*/
+/*====================================================================================================*/
+/*====================================================================================================*/
+/*====================================================================================================*/
+/*====================================================================================================*/
+/*====================================================================================================*/
+/*====================================================================================================*/
+
+
 
 #undef MAX_EXP
 #define MAX_EXP                   50.0
