@@ -713,10 +713,10 @@ void Bushplus_dynamic_model(double t, double *state, double *parameters) {
   SB_mortality_rate[2] = SB_3_m_SB * SB_3;
   SB_mortality_rate[3] = SB_4_m_SB * SB_4;
   SB_mortality_rate[4] = SB_5_m_SB * SB_5;
-  SB_mortality_rate[4] = SB_6_m_SB * SB_6;
-  SB_mortality_rate[5] = SB_7_m_SB * SB_7;
-  SB_mortality_rate[6] = SB_8_m_SB * SB_8;
-  SB_mortality_rate[7] = SB_9_m_SB * SB_9;
+  SB_mortality_rate[5] = SB_6_m_SB * SB_6;
+  SB_mortality_rate[6] = SB_7_m_SB * SB_7;
+  SB_mortality_rate[7] = SB_8_m_SB * SB_8;
+  SB_mortality_rate[8] = SB_9_m_SB * SB_9;
 
   // SB_rate <- SB_growth_rate - SB_mortality_rate + parameters$SB$i_SB
   SB_1_rate = SB_growth_rate[0] - SB_mortality_rate[0] + SB_1_i_SB;
