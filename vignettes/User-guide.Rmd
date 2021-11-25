@@ -42,6 +42,15 @@ options(mc.cores = 8)
 
 ```
 
+# Package version
+
+The microxanox package may be update / changed, so please take care to work with a specific version. This user guide is working with version 0.3.0, and the loaded version is:
+
+```{r}
+packageVersion("microxanox")
+```
+
+
 # Introduction
 
 The aims of the `microxanox` package are:
@@ -57,7 +66,7 @@ We added functionality for:
 -   Setting minimum population abundances.
 -   Multiple strains per functional group.
 
-We also include a function for visualising results, though *please note that it is provided for convenience, and not for production of perfectly formatted print-ready graphs.*
+We also include a function for visualising results. It is provided for convenience, and not for production of perfectly formatted print-ready graphs.*
 
 Here (again) is the original publication: <https://www.nature.com/articles/s41467-017-00912-x>
 
@@ -90,7 +99,7 @@ All parameter needed to run the simulations are encapsulated in an S3 object of 
 ```{r}
 new_runsim_parameter(help = TRUE)
 ```
-All parameter values are set initially to NA and need to be set. This can either be done by providing the parameters to be set as named arguments to the function `new_runsim_parameter()`:
+All parameter values are set initially to NA (except the solver method, which is set to radau) and therefore need to be set. This can either be done by providing the parameters to be set as named arguments to the function `new_runsim_parameter()`:
 
 ```{r}
 new_runsim_parameter(dynamic_model = bushplus_dynamic_model)
@@ -287,7 +296,7 @@ The advantage of this approach is that the names of the parameter are checked an
 
 ```{r, error = TRUE}
 parameter <- new_runsim_parameter(
-	dynamic_model = bushplus_dynamic_model
+	dynamical_model = bushplus_dynamic_model
 )
 ```
 
