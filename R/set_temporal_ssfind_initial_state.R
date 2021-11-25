@@ -1,10 +1,11 @@
-#' Convenience function for setting initial states
+#' Convenience function for setting initial states during the process of finding
+#' stable states using the function `run_temporal_ssfind_experiment`
 #'
-#' @param p parameters
+#' @param p parameters for the simulation
 #' @param initial_total_CB Total initial abundance of CB
 #' @param initial_total_PB Total initial abundance of PB
 #' @param initial_total_SB Total initial abundance of SB
-#' @return The passed parameter object but with initial states set
+#' @return The passed parameter object but with initial states set (overwritten by the new ones)
 #' @md
 #' 
 #' @export

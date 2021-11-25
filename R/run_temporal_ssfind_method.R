@@ -1,8 +1,9 @@
-#' Find the stable states for a parameter set
+#' Finds the stable states for a parameter set by increasing and decreasing
+#' the oxygen diffusivity in a stepwise fashion.
 #'
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
-#' @return an object ...
+#' @return A data frame of final states and oxygen diffusivity values
 #' @md
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
