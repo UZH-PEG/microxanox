@@ -56,8 +56,9 @@ run_temporal_ssfind_experiment <- function(parameter,
         })
       ) %>%
       mutate(ssfind_result = list(run_temporal_ssfind_method(ssfind_pars))) %>%
-      collect()
-    
+      collect() %>%
+      rowwise()
+
   }
   
   return(result)
