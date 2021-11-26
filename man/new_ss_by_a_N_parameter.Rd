@@ -7,13 +7,24 @@
 new_ss_by_a_N_parameter(..., help = FALSE)
 }
 \arguments{
-\item{...}{named parameter for the simulation to be set. 
+\item{...}{named parameter for the simulation to be set.
 An error will be raised, if they are not part of the parameter set.}
 
 \item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
-parameter object of the class \code{ss_by_a_N_parameter}
+object of the class \code{ss_by_a_N_parameter}. This object of class
+\code{ss_by_a_N_parameter} is identical to an object of class \code{runsim_paramweter}
+plus an additional field \code{ss_expt} which contains a \code{data.frame} with XXXX
+columns named
+\itemize{
+\item \code{N_CB}
+\item \code{N_PB}
+\item \code{N_SB}
+\item \code{a_0}
+which contain the initial states. If more than one strain is present, the same
+initial state is assumed for each.
+}
 }
 \description{
 Create parameter to run the simulation by using the function \code{ss_by_a_N()}

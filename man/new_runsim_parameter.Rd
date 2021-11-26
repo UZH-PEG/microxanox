@@ -16,12 +16,12 @@ An error will be raised, if they are not part of the parameter set.}
 parameter object of the class \code{runsim_parameter}.
 The object contains the following elements:
 \itemize{
-\item dynamic_model      : the dynamic model to be used. At the moment, only \code{bushplus_dynamic_model} is implemented. Fir further info, see the documen tation of \code{bushplus_dynamic_model}.
-\item event_definition   : XXX
+\item dynamic_model      : the dynamic model to be used. At the moment, only \code{bushplus_dynamic_model} is implemented. Fur further info, see the documen tation of \code{bushplus_dynamic_model}.
+\item event_definition   : A function which alters the state variables. At the moment only \code{event_definition_1()} is included. User defined functions with the same signature can be used.
 \item strain_parameter   : object of class \code{strain_parameter} as returned by \code{new_strain_parameter()}
-\item event_interval     : XXX
+\item event_interval     : interval, in timesteps, in which the event occurs"
 \item noise_sigma        : XXX
-\item minimum_abundances : XXX
+\item minimum_abundances : Minimum abundances. Smaller abundances will be set to this value duting \code{event_definition_1()}.
 \item sim_duration       : duration of the simulation
 \item sim_sample_interval: interval, at which the simulation will be sampled
 \item log10a_series      : XXX

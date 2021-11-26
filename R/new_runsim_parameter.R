@@ -7,11 +7,11 @@
 #' @return parameter object of the class `runsim_parameter`. 
 #' The object contains the following elements:
 #' - dynamic_model      : the dynamic model to be used. At the moment, only `bushplus_dynamic_model` is implemented. Fur further info, see the documen tation of `bushplus_dynamic_model`.
-#' - event_definition   : XXX
+#' - event_definition   : A function which alters the state variables. At the moment only `event_definition_1()` is included. User defined functions with the same signature can be used.
 #' - strain_parameter   : object of class `strain_parameter` as returned by `new_strain_parameter()`
-#' - event_interval     : XXX
+#' - event_interval     : interval, in timesteps, in which the event occurs"
 #' - noise_sigma        : XXX
-#' - minimum_abundances : XXX
+#' - minimum_abundances : Minimum abundances. Smaller abundances will be set to this value duting `event_definition_1()`.
 #' - sim_duration       : duration of the simulation
 #' - sim_sample_interval: interval, at which the simulation will be sampled
 #' - log10a_series      : XXX
@@ -28,9 +28,9 @@ new_runsim_parameter <- function(
       dynamic_model = "the dynamic model to be used. At the moment, only `bushplus_dynamic_model` is implemented.",
       event_definition = "A function which alters the state variables. At the moment only `event_definition_1()` is included. User defined functions with the same signature can be used.",
       strain_parameter = "object of class `strain_parameter` as returned by `new_strain_parameter()`",
-      event_interval = "interval, in timesteps, in which the event occurs", # default_event_interval,
+      event_interval = "interval, in timesteps, in which the event occurs",
       noise_sigma = NA, # default_noise_sigma,
-      minimum_abundances = "Minimum abundances. Smaller abundances will be set to this value duting `event_definition_1()`.", # default_minimum_abundances,
+      minimum_abundances = "Minimum abundances. Smaller abundances will be set to this value duting `event_definition_1()`.",
       sim_duration = "duration of the simulation",
       sim_sample_interval = "interval, at which the simulation is sampled",
       log10a_series = NA, # default_log10a_series,

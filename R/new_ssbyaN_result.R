@@ -1,22 +1,26 @@
-#' Create result object of the function \code{ss_by_a_N()}.
+#' Create object of type `ss_by_a_N_result` which is returned by the
+#' function `ss_by_a_N()`.
 #'
-#' This object of class \code{ss_by_a_N_result} is identical to the parameter object plus an additional field
-#'   \code{result} which contains the result of the simulation.
-#' @param parameter object of class \code{ss_by_a_N_parameter} which has been used to run the simulation
+#' @param parameter object of class `ss_by_a_N_parameter` which has been used
+#'   to run the simulation
 #' @param result a dataframe containing the results of the simulation
-#' @param help if \code{TRUE}, the parameter will be listed and explained.
+#' @param help if `TRUE`, the parameter will be listed and explained.
 #'
-#' @return parameter object of the class \code{ss_by_a_N_result}
+#' @return object of the class `ss_by_a_N_result`. This object of class
+#'   `ss_by_a_N_result` is identical to an object of class `ss_by_a_N_parameter` 
+#'   plus an additional field `result` which contains the result of the simulation. 
+#' @md
 #' @export
 #'
 #' @examples
 new_ss_by_a_N_results <- function(
-  parameter, result, help = FALSE
+  parameter, 
+  result, 
+  help = FALSE
 ){
   if (help) {
-    p <- list(
-      result = "The result dataframe"
-    )
+    p <- new_ss_by_a_N_parameter(help = TRUE)
+    p <- result = "The result dataframe"
   } else {
     if (!inherits(parameter, "ss_by_a_N_parameter")) {
       stop("`parameter` has to be of class ss_by_a_N_parameter")

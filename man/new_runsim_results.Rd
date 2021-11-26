@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_runsim_result.R
 \name{new_runsim_results}
 \alias{new_runsim_results}
-\title{Create object of type \code{runsim_result} which is used as the result of the
+\title{Create object of type \code{runsim_result} which is returned by the
 function \code{run_sim()}.}
 \usage{
 new_runsim_results(parameter, result, help = FALSE)
@@ -16,23 +16,11 @@ to run the simulation}
 \item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
-object of the class \code{runsim_result}. ' This object of class
-\code{runsim_result} is identical to the parameter object plus an additional
-field \code{result} which contains the result of the simulation. It contains
-the following columns:
-\itemize{
-\item time: timestep of the simulation
-\item CB_n: n ranges from 1 to number of CB strains. XXX of cyano bacteria.
-\item PB_n: n ranges from 1 to number of CB strains. XXX of phototrophic bacteria
-\item SB_n: n ranges from 1 to number of CB strains. XXX of sulphur bacteria
-\item SO  : XXX
-\item SR  : XXX
-\item O   : oxygen XXX
-\item P   : phosphorous XXX
-\item a   : XXX
-}
+object of the class \code{runsim_result}. This object of class
+\code{runsim_result} is identical to an object of class \code{runsim_parameter}
+plus an additional field \code{result} which contains the result of the simulation.
 }
 \description{
-Create object of type \code{runsim_result} which is used as the result of the
+Create object of type \code{runsim_result} which is returned by the
 function \code{run_sim()}.
 }

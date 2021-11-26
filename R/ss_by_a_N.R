@@ -23,7 +23,8 @@ ss_by_a_N <- function(parameter, mc.cores = getOption("mc.cores", 0)) {
       1:nrow(parameter$ss_expt),
       function(i) {
         get_final_states_a_N(parameter$ss_expt[i, ], parameter)
-      }, mc.preschedule = FALSE,
+      }, 
+      mc.preschedule = FALSE,
       mc.cores = mc.cores
     )
     temp_result <- tibble::as_tibble(

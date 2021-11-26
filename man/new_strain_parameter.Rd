@@ -17,7 +17,8 @@ new_strain_parameter(
   n_SB = 1,
   values_SB = "bush",
   values_other = "bush",
-  values_initial_state = "bush_anoxic_fig2ab"
+  values_initial_state = "bush_anoxic_fig2ab",
+  help = FALSE
 )
 }
 \arguments{
@@ -56,10 +57,12 @@ in which case the default from Bush et al (2017) will be used.
 \item{values_initial_state}{values to be used for initial values or
 \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from
 Bush et al (2017) will be used.}
+
+\item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
 Object of class \code{strain_parameter}. The object contains the following fields:
-#' The additional parameeter are:
+The additional parameter are:
 \subsection{Strain parameter}{
 \itemize{
 \item CB: strain parameter from Cyano Bacteria
@@ -81,7 +84,7 @@ Object of class \code{strain_parameter}. The object contains the following field
 \item back_SR: background substrate concentration of XXX <- 300
 \item back_SO: background substrate concentration of XXX <- 300
 \item back_O: background substrate concentration of oxygen <- 300
-\item back_P: background substrate concentration of phosphorous<- 9.5
+\item back_P: background substrate concentration of phosphorous <- 9.5
 }
 }
 

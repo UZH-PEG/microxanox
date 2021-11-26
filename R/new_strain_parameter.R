@@ -24,8 +24,9 @@
 #' @param values_initial_state values to be used for initial values or
 #'   \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from
 #'   Bush et al (2017) will be used.
+#' @param help if \code{TRUE}, the parameter will be listed and explained.
 #' @return Object of class `strain_parameter`. The object contains the following fields:
-#' #' The additional parameeter are:
+#' The additional parameter are:
 #'  ## Strain parameter
 #'  - CB: strain parameter from Cyano Bacteria
 #'  - PB: strain parameter for the Phototrophic bacteria
@@ -38,7 +39,7 @@
 #'  - back_SR: background substrate concentration of XXX <- 300
 #'  - back_SO: background substrate concentration of XXX <- 300
 #'  - back_O: background substrate concentration of oxygen <- 300
-#'  - back_P: background substrate concentration of phosphorous<- 9.5
+#'  - back_P: background substrate concentration of phosphorous <- 9.5
 #'  ## oxidisation rate of reduced sulphur
 #'  - c: <- 4e-5
 #' @md
@@ -52,7 +53,8 @@ new_strain_parameter <- function(
   n_SB = 1,
   values_SB = "bush",
   values_other = "bush",
-  values_initial_state = "bush_anoxic_fig2ab"
+  values_initial_state = "bush_anoxic_fig2ab",
+  help = FALSE
 ){
   if (is.na(values_other)) {
     values_other <- "NA"
@@ -106,5 +108,19 @@ new_strain_parameter <- function(
   
   class(parms) <- append("strain_parameter", class(parms))
   
+  if (help) {
+    parms$CB <- new_CB_strain_parameter(help = TRUE)
+    parms$PB <- new_PB_strain_parameter(help = TRUE)
+    parms$SB <- new_CB_strain_parameter(help = TRUE)
+    parms$a_S<- "substrate diffusivity of sulphur"
+    parms$a_O <-  "substrate diffusivity of oxygen"
+    parms$a_P<- "substrate diffusivity of phosphorous"
+    parms$back_SR <- "background substrate concentration of TODO"
+    parms$back_SO <- "background substrate concentration of TODO"
+    parms$back_O <- "background substrate concentration of oxygen"
+    parms$back_P <- "background substrate concentration of phosphorous"
+    parms$c <- "oxidisation rate of reduced sulphur"
+    parms$initial_state <- new_initial_state(help = TRUE)
+  }
   return(parms)
 }

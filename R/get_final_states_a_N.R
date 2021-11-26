@@ -13,18 +13,30 @@ get_final_states_a_N <- function(x, parameter) {
   parameter$a_O <- x["a_O"]
   
   ## and set all the initial states in the parameter object to the required values
-  CBs <- unlist(rep(x["N_CB"] / length(grep("CB", names(parameter$strain_parameter$initial_state))),
-      length(grep("CB", names(parameter$strain_parameter$initial_state)))))
+  CBs <- unlist(
+    rep(
+      x["N_CB"] / length(grep("CB", names(parameter$strain_parameter$initial_state))),
+      length(grep("CB", names(parameter$strain_parameter$initial_state)))
+    )
+  )
   names(CBs) <- NULL
   parameter$strain_parameter$initial_state[grep("CB", names(parameter$strain_parameter$initial_state))] <- CBs
     
-  PBs <- unlist(rep(x["N_PB"] / length(grep("PB", names(parameter$strain_parameter$initial_state))),
-                    length(grep("PB", names(parameter$strain_parameter$initial_state)))))
+  PBs <- unlist(
+    rep(
+      x["N_PB"] / length(grep("PB", names(parameter$strain_parameter$initial_state))),
+      length(grep("PB", names(parameter$strain_parameter$initial_state)))
+    )
+  )
   names(PBs) <- NULL
   parameter$strain_parameter$initial_state[grep("PB", names(parameter$strain_parameter$initial_state))] <- PBs
   
-  SBs <- unlist(rep(x["N_SB"] / length(grep("SB", names(parameter$strain_parameter$initial_state))),
-                    length(grep("SB", names(parameter$strain_parameter$initial_state)))))
+  SBs <- unlist(
+    rep(
+      x["N_SB"] / length(grep("SB", names(parameter$strain_parameter$initial_state))),
+      length(grep("SB", names(parameter$strain_parameter$initial_state)))
+    )
+  )
   names(SBs) <- NULL
   parameter$strain_parameter$initial_state[grep("SB", names(parameter$strain_parameter$initial_state))] <- SBs
   
