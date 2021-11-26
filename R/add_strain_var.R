@@ -1,14 +1,14 @@
-#' Create Variability in strain parametern
+#' A function that will add variation among the strains within a functional group.
+#' Variation is added to to the maximum growth rate and the inhibition strength.
 #'
-#' TO BE DOCUMENTED!!!!!
-#' @param x 
-#' @param CB_var_gmax 
-#' @param CB_var_h 
-#' @param SB_var_gmax 
-#' @param SB_var_h 
-#' @param PB_var_gmax 
-#' @param PB_var_h 
-#' @param method 
+#' @param An object returned by the `new_strain_parameter function`. Contains parameter values and starting abundance of strains and other state variables.
+#' @param CB_var_gmax Amount of variability added to the g_max_CB parameter
+#' @param CB_var_h  Amount of variability added to the h_SR_CB parameter
+#' @param SB_var_gmax  Amount of variability added to the g_max_SB parameter
+#' @param SB_var_h  Amount of variability added to the h_O_SB parameter
+#' @param PB_var_gmax  Amount of variability added to the g_max_PB parameter
+#' @param PB_var_h  Amount of variability added to the h_O_PB parameter
+#' @param method Method used to add strain variation.
 #'
 #' @return
 #' @export
@@ -23,12 +23,11 @@ add_strain_var <- function(
   PB_var_gmax = 0, 
   PB_var_h = 0,
   method = "even_v1.0"
-){
+)
+  {
   
-  even_v1.0 <- function(
-    x,
-    var
-  ){
+  even_v1.0 <- function(x,
+                        var) {
     x * 2^(seq(-var, var, length = length(x)))
   }
   
@@ -53,21 +52,21 @@ add_strain_var <- function(
   return(x)
 }
 
-
-plot_and_save <- function(CB_var_gmax, CB_var_h,
-                          SB_var_gmax, SB_var_h,
-                          PB_var_gmax, PB_var_h,
-                          sim_res,
-                          file_path_and_prefix) {
-  plot_dynamics(sim_res)
-  ggsave(paste0(
-    file_path_and_prefix,
-    "-CB_", round(CB_var_gmax, 3), "_", round(CB_var_h, 3),
-    "-SB_", round(SB_var_gmax, 3), "_", round(SB_var_h, 3),
-    "-PB_", round(PB_var_gmax, 3), "_", round(PB_var_h, 3),
-    ".pdf"
-  ),
-  width = 10
-  )
-  NULL
-}
+# 
+# plot_and_save <- function(CB_var_gmax, CB_var_h,
+#                           SB_var_gmax, SB_var_h,
+#                           PB_var_gmax, PB_var_h,
+#                           sim_res,
+#                           file_path_and_prefix) {
+#   plot_dynamics(sim_res)
+#   ggsave(paste0(
+#     file_path_and_prefix,
+#     "-CB_", round(CB_var_gmax, 3), "_", round(CB_var_h, 3),
+#     "-SB_", round(SB_var_gmax, 3), "_", round(SB_var_h, 3),
+#     "-PB_", round(PB_var_gmax, 3), "_", round(PB_var_h, 3),
+#     ".pdf"
+#   ),
+#   width = 10
+#   )
+#   NULL
+# }

@@ -1,9 +1,9 @@
-#' Run a stable state finding experiment
+#' Run a stable state finding experiment (e.g. get the stable states for different levels of diversity).
 #'
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
-#' @param var_expt An object...
-#' @param total_initial_abundances An object ...   
+#' @param var_expt An object that describes different levels of diversity that should be examined. This object is not created in the 'microxanox' package.
+#' @param total_initial_abundances An object containing the total abundance in each functional group.
 #' @return an object ...
 #' @md
 #' 
