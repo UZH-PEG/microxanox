@@ -36,7 +36,8 @@ Imports:
   deSolve,
   dplyr,
   tidyr,
-  stringr
+  stringr,
+  multidplyr
 Suggests: 
     knitr,
     rmarkdown,

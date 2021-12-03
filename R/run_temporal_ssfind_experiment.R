@@ -6,7 +6,7 @@
 #' @param total_initial_abundances An object containing the total abundance in each functional group.
 #' @return an object ...
 #' @md
-#' 
+#' @importFrom multidplyr new_cluster cluster_library partition
 #' @export
 
 
