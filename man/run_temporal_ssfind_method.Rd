@@ -2,7 +2,8 @@
 % Please edit documentation in R/run_temporal_ssfind_method.R
 \name{run_temporal_ssfind_method}
 \alias{run_temporal_ssfind_method}
-\title{Find the stable states for a parameter set}
+\title{Finds the stable states for a parameter set by increasing and decreasing
+the oxygen diffusivity in a stepwise fashion.}
 \usage{
 run_temporal_ssfind_method(p)
 }
@@ -11,8 +12,9 @@ run_temporal_ssfind_method(p)
 \code{new_runsim_parameter()}.}
 }
 \value{
-an object ...
+A data frame of final states and oxygen diffusivity values
 }
 \description{
-Find the stable states for a parameter set
+Finds the stable states for a parameter set by increasing and decreasing
+the oxygen diffusivity in a stepwise fashion.
 }

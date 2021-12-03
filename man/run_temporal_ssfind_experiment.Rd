@@ -2,21 +2,26 @@
 % Please edit documentation in R/run_temporal_ssfind_experiment.R
 \name{run_temporal_ssfind_experiment}
 \alias{run_temporal_ssfind_experiment}
-\title{Run a stable state finding experiment}
+\title{Run a stable state finding experiment (e.g. get the stable states for different levels of diversity).}
 \usage{
-run_temporal_ssfind_experiment(parameter, var_expt, total_initial_abundances)
+run_temporal_ssfind_experiment(
+  parameter,
+  var_expt,
+  total_initial_abundances,
+  cores = 1
+)
 }
 \arguments{
 \item{parameter}{an object of class \code{runsim_parameter} as returned by
 \code{new_runsim_parameter()}.}
 
-\item{var_expt}{An object...}
+\item{var_expt}{An object that describes different levels of diversity that should be examined. This object is not created in the 'microxanox' package.}
 
-\item{total_initial_abundances}{An object ...}
+\item{total_initial_abundances}{An object containing the total abundance in each functional group.}
 }
 \value{
 an object ...
 }
 \description{
-Run a stable state finding experiment
+Run a stable state finding experiment (e.g. get the stable states for different levels of diversity).
 }

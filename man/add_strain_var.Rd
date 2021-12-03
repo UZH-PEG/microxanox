@@ -2,7 +2,8 @@
 % Please edit documentation in R/add_strain_var.R
 \name{add_strain_var}
 \alias{add_strain_var}
-\title{Create Variability in strain parametern}
+\title{A function that will add variation among the strains within a functional group.
+Variation is added to to the maximum growth rate and the inhibition strength.}
 \usage{
 add_strain_var(
   x,
@@ -16,25 +17,26 @@ add_strain_var(
 )
 }
 \arguments{
-\item{x}{}
+\item{CB_var_gmax}{Amount of variability added to the g_max_CB parameter}
 
-\item{CB_var_gmax}{}
+\item{CB_var_h}{Amount of variability added to the h_SR_CB parameter}
 
-\item{CB_var_h}{}
+\item{SB_var_gmax}{Amount of variability added to the g_max_SB parameter}
 
-\item{SB_var_gmax}{}
+\item{SB_var_h}{Amount of variability added to the h_O_SB parameter}
 
-\item{SB_var_h}{}
+\item{PB_var_gmax}{Amount of variability added to the g_max_PB parameter}
 
-\item{PB_var_gmax}{}
+\item{PB_var_h}{Amount of variability added to the h_O_PB parameter}
 
-\item{PB_var_h}{}
+\item{method}{Method used to add strain variation.}
 
-\item{method}{}
+\item{An}{object returned by the `new_strain_parameter function`. Contains parameter values and starting abundance of strains and other state variables.}
 }
 \value{
 
 }
 \description{
-TO BE DOCUMENTED!!!!!
+A function that will add variation among the strains within a functional group.
+Variation is added to to the maximum growth rate and the inhibition strength.
 }

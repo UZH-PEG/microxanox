@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_stability_measures_new.R
 \name{get_stability_measures_new}
 \alias{get_stability_measures_new}
-\title{Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
+\title{New version of function, working with data from the `run_temporal_ssfind_method` function. Gest various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 Takes steady state data as the input.}
 \usage{
 get_stability_measures_new(ss_object)
@@ -15,6 +15,6 @@ the \code{result} e;ement of that object, i.e. \code{x$result}.}
 A data frame of stability measures of each state variable
 }
 \description{
-Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
+New version of function, working with data from the `run_temporal_ssfind_method` function. Gest various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 Takes steady state data as the input.
 }

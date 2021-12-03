@@ -2,7 +2,8 @@
 % Please edit documentation in R/set_temporal_ssfind_initial_state.R
 \name{set_temporal_ssfind_initial_state}
 \alias{set_temporal_ssfind_initial_state}
-\title{Convenience function for setting initial states}
+\title{Convenience function for setting initial states during the process of finding
+stable states using the function \code{run_temporal_ssfind_experiment}}
 \usage{
 set_temporal_ssfind_initial_state(
   p,
@@ -12,7 +13,7 @@ set_temporal_ssfind_initial_state(
 )
 }
 \arguments{
-\item{p}{parameters}
+\item{p}{parameters for the simulation}
 
 \item{initial_total_CB}{Total initial abundance of CB}
 
@@ -21,8 +22,9 @@ set_temporal_ssfind_initial_state(
 \item{initial_total_SB}{Total initial abundance of SB}
 }
 \value{
-The passed parameter object but with initial states set
+The passed parameter object but with initial states set (overwritten by the new ones)
 }
 \description{
-Convenience function for setting initial states
+Convenience function for setting initial states during the process of finding
+stable states using the function \code{run_temporal_ssfind_experiment}
 }
