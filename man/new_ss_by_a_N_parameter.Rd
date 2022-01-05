@@ -4,13 +4,11 @@
 \alias{new_ss_by_a_N_parameter}
 \title{Create parameter to run the simulation by using the function \code{ss_by_a_N()}}
 \usage{
-new_ss_by_a_N_parameter(..., help = FALSE)
+new_ss_by_a_N_parameter(...)
 }
 \arguments{
 \item{...}{named parameter for the simulation to be set.
 An error will be raised, if they are not part of the parameter set.}
-
-\item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
 object of the class \code{ss_by_a_N_parameter}. This object of class

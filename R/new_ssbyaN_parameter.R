@@ -2,7 +2,6 @@
 #'
 #' @param ... named parameter for the simulation to be set. 
 #'   An error will be raised, if they are not part of the parameter set.
-#' @param help if \code{TRUE}, the parameter will be listed and explained.
 #'
 #' @return object of the class `ss_by_a_N_parameter`. This object of class
 #'   `ss_by_a_N_parameter` is identical to an object of class `runsim_paramweter` 
@@ -18,26 +17,23 @@
 #' @export
 #'
 #' @examples
-new_ss_by_a_N_parameter <- function(..., help = FALSE) {
-    if (help) {
-        p <-  new_runsim_parameter(help = TRUE)
-        p$ss_expt = "A data frame of oxygen diffusivities and initial conditions combinations, for example created with `expand.grid()`."
+new_ss_by_a_N_parameter <- function(
+  ...
+){
+  p <- new_runsim_parameter()
+  p$ss_expt <- NA
+  if (!inherits(p, "ss_by_a_N_parameter")) {
+    class(p) <- append(class(p), "ss_by_a_N_parameter")
+  }
+  if (...length() > 0) {
+    valid <- ...names() %in% names(p)
+    if (!all(valid)) {
+      stop(paste0("Non defined parameter supplied: ", paste(...names()[!valid], collapse = ", ")))
     } else {
-        p <- new_runsim_parameter()
-        p$ss_expt <- NA
-        if (!inherits(p, "ss_by_a_N_parameter")) {
-            class(p) <- append(class(p), "ss_by_a_N_parameter")
-        }
-        if (...length() > 0) {
-            valid <- ...names() %in% names(p)
-            if (!all(valid)) {
-                stop(paste0("Non defined parameter supplied: ", paste(...names()[!valid], collapse = ", ")))
-            } else {
-                for (nm in 1:...length()) {
-                    p[[...names()[[nm]]]] <- ...elt(nm)
-                }
-            }
-        }
+      for (nm in 1:...length()) {
+        p[[...names()[[nm]]]] <- ...elt(nm)
+      }
     }
-    return(p)
+  }
+  return(p)
 }
