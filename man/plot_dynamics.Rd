@@ -2,8 +2,7 @@
 % Please edit documentation in R/plot_dynamics.R
 \name{plot_dynamics}
 \alias{plot_dynamics}
-\title{Convenience function to plot the dynamics of a model run,
-with strains within functional groups.}
+\title{Plot the dynamics of a model run}
 \usage{
 plot_dynamics(simulation_result, every_n = 1)
 }
@@ -17,6 +16,6 @@ returns the ggplot object of the plot. If it is assigned to a
    variable, the plot needs to be plotted, otherwise it is plotted.
 }
 \description{
-Convenience function to plot the dynamics of a model run,
-with strains within functional groups.
+This is a convenience function to plot the dynamics of a model run,
+with strains within functional groups. It can be used as a template on how the data can be plotted.
 }
