@@ -3,8 +3,7 @@
 #'
 #' @param parameter object of class `ss_by_a_N_parameter` which has been used
 #'   to run the simulation
-#' @param result a dataframe containing the results of the simulation
-#' @param help if `TRUE`, the parameter will be listed and explained.
+#' @param result a `data.frame` containing the results of the simulation
 #'
 #' @return object of the class `ss_by_a_N_result`. This object of class
 #'   `ss_by_a_N_result` is identical to an object of class `ss_by_a_N_parameter` 
@@ -18,20 +17,15 @@ new_ss_by_a_N_results <- function(
   result, 
   help = FALSE
 ){
-  if (help) {
-    p <- new_ss_by_a_N_parameter(help = TRUE)
-    p$result <- "The result dataframe"
-  } else {
-    if (!inherits(parameter, "ss_by_a_N_parameter")) {
-      stop("`parameter` has to be of class ss_by_a_N_parameter")
-    }
-
-    p <- parameter
-    p$result <- result
-    if (!inherits(p, "ss_by_a_N_result")) {
-      class(p) <- append(class(p), "ss_by_a_N_result")
-    }
-
+  if (!inherits(parameter, "ss_by_a_N_parameter")) {
+    stop("`parameter` has to be of class ss_by_a_N_parameter")
   }
+  
+  p <- parameter
+  p$result <- result
+  if (!inherits(p, "ss_by_a_N_result")) {
+    class(p) <- append(class(p), "ss_by_a_N_result")
+  }
+  
   return(p)
 }

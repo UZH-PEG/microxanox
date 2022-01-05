@@ -11,9 +11,7 @@ new_ss_by_a_N_results(parameter, result, help = FALSE)
 \item{parameter}{object of class \code{ss_by_a_N_parameter} which has been used
 to run the simulation}
 
-\item{result}{a dataframe containing the results of the simulation}
-
-\item{help}{if \code{TRUE}, the parameter will be listed and explained.}
+\item{result}{a \code{data.frame} containing the results of the simulation}
 }
 \value{
 object of the class \code{ss_by_a_N_result}. This object of class
