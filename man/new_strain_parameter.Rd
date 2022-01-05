@@ -12,8 +12,7 @@ new_strain_parameter(
   n_SB = 1,
   values_SB = "bush",
   values_other = "bush",
-  values_initial_state = "bush_anoxic_fig2ab",
-  help = FALSE
+  values_initial_state = "bush_anoxic_fig2ab"
 )
 }
 \arguments{
@@ -52,8 +51,6 @@ in which case the default from Bush et al (2017) will be used.
 \item{values_initial_state}{values to be used for initial values or
 \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from
 Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used.}
-
-\item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
 Object of class \code{strain_parameter}. The object contains the following fields:

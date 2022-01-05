@@ -5,7 +5,7 @@
 \title{Create object of type \code{runsim_result} which is returned by the
 function \code{run_sim()}.}
 \usage{
-new_runsim_results(parameter, result, help = FALSE)
+new_runsim_results(parameter, result)
 }
 \arguments{
 \item{parameter}{object of class \code{runsim_parameter} which has been used

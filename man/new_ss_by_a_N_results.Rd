@@ -5,7 +5,7 @@
 \title{Create object of type \code{ss_by_a_N_result} which is returned by the
 function \code{ss_by_a_N()}.}
 \usage{
-new_ss_by_a_N_results(parameter, result, help = FALSE)
+new_ss_by_a_N_results(parameter, result)
 }
 \arguments{
 \item{parameter}{object of class \code{ss_by_a_N_parameter} which has been used

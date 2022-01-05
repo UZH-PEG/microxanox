@@ -14,8 +14,7 @@
 #' @examples
 new_runsim_results <- function(
   parameter, 
-  result, 
-  help = FALSE
+  result
 ){
   if (!inherits(parameter, "runsim_parameter")) {
     stop("`parameter` has to be of class runsim_parameter")

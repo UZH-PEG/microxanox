@@ -14,9 +14,8 @@
 #' @examples
 new_ss_by_a_N_results <- function(
   parameter, 
-  result, 
-  help = FALSE
-){
+  result 
+  ){
   if (!inherits(parameter, "ss_by_a_N_parameter")) {
     stop("`parameter` has to be of class ss_by_a_N_parameter")
   }
