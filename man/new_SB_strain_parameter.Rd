@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_SB_strain_parameter.R
 \name{new_SB_strain_parameter}
 \alias{new_SB_strain_parameter}
-\title{Create SB strain parameter}
+\title{Create new \code{SB_strain_parameter} object}
 \usage{
 new_SB_strain_parameter(n = 1, values = "bush")
 }
@@ -33,5 +33,5 @@ columns:
 }
 }
 \description{
-Create SB strain parameter
+Create new \code{SB_strain_parameter} object
 }

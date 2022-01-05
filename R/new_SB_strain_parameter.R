@@ -1,4 +1,4 @@
-#' Create SB strain parameter
+#' Create new `SB_strain_parameter` object
 #'
 #' @param n number of strains 
 #' @param values Allowed values are:
