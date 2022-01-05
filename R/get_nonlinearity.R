@@ -1,6 +1,7 @@
 #' Get the amount of non-linearity in a state-environment relationship.
-#' Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772
-#'
+#' 
+#' Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772, 
+#' \url{https://doi.org/10.1093/clinchem/39.5.766}
 #' @param x Environmental driver state variable
 #' @param y Ecosystem state variable
 #' @return Measure of non-linearity

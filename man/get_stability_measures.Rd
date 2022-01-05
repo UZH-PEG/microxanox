@@ -2,19 +2,18 @@
 % Please edit documentation in R/get_stability_measures.R
 \name{get_stability_measures}
 \alias{get_stability_measures}
-\title{Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
-Takes steady state data as the input.}
+\title{Get various measures of the stability}
 \usage{
 get_stability_measures(ss_object)
 }
 \arguments{
-\item{ss_object}{An object of class \code{ss_by_a_N_result} as returned by the ss_by_a_N() function or
-the \code{result} e;ement of that object, i.e. \code{x$result}.}
+\item{ss_object}{An object of class \code{ss_by_a_N_result} as returned by the `ss_by_a_N()` function or
+the \code{result} element of that object, i.e. \code{x$result}.}
 }
 \value{
 A data frame of stability measures of each state variable
 }
 \description{
-Get various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
+The measures include non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 Takes steady state data as the input.
 }
