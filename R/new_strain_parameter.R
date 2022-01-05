@@ -109,9 +109,9 @@ new_strain_parameter <- function(
   class(parms) <- append("strain_parameter", class(parms))
   
   if (help) {
-    parms$CB <- new_CB_strain_parameter(help = TRUE)
-    parms$PB <- new_PB_strain_parameter(help = TRUE)
-    parms$SB <- new_CB_strain_parameter(help = TRUE)
+    # parms$CB <- new_CB_strain_parameter(help = TRUE)
+    # parms$PB <- new_PB_strain_parameter(help = TRUE)
+    # parms$SB <- new_CB_strain_parameter(help = TRUE)
     parms$a_S<- "substrate diffusivity of sulphur"
     parms$a_O <-  "substrate diffusivity of oxygen"
     parms$a_P<- "substrate diffusivity of phosphorous"
@@ -120,7 +120,7 @@ new_strain_parameter <- function(
     parms$back_O <- "background substrate concentration of oxygen"
     parms$back_P <- "background substrate concentration of phosphorous"
     parms$c <- "oxidisation rate of reduced sulphur"
-    parms$initial_state <- new_initial_state(help = TRUE)
+    # parms$initial_state <- new_initial_state(help = TRUE)
   }
   return(parms)
 }

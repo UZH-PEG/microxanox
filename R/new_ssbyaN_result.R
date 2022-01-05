@@ -20,7 +20,7 @@ new_ss_by_a_N_results <- function(
 ){
   if (help) {
     p <- new_ss_by_a_N_parameter(help = TRUE)
-    p <- result = "The result dataframe"
+    p$result <- "The result dataframe"
   } else {
     if (!inherits(parameter, "ss_by_a_N_parameter")) {
       stop("`parameter` has to be of class ss_by_a_N_parameter")

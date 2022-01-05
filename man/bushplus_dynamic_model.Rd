@@ -24,7 +24,11 @@ variable}
 \item{parameters}{An object of class \code{runsim_parameter} as returned by
 `new_runsim_parameter()``}
 
-\item{log10a_forcing_func}{XXX}
+\item{log10a_forcing_func}{TODO}
+
+\item{noise_sigma}{TODO}
+
+\item{minimum_abundances}{TODO}
 }
 \value{
 An objec of type \code{runsim_result} containing the parameter and

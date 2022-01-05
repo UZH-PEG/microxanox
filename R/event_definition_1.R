@@ -4,6 +4,10 @@
 #' @param times the time point in the simulation
 #' @param y current state variable values
 #' @param parms object of class `strain_parameter`
+#' @param log10a_forcing_func TODO
+#' @param noise_sigma TODO
+#' @param minimum_abundances TODO
+#' 
 #' @return a vector of the new state variables
 #' @md
 #' @export

@@ -20,6 +20,12 @@ event_definition_1(
 \item{y}{current state variable values}
 
 \item{parms}{object of class \code{strain_parameter}}
+
+\item{log10a_forcing_func}{TODO}
+
+\item{noise_sigma}{TODO}
+
+\item{minimum_abundances}{TODO}
 }
 \value{
 a vector of the new state variables
