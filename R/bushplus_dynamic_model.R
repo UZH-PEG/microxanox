@@ -7,22 +7,18 @@
 #'   variable
 #' @param parameters An object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()``
-#' @param log10a_forcing_func TODO
-#' @param noise_sigma TODO
-#' @param minimum_abundances TODO
+#' @param log10a_forcing_func function to change oxygen diffusivity `a` depending on `t`
 #'   
-#' @return An objec of type `runsim_result` containing the parameter and
-#'   the results of the simulation, namely the rate of change of each state
-#'   variable, and also the current values of oxygen diffusivity.
+#' @return a list containing two elements, namely the rate of change of the
+#'   strains, and also the current values of oxygen diffusivity `a`.
 #' @md
+#' 
 #' @export
 bushplus_dynamic_model <- function(
   t, 
   state, 
   parameters, 
-  log10a_forcing_func, 
-  noise_sigma, 
-  minimum_abundances
+  log10a_forcing_func
 ){
   
   CB <- state[grep("CB", names(state))]
@@ -76,22 +72,28 @@ bushplus_dynamic_model <- function(
   # print(CB_rate)
   
   # return the rate of change
-  result <- list(c(CB_rate,
-                   PB_rate,
-                   SB_rate,
-                   SO_rate = SO_rate,
-                   SR_rate = SR_rate,
-                   O_rate = O_rate,
-                   P_rate = P_rate),
-                 a=log10a_forcing_func(t))
-  names(result[[1]]) <- c(parameters$CB$strain_name,
-                          parameters$PB$strain_name,
-                          parameters$SB$strain_name,
-                          "SO_rate",
-                          "SR_rate",
-                          "O_rate",
-                          "P_rate")
-  result
+  result <- list(
+    c(
+      CB_rate,
+      PB_rate,
+      SB_rate,
+      SO_rate = SO_rate,
+      SR_rate = SR_rate,
+      O_rate = O_rate,
+      P_rate = P_rate
+    ),
+    a = log10a_forcing_func(t)
+  )
+  names(result[[1]]) <- c(
+    parameters$CB$strain_name,
+    parameters$PB$strain_name,
+    parameters$SB$strain_name,
+    "SO_rate",
+    "SR_rate",
+    "O_rate",
+    "P_rate"
+  )
   
+  return(result)
 }
 
