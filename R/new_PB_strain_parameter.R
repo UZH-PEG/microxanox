@@ -2,7 +2,7 @@
 #'
 #' @param n number of strains
 #' @param values Allowed values are:
-#' - `"bush"`: default values from Bush et al (2017) will be used
+#' - `"bush"`: default values from Bush et al (2017) \url{https://doi.org/10.1038/s41467-017-00912-x} will be used
 #' - `"NA"`: all parameter will be set to `NA`. Usable for e.g. setting own parameter
 #'
 #' @return object of class \code{PB_strain_parameter}. The object contains a
