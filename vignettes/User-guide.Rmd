@@ -13,6 +13,8 @@ vignette: >
 ---
 
 ```{r setup, echo = FALSE, output = FALSE, message = FALSE}
+run_steadystate_sims <- FALSE
+options(mc.cores = 8)
 
 knitr::opts_chunk$set(
   cache = FALSE,
@@ -36,10 +38,13 @@ library(patchwork)
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-run_steadystate_sims <- FALSE
-options(mc.cores = 8)
 #setwd("vignettes"); getwd()
 
+dir.create(
+  "data/user_guide/",
+  recursive = TRUE, 
+  showWarnings = FALSE
+)
 ```
 
 # Package version
@@ -97,7 +102,7 @@ The framework used for running a simulation, and for varying aspects of a simula
 All parameter needed to run the simulations are encapsulated in an S3 object of class `runsim_parameter`. This object is returned by the function `new_runsim_parameter()`.
 
 ```{r}
-new_runsim_parameter(help = TRUE)
+new_runsim_parameter()
 ```
 All parameter values are set initially to NA (except the solver method, which is set to radau) and therefore need to be set. This can either be done by providing the parameters to be set as named arguments to the function `new_runsim_parameter()`:
 

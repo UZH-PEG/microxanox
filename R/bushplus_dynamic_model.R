@@ -9,7 +9,8 @@
 #' @param parameters An object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()``
 #' @param log10a_forcing_func function to change oxygen diffusivity `a` depending on `t`
-#'   
+#' @param ... not used. Needed to catch additional parameter.
+#' 
 #' @return a list containing two elements, namely the rate of change of the
 #'   strains, and also the current values of oxygen diffusivity `a`.
 #' @md
@@ -19,7 +20,8 @@ bushplus_dynamic_model <- function(
   t, 
   state, 
   parameters, 
-  log10a_forcing_func
+  log10a_forcing_func,
+  ...
 ){
   
   CB <- state[grep("CB", names(state))]

@@ -7,7 +7,7 @@
 oxygen diffusivity \code{a_0} potential added, and the possibility to simulate
 multiple strains per functional group}
 \usage{
-bushplus_dynamic_model(t, state, parameters, log10a_forcing_func)
+bushplus_dynamic_model(t, state, parameters, log10a_forcing_func, ...)
 }
 \arguments{
 \item{t}{The current time in the simulation}
@@ -19,6 +19,8 @@ variable}
 `new_runsim_parameter()``}
 
 \item{log10a_forcing_func}{function to change oxygen diffusivity \code{a} depending on \code{t}}
+
+\item{...}{not used. Needed to catch additional parameter.}
 }
 \value{
 a list containing two elements, namely the rate of change of the

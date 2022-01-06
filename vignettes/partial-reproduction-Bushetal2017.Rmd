@@ -12,6 +12,11 @@ vignette: >
 ---
 
 ```{r setup, output = FALSE, message = FALSE, echo = FALSE}
+## should some of the more intense simulations be run...
+
+run_steadystate_sims <- TRUE
+options(mc.cores=4)
+
 
 knitr::opts_chunk$set(
   echo = TRUE,
@@ -35,9 +40,12 @@ library(patchwork)
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-## should some of the more intense simulations be run...
-run_steadystate_sims <- FALSE
-options(mc.cores=8)
+
+dir.create(
+  "data/partial_reproduction/",
+  recursive = TRUE, 
+  showWarnings = FALSE
+)
 ```
 
 # Introduction
