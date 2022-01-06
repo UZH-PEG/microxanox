@@ -1,6 +1,6 @@
 #' Convenience function for setting initial states during the process of finding
 #' stable states using the function `run_temporal_ssfind_experiment`
-#'
+#' Should only be used internally.
 #' @param p parameters for the simulation
 #' @param initial_total_CB Total initial abundance of CB
 #' @param initial_total_PB Total initial abundance of PB
@@ -8,9 +8,6 @@
 #' @return The passed parameter object but with initial states set (overwritten by the new ones)
 #' @md
 #' 
-#' @export
-
-
 set_temporal_ssfind_initial_state <- function(p,
                                               initial_total_CB,
                                               initial_total_PB,

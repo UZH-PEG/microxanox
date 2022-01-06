@@ -4,7 +4,14 @@
 \alias{event_definition_1}
 \title{Event definition for the simulation}
 \usage{
-event_definition_1(times, state, parms, log10a_forcing_func)
+event_definition_1(
+  times,
+  state,
+  parms,
+  log10a_forcing_func,
+  noise_sigma,
+  minimum_abundances
+)
 }
 \arguments{
 \item{times}{the time point in the simulation}
