@@ -415,7 +415,11 @@ plot_dynamics(simulation_result3)
 
 # Get steady state(s)
 
-## 1 strain per functional group
+There are two methods for finding steady states. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the *Replication method*). The second runs only two simulations, with step-wise and slowly temporally increasing or decreasing oxygen diffusivities and recorded of state just before change to a new oxygen diffusivity (let us term this the *Temporal method*).
+
+## Replication method.
+
+### 1 strain per functional group
 
 Finding the steady state of the system is a common task. The function `ss_by_a_N()` finds the state of a system after a certain length of simulation, for different values of the $a_0$ (oxygen diffusivity) parameter, and for different initial conditions ($N$).
 
@@ -513,7 +517,7 @@ p1 / p2
 
 ```
 
-## 3 strains per functional group
+### 3 strains per functional group
 
 And now finding the steady states of a three strain per functional group system, though with identical strains in each group. Hence the steady states should be the same as the one strain version.
 
@@ -588,7 +592,78 @@ p1 / p2
 
 ```
 
+## Temporal method
+
+The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step. We hereafter term this "the temporal method". The results below are for a very short simulation, hence the region of bistability is large. I.e. the rate of temporal change is fast, so the system lags, and this creates a larger region of bistability.
+
+
+```{r temporal_ss_find, eval = run_steadystate_sims | !file.exists("data/user_guide/temporal_ss_find.RDS")}
+rm(list = ls())
+log10a_series <- seq(-8, 0, length = 100)
+wait_time <- 1e3
+num_strains <- 3
+
+total_initial_abundances <- 10^5
+
+num_CB_strains <- num_strains
+num_SB_strains <- num_strains
+num_PB_strains <- num_strains
+
+sp <- new_strain_parameter(
+  n_CB = num_CB_strains,
+  n_PB = num_SB_strains,
+  n_SB = num_PB_strains,
+  values_initial_state = "bush_ssfig3"
+)
+
+parameter <- new_runsim_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  event_definition = event_definition_1,
+  event_interval = 1000,
+  noise_sigma = 0,
+  minimum_abundances = rep(1, 3),
+  strain_parameter = sp,
+  log10a_series = log10a_series
+)
+names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
+rm(sp)
+parameter$sim_duration <- wait_time * length(parameter$log10a_series)
+parameter$sim_sample_interval <- wait_time
+parameter <- set_temporal_ssfind_initial_state(parameter,
+                                               total_initial_abundances,
+                                               total_initial_abundances,
+                                               total_initial_abundances)
+## be careful, this could take a long time to run if parameters above are changed
+## and not that the demonstration parameters are with very short wait time.
+temporal_ss_find_result <- run_temporal_ssfind_method(parameter)
+
+saveRDS(temporal_ss_find_result, file = "data/user_guide/temporal_ss_find.RDS")
+```
+
+
+```{r}
+temporal_ss_find_result <- readRDS(file = "data/user_guide/temporal_ss_find.RDS")
+
+
+p1 <- temporal_ss_find_result %>%
+  mutate(a = 10^a_O) %>%
+  gather(species, quantity, 2:(ncol(.) - 2)) %>%
+  mutate(log10_quantity = log10(quantity + 1)) %>%
+  dplyr::filter(species == "O") %>%
+  ggplot(aes(x = log10(a), y = log10_quantity, col = species)) +
+  geom_path() +
+  ylab("Log(Quantity)") +
+  xlab("Oxygen diffusivity") +
+  theme(legend.position="none") +
+  geom_vline(xintercept = c(-8, 0), col = "grey", lwd = 3)
+p1
+
+```
+
+
 # Get measures of nonlinearity and hysteresis
+
+## Replication method
 
 The `get_stability_measures()` function takes an object of the type returned by the `ss_by_a_N()` function and returns various measures of the stability of each of the state variables.
 
@@ -599,8 +674,6 @@ The measures of non-linearity and hysteresis were used in [Garnier et al (2020) 
 For example:
 
 ```{r}
-#ss_object <- ss_1strain
-
 get_stability_measures(ss_1strain)
 ```
 
@@ -611,4 +684,12 @@ get_stability_measures(ss_3strain)
 ```
 
 
+## Temporal method
+
+All as in the previous section, except that `get_stability_measures_new()` function takes an object of the type returned by the `run_temporal_ssfind_method` function.
+
+
+```{r}
+get_stability_measures_new(temporal_ss_find_result)
+```
 

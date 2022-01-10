@@ -17,7 +17,7 @@ run_temporal_ssfind_experiment <- function(parameter,
                                            var_expt,
                                            total_initial_abundances,
                                            cores = 1) {
-  
+
   if(cores == 1)
   {
     ## Next chunck of code:
@@ -34,16 +34,16 @@ run_temporal_ssfind_experiment <- function(parameter,
           p
         })
       ) %>%
-      mutate(ssfind_result = list(run_temporal_ssfind_method(ssfind_pars))) 
+      mutate(ssfind_result = list(run_temporal_ssfind_method(ssfind_pars)))
   }
-    
+
   if(cores > 1)
   {
-    
+
     cluster <- multidplyr::new_cluster(cores)
     multidplyr::cluster_library(cluster, c("microxanox", "dplyr"))
     var_expt <- var_expt %>%
-      mutate(parameter = list(parameter), 
+      mutate(parameter = list(parameter),
              total_initial_abundances = list(total_initial_abundances))
     result <- var_expt %>%
       multidplyr::partition(cluster) %>%
@@ -63,7 +63,7 @@ run_temporal_ssfind_experiment <- function(parameter,
       rowwise()
 
   }
-  
+
   return(result)
 }
 

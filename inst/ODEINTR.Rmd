@@ -1,0 +1,353 @@
+---
+title: "odeintr"
+author: "Uriah Daugaard"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    number_sections: true
+    code_folding: hide
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# About
+
+In this document I implement the ODEs used by Bush et al. (2017) using the package odeintr. I do this because (1) I'm pretty sure that this is the fastest way of solving ODEs in R and (2) this document can serve as a HOW-TO. 
+
+The difference to other approaches is that in ODEINTR the ODEs need to be compiled before they can be used. This takes about 10 seconds (usually, depending on the computer) up to max a minute. This times needs to be accounted when we compare approaches. However, they need to be compiled only once per R-session, so for each run after the first this time does not occur anymore. The running of the ODEs (i.e. solving them) should then be very very veeery fast!
+
+Here I do the following:
+
+* Implement the ODEs
+* Reproduce Figure 2a,b of Bush et al 2017 and see how long it takes
+* At some point compare with the implemented version in microxanox to see what is faster.
+
+I've mentioned the possibility of using this package back in August: https://github.com/UZH-PEG/microxanox/issues/20 
+
+
+# README
+
+As of now, the two methods (ODEINTR and microxanox) produce different results (when I compare the two datasets at the end of this document). Hence, there is probably a mistake somewhere, so what is shown here should be further tested before any decision is made. 
+
+# libraries
+```{r}
+library(odeintr)
+library(tidyverse)
+library(patchwork)
+library(microbenchmark)
+```
+
+# Implementing the ODES with ODEINTR
+
+## The ODEs (in C)
+
+The ODEs like this don't look that nice, but once they're written no need to look at them again...
+```{r}
+ODEs = '
+dxdt[0] = g_max_CB*(x[6]/(K_CB_P + x[6])) * 1/(1 + (x[4]/H_CB_S_R)) * x[0] - m_CB*x[0];
+dxdt[1] = g_max_PB*(x[6]/(K_PB_P + x[6]))*(x[4]/(K_PB_S_R + x[4])) * 1/(1 + (x[5]/H_PB_O)) * x[1] - m_PB*x[1];
+dxdt[2] = g_max_SB*(x[6]/(K_SB_P + x[6]))*(x[3]/(K_SB_S_O + x[3])) * 1/(1 + (x[5]/H_SB_O)) * x[2] - m_SB*x[2];
+dxdt[3] = g_max_PB*(x[6]/(K_PB_P + x[6]))*(x[4]/(K_PB_S_R + x[4])) * 1/(1 + (x[5]/H_PB_O)) * x[1]/gamma_SR_PB - g_max_SB*(x[6]/(K_SB_P + x[6]))*(x[3]/(K_SB_S_O + x[3])) * 1/(1 + (x[5]/H_SB_O)) * x[2]/gamma_SO_SB + c*x[5]*x[4] + alpha_S*(S_O_b-x[3]);
+dxdt[4] = - g_max_PB*(x[6]/(K_PB_P + x[6]))*(x[4]/(K_PB_S_R + x[4])) * 1/(1 + (x[5]/H_PB_O)) * x[1]/gamma_SR_PB + g_max_SB*(x[6]/(K_SB_P + x[6]))*(x[3]/(K_SB_S_O + x[3])) * 1/(1 + (x[5]/H_SB_O)) * x[2]/gamma_SO_SB - c*x[5]*x[4] + alpha_S*(S_R_b-x[4]);
+dxdt[5] = p_CB * g_max_CB*(x[6]/(K_CB_P + x[6])) * 1/(1 + (x[4]/H_CB_S_R)) * x[0] - c*x[5]*x[4] + alpha_O*(O_b-x[5]);
+dxdt[6] = - g_max_CB*(x[6]/(K_CB_P + x[6])) * 1/(1 + (x[4]/H_CB_S_R)) * x[0]/gamma_P_CB - g_max_PB*(x[6]/(K_PB_P + x[6]))*(x[4]/(K_PB_S_R + x[4])) * 1/(1 + (x[5]/H_PB_O)) * x[1]/gamma_P_PB - g_max_SB*(x[6]/(K_SB_P + x[6]))*(x[3]/(K_SB_S_O + x[3]))*1/(1 + (x[5]/H_SB_O))*x[2]/gamma_P_SB + alpha_P*(P_b -x[6]);
+'
+# x <- c(x0="N_CB",x1="N_PB",x2="N_SB",x3="S_O",x4="S_R",x5="O",x6="P")
+```
+
+## Compiling the ODEs
+
+This step takes a little bit of time, but is only needed once per ODE-system and R-session.  
+```{r}
+start_time <- Sys.time()
+compile_sys(
+  "ODEs_compiled",
+  ODEs,
+  pars = c(
+    "g_max_CB",
+    "g_max_PB",
+    "g_max_SB",
+    "K_PB_S_R",
+    "K_SB_S_O",
+    "K_CB_P",
+    "K_PB_P",
+    "K_SB_P",
+    "H_CB_S_R",
+    "H_PB_O",
+    "H_SB_O",
+    "gamma_SO_SB",
+    "gamma_SR_PB",
+    "gamma_P_CB",
+    "gamma_P_PB",
+    "gamma_P_SB",
+    "p_CB",
+    "m_CB",
+    "m_PB",
+    "m_SB",
+    "alpha_S",
+    "alpha_O",
+    "alpha_P",
+    "S_R_b",
+    "S_O_b",
+    "O_b",
+    "P_b",
+    "c"
+  ),
+  method = "rk54"
+)
+end_time <- Sys.time()
+
+paste("Compiling the ODEs took", end_time-start_time, "seconds, not bad!")
+```
+
+# Reproducing Figure 2a,b
+
+## The parameter values
+
+Using the ones for Bush et al Figure 2
+
+```{r}
+pars <- c(
+  g_max_CB = 0.05,
+  g_max_PB = 0.07,
+  g_max_SB = 0.1,
+  K_PB_S_R = 10,
+  K_SB_S_O = 5,
+  K_CB_P = 0.2,
+  K_PB_P = 0.5,
+  K_SB_P = 0.5,
+  H_CB_S_R = 300,
+  H_PB_O = 100,
+  H_SB_O = 100,
+  gamma_SO_SB = 3.33 * 10 ^ 7,
+  gamma_SR_PB = 1.25 * 10 ^ 7,
+  gamma_P_CB = 1.67 * 10 ^ 8,
+  gamma_P_PB = 1.67 * 10 ^ 8,
+  gamma_P_SB = 1.67 * 10 ^ 8,
+  p_CB = 6 * 10 ^ (-9),
+  m_CB = 0.02,
+  m_PB = 0.028,
+  m_SB = 0.04,
+  alpha_S = 0.001,
+  alpha_O = 8 * 10 ^ (-4),
+  alpha_P = 0.01,
+  S_R_b = 300,
+  S_O_b = 300,
+  O_b = 300,
+  P_b = 9.5,
+  c = 4 * 10 ^ (-5)
+)
+
+alpha_O <- c(10^(-6),10^(-2))
+P_b <- c(2,10)
+```
+
+## Adding the paramter values to the ODEs
+```{r}
+ODEs_compiled_set_params(
+  g_max_CB = pars["g_max_CB"],
+  g_max_PB = pars["g_max_PB"],
+  g_max_SB = pars["g_max_SB"],
+  K_PB_S_R = pars["K_PB_S_R"],
+  K_SB_S_O = pars["K_SB_S_O"],
+  K_CB_P = pars["K_CB_P"],
+  K_PB_P = pars["K_PB_P"],
+  K_SB_P = pars["K_SB_P"],
+  H_CB_S_R = pars["H_CB_S_R"],
+  H_PB_O = pars["H_PB_O"],
+  H_SB_O = pars["H_SB_O"],
+  gamma_SO_SB = pars["gamma_SO_SB"],
+  gamma_SR_PB = pars["gamma_SR_PB"],
+  gamma_P_CB = pars["gamma_P_CB"],
+  gamma_P_PB = pars["gamma_P_PB"],
+  gamma_P_SB = pars["gamma_P_SB"],
+  p_CB = pars["p_CB"],
+  m_CB = pars["m_CB"],
+  m_PB = pars["m_PB"],
+  m_SB = pars["m_SB"],
+  alpha_S = pars["alpha_S"],
+  alpha_O = pars["alpha_O"],
+  alpha_P = pars["alpha_P"],
+  S_R_b = pars["S_R_b"],
+  S_O_b = pars["S_O_b"],
+  O_b = pars["O_b"],
+  P_b = pars["P_b"],
+  c = pars["c"]
+)
+```
+
+## Starting values
+```{r}
+starting_densities <-
+  c(
+    N_CB = 5 * 10 ^ 1,
+    N_PB = 1 * 10 ^ 7,
+    N_SB = 1 * 10 ^ 7,
+    S_O = 300,
+    S_R = 300,
+    O = 10,
+    P = 10
+  )
+# starting_densities <- c(N_CB = 1*10^8, N_PB = 1*10^2, N_SB = 1*10^2, S_O = 500, S_R = 50, O = 300, P = 4)
+```
+
+## Running the model!
+
+I didn't look up exactly how many time steps Bush et al used, but for the moment it doesn't matter. here I just run the ODEs to cover a length of 3840 hours, i.e. 160 days. And I use a time-step of 1/100 (i.e. 100 steps per hour, meaning that I simulate 384000 time-steps). We'll see later how much this values impact the performance, for now i just want to reproduce the figure.
+
+```{r}
+start_time <- Sys.time()
+run <- ODEs_compiled(starting_densities,160*24,1/100)
+end_time <- Sys.time()
+
+paste("Running the model took", end_time-start_time, "seconds, not bad!")
+```
+
+## The figure (and putting the data into the right shape)
+
+Finally, here I reproduce the figure.
+```{r}
+colnames(run) <- c("Time", names(starting_densities))
+run_longer <- run %>% pivot_longer(cols = -Time)
+run_longer$group <- ifelse(run_longer$name %in% c("N_CB","N_PB","N_SB"),"Bacteria","Substrate")
+
+run_longer %>%
+  dplyr::filter(name %in% c("N_CB","N_PB","N_SB")) %>%
+  ggplot(aes(Time/24,value,col=name)) +
+  geom_line() +
+  scale_y_log10(limits=c(10^0,10^9)) +
+
+run_longer %>%
+  dplyr::filter(name %in% c("S_O","S_R","O","P")) %>%
+  ggplot(aes(Time/24,value,col=name)) +
+  geom_line() +
+  scale_color_brewer(palette = "Dark2")
+```
+
+The figure looks pretty identical! Only P looks different, but I used the starting value they stated, while in their figure they are using something else...
+successfully reproduced!
+
+
+# Stress testing: how long does it take? 
+
+For simplicity I just increase length of the simulations
+```{r}
+# 100 days, 2400 time steps per day
+start_time <- Sys.time()
+run <- ODEs_compiled(starting_densities,100*24,1/100)
+end_time <- Sys.time()
+paste("Running the model took", end_time-start_time, "seconds, not bad!")
+
+# 500 days, 2400 time steps per day
+start_time <- Sys.time()
+run <- ODEs_compiled(starting_densities,500*24,1/100)
+end_time <- Sys.time()
+paste("Running the model took", end_time-start_time, "seconds, not bad!")
+
+# 1000 days, 2400 time steps per day
+start_time <- Sys.time()
+run <- ODEs_compiled(starting_densities,1000*24,1/100)
+end_time <- Sys.time()
+paste("Running the model took", end_time-start_time, "seconds, not bad!")
+ 
+# # 5000 days, 2400 time steps per day
+# start_time <- Sys.time()
+# run <- ODEs_compiled(starting_densities,5000*24,1/100)
+# end_time <- Sys.time()
+# paste("Running the model took", end_time-start_time, "seconds, not bad!")
+# 
+# # 10000 days, 2400 time steps per day
+# start_time <- Sys.time()
+# run <- ODEs_compiled(starting_densities,10000*24,1/100)
+# end_time <- Sys.time()
+# paste("Running the model took", end_time-start_time, "seconds, not bad!")
+```
+
+
+# Comparison with microxanox
+
+Now let's compare with microxanox. Let's copy paste a bit of code from "partial-reproduction-Bushetal2017.Rmd" (i.e. the setup and stuff):
+
+```{r setup_micro, output = FALSE, message = FALSE}
+library(tidyverse)
+library(deSolve)
+library(rootSolve)
+library(here)
+library(microxanox)
+library(patchwork)
+set.seed(13)
+run_steadystate_sims <- FALSE
+options(mc.cores=1) # let's just use 1 core for now!
+
+ma <- rep(1e2, 3)
+names(ma) <- c("CB", "PB", "SB")
+parameter <- new_runsim_parameter(
+  dynamic_model = bushplus_dynamic_model,
+  strain_parameter = new_strain_parameter(),
+  ## no default_initial_state
+  sim_duration = 2000,
+  sim_sample_interval = 1,
+  log10a_series = c(
+    log10(new_strain_parameter()$a_O),
+    log10(new_strain_parameter()$a_O)
+  ),
+  event_definition = event_definition_1,
+  event_interval = 10,
+  noise_sigma = 0,
+  minimum_abundances = ma
+)
+
+rm(ma)
+# saveRDS(parameter, file = "data/partial_reproduction/parameter_default.RDS")
+```
+
+So here microxanox reproduces the figure 2a,b:
+
+```{r}
+parameter$strain_parameter$initial_state  <-  new_initial_state(values = "bush_anoxic_fig2ab")
+sim_res <- run_simulation(parameter)
+# saveRDS(sim_res, file = "data/partial_reproduction/bush_anoxic_fig2ab.RDS")
+
+plot_dynamics(simulation_result = sim_res)
+```
+
+The parameters the microxanox used are here: (let's compare them to the ones used above)
+
+```{r}
+sim_res$strain_parameter
+```
+
+Parameter values and starting values are the same, as they should. Nice!
+
+Ok now the interesting part: let's compare!
+
+Microxanox as above uses 2000 hours and 1 sample per hour as settings. We start with that.
+
+## 2000 hours and 1 sample per hour
+
+```{r}
+microbenchmark(
+  run_simulation(parameter), # microxanox
+  ODEs_compiled(starting_densities,2000,1), # odeintr
+  times = 10
+)
+```
+
+Looks like odeintr is about 1000 times faster! But remember, ODEINTR must be compiled once, which takes some seconds. 
+
+
+Note: the resulting dataset differ quite a bit, so there must be a mistake somewhere...
+```{r}
+run1 <- run_simulation(parameter)
+run1 <- run1$result
+run2 <- ODEs_compiled(starting_densities,2000,1)
+colnames(run2) <- c("Time", names(starting_densities))
+merged  <- cbind(run1,run2)
+print.data.frame(merged[1:40,])
+```
+

@@ -24,7 +24,7 @@
 #'   `strain_parameter` and `var` and returns an object of the class `strain
 #'   parameter`. The function will be applied to add variablity to the above
 #'   mentioned variables. Everything else is up to the function.
-#'   
+#'
 #' @return the value of strain_parameter with added strain variability
 #' @export
 #'
@@ -33,11 +33,11 @@
 #' add_strain_var(new_strain_parameter(n_CB = 3, n_PB = 3, n_SB = 3), 2)
 add_strain_var <- function(
   strain_parameter,
-  CB_var_gmax = 0, 
+  CB_var_gmax = 0,
   CB_var_h = 0,
-  SB_var_gmax = 0, 
+  SB_var_gmax = 0,
   SB_var_h = 0,
-  PB_var_gmax = 0, 
+  PB_var_gmax = 0,
   PB_var_h = 0,
   variablility = function(strain_parameter, var){ strain_parameter * 2^(seq(-var, var, length = length(strain_parameter))) }
 ){
