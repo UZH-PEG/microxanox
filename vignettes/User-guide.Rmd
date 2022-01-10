@@ -28,10 +28,10 @@ library(tidyverse)
 library(deSolve)
 library(rootSolve)
 library(here)
-if (!require(microxanox)) {
-  stop("Install microxanox!")
+# if (!require(microxanox)) {
+#   stop("Install microxanox!")
   devtools::load_all(here::here())
-}
+# }
 library(patchwork)
 
 ## Set random number generator seed
@@ -299,7 +299,7 @@ The advantage of this approach is that the names of the parameter are checked an
 
 ```{r, error = TRUE}
 parameter <- new_runsim_parameter(
-	dynamical_model = bushplus_dynamic_model
+	dynamic_model = bushplus_dynamic_model
 )
 ```
 
@@ -680,7 +680,7 @@ get_stability_measures(ss_1strain)
 And with three strains per functional group:
 
 ```{r}
-get_stability_measures(ss_3strain)
+get_stability_measures(ss_3strain)Gehen 
 ```
 
 
