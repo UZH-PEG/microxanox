@@ -12,7 +12,7 @@ get_hysteresis_total(up, down)
 \item{down}{State variable values as the environmental condition decreases}
 }
 \value{
-A numeric value--the total hysteresis.
+The total hysteresis.
 }
 \description{
 Get the total hysteresis of a system variable.

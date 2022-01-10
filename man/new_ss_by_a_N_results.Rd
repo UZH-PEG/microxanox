@@ -2,21 +2,23 @@
 % Please edit documentation in R/new_ssbyaN_result.R
 \name{new_ss_by_a_N_results}
 \alias{new_ss_by_a_N_results}
-\title{Create result object of the function \code{ss_by_a_N()}.}
+\title{Create object of type \code{ss_by_a_N_result} which is returned by the
+function \code{ss_by_a_N()}.}
 \usage{
-new_ss_by_a_N_results(parameter, result, help = FALSE)
+new_ss_by_a_N_results(parameter, result)
 }
 \arguments{
-\item{parameter}{object of class \code{ss_by_a_N_parameter} which has been used to run the simulation}
+\item{parameter}{object of class \code{ss_by_a_N_parameter} which has been used
+to run the simulation}
 
-\item{result}{a dataframe containing the results of the simulation}
-
-\item{help}{if \code{TRUE}, the parameter will be listed and explained.}
+\item{result}{a \code{data.frame} containing the results of the simulation}
 }
 \value{
-parameter object of the class \code{ss_by_a_N_result}
+object of the class \code{ss_by_a_N_result}. This object of class
+\code{ss_by_a_N_result} is identical to an object of class \code{ss_by_a_N_parameter}
+plus an additional field \code{result} which contains the result of the simulation.
 }
 \description{
-This object of class \code{ss_by_a_N_result} is identical to the parameter object plus an additional field
-  \code{result} which contains the result of the simulation.
+Create object of type \code{ss_by_a_N_result} which is returned by the
+function \code{ss_by_a_N()}.
 }

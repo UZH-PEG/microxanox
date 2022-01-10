@@ -2,8 +2,7 @@
 % Please edit documentation in R/get_nonlinearity.R
 \name{get_nonlinearity}
 \alias{get_nonlinearity}
-\title{Get the amount of non-linearity in a state-environment relationship.
-Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772}
+\title{Get the amount of non-linearity in a state-environment relationship.}
 \usage{
 get_nonlinearity(x, y)
 }
@@ -16,6 +15,6 @@ get_nonlinearity(x, y)
 Measure of non-linearity
 }
 \description{
-Get the amount of non-linearity in a state-environment relationship.
-Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772
+Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772, 
+\url{https://doi.org/10.1093/clinchem/39.5.766}
 }

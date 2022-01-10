@@ -1,9 +1,13 @@
 #' Run the simulation
-#'
+#' 
+#' This function takes the `parameter` and runs the simulation based on these.
+#' it returns an object of class `runsim_result` which contains an additional
+#' entry, i.e. `result` which contains the results of the simulation. The
+#' simulation can be re-run bu using the returned object as input `parameter`.
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
-#' @return an object of class 'runsim_result`, obtained from running the
-#'   su=imulation as defined in `parameter`.`
+#' @return an object of class `runsim_result`, obtained from running the
+#'   simulation as defined in `parameter`.`
 #' @md
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
@@ -13,17 +17,6 @@
 
 run_simulation <- function(
   parameter
-  # dynamic_model = default_dynamic_model,
-  #                          event_definition = default_event_definition,
-  #                          parameter_values = default_parameter_values,
-  #                          event_interval = default_event_interval,
-  #                          noise_sigma = default_noise_sigma,
-  #                          minimum_abundances = default_minimum_abundances,
-  #                          sim_duration = default_sim_duration,
-  #                          sim_sample_interval = default_sim_sample_interval,
-  #                          log10a_series = default_log10a_series,
-  #                          initial_state = default_initial_state,
-  #                          solver_method = "radau")
 ){
   if (!inherits(parameter, "runsim_parameter")) {
     stop("parameter has to be an object of type `runsim_parameter`!")
@@ -65,21 +58,6 @@ run_simulation <- function(
     rule = 2
   )
   
-  ## assign the changed a_forcing2 into the global environment,
-  ## from where the model gets it
-  # assign("log10a_forcing_func",
-  #        log10a_forcing_func,
-  #        envir = .GlobalEnv)
-  # 
-  # assign("noise_sigma",
-  #        parameter$noise_sigma,
-  #        envir = .GlobalEnv)
-  # 
-  # assign("minimum_abundances",
-  #        parameter$minimum_abundances,
-  #        envir = .GlobalEnv)
-
-  
   out <- as.data.frame(
     deSolve::ode(
       y = parameter$strain_parameter$initial_state,
@@ -100,20 +78,4 @@ run_simulation <- function(
   result <- new_runsim_results(parameter, out)
 
   return(result)
-    # list(
-    #   result = out,
-    #   dynamic_model = parameter$dynamic_model,
-    #   event_definition = parameter$event_definition,
-    #   parameter_values = parameter$parameter_values,
-    #   event_interval = parameter$event_interval,
-    #   noise_sigma = parameter$noise_sigma,
-    #   minimum_abundances = parameter$minimum_abundances,
-    #   sim_duration = parameter$sim_duration,
-    #   sim_sample_interval = parameter$sim_sample_interval,
-    #   log10a_forcing = log10a_forcing,
-    #   log10a_forcing_func = log10a_forcing_func,
-    #   initial_state = parameter$initial_state,
-    #   solver_method = parameter$solver_method
-    # )
-              
 }

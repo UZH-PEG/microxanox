@@ -2,13 +2,12 @@
 % Please edit documentation in R/event_definition_1.R
 \name{event_definition_1}
 \alias{event_definition_1}
-\title{A function that contains events that should alter the state variables.
-(It is named definition "1", in case other definitions are created.)}
+\title{Event definition for the simulation}
 \usage{
 event_definition_1(
-  times = times,
-  y = state,
-  parms = parameters,
+  times,
+  state,
+  parms,
   log10a_forcing_func,
   noise_sigma,
   minimum_abundances
@@ -17,14 +16,23 @@ event_definition_1(
 \arguments{
 \item{times}{the time point in the simulation}
 
-\item{y}{current state variable values}
+\item{state}{current state variable values}
 
 \item{parms}{object of class \code{strain_parameter}}
+
+\item{log10a_forcing_func}{function to change oxygen diffusivity \code{a}
+depending on \code{t}}
+
+\item{noise_sigma}{value of variation added to \code{SO}, \code{SR}, \code{O}, and \code{P} using
+the formula \code{rnorm(1, 0, noise_sigma * X) * noise_sigma * X}}
+
+\item{minimum_abundances}{minimum abundances for CB, PB and SB. if the values
+are lower, they will be set to these \code{minimum_abundances}}
 }
 \value{
-a vector of the new state variables
+the state vector, i.e. a vector containing the state variables.
 }
 \description{
-A function that contains events that should alter the state variables.
-(It is named definition "1", in case other definitions are created.)
+This function contains events that do alter the state variables.
+It is named definition \verb{_1}, in case other definitions are created.
 }

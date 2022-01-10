@@ -2,8 +2,7 @@
 % Please edit documentation in R/get_final_states_a_N.R
 \name{get_final_states_a_N}
 \alias{get_final_states_a_N}
-\title{Get the steady state solutions for a set of oxygen diffusivity and initial states.
-Probably best to not use this directly, but rather via the function \code{ss_by_a_N()}}
+\title{Get the steady state solutions for a set of oxygen diffusivity and initial states.}
 \usage{
 get_final_states_a_N(x, parameter)
 }
@@ -16,6 +15,5 @@ get_final_states_a_N(x, parameter)
 A vector of steady states
 }
 \description{
-Get the steady state solutions for a set of oxygen diffusivity and initial states.
 Probably best to not use this directly, but rather via the function \code{ss_by_a_N()}
 }

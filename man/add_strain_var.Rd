@@ -2,39 +2,59 @@
 % Please edit documentation in R/add_strain_var.R
 \name{add_strain_var}
 \alias{add_strain_var}
-\title{Create Variability in strain parametern}
+\title{Create Variability in strain parameter}
 \usage{
 add_strain_var(
-  x,
+  strain_parameter,
   CB_var_gmax = 0,
   CB_var_h = 0,
   SB_var_gmax = 0,
   SB_var_h = 0,
   PB_var_gmax = 0,
   PB_var_h = 0,
-  method = "even_v1.0"
+  variablility = function(strain_parameter, var) {     strain_parameter * 2^(seq(-var,
+    var, length = length(strain_parameter))) }
 )
 }
 \arguments{
-\item{x}{}
+\item{strain_parameter}{object of class \code{strain_parameter}}
 
-\item{CB_var_gmax}{}
+\item{CB_var_gmax}{the argument var for the function \code{variablility} for the
+variable \code{strain_parameter$CB$g_max_CB}}
 
-\item{CB_var_h}{}
+\item{CB_var_h}{the argument var for the function \code{variablility} for the
+variable \code{strain_parameter$CB$h_SR_CB}}
 
-\item{SB_var_gmax}{}
+\item{SB_var_gmax}{the argument var for the function \code{variablility} for the
+variable \code{strain_parameter$CB$g_max_SB}}
 
-\item{SB_var_h}{}
+\item{SB_var_h}{the argument var for the function \code{variablility} for the
+variable \code{strain_parameter$CB$h_O_SB}}
 
-\item{PB_var_gmax}{}
+\item{PB_var_gmax}{the argument var for the function \code{variablility} for the
+variable \code{strain_parameter$CB$g_max_PB}}
 
-\item{PB_var_h}{}
+\item{PB_var_h}{the argument var for the function \code{variablility} for the
+variable \code{strain_parameter$CB$h_O_PB}}
 
-\item{method}{}
+\item{variablility}{function of which takes two arguments, i.e.
+\code{strain_parameter} and \code{var} and returns an object of the class \verb{strain parameter}. The function will be applied to add variablity to the above
+mentioned variables. Everything else is up to the function.}
 }
 \value{
-
+the value of strain_parameter with added strain variability
 }
 \description{
-TO BE DOCUMENTED!!!!!
+Add variability as defined in the argument \code{variability} to the variables as follows:
+\itemize{
+\item \code{strain_parameter$CB$g_max_CB <- variablility(strain_parameter$CB$g_max_CB, CB_var_gmax)}
+\item \code{strain_parameter$CB$h_SR_CB  <- variablility(strain_parameter$CB$h_SR_CB,  CB_var_h   )}
+\item \code{strain_parameter$SB$g_max_SB <- variablility(strain_parameter$SB$g_max_SB, SB_var_gmax)}
+\item \code{strain_parameter$SB$h_O_SB   <- variablility(strain_parameter$SB$h_O_SB,   SB_var_h   )}
+\item \code{strain_parameter$PB$g_max_PB <- variablility(strain_parameter$PB$g_max_PB, PB_var_gmax)}
+\item \code{strain_parameter$PB$h_O_PB   <- variablility(strain_parameter$PB$h_O_PB,   PB_var_h   )}
+}
+}
+\examples{
+add_strain_var(new_strain_parameter(n_CB = 3, n_PB = 3, n_SB = 3), 2)
 }

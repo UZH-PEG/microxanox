@@ -1,12 +1,13 @@
-#' Convenience function to plot the dynamics of a model run,
-#' with strains within functional groups.
-#'
+#' Plot the dynamics of a model run
+#' 
+#' This is a convenience function to plot the dynamics of a model run,
+#' with strains within functional groups. It can be used as a template on how the data can be plotted.
 #' @param simulation_result Object returned by the run_simulation function
 #' @param every_n Plot data of every other n sample.
 #' @return returns the ggplot object of the plot. If it is assigned to a 
 #'    variable, the plot needs to be plotted, otherwise it is plotted.
 #' 
-#' @global a species quantity a functional_group log10_quantity var_type . time
+#' @global
 #' 
 #' @importFrom dplyr filter mutate row_number case_when
 #' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab geom_line scale_colour_manual guides guide_legend
@@ -16,7 +17,10 @@
 #' @import patchwork
 #' 
 #' @export
-plot_dynamics <- function(simulation_result, every_n = 1) {
+plot_dynamics <- function(
+  simulation_result, 
+  every_n = 1
+){
   
   colfunc_CB <- grDevices::colorRampPalette(c("#024F17", "#B5FFC9"))
   colfunc_SB <- grDevices::colorRampPalette(c("#7D1402", "#FCBEB3"))
