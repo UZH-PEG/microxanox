@@ -793,7 +793,7 @@ ss_CB_SB_PB$result %>%
 
 ## Stability measures
 
-Note that here, "stability measures" quantify characteristics of the state-environment relationship (i.e. nonlinearity and hysteresis). The measures of non-linearity and hysteresis were used in [Garnier et al (2020) (link to online article)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294).
+Note that here, "stability measures" quantify characteristics of the state-environment relationship (i.e. nonlinearity and hysteresis). The measures of non-linearity and hysteresis were used in [Garnier et al (2020)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294)
 
 Not much code is shown because all is rather standard data wrangling. The unique work is done by the `get_stability_measures` function, which is demonstrated in the User Guide.
 
