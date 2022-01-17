@@ -1,9 +1,9 @@
 #' Run the simulation
 #' 
-#' This function takes the `parameter` and runs the simulation based on these.
-#' it returns an object of class `runsim_result` which contains an additional
+#' This function takes the `parameter` object and runs a simulation based on these.
+#' It returns an object of class `runsim_result` which contains an additional
 #' entry, i.e. `result` which contains the results of the simulation. The
-#' simulation can be re-run bu using the returned object as input `parameter`.
+#' simulation can be re-run using the returned object as input `parameter`.
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
 #' @return an object of class `runsim_result`, obtained from running the

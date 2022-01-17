@@ -1,4 +1,4 @@
-#' Run simulations to determine the steady states
+#' Run simulations to determine the steady states by the replication method.
 #' 
 #' Function to get the steady states for combinations of `a` (oxygen diffusivity) and initial states.
 #' This function is multithreaded, and the value of mc.cores determines the umber of parallel threads.

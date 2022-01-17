@@ -1,4 +1,4 @@
-#' New version of function, working with data from the `run_temporal_ssfind_method` function. Gest various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
+#' New version of function, working with data from the `run_temporal_ssfind_method` function. Gets various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 #' Takes steady state data as the input. 
 #'
 #' @param ss_object An object of class \code{ss_by_a_N_result} as returned by the ss_by_a_N() function or

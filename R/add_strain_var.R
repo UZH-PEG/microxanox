@@ -1,4 +1,4 @@
-#' Create Variability in strain parameter
+#' Create variability in strain parameters
 #'
 #' Add variability as defined in the argument `variability` to the variables as follows:
 #'   - `strain_parameter$CB$g_max_CB <- variablility(strain_parameter$CB$g_max_CB, CB_var_gmax)`
@@ -22,7 +22,7 @@
 #'   variable `strain_parameter$CB$h_O_PB`
 #' @param variablility function of which takes two arguments, i.e.
 #'   `strain_parameter` and `var` and returns an object of the class `strain
-#'   parameter`. The function will be applied to add variablity to the above
+#'   parameter`. The function will be applied to add variability to the above
 #'   mentioned variables. Everything else is up to the function.
 #'
 #' @return the value of strain_parameter with added strain variability

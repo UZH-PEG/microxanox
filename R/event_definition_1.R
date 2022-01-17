@@ -1,6 +1,6 @@
 #' Event definition for the simulation
 #'
-#' This function contains events that do alter the state variables.
+#' This function contains events that can alter the state variables.
 #' It is named definition `_1`, in case other definitions are created.
 #' @param times the time point in the simulation
 #' @param state current state variable values

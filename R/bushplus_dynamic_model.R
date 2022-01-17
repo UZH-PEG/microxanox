@@ -9,7 +9,7 @@
 #' @param parameters An object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()``
 #' @param log10a_forcing_func function to change oxygen diffusivity `a` depending on `t`
-#' @param ... not used. Needed to catch additional parameter.
+#' @param ... not used. Needed to catch additional parameters.
 #' 
 #' @return a list containing two elements, namely the rate of change of the
 #'   strains, and also the current values of oxygen diffusivity `a`.

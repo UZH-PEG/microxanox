@@ -1,5 +1,5 @@
-#' Run a stable state finding experiment (e.g. get the stable states for
-#' different levels of diversity).
+#' Run a stable state finding experiment via the temporal method (e.g. get the stable states for
+#' different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). Calls the function `run_temporal_ssfind_method` for each parameter set.
 #'
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
@@ -7,7 +7,8 @@
 #'   should be examined. This object is **not** created in the 'microxanox' package.
 #' @param total_initial_abundances An object containing the total abundance in
 #'   each functional group.
-#' @return an `tibble` object ... TODO
+#' @param cores Number of cores to use. If more than one, then `multidplyr` is used
+#' @return an `tibble` object containing the stable state result, as well as the simulation parameters.
 #' @md
 #' @importFrom multidplyr new_cluster cluster_library partition
 #' @export

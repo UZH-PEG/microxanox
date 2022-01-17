@@ -29,7 +29,7 @@
 #'   Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used.
 #' 
 #' @return Object of class `strain_parameter`. The object contains the following fields:
-#' The additional parameter are:
+#' The additional parameters are:
 #'  ## Strain parameter
 #'  - `CB`: strain parameter from Cyano Bacteria
 #'  - `PB`: strain parameter for the Phototrophic bacteria

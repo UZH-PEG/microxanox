@@ -71,7 +71,7 @@ We added functionality for:
 
 We also include a function for visualising results. It is provided for convenience, and not for production of perfectly formatted print-ready graphs.
 
-Here (again) is the original publication: <https://www.nature.com/articles/s41467-017-00912-x>
+Here (again) is the original publication Bush et al (2017): <https://www.nature.com/articles/s41467-017-00912-x>
 
 And here is the Supplementary Information, including the table of parameter values as implemented here when using the `bush` parameter: <https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-017-00912-x/MediaObjects/41467_2017_912_MOESM1_ESM.pdf>
 
@@ -154,10 +154,7 @@ Here are the parameter values of the CB strain, for example
 parameter_set1$strain_parameter$CB
 ```
 
-and these are two initial state values
-
-
-used to start a simulation, while
+and these are initial state values used to start a simulation:
 
 ```{r}
 parameter_set1$strain_parameter$initial_state
@@ -184,7 +181,9 @@ new_CB_strain_parameter(values = "bush")
 parameter_set1$sim_duration <- 2000
 ```
 
-## The sampling interval:
+## The sampling interval
+
+How frequently are the values of state variables recorded:
 
 ```{r}
 parameter_set1$sim_sample_interval <- 1
@@ -207,15 +206,15 @@ Note that here we use the already set default value of $a_O$ and therefore must 
 
 These are "things" that happen during the simulation. One has to specify what happens, and when it happens.
 
-#### What happens
+### What happens
 
-The only event definition function currently available can add noise to a state variable, and/or assure minimum abundance is not exceeded:
+The only event definition function currently available can add noise to a state variable, and/or assure that abundances are limited to a minimum:
 
 ```{r}
 parameter_set1$event_definition <- event_definition_1
 ```
 
-#### When it happens
+### When it happens
 
 Here set to an event every 10 time units.
 
@@ -223,7 +222,7 @@ Here set to an event every 10 time units.
 parameter_set1$event_interval <- 10
 ```
 
-#### Default noise event options
+### Default noise event options
 
 Default to no noise added to substrate concentrations:
 
@@ -231,7 +230,7 @@ Default to no noise added to substrate concentrations:
 parameter_set1$noise_sigma <- 0
 ```
 
-#### Default minimum abundance event
+### Default minimum abundance event
 
 Default to following minimum abundances:
 
@@ -239,6 +238,8 @@ Default to following minimum abundances:
 parameter_set1$minimum_abundances <- rep(0, 3)
 names(parameter_set1$minimum_abundances) <- c("CB", "PB", "SB")
 ```
+
+## Setting parameters
 
 The parameters can also be set in the command that creates the `run_sim_parameter` object:
 
@@ -593,8 +594,7 @@ parameter <- set_temporal_ssfind_initial_state(
     total_initial_abundances
 )
                                                
-## be careful, this could take a long time to run if parameters above are changed
-## and not that the demonstration parameters are with very short wait time.
+## be careful, this could take a long time to run if parameters above are changed (the demonstration parameters are with very short wait time).
 temporal_ss_find_result <- run_temporal_ssfind_method(parameter)
 
 saveRDS(temporal_ss_find_result, file = "data/user_guide/temporal_ss_find.RDS")
@@ -640,7 +640,7 @@ get_stability_measures(ss_1strain)
 And with three strains per functional group:
 
 ```{r}
-get_stability_measures(ss_3strain)Gehen 
+get_stability_measures(ss_3strain)
 ```
 
 

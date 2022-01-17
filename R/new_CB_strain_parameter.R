@@ -1,4 +1,4 @@
-#' Create CB strain parameter
+#' Create CB strain parameter values
 #'
 #' @param n number of strains
 #' @param values Allowed values are:

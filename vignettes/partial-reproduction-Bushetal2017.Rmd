@@ -61,7 +61,7 @@ And in addition:
 -   Quantify the amount of hysteresis and nonlinearity in these responses.
 -   Show how amount of hysteresis and nonlinearity in ecosystem response depends on functional group composition.
 
-These additional results are only presented graphically below, and are not discussed. Some will be presented and discussed in an article associated with this package (*link to be added*).
+These additional results are only presented graphically below, and are not discussed. Some may be presented and discussed in an article associated with this package (*link to be added*).
 
 Please see the *User Guide* vignette for further introduction and general methods.
 
@@ -115,7 +115,7 @@ saveRDS(sim_res, file = "data/partial_reproduction/bush_anoxic_fig2ab.RDS")
 plot_dynamics(simulation_result = sim_res)
 ```
 
-Population dynamics seem as in the paper. Resource dynamics fluctuate more than in the paper.
+Population dynamics seem as in the paper, though resource dynamics may fluctuate more than in the paper.
 
 ## Initial conditions favouring oxic, no noise, no forcing
 
@@ -369,7 +369,7 @@ rm(ma)
 
 ### No organisms
 
-```{r sim_ss_no_biology, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
+```{r echo = FALSE, sim_ss_no_biology, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_no_biology.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -414,7 +414,7 @@ ss_no_biology$result %>%
 
 ### CB
 
-```{r sim_ss_only_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
+```{r echo = FALSE, sim_ss_only_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -472,7 +472,7 @@ ss_only_CB$result %>%
 
 ### SB
 
-```{r sim_ss_only_SB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
+```{r echo = FALSE, sim_ss_only_SB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -521,7 +521,7 @@ ss_only_SB$result %>%
 
 ### PB
 
-```{r sim_ss_only_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
+```{r echo = FALSE, sim_ss_only_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_PB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -582,7 +582,7 @@ ss_only_PB$result %>%
 
 ### SB and PB
 
-```{r sim_ss_only_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
+```{r echo = FALSE, sim_ss_only_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_PB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -632,7 +632,7 @@ ss_only_SB_PB$result %>%
 
 ### SB and CB
 
-```{r sim_ss_only_SB_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
+```{r echo = FALSE, sim_ss_only_SB_CB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_SB_CB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -681,7 +681,7 @@ ss_only_SB_CB$result %>%
 
 ### CB and PB
 
-```{r sim_ss_only_CB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
+```{r echo = FALSE, sim_ss_only_CB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_only_CB_PB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -730,7 +730,7 @@ ss_only_CB_PB$result %>%
 
 ### CB, SB, and PB
 
-```{r sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
+```{r echo = FALSE, sim_ss_CB_SB_PB, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.RDS")}
 grid_num_a <- 100
 grid_num_N <- 2
 
@@ -795,7 +795,7 @@ ss_CB_SB_PB$result %>%
 
 Note that here, "stability measures" quantify characteristics of the state-environment relationship (i.e. nonlinearity and hysteresis). The measures of non-linearity and hysteresis were used in [Garnier et al (2020)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294)
 
-Not much code is shown because all is rather standard data wrangling. The unique work is done by the `get_stability_measures` function, which is demonstrated in the User Guide.
+Not much code is shown because all is rather standard data wrangling. The unique work is done by the `get_stability_measures` function, which is demonstrated in the User Guide vignette.
 
 
 ```{r echo = FALSE, sim_resp_summary, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/resp_summary.RDS")}

@@ -1,7 +1,7 @@
 #' Plot the dynamics of a model run
 #' 
 #' This is a convenience function to plot the dynamics of a model run,
-#' with strains within functional groups. It can be used as a template on how the data can be plotted.
+#' with strains within functional groups displayed.
 #' @param simulation_result Object returned by the run_simulation function
 #' @param every_n Plot data of every other n sample.
 #' @return returns the ggplot object of the plot. If it is assigned to a 
