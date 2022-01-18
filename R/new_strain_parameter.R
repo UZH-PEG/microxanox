@@ -104,6 +104,7 @@ new_strain_parameter <- function(
     parms$c <- 4e-5
   }
   
+  ## set initial conditions
   parms$initial_state <- new_initial_state(
     n_CB = n_CB, 
     n_PB = n_PB, 

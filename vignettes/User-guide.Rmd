@@ -146,7 +146,7 @@ parameter_set1$strain_parameter <- new_strain_parameter(
 )
 ```
 
-Here, $n_CB$, $n_PB$, and $n_SB$ are the number of strains within each functional group and $values_CB$ (etc) are the parameter values of the strains, i.e. `"bush"` uses the parameter as used in the Bush paper. The same applies to $values_initial_state$, which sets the initial state of the system to a preset from the [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x) publication when using `"bush_anoxic_fig2ab"`.
+Here, `n_CB`, `n_{PB}`, and `n_{SB}` are the number of strains within each functional group and `values_{CB}` (etc) are the parameter values of the strains, i.e. `"bush"` uses the parameter as used in the Bush paper. The same applies to `values_initial_state`, which sets the initial state of the system to a preset from the [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x) publication when using `"bush_anoxic_fig2ab"`.
 
 Here are the parameter values of the CB strain, for example
 
@@ -277,7 +277,7 @@ The advantage of this approach is that the names of the parameter are checked an
 
 ```{r, error = TRUE}
 parameter <- new_runsim_parameter(
-    dynamic_model = bushplus_dynamic_model
+    dynamical_model = bushplus_dynamic_model
 )
 ```
 
@@ -556,9 +556,8 @@ The temporal method involves two simulations for a particular system configurati
 
 
 ```{r temporal_ss_find, eval = run_steadystate_sims | !file.exists("data/user_guide/temporal_ss_find.RDS")}
-rm(list = ls())
 log10a_series <- seq(-8, 0, length = 100)
-wait_time <- 1e3
+wait_time <- 1e3 # time spent at each step
 num_strains <- 3
 
 total_initial_abundances <- 10^5
@@ -601,7 +600,7 @@ saveRDS(temporal_ss_find_result, file = "data/user_guide/temporal_ss_find.RDS")
 ```
 
 
-```{r}
+```{r fig.height=4}
 temporal_ss_find_result <- readRDS(file = "data/user_guide/temporal_ss_find.RDS")
 
 

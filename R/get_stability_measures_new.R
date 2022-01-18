@@ -1,4 +1,4 @@
-#' New version of function, working with data from the `run_temporal_ssfind_method` function. Gets various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
+#' Version of function, working with data from the `run_temporal_ssfind_method` function. Gets various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 #' Takes steady state data as the input. 
 #'
 #' @param ss_object An object of class \code{ss_by_a_N_result} as returned by the ss_by_a_N() function or
@@ -20,29 +20,17 @@ get_stability_measures_new <- function(ss_object) {
     result <- ss_object
   }
   
-  
-  
   ## The following is preparing the data
   these <- grep("B_", names(result))
-  #these <- these[c(-(length(these)-1), -length(these))]
   these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
   temp <- result %>%
-    #rbind(result) %>%
-    #dplyr::mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
     dplyr::filter(dplyr::across(these, ~ .x >-0.001)) %>% ## there are rarely negative abundances greater than -0.001. This line and the na.omit removes them 
     tidyr::gather(key = "Species", value = Quantity, these) %>%
     select(-time) %>%
-    #dplyr::select(-starts_with("initial_N_"), -init_varying) %>%
     tidyr::spread(key = direction, value=Quantity, drop=T) %>%
-    na.omit() #%>% ## 31000 to 30969
-  #rename(a_O = a)
+    na.omit() 
   
   ## then get the stability measures
-  res <- temp %>%
-    dplyr::group_by(Species) %>%
-    dplyr::summarise(
-    )
-  
   res <- temp %>%
     dplyr::group_by(Species) %>%
     dplyr::summarise(hyst_tot_raw = get_hysteresis_total(up, down),
@@ -51,7 +39,6 @@ get_stability_measures_new <- function(ss_object) {
                      hyst_max_raw = get_hysteresis_max(up, down, a_O),
                      nl_up_raw = get_nonlinearity(a_O, up),
                      nl_down_raw = get_nonlinearity(a_O, down),
-                     
                      hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
                      hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a_O),
                      hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a_O),
@@ -60,35 +47,6 @@ get_stability_measures_new <- function(ss_object) {
                      nl_down_log = get_nonlinearity(a_O, log10(down+1))
     ) 
   
-  
-  # if(is.na(init_varying)) {
-  #   
-  #   these <- grep("B_", names(result))
-  #   these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
-  #   Species <- names(result)[these]
-  #   
-  #   temp <- result %>%
-  #     tidyr::gather(key = "Species", value = Quantity, these) %>%
-  #     dplyr::select(-starts_with("initial_N_")) 
-  #   
-  #   res <- temp %>%
-  #     dplyr::group_by(Species) %>%
-  #     dplyr::summarise(
-  #       hyst_tot_raw = 0,
-  #       hyst_tot_log = 0,
-  #       hyst_range_raw = 0,
-  #       hyst_range_log = 0,
-  #       hyst_min_raw = 0,
-  #       hyst_min_log = 0,
-  #       hyst_max_raw = 0,
-  #       hyst_max_log = 0,
-  #       nl_up_raw = get_nonlinearity(a_O, Quantity),
-  #       nl_up_raw = get_nonlinearity(a_O, Quantity),
-  #       nl_down_log = get_nonlinearity(a, log10(Quantity+1)),
-  #       nl_down_log = get_nonlinearity(a, log10(Quantity+1))
-  #     )
-  # }
-  # 
   res
   
 }

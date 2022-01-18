@@ -13,31 +13,31 @@
 
 run_temporal_ssfind_method <- function(p) {
   
+  ## recalculate the wait time (length of a step)
   wait_time <- p$sim_duration / length(p$log10a_series)
   
+  ## make function for the increasing ox diff steps
   up_l_f_f <- approxfun(x = wait_time * c(0:length(p$log10a_series)), 
                         y = (c(p$log10a_series, p$log10a_series[length(p$log10a_series)])),
                         method = "constant", rule = 1)
   
+  ## make function for the decreasing ox diff steps
   down_l_f_f <- approxfun(x = wait_time * c(0:length(p$log10a_series)), 
                           y = c(rev(p$log10a_series), p$log10a_series[1]),
                           method = "constant", rule = 1)
   
-  #x <- seq(1, wait_time * length(p$log10a_series), 100)
-  #plot(x, up_l_f_f(x), type = "l")
-  #plot(x, down_l_f_f(x), type = "l")
-  
-  
+  ## make times at which observations are made (i.e. at the end of a step)
   times <- c(0,
              seq(p$sim_sample_interval - 1,
                  p$sim_duration,
                  by = p$sim_sample_interval))
   
+  ## make times at which events occur
   event_times <- c(0, seq(p$event_interval-1,
                           max(times),
                           by = p$event_interval))
   
-  
+  ## run a simulation for increasing ox diff
   up_res <- as.data.frame(
     deSolve::ode(
       y = p$strain_parameter$initial_state,
@@ -54,14 +54,13 @@ run_temporal_ssfind_method <- function(p) {
       minimum_abundances = p$minimum_abundances
     )
   )
+  ## organise results
   up_res <- up_res %>%
     filter(time %in% times) %>%
     slice(-1) %>%
     mutate(direction = "up")
   
-  #plot(up_res$time, log10(up_res$CB_1), type = "l")
-  #plot(up_res$a, log10(up_res$CB_1), type = "l")
-  
+  ## run a simulation for decreasing ox diff
   down_res <- as.data.frame(
     deSolve::ode(
       y = p$strain_parameter$initial_state,
@@ -78,14 +77,13 @@ run_temporal_ssfind_method <- function(p) {
       minimum_abundances = p$minimum_abundances
     )
   )
+  ## organise results
   down_res <- down_res %>%
     filter(time %in% times) %>%
     slice(-1) %>%
     mutate(direction = "down")
   
-  #plot(down_res$time, log10(down_res$CB_1), type = "l")
-  #plot(down_res$a, log10(down_res$CB_1), type = "l")
-  
+  ## combine results
   result <- rbind(up_res, down_res) %>%
     rename(a_O = a)
   

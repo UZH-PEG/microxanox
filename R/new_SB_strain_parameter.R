@@ -27,14 +27,16 @@ new_SB_strain_parameter <- function(
   n = 1,
   values = "bush"
 ){
+
+  # Check for supported values of the argument "values"
   if (is.na(values)) {
     values <- "NA"
   }
-  
   if (!(values %in% c("NA", "bush"))) {
     stop("Not supported value for `values`!\n", "Only NA, 'NA' and 'bush' supported!")
   }
   
+  ## Create object
   x <- rep(as.numeric(NA), n)
   nm <- paste0("SB_", 1:n)
   result <- data.frame(
@@ -48,6 +50,8 @@ new_SB_strain_parameter <- function(
     m_SB = x,
     i_SB = x
   )
+  
+  ## Add values for the case of Bush et al 2017
   if (values == "bush") {
     result$g_max_SB = rep(0.1, n)
     result$k_SB_SO = rep(5, n)

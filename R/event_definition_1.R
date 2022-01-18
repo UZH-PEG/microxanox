@@ -1,8 +1,8 @@
-#' Event definition for the simulation
+#' Event definition for the simulation.
 #'
 #' This function contains events that can alter the state variables.
 #' It is named definition `_1`, in case other definitions are created.
-#' @param times the time point in the simulation
+#' @param times the time points in the simulation when events happen
 #' @param state current state variable values
 #' @param parms object of class `strain_parameter`
 #' @param log10a_forcing_func function to change oxygen diffusivity `a`
@@ -50,6 +50,7 @@ event_definition_1 <- function(
       SB <- as.numeric(SB[order(names(SB))])
       SB[SB < minimum_abundances["SB"]] <- minimum_abundances["SB"]
       
+      # Assemble results
       result <- c(
         CB,
         PB,
@@ -60,6 +61,7 @@ event_definition_1 <- function(
         P = P
       )
       
+      # Name results
       names(result) <- c(
         names_CB,
         names_PB,

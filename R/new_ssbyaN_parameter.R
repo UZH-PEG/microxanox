@@ -1,11 +1,11 @@
-#' Create parameter to run the simulation by using the function `ss_by_a_N()`
+#' Create parameter set to run a set of simulations to find stable states. Is passed to the function `ss_by_a_N()` to run such a set of simulations.
 #'
 #' @param ... named parameter for the simulation to be set. 
 #'   An error will be raised, if they are not part of the parameter set.
 #'
 #' @return object of the class `ss_by_a_N_parameter`. This object of class
-#'   `ss_by_a_N_parameter` is identical to an object of class `runsim_paramweter` 
-#'   plus an additional field `ss_expt` which contains a `data.frame` with XXXX 
+#'   `ss_by_a_N_parameter` is identical to an object of class `runsim_parameter` 
+#'   plus an additional field `ss_expt` which contains a `data.frame` with 
 #'   columns named
 #'   - `N_CB`
 #'   - `N_PB`
@@ -20,6 +20,7 @@
 new_ss_by_a_N_parameter <- function(
   ...
 ){
+  
   p <- new_runsim_parameter()
   p$ss_expt <- NA
   if (!inherits(p, "ss_by_a_N_parameter")) {

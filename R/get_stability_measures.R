@@ -41,24 +41,17 @@ get_stability_measures <- function(
     
     ## The following is preparing the data
     these <- grep("B_", names(result))
-    #these <- these[c(-(length(these)-1), -length(these))]
     these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
     temp <- result %>%
-      #rbind(result) %>%
       dplyr::mutate(direction = ifelse(init_varying == min_iniN, "up", "down")) %>%
       dplyr::filter(dplyr::across(these, ~ .x >-0.001)) %>% ## there are rarely negative abundances greater than -0.001. This line and the na.omit removes them 
       tidyr::gather(key = "Species", value = Quantity, these) %>%
       dplyr::select(-starts_with("initial_N_"), -init_varying) %>%
       tidyr::spread(key = direction, value=Quantity, drop=T) %>%
-      na.omit()  ## 31000 to 30969
+      na.omit()
     
     
     ## then get the stability measures
-    res <- temp %>%
-      dplyr::group_by(Species) %>%
-      dplyr::summarise(
-      )
-    
     res <- temp %>%
       dplyr::group_by(Species) %>%
       dplyr::summarise(hyst_tot_raw = get_hysteresis_total(up, down),
@@ -67,7 +60,6 @@ get_stability_measures <- function(
                        hyst_max_raw = get_hysteresis_max(up, down, a_O),
                        nl_up_raw = get_nonlinearity(a_O, up),
                        nl_down_raw = get_nonlinearity(a_O, down),
-                       
                        hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
                        hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a),
                        hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a),
@@ -126,7 +118,7 @@ get_hysteresis_total <- function(
 }
 
 
-#' Get the range of environmental conditions for which alternate stable states exist
+#' Get the minimum of environmental conditions for which alternate stable states exist
 #'
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
@@ -138,7 +130,7 @@ get_hysteresis_min <- function(
   down, 
   a
 ){
-  temp1 <- abs(up - down) > 0.1
+  temp1 <- abs(up - down) > 0.1 ## harded coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
@@ -160,7 +152,7 @@ get_hysteresis_min <- function(
   return(res)
 }
 
-#' Get the range of environmental conditions for which alternate stable states exist
+#' Get the maximum of environmental conditions for which alternate stable states exist
 #'
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
@@ -172,7 +164,8 @@ get_hysteresis_max <- function(
   down, 
   a
 ){
-  temp1 <- abs(up - down) > 0.1
+  
+  temp1 <- abs(up - down) > 0.1 ## harded coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
@@ -204,7 +197,7 @@ get_hysteresis_range <- function(
   down, 
   a
 ){
-  temp1 <- abs(up - down) > 0.1
+  temp1 <- abs(up - down) > 0.1 ## harded coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA

@@ -21,8 +21,8 @@ run_temporal_ssfind_experiment <- function(parameter,
 
   if(cores == 1)
   {
-    ## Next chunck of code:
-    ## For each line of var_expt, add strain variation, and get stable states.
+    ## For each row of var_expt, add strain variation, set initial state,
+    ## and get stable states.
     result <- var_expt %>%
       mutate(
         ssfind_pars = list({
@@ -40,7 +40,8 @@ run_temporal_ssfind_experiment <- function(parameter,
 
   if(cores > 1)
   {
-
+    ## For each row of var_expt, add strain variation, set initial state,
+    ## and get stable states.
     cluster <- multidplyr::new_cluster(cores)
     multidplyr::cluster_library(cluster, c("microxanox", "dplyr"))
     var_expt <- var_expt %>%

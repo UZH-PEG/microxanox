@@ -15,6 +15,7 @@ ss_by_a_N <- function(
   parameter, 
   mc.cores = getOption("mc.cores", 0)
 ){
+  
   if (!inherits(parameter, "ss_by_a_N_parameter")) {
     stop("parameter has to be an object of type `ss_by_a_N_parameter`!")
   }
@@ -24,6 +25,8 @@ ss_by_a_N <- function(
     mc.cores <- 1
   }
   
+  ## single core:
+  ## apply over rows of ss_expt
   if (mc.cores == 0) {
     temp_result <- apply(
       parameter$ss_expt, 
@@ -32,6 +35,8 @@ ss_by_a_N <- function(
         get_final_states_a_N(x, parameter)
       }
     )
+  ## multi core
+  ## mcapply over rows of ss_expt
   } else {
     temp_result <- parallel::mclapply(
       1:nrow(parameter$ss_expt),
@@ -46,6 +51,7 @@ ss_by_a_N <- function(
     )
   }
 
+  ## Assemble results
   result <- temp_result %>%
     tibble::tibble() %>%
     tidyr::unnest(cols = 1) %>%

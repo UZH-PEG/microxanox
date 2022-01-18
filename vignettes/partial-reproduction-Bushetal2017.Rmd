@@ -14,7 +14,7 @@ vignette: >
 ```{r setup, output = FALSE, message = FALSE, echo = FALSE}
 ## should some of the more intense simulations be run...
 
-run_steadystate_sims <- FALSE
+run_steadystate_sims <- TRUE
 options(mc.cores=8)
 
 

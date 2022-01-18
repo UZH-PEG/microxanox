@@ -12,9 +12,11 @@
 #'
 get_nonlinearity <- function(x, y)
 {
-  
+  ## if all state variable values are zero, set the result value to NA
   if(sum(y)==0)
     L <- NA
+  
+  ## if not all zero, calculate the metric
   if(!(sum(y)==0)) {
     lin_pred <- predict(lm(y ~ x))
     gam_pred <- predict(mgcv::gam(y ~ s(x)))

@@ -1,4 +1,4 @@
-#' Create parameter to run the simulation by using the function `run_sim()`
+#' Create parameter set with which to run a simulation.
 #'
 #' @param ... named parameter for the simulation to be set. 
 #'   An error will be raised, if they are not part of the parameter set.

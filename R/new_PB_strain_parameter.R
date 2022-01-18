@@ -26,14 +26,16 @@ new_PB_strain_parameter <- function(
   n = 1,
   values = "bush"
 ){
+  
+  # Check for supported values of the argument "values"
   if (is.na(values)) {
     values <- "NA"
   }
-  
   if (!(values %in% c("NA", "bush"))) {
     stop("Not supported value for `values`!\n", "Only NA, 'NA' and 'bush' supported!")
   }
   
+  ## Create object
   x <- rep(as.numeric(NA), n)
   nm <- paste0("PB_", 1:n)
   result <- data.frame(
@@ -47,6 +49,8 @@ new_PB_strain_parameter <- function(
     m_PB = x,
     i_PB = x
   )
+  
+  ## Add values for the case of Bush et al 2017
   if (values == "bush") {
     result$g_max_PB = rep(0.07, n)
     result$k_PB_SR = rep(10, n)

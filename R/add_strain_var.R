@@ -1,29 +1,29 @@
 #' Create variability in strain parameters
 #'
 #' Add variability as defined in the argument `variability` to the variables as follows:
-#'   - `strain_parameter$CB$g_max_CB <- variablility(strain_parameter$CB$g_max_CB, CB_var_gmax)`
-#'   - `strain_parameter$CB$h_SR_CB  <- variablility(strain_parameter$CB$h_SR_CB,  CB_var_h   )`
-#'   - `strain_parameter$SB$g_max_SB <- variablility(strain_parameter$SB$g_max_SB, SB_var_gmax)`
-#'   - `strain_parameter$SB$h_O_SB   <- variablility(strain_parameter$SB$h_O_SB,   SB_var_h   )`
-#'   - `strain_parameter$PB$g_max_PB <- variablility(strain_parameter$PB$g_max_PB, PB_var_gmax)`
-#'   - `strain_parameter$PB$h_O_PB   <- variablility(strain_parameter$PB$h_O_PB,   PB_var_h   )`
+#'   - `strain_parameter$CB$g_max_CB <- variability(strain_parameter$CB$g_max_CB, CB_var_gmax)`
+#'   - `strain_parameter$CB$h_SR_CB  <- variability(strain_parameter$CB$h_SR_CB,  CB_var_h   )`
+#'   - `strain_parameter$SB$g_max_SB <- variability(strain_parameter$SB$g_max_SB, SB_var_gmax)`
+#'   - `strain_parameter$SB$h_O_SB   <- variability(strain_parameter$SB$h_O_SB,   SB_var_h   )`
+#'   - `strain_parameter$PB$g_max_PB <- variability(strain_parameter$PB$g_max_PB, PB_var_gmax)`
+#'   - `strain_parameter$PB$h_O_PB   <- variability(strain_parameter$PB$h_O_PB,   PB_var_h   )`
 #' @param strain_parameter object of class `strain_parameter`
-#' @param CB_var_gmax the argument var for the function `variablility` for the
+#' @param CB_var_gmax the argument var for the function `variability` for the
 #'   variable `strain_parameter$CB$g_max_CB`
-#' @param CB_var_h the argument var for the function `variablility` for the
+#' @param CB_var_h the argument var for the function `variability` for the
 #'   variable `strain_parameter$CB$h_SR_CB`
-#' @param SB_var_gmax the argument var for the function `variablility` for the
+#' @param SB_var_gmax the argument var for the function `variability` for the
 #'   variable `strain_parameter$CB$g_max_SB`
-#' @param SB_var_h the argument var for the function `variablility` for the
+#' @param SB_var_h the argument var for the function `variability` for the
 #'   variable `strain_parameter$CB$h_O_SB`
-#' @param PB_var_gmax the argument var for the function `variablility` for the
+#' @param PB_var_gmax the argument var for the function `variability` for the
 #'   variable `strain_parameter$CB$g_max_PB`
-#' @param PB_var_h the argument var for the function `variablility` for the
+#' @param PB_var_h the argument var for the function `variability` for the
 #'   variable `strain_parameter$CB$h_O_PB`
-#' @param variablility function of which takes two arguments, i.e.
+#' @param variability function of which takes two arguments, i.e.
 #'   `strain_parameter` and `var` and returns an object of the class `strain
-#'   parameter`. The function will be applied to add variability to the above
-#'   mentioned variables. Everything else is up to the function.
+#'   parameter`. The function will be applied to add variability, of amount `var` to the above
+#'   mentioned variables. 
 #'
 #' @return the value of strain_parameter with added strain variability
 #' @export

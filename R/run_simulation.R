@@ -23,19 +23,22 @@ run_simulation <- function(
   }
   
   if(parameter$sim_sample_interval > parameter$sim_duration){
-    stop("Simulation sample interval is greater than simualution duration... it should be shorter.")
+    stop("Simulation sample interval is greater than simulation duration... it should be shorter.")
   } 
   
+  ## make the times at which observations will be recorded
   times <- seq(
     0,
     parameter$sim_duration,
     by = parameter$sim_sample_interval
   )
   
+  ## make the times at which events will occur
   event_times <- seq(min(times),
                      max(times),
                      by = parameter$event_interval)  
   
+  ## create the series of oxygen diffusivity values
   log10a_forcing <- matrix(
     ncol = 2,
     byrow = F,
@@ -50,7 +53,8 @@ run_simulation <- function(
       parameter$log10a_series
     )
   )
-                                      
+       
+  ## Make the function to give the oxygen diffusivity at a particular time      
   l_f_f <- approxfun(
     x = log10a_forcing[,1],
     y = log10a_forcing[,2],
@@ -58,6 +62,7 @@ run_simulation <- function(
     rule = 2
   )
   
+  ## Run the simulation
   out <- as.data.frame(
     deSolve::ode(
       y = parameter$strain_parameter$initial_state,

@@ -25,14 +25,16 @@ new_CB_strain_parameter <- function(
   n = 1,
   values = "bush"
 ){
+  
+  # Check for supported values of the argument "values"
   if (is.na(values)) {
     values <- "NA"
   }
-  
   if (!(values %in% c("NA", "bush"))) {
     stop("Not supported value for `values`!\n", "Only NA, 'NA' and 'bush' supported!")
   }
   
+  ## Create object
   x <- rep(as.numeric(NA), n)
   nm <- paste0("CB_", 1:n)
   result <- data.frame(
@@ -45,6 +47,8 @@ new_CB_strain_parameter <- function(
     m_CB = x,
     i_CB = x
   )
+  
+  ## Add values for the case of Bush et al 2017
   if (values == "bush") {
     result$g_max_CB = rep(0.05, n)
     result$k_CB_P = rep(0.2, n)

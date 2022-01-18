@@ -24,6 +24,7 @@ bushplus_dynamic_model <- function(
   ...
 ){
   
+  ## unpack state variables from the state object
   CB <- state[grep("CB", names(state))]
   names_CB <- names(CB)[order(names(CB))]
   CB <- as.numeric(CB[order(names(CB))])
@@ -36,19 +37,22 @@ bushplus_dynamic_model <- function(
   # print(c(CB, PB, SB))
   
   
-  # rates of change
+  # CB rates of change
   CB_growth_rate <- growth1(state["P"], parameters$CB$g_max_CB, parameters$CB$k_CB_P) * inhibition(state["SR"], parameters$CB$h_SR_CB) * CB
   CB_mortality_rate <- parameters$CB$m_CB * CB
   CB_rate <- CB_growth_rate - CB_mortality_rate + parameters$CB$i_CB
-  
+
+  # PB rates of change
   PB_growth_rate <- growth2(state["P"], state["SR"], parameters$PB$g_max_PB, parameters$PB$k_PB_P, parameters$PB$k_PB_SR) * inhibition(state["O"], parameters$PB$h_O_PB) * PB
   PB_mortality_rate <- parameters$PB$m_PB * PB
   PB_rate <- PB_growth_rate - PB_mortality_rate + parameters$PB$i_PB
   
+  # SB rates of change
   SB_growth_rate <- growth2(state["P"], state["SO"], parameters$SB$g_max_SB, parameters$SB$k_SB_P, parameters$SB$k_SB_SO) * inhibition(state["O"], parameters$SB$h_O_SB) * SB
   SB_mortality_rate <- parameters$SB$m_SB * SB
   SB_rate <- SB_growth_rate - SB_mortality_rate + parameters$SB$i_SB
   
+  # Substrate rates of change
   SO_rate <- sum(1 / parameters$PB$y_SR_PB * PB_growth_rate) -
     sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) +
     parameters$c * state["O"] * state["SR"] +
@@ -68,13 +72,7 @@ bushplus_dynamic_model <- function(
     sum(1 / parameters$SB$y_P_SB * PB_growth_rate) +
     parameters$a_P * (parameters$back_P - state["P"])
   
-  # print(CB_growth_rate)
-  # print(CB_mortality_rate)
-  # print(parameters$CB$m_CB)
-  # print(CB)
-  # print(CB_rate)
-  
-  # return the rate of change
+  # Assemble results
   result <- list(
     c(
       CB_rate,
@@ -87,6 +85,8 @@ bushplus_dynamic_model <- function(
     ),
     a = log10a_forcing_func(t)
   )
+  
+  # Name results
   names(result[[1]]) <- c(
     parameters$CB$strain_name,
     parameters$PB$strain_name,

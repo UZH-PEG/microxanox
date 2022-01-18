@@ -36,8 +36,8 @@ get_ssbyaN_parameter <- function(result, i) {
     log10(parameter[["a_O"]])
   )
   
+  # set the result to NULL and deal with class
   parameter$result <- NULL
-  
   class(parameter) <- grep( "ss_by_a_N_result", class(parameter), value = TRUE, invert = TRUE)
   
   return(parameter)
