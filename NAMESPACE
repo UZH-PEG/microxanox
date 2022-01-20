@@ -3,6 +3,7 @@
 export(add_strain_var)
 export(bushplus_dynamic_model)
 export(event_definition_1)
+export(event_definition_2)
 export(get_final_states_a_N)
 export(get_hysteresis_max)
 export(get_hysteresis_min)

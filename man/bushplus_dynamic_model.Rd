@@ -20,7 +20,7 @@ variable}
 
 \item{log10a_forcing_func}{function to change oxygen diffusivity \code{a} depending on \code{t}}
 
-\item{...}{not used. Needed to catch additional parameter.}
+\item{...}{not used. Needed to catch additional parameters.}
 }
 \value{
 a list containing two elements, namely the rate of change of the

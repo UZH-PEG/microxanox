@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_runsim_parameter.R
 \name{new_runsim_parameter}
 \alias{new_runsim_parameter}
-\title{Create parameter to run the simulation by using the function \code{run_sim()}}
+\title{Create parameter set with which to run a simulation.}
 \usage{
 new_runsim_parameter(...)
 }
@@ -27,5 +27,5 @@ The object contains the following elements:
 }
 }
 \description{
-Create parameter to run the simulation by using the function \code{run_sim()}
+Create parameter set with which to run a simulation.
 }

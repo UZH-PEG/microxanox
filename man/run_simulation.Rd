@@ -15,8 +15,8 @@ an object of class \code{runsim_result}, obtained from running the
 simulation as defined in \code{parameter}.`
 }
 \description{
-This function takes the \code{parameter} and runs the simulation based on these.
-it returns an object of class \code{runsim_result} which contains an additional
+This function takes the \code{parameter} object and runs a simulation based on these.
+It returns an object of class \code{runsim_result} which contains an additional
 entry, i.e. \code{result} which contains the results of the simulation. The
-simulation can be re-run bu using the returned object as input \code{parameter}.
+simulation can be re-run using the returned object as input \code{parameter}.
 }

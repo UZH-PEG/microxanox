@@ -54,7 +54,7 @@ Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used.}
 }
 \value{
 Object of class \code{strain_parameter}. The object contains the following fields:
-The additional parameter are:
+The additional parameters are:
 \subsection{Strain parameter}{
 \itemize{
 \item \code{CB}: strain parameter from Cyano Bacteria

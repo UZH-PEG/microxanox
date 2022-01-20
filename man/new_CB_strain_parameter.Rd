@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_CB_strain_parameter.R
 \name{new_CB_strain_parameter}
 \alias{new_CB_strain_parameter}
-\title{Create CB strain parameter}
+\title{Create CB strain parameter values}
 \usage{
 new_CB_strain_parameter(n = 1, values = "bush")
 }
@@ -32,5 +32,5 @@ columns:
 }
 }
 \description{
-Create CB strain parameter
+Create CB strain parameter values
 }

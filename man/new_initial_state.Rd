@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_initial_state.R
 \name{new_initial_state}
 \alias{new_initial_state}
-\title{Create initial state of the system}
+\title{Create initial state of the system, selecting them from various preset options.}
 \usage{
 new_initial_state(n_CB = 1, n_PB = 1, n_SB = 1, values = "bush_anoxic_fig2ab")
 }
@@ -25,5 +25,5 @@ new_initial_state(n_CB = 1, n_PB = 1, n_SB = 1, values = "bush_anoxic_fig2ab")
 initial state \code{vector} aof the system s part of the strain_starter
 }
 \description{
-Create initial state of the system
+Create initial state of the system, selecting them from various preset options.
 }

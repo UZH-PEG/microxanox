@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_ssbyaN_parameter.R
 \name{new_ss_by_a_N_parameter}
 \alias{new_ss_by_a_N_parameter}
-\title{Create parameter to run the simulation by using the function \code{ss_by_a_N()}}
+\title{Create parameter set to run a set of simulations to find stable states. Is passed to the function \code{ss_by_a_N()} to run such a set of simulations.}
 \usage{
 new_ss_by_a_N_parameter(...)
 }
@@ -12,8 +12,8 @@ An error will be raised, if they are not part of the parameter set.}
 }
 \value{
 object of the class \code{ss_by_a_N_parameter}. This object of class
-\code{ss_by_a_N_parameter} is identical to an object of class \code{runsim_paramweter}
-plus an additional field \code{ss_expt} which contains a \code{data.frame} with XXXX
+\code{ss_by_a_N_parameter} is identical to an object of class \code{runsim_parameter}
+plus an additional field \code{ss_expt} which contains a \code{data.frame} with
 columns named
 \itemize{
 \item \code{N_CB}
@@ -25,5 +25,5 @@ initial state is assumed for each.
 }
 }
 \description{
-Create parameter to run the simulation by using the function \code{ss_by_a_N()}
+Create parameter set to run a set of simulations to find stable states. Is passed to the function \code{ss_by_a_N()} to run such a set of simulations.
 }

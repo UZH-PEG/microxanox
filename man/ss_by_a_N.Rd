@@ -2,7 +2,7 @@
 % Please edit documentation in R/ss_by_a_N.R
 \name{ss_by_a_N}
 \alias{ss_by_a_N}
-\title{Run simulations to determine the steady states}
+\title{Run simulations to determine the steady states by the replication method.}
 \usage{
 ss_by_a_N(parameter, mc.cores = getOption("mc.cores", 0))
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_strain_var.R
 \name{add_strain_var}
 \alias{add_strain_var}
-\title{Create Variability in strain parameter}
+\title{Create variability in strain parameters}
 \usage{
 add_strain_var(
   strain_parameter,
@@ -19,27 +19,27 @@ add_strain_var(
 \arguments{
 \item{strain_parameter}{object of class \code{strain_parameter}}
 
-\item{CB_var_gmax}{the argument var for the function \code{variablility} for the
+\item{CB_var_gmax}{the argument var for the function \code{variability} for the
 variable \code{strain_parameter$CB$g_max_CB}}
 
-\item{CB_var_h}{the argument var for the function \code{variablility} for the
+\item{CB_var_h}{the argument var for the function \code{variability} for the
 variable \code{strain_parameter$CB$h_SR_CB}}
 
-\item{SB_var_gmax}{the argument var for the function \code{variablility} for the
+\item{SB_var_gmax}{the argument var for the function \code{variability} for the
 variable \code{strain_parameter$CB$g_max_SB}}
 
-\item{SB_var_h}{the argument var for the function \code{variablility} for the
+\item{SB_var_h}{the argument var for the function \code{variability} for the
 variable \code{strain_parameter$CB$h_O_SB}}
 
-\item{PB_var_gmax}{the argument var for the function \code{variablility} for the
+\item{PB_var_gmax}{the argument var for the function \code{variability} for the
 variable \code{strain_parameter$CB$g_max_PB}}
 
-\item{PB_var_h}{the argument var for the function \code{variablility} for the
+\item{PB_var_h}{the argument var for the function \code{variability} for the
 variable \code{strain_parameter$CB$h_O_PB}}
 
-\item{variablility}{function of which takes two arguments, i.e.
-\code{strain_parameter} and \code{var} and returns an object of the class \verb{strain parameter}. The function will be applied to add variablity to the above
-mentioned variables. Everything else is up to the function.}
+\item{variability}{function of which takes two arguments, i.e.
+\code{strain_parameter} and \code{var} and returns an object of the class \verb{strain parameter}. The function will be applied to add variability, of amount \code{var} to the above
+mentioned variables.}
 }
 \value{
 the value of strain_parameter with added strain variability
@@ -47,12 +47,12 @@ the value of strain_parameter with added strain variability
 \description{
 Add variability as defined in the argument \code{variability} to the variables as follows:
 \itemize{
-\item \code{strain_parameter$CB$g_max_CB <- variablility(strain_parameter$CB$g_max_CB, CB_var_gmax)}
-\item \code{strain_parameter$CB$h_SR_CB  <- variablility(strain_parameter$CB$h_SR_CB,  CB_var_h   )}
-\item \code{strain_parameter$SB$g_max_SB <- variablility(strain_parameter$SB$g_max_SB, SB_var_gmax)}
-\item \code{strain_parameter$SB$h_O_SB   <- variablility(strain_parameter$SB$h_O_SB,   SB_var_h   )}
-\item \code{strain_parameter$PB$g_max_PB <- variablility(strain_parameter$PB$g_max_PB, PB_var_gmax)}
-\item \code{strain_parameter$PB$h_O_PB   <- variablility(strain_parameter$PB$h_O_PB,   PB_var_h   )}
+\item \code{strain_parameter$CB$g_max_CB <- variability(strain_parameter$CB$g_max_CB, CB_var_gmax)}
+\item \code{strain_parameter$CB$h_SR_CB  <- variability(strain_parameter$CB$h_SR_CB,  CB_var_h   )}
+\item \code{strain_parameter$SB$g_max_SB <- variability(strain_parameter$SB$g_max_SB, SB_var_gmax)}
+\item \code{strain_parameter$SB$h_O_SB   <- variability(strain_parameter$SB$h_O_SB,   SB_var_h   )}
+\item \code{strain_parameter$PB$g_max_PB <- variability(strain_parameter$PB$g_max_PB, PB_var_gmax)}
+\item \code{strain_parameter$PB$h_O_PB   <- variability(strain_parameter$PB$h_O_PB,   PB_var_h   )}
 }
 }
 \examples{

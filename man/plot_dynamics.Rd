@@ -17,5 +17,5 @@ returns the ggplot object of the plot. If it is assigned to a
 }
 \description{
 This is a convenience function to plot the dynamics of a model run,
-with strains within functional groups. It can be used as a template on how the data can be plotted.
+with strains within functional groups displayed.
 }

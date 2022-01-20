@@ -1,7 +1,7 @@
 #' Event definition for the simulation.
 #'
 #' This function contains events that can alter the state variables.
-#' In this event definition, densities are given a floor of 1 at every event.
+#' In this event definition, the abundances of all functional groups have 1 added to their density at each event.
 #' @param times the time points in the simulation when events happen
 #' @param state current state variable values
 #' @param parms object of class `strain_parameter`
@@ -16,7 +16,7 @@
 #'
 #' @md
 #' @export
-event_definition_1 <- function(
+event_definition_2 <- function(
   times,
   state,
   parms,
@@ -38,17 +38,17 @@ event_definition_1 <- function(
       CB <- state[grep("CB", names(state))]
       names_CB <- names(CB)[order(names(CB))]
       CB <- as.numeric(CB[order(names(CB))])
-      CB[CB < minimum_abundances["CB"]] <- minimum_abundances["CB"]
+      CB <- CB + 1
       
       PB <- state[grep("PB", names(state))]
       names_PB <- names(PB)[order(names(PB))]
       PB <- as.numeric(PB[order(names(PB))])
-      PB[PB < minimum_abundances["PB"]] <- minimum_abundances["PB"]
+      PB <- PB + 1
       
       SB <- state[grep("SB", names(state))]
       names_SB <- names(SB)[order(names(SB))]
       SB <- as.numeric(SB[order(names(SB))])
-      SB[SB < minimum_abundances["SB"]] <- minimum_abundances["SB"]
+      SB <- SB + 1
       
       # Assemble results
       result <- c(

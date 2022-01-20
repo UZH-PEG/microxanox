@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_stability_measures.R
 \name{get_hysteresis_min}
 \alias{get_hysteresis_min}
-\title{Get the range of environmental conditions for which alternate stable states exist}
+\title{Get the minimum of environmental conditions for which alternate stable states exist}
 \usage{
 get_hysteresis_min(up, down, a)
 }
@@ -17,5 +17,5 @@ get_hysteresis_min(up, down, a)
 A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 }
 \description{
-Get the range of environmental conditions for which alternate stable states exist
+Get the minimum of environmental conditions for which alternate stable states exist
 }

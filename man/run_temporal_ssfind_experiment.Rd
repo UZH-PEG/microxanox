@@ -2,8 +2,8 @@
 % Please edit documentation in R/run_temporal_ssfind_experiment.R
 \name{run_temporal_ssfind_experiment}
 \alias{run_temporal_ssfind_experiment}
-\title{Run a stable state finding experiment (e.g. get the stable states for
-different levels of diversity).}
+\title{Run a stable state finding experiment via the temporal method (e.g. get the stable states for
+different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). Calls the function \code{run_temporal_ssfind_method} for each parameter set.}
 \usage{
 run_temporal_ssfind_experiment(
   parameter,
@@ -21,11 +21,13 @@ should be examined. This object is \strong{not} created in the 'microxanox' pack
 
 \item{total_initial_abundances}{An object containing the total abundance in
 each functional group.}
+
+\item{cores}{Number of cores to use. If more than one, then \code{multidplyr} is used}
 }
 \value{
-an \code{tibble} object ... TODO
+an \code{tibble} object containing the stable state result, as well as the simulation parameters.
 }
 \description{
-Run a stable state finding experiment (e.g. get the stable states for
-different levels of diversity).
+Run a stable state finding experiment via the temporal method (e.g. get the stable states for
+different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). Calls the function \code{run_temporal_ssfind_method} for each parameter set.
 }

@@ -15,5 +15,5 @@ get_final_states_a_N(x, parameter)
 A vector of steady states
 }
 \description{
-Probably best to not use this directly, but rather via the function \code{ss_by_a_N()}
+Can be used directly. Also can be used indirectly, via the function \code{ss_by_a_N()}
 }

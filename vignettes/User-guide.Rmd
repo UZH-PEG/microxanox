@@ -208,7 +208,7 @@ These are "things" that happen during the simulation. One has to specify what ha
 
 ### What happens
 
-The only event definition function currently available can add noise to a state variable, and/or assure that abundances are limited to a minimum:
+There are various available event definitions. Please see the functions for more information. Even definition 1 can add noise to a state variable, and/or assure that abundances are limited to a minimum:
 
 ```{r}
 parameter_set1$event_definition <- event_definition_1
