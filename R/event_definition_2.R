@@ -38,17 +38,17 @@ event_definition_2 <- function(
       CB <- state[grep("CB", names(state))]
       names_CB <- names(CB)[order(names(CB))]
       CB <- as.numeric(CB[order(names(CB))])
-      CB <- CB + 1
+      CB <- CB + minimum_abundances["CB"]
       
       PB <- state[grep("PB", names(state))]
       names_PB <- names(PB)[order(names(PB))]
       PB <- as.numeric(PB[order(names(PB))])
-      PB <- PB + 1
+      PB <- PB + minimum_abundances["PB"]
       
       SB <- state[grep("SB", names(state))]
       names_SB <- names(SB)[order(names(SB))]
       SB <- as.numeric(SB[order(names(SB))])
-      SB <- SB + 1
+      SB <- SB + minimum_abundances["SB"]
       
       # Assemble results
       result <- c(
