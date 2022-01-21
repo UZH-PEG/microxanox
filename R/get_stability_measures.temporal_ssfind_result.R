@@ -9,7 +9,8 @@
 #' 
 #' @export
 get_stability_measures.temporal_ssfind_result <- function(
-  ss_object
+  ss_object,
+  threshold_diff_log10scale = 3
 ) {
   if (inherits(ss_object, "replication_ssfind_result")) {
     result <- ss_object$result
@@ -31,15 +32,15 @@ get_stability_measures.temporal_ssfind_result <- function(
   res <- temp %>%
     dplyr::group_by(Species) %>%
     dplyr::summarise(hyst_tot_raw = get_hysteresis_total(up, down),
-                     hyst_range_raw = get_hysteresis_range(up, down, a_O),
-                     hyst_min_raw = get_hysteresis_min(up, down, a_O),
-                     hyst_max_raw = get_hysteresis_max(up, down, a_O),
+                     hyst_range_raw = get_hysteresis_range(up, down, a_O, 10^threshold_diff_log10scale),
+                     hyst_min_raw = get_hysteresis_min(up, down, a_O, 10^threshold_diff_log10scale),
+                     hyst_max_raw = get_hysteresis_max(up, down, a_O, 10^threshold_diff_log10scale),
                      nl_up_raw = get_nonlinearity(a_O, up),
                      nl_down_raw = get_nonlinearity(a_O, down),
                      hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
-                     hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a_O),
-                     hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a_O),
-                     hyst_max_log = get_hysteresis_max(log10(up+1), log10(down+1), a_O),
+                     hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a_O, threshold_diff_log10scale),
+                     hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a_O, threshold_diff_log10scale),
+                     hyst_max_log = get_hysteresis_max(log10(up+1), log10(down+1), a_O, threshold_diff_log10scale),
                      nl_up_log = get_nonlinearity(a_O, log10(up+1)),
                      nl_down_log = get_nonlinearity(a_O, log10(down+1))
     ) 

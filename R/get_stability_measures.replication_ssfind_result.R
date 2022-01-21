@@ -9,7 +9,8 @@
 #' 
 #' @export
 get_stability_measures.replication_ssfind_result <- function(
-  ss_object
+  ss_object,
+  threshold_diff_log10scale = 3
 ){
   if (inherits(ss_object, "replication_ssfind_result")) {
     result <- ss_object$result
@@ -50,15 +51,15 @@ get_stability_measures.replication_ssfind_result <- function(
     res <- temp %>%
       dplyr::group_by(Species) %>%
       dplyr::summarise(hyst_tot_raw = get_hysteresis_total(up, down),
-                       hyst_range_raw = get_hysteresis_range(up, down, a_O),
-                       hyst_min_raw = get_hysteresis_min(up, down, a_O),
-                       hyst_max_raw = get_hysteresis_max(up, down, a_O),
+                       hyst_range_raw = get_hysteresis_range(up, down, a_O, 10^threshold_diff_log10scale),
+                       hyst_min_raw = get_hysteresis_min(up, down, a_O, 10^threshold_diff_log10scale),
+                       hyst_max_raw = get_hysteresis_max(up, down, a_O, 10^threshold_diff_log10scale),
                        nl_up_raw = get_nonlinearity(a_O, up),
                        nl_down_raw = get_nonlinearity(a_O, down),
                        hyst_tot_log = get_hysteresis_total(log10(up+1), log10(down+1)),
-                       hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a),
-                       hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a),
-                       hyst_max_log = get_hysteresis_max(log10(up+1), log10(down+1), a),
+                       hyst_range_log = get_hysteresis_range(log10(up+1), log10(down+1), a, threshold_diff_log10scale),
+                       hyst_min_log = get_hysteresis_min(log10(up+1), log10(down+1), a, threshold_diff_log10scale),
+                       hyst_max_log = get_hysteresis_max(log10(up+1), log10(down+1), a, threshold_diff_log10scale),
                        nl_up_log = get_nonlinearity(a, log10(up+1)),
                        nl_down_log = get_nonlinearity(a, log10(down+1))
       ) 
@@ -118,14 +119,16 @@ get_hysteresis_total <- function(
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
 #' @param a An environmental driver, here it is usually oxygen diffusivity
+#' @param threshold_diff Amount of different between up and down states to qualify as alternate stable states
 #' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 #' @export
 get_hysteresis_min <- function(
   up, 
   down, 
-  a
+  a,
+  threshold_diff
 ){
-  temp1 <- abs(up - down) > 0.1 ## harded coded difference sufficient to be alternate state
+  temp1 <- abs(up - down) > threshold_diff ## harded coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
@@ -152,15 +155,17 @@ get_hysteresis_min <- function(
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
 #' @param a An environmental driver, here it is usually oxygen diffusivity
+#' @param threshold_diff Amount of different between up and down states to qualify as alternate stable states
 #' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 #' @export
 get_hysteresis_max <- function(
   up, 
   down, 
-  a
+  a,
+  threshold_diff
 ){
   
-  temp1 <- abs(up - down) > 0.1 ## harded coded difference sufficient to be alternate state
+  temp1 <- abs(up - down) > threshold_diff ## harded coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
@@ -185,14 +190,16 @@ get_hysteresis_max <- function(
 #' @param up State variable values as the environmental condition increases
 #' @param down State variable values as the environmental condition decreases
 #' @param a An environmental driver, here it is usually oxygen diffusivity
+#' @param threshold_diff Amount of different between up and down states to qualify as alternate stable states
 #' @return A numeric value, which is the extent of the range of conditions for which alternate stable states exist.
 #' @export
 get_hysteresis_range <- function(
   up, 
   down, 
-  a
+  a,
+  threshold_diff
 ){
-  temp1 <- abs(up - down) > 0.1 ## harded coded difference sufficient to be alternate state
+  temp1 <- abs(up - down) > threshold_diff ## harded coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
