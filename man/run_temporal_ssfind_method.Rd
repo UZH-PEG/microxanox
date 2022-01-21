@@ -5,7 +5,7 @@
 \title{Finds the stable states for a parameter set by increasing and decreasing
 the oxygen diffusivity in a stepwise fashion.}
 \usage{
-run_temporal_ssfind_method(p)
+run_temporal_ssfind_method(parameter)
 }
 \arguments{
 \item{parameter}{an object of class \code{runsim_parameter} as returned by

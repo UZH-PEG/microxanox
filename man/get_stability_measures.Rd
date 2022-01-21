@@ -7,7 +7,7 @@
 get_stability_measures(ss_object)
 }
 \arguments{
-\item{ss_object}{An object of class \code{ss_by_a_N_result} as returned by the `ss_by_a_N()` function or
+\item{ss_object}{An object of class \code{replication_ssfind_result} as returned by the `run_replication_ssfind_parameter()` function or
 the \code{result} element of that object, i.e. \code{x$result}.}
 }
 \value{

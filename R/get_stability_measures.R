@@ -2,7 +2,7 @@
 #' 
 #' The measures include non-linearity and hysteresis measures, of an ecosystem response to environmental change.
 #' Takes steady state data as the input. 
-#' @param ss_object An object of class \code{ss_by_a_N_result} as returned by the `ss_by_a_N()` function or
+#' @param ss_object An object of class \code{replication_ssfind_result} as returned by the `run_replication_ssfind_parameter()` function or
 #'   the \code{result} element of that object, i.e. \code{x$result}.
 #' @return A data frame of stability measures of each state variable
 #' 
@@ -16,7 +16,7 @@
 get_stability_measures <- function(
   ss_object
 ){
-  if (inherits(ss_object, "ss_by_a_N_result")) {
+  if (inherits(ss_object, "replication_ssfind_result")) {
     result <- ss_object$result
   } else {
     result <- ss_object

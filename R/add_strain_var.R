@@ -39,14 +39,14 @@ add_strain_var <- function(
   SB_var_h = 0,
   PB_var_gmax = 0,
   PB_var_h = 0,
-  variablility = function(strain_parameter, var){ strain_parameter * 2^(seq(-var, var, length = length(strain_parameter))) }
+  variability = function(strain_parameter, var){ strain_parameter * 2^(seq(-var, var, length = length(strain_parameter))) }
 ){
-  strain_parameter$CB$g_max_CB <- variablility(strain_parameter$CB$g_max_CB, CB_var_gmax)
-  strain_parameter$CB$h_SR_CB  <- variablility(strain_parameter$CB$h_SR_CB,  CB_var_h    )
-  strain_parameter$SB$g_max_SB <- variablility(strain_parameter$SB$g_max_SB, SB_var_gmax)
-  strain_parameter$SB$h_O_SB   <- variablility(strain_parameter$SB$h_O_SB,   SB_var_h     )
-  strain_parameter$PB$g_max_PB <- variablility(strain_parameter$PB$g_max_PB, PB_var_gmax)
-  strain_parameter$PB$h_O_PB   <- variablility(strain_parameter$PB$h_O_PB,   PB_var_h     )
+  strain_parameter$CB$g_max_CB <- variability(strain_parameter$CB$g_max_CB, CB_var_gmax)
+  strain_parameter$CB$h_SR_CB  <- variability(strain_parameter$CB$h_SR_CB,  CB_var_h    )
+  strain_parameter$SB$g_max_SB <- variability(strain_parameter$SB$g_max_SB, SB_var_gmax)
+  strain_parameter$SB$h_O_SB   <- variability(strain_parameter$SB$h_O_SB,   SB_var_h     )
+  strain_parameter$PB$g_max_PB <- variability(strain_parameter$PB$g_max_PB, PB_var_gmax)
+  strain_parameter$PB$h_O_PB   <- variability(strain_parameter$PB$h_O_PB,   PB_var_h     )
 
   return(strain_parameter)
 }

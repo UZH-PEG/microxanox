@@ -13,8 +13,24 @@ vignette: >
 ---
 
 ```{r setup, echo = FALSE, output = FALSE, message = FALSE}
-run_steadystate_sims <- FALSE
-options(mc.cores = 8)
+## should some of the more intense simulations be run...
+
+options(mc.cores=8)
+
+mdat <- function(name = "") {
+  system.file(file.path("doc", "data", "user_guide", name), package = "microxanox")
+}
+
+##########
+### To generate the data, please uncomment the following three lines 
+# and create the directory.
+# 
+# mdat <- function(name = "") {
+#   file.path(".", "data", "user_guide", name)
+# }
+# dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
+##########
+
 
 knitr::opts_chunk$set(
   cache = FALSE,
@@ -27,22 +43,13 @@ knitr::opts_chunk$set(
 library(tidyverse)
 library(deSolve)
 library(rootSolve)
-library(here)
-if (!require(microxanox)) {
-  stop("Install microxanox!")
-  devtools::load_all(here::here())
-}
+library(microxanox)
 library(patchwork)
 
 ## Set random number generator seed
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
 
-dir.create(
-  file.path(".", "data", "user_guide"),
-  recursive = TRUE,
-  showWarnings = FALSE
-)
 ```
 
 # Package version
@@ -287,7 +294,7 @@ parameter <- new_runsim_parameter(
 
 Once all the conditions are assigned to the parameter object, then these can be given to the `run_simulation()`:
 
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS")}
+```{r eval = !file.exists(mdat("anoxic_start_sim_results.RDS"))}
 anoxic_start_sim_results <- run_simulation(parameter_set1)
 ```
 
@@ -295,13 +302,13 @@ This will return an object of class `run_sim_results` which is identical to `par
 
 Consequently, saving `anoxic_start_sim_results` will save all parameters used to (re)run the simulation as well as the result:
  
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS"), echo = FALSE}
-saveRDS(anoxic_start_sim_results, file = "data/user_guide/anoxic_start_sim_results.RDS")
+```{r eval = !file.exists(mdat("anoxic_start_sim_results.RDS")), echo = FALSE}
+saveRDS(anoxic_start_sim_results, file = mdat("anoxic_start_sim_results.RDS"))
 ```
 
 As a sidenote, the simulation can be run again by simply calling
 
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/anoxic_start_sim_results.RDS")}
+```{r eval = !file.exists(mdat("anoxic_start_sim_results.RDS"))}
 anoxic_start_sim_results_2 <- run_simulation(anoxic_start_sim_results)
 ```
 
@@ -309,7 +316,7 @@ anoxic_start_sim_results_2 <- run_simulation(anoxic_start_sim_results)
 The convenience function `plot_dynamics` can be used to easily visualise the dynamics of a simulation:
 
 ```{r echo = FALSE}
-anoxic_start_sim_results <- readRDS(file = "data/user_guide/anoxic_start_sim_results.RDS")
+anoxic_start_sim_results <- readRDS(file = mdat("anoxic_start_sim_results.RDS"))
 ```
 
 ```{r}
@@ -322,13 +329,13 @@ plot_dynamics(anoxic_start_sim_results)
 parameter_set1$strain_parameter <- new_strain_parameter(values_initial_state = "bush_oxic_fig2cd")
 ```
 
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/oxic_start_sim_results.RDS")}
+```{r eval = !file.exists(mdat("oxic_start_sim_results.RDS"))}
 oxic_start_sim_results <- run_simulation(parameter_set1)
-saveRDS(oxic_start_sim_results, file = "data/user_guide/oxic_start_sim_results.RDS")
+saveRDS(oxic_start_sim_results, file = mdat("oxic_start_sim_results.RDS"))
 ```
 
 ```{r echo = FALSE}
-oxic_start_sim_results <- readRDS(file = "data/user_guide/oxic_start_sim_results.RDS")
+oxic_start_sim_results <- readRDS(file = mdat("oxic_start_sim_results.RDS"))
 ```
 
 ```{r}
@@ -379,14 +386,14 @@ parameter_set1$strain_parameter$initial_state["SB_3"] <- 1e5
 # parameter$strain_parameter$initial_state["P"] <- 1e1
 ```
 
-```{r eval = run_steadystate_sims | !file.exists("data/user_guide/multistrain3.RDS")}
+```{r eval = !file.exists(mdat("multistrain3.RDS"))}
 parameter_set1$initial_state <- parameter_set1$strain_parameter$initial_state
 simulation_result3 <- run_simulation(parameter_set1)
-saveRDS(simulation_result3, file = "data/user_guide/multistrain3.RDS")
+saveRDS(simulation_result3, file = mdat("multistrain3.RDS"))
 ```
 
 ```{r}
-simulation_result3 <- readRDS(file = "data/user_guide/multistrain3.RDS")
+simulation_result3 <- readRDS(file = mdat("multistrain3.RDS"))
 plot_dynamics(simulation_result3)
 ```
 
@@ -399,19 +406,19 @@ There are two methods for finding steady states. The first runs a separate simul
 
 ### 1 strain per functional group
 
-Finding the steady state of the system is a common task. The function `ss_by_a_N()` finds the state of a system after a certain length of simulation, for different values of the $a_0$ (oxygen diffusivity) parameter, and for different initial conditions ($N$).
+Finding the steady state of the system is a common task. The function `run_replication_ssfind()` finds the state of a system after a certain length of simulation, for different values of the $a_0$ (oxygen diffusivity) parameter, and for different initial conditions ($N$).
 
-Note: The function `ss_by_a_N()` can be told to use multiple cores by setting the relevant option, e.g., `options(mc.cores=8)`
+Note: The function `run_replication_ssfind()` can be told to use multiple cores by setting the relevant option, e.g., `options(mc.cores=8)`
 
-We first set the conditions that will apply to all simulations. Note that these are automatically picked up by the functions called by `ss_by_a_N()` and so do not need to be passed.
+We first set the conditions that will apply to all simulations. Note that these are automatically picked up by the functions called by `run_replication_ssfind()` and so do not need to be passed.
 
 We will work with a one strain per functional group model, and unless otherwise changed (which we do) starting with oxic favouring initial conditions.
 
-```{r sim_ss_CB_SB_PB1, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+```{r sim_ss_CB_SB_PB1, eval = TRUE}
 ma <- rep(0, 3)
 names(ma) <- c("CB", "PB", "SB")
 
-parameter_set2 <- new_ss_by_a_N_parameter(
+parameter_set2 <- new_replication_ssfind_parameter(
   dynamic_model = bushplus_dynamic_model,
   strain_parameter = new_strain_parameter(
     n_CB = 1,
@@ -433,7 +440,7 @@ rm(ma)
 
 Next we need to define the values of $a_0$ and initial conditions that we will get the steady states of. We create quite continuous variation $a_0$. We, however, only need to vary the initial abundance of CB and have it either high or low, in order to find which of the two possible states that can occur do occur.
 
-```{r sim_ss_CB_SB_PB2, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+```{r sim_ss_CB_SB_PB2, eval = !file.exists(mdat("ss_1strain.RDS"))}
 grid_num_a <- 100                               ## number of a_0 values
 grid_num_N <- 2                                 ## number of N values
 
@@ -454,13 +461,13 @@ parameter_set2$ss_expt <- expt
 rm(grid_num_a, grid_num_N, initial_CBs, initial_PBs, initial_SBs, a_Os, expt)
 
 # next line runs the "experiment", calling various functions to do this.
-sim_res <- ss_by_a_N(parameter_set2)
+sim_res <- run_replication_ssfind(parameter_set2)
 
-saveRDS(sim_res, file = "data/user_guide/ss_1strain.RDS")
+saveRDS(sim_res, file = mdat("ss_1strain.RDS"))
 ```
 
 ```{r echo = FALSE}
-ss_1strain <- readRDS(file = "data/user_guide/ss_1strain.RDS")
+ss_1strain <- readRDS(file = mdat("ss_1strain.RDS"))
 ```
 
 And the results:
@@ -499,9 +506,9 @@ p1 / p2
 
 And now finding the steady states of a three strain per functional group system, though with identical strains in each group. Hence the steady states should be the same as the one strain version.
 
-Note that the `ss_by_a_N()` function divides the specified starting abundance of a functional group and distributes that equally among the strains of that functional group.
+Note that the `run_replication_ssfind()` function divides the specified starting abundance of a functional group and distributes that equally among the strains of that functional group.
 
-```{r sim_ss_CB_SB_PB4, eval = run_steadystate_sims | !file.exists("data/partial_reproduction/ss_CB_SB_PB.Rds")}
+```{r sim_ss_CB_SB_PB4, eval = !file.exists(mdat("ss_3strain.RDS"))}
 parameter_set2$strain_parameter <- new_strain_parameter(
   n_CB = 3,
   n_PB = 3,
@@ -509,13 +516,13 @@ parameter_set2$strain_parameter <- new_strain_parameter(
   values_initial_state = "bush_ssfig3"
 )
 
-ss_3strain <- ss_by_a_N(parameter_set2)
-saveRDS(ss_3strain, file = "data/user_guide/ss_3strain.RDS")
+ss_3strain <- run_replication_ssfind(parameter_set2)
+saveRDS(ss_3strain, file = mdat("ss_3strain.RDS"))
 ```
 
 
 ```{r echo = FALSE}
-ss_3strain <- readRDS(file = "data/user_guide/ss_3strain.RDS")
+ss_3strain <- readRDS(file = mdat("ss_3strain.RDS"))
 ```
 
 And the results (plotting code hidden this time):
@@ -555,7 +562,7 @@ p1 / p2
 The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step. We hereafter term this "the temporal method". The results below are for a very short simulation, hence the region of bistability is large. I.e. the rate of temporal change is fast, so the system lags, and this creates a larger region of bistability.
 
 
-```{r temporal_ss_find, eval = run_steadystate_sims | !file.exists("data/user_guide/temporal_ss_find.RDS")}
+```{r temporal_ss_find, eval = !file.exists(mdat("temporal_ss_find.RDS"))}
 log10a_series <- seq(-8, 0, length = 100)
 wait_time <- 1e3 # time spent at each step
 num_strains <- 3
@@ -596,12 +603,12 @@ parameter <- set_temporal_ssfind_initial_state(
 ## be careful, this could take a long time to run if parameters above are changed (the demonstration parameters are with very short wait time).
 temporal_ss_find_result <- run_temporal_ssfind_method(parameter)
 
-saveRDS(temporal_ss_find_result, file = "data/user_guide/temporal_ss_find.RDS")
+saveRDS(temporal_ss_find_result, file = mdat("temporal_ss_find.RDS"))
 ```
 
 
 ```{r fig.height=4}
-temporal_ss_find_result <- readRDS(file = "data/user_guide/temporal_ss_find.RDS")
+temporal_ss_find_result <- readRDS(file = mdat("temporal_ss_find.RDS"))
 
 
 p1 <- temporal_ss_find_result %>%
@@ -624,7 +631,7 @@ p1
 
 ## Replication method
 
-The `get_stability_measures()` function takes an object of the type returned by the `ss_by_a_N()` function and returns various measures of the stability of each of the state variables.
+The `get_stability_measures()` function takes an object of the type returned by the `run_replication_ssfind()` function and returns various measures of the stability of each of the state variables.
 
 The measures of non-linearity and hysteresis were used in [Garnier et al (2020) (link to online article)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294).
 

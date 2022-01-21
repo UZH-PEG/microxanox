@@ -11,7 +11,7 @@
 #' @export
 
 
-run_temporal_ssfind_method <- function(p) {
+run_temporal_ssfind_method <- function(parameter) {
   
   ## recalculate the wait time (length of a step)
   wait_time <- p$sim_duration / length(p$log10a_series)
