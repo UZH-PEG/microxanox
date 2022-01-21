@@ -1,6 +1,7 @@
 #' Run a stable state finding experiment via the temporal method (e.g. get the stable states for
-#' different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). Calls the function `run_temporal_ssfind_method` for each parameter set.
-#'
+#' different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). 
+#' 
+#' Calls the function `run_temporal_ssfind` for each parameter set.
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
 #' @param var_expt An object that describes different levels of diversity that
@@ -35,7 +36,7 @@ run_temporal_ssfind_experiment <- function(parameter,
           p
         })
       ) %>%
-      mutate(ssfind_result = list(run_temporal_ssfind_method(ssfind_pars)))
+      mutate(ssfind_result = list(run_temporal_ssfind(ssfind_pars)))
   }
 
   if(cores > 1)
@@ -60,7 +61,7 @@ run_temporal_ssfind_experiment <- function(parameter,
           p
         })
       ) %>%
-      mutate(ssfind_result = list(run_temporal_ssfind_method(ssfind_pars))) %>%
+      mutate(ssfind_result = list(run_temporal_ssfind(ssfind_pars))) %>%
       collect() %>%
       rowwise()
 

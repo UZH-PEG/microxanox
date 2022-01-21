@@ -3,7 +3,7 @@
 \name{new_replication_ssfind_results}
 \alias{new_replication_ssfind_results}
 \title{Create object of type \code{replication_ssfind_result} which is returned by the
-function \code{run_replication_ssfind_parameter()}.}
+function \code{run_replication_ssfind()}.}
 \usage{
 new_replication_ssfind_results(parameter, result)
 }
@@ -20,5 +20,5 @@ plus an additional field \code{result} which contains the result of the simulati
 }
 \description{
 Create object of type \code{replication_ssfind_result} which is returned by the
-function \code{run_replication_ssfind_parameter()}.
+function \code{run_replication_ssfind()}.
 }

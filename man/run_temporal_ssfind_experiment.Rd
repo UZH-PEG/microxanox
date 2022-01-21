@@ -3,7 +3,7 @@
 \name{run_temporal_ssfind_experiment}
 \alias{run_temporal_ssfind_experiment}
 \title{Run a stable state finding experiment via the temporal method (e.g. get the stable states for
-different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). Calls the function \code{run_temporal_ssfind_method} for each parameter set.}
+different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion).}
 \usage{
 run_temporal_ssfind_experiment(
   parameter,
@@ -28,6 +28,5 @@ each functional group.}
 an \code{tibble} object containing the stable state result, as well as the simulation parameters.
 }
 \description{
-Run a stable state finding experiment via the temporal method (e.g. get the stable states for
-different levels of oxygen diffusivity when oxygen diffusivity is varied in a stepwise fashion). Calls the function \code{run_temporal_ssfind_method} for each parameter set.
+Calls the function \code{run_temporal_ssfind} for each parameter set.
 }

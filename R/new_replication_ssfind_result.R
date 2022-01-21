@@ -1,5 +1,5 @@
 #' Create object of type `replication_ssfind_result` which is returned by the
-#' function `run_replication_ssfind_parameter()`.
+#' function `run_replication_ssfind()`.
 #'
 #' @param parameter object of class `replication_ssfind_parameter` which has been used
 #'   to run the simulation

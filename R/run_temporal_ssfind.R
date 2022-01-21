@@ -11,47 +11,47 @@
 #' @export
 
 
-run_temporal_ssfind_method <- function(parameter) {
+run_temporal_ssfind <- function(parameter) {
   
   ## recalculate the wait time (length of a step)
-  wait_time <- p$sim_duration / length(p$log10a_series)
+  wait_time <- parameter$sim_duration / length(parameter$log10a_series)
   
   ## make function for the increasing ox diff steps
-  up_l_f_f <- approxfun(x = wait_time * c(0:length(p$log10a_series)), 
-                        y = (c(p$log10a_series, p$log10a_series[length(p$log10a_series)])),
+  up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10a_series)), 
+                        y = (c(parameter$log10a_series, parameter$log10a_series[length(parameter$log10a_series)])),
                         method = "constant", rule = 1)
   
   ## make function for the decreasing ox diff steps
-  down_l_f_f <- approxfun(x = wait_time * c(0:length(p$log10a_series)), 
-                          y = c(rev(p$log10a_series), p$log10a_series[1]),
+  down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10a_series)), 
+                          y = c(rev(parameter$log10a_series), parameter$log10a_series[1]),
                           method = "constant", rule = 1)
   
   ## make times at which observations are made (i.e. at the end of a step)
   times <- c(0,
-             seq(p$sim_sample_interval - 1,
-                 p$sim_duration,
-                 by = p$sim_sample_interval))
+             seq(parameter$sim_sample_interval - 1,
+                 parameter$sim_duration,
+                 by = parameter$sim_sample_interval))
   
   ## make times at which events occur
-  event_times <- c(0, seq(p$event_interval-1,
+  event_times <- c(0, seq(parameter$event_interval-1,
                           max(times),
-                          by = p$event_interval))
+                          by = parameter$event_interval))
   
   ## run a simulation for increasing ox diff
   up_res <- as.data.frame(
     deSolve::ode(
-      y = p$strain_parameter$initial_state,
+      y = parameter$strain_parameter$initial_state,
       times = times,
-      func = p$dynamic_model,
-      parms = p$strain_parameter,
-      method = p$solver_method,
+      func = parameter$dynamic_model,
+      parms = parameter$strain_parameter,
+      method = parameter$solver_method,
       events = list(
-        func = p$event_definition,
+        func = parameter$event_definition,
         time = event_times
       ),
       log10a_forcing_func = up_l_f_f,
-      noise_sigma = p$noise_sigma,
-      minimum_abundances = p$minimum_abundances
+      noise_sigma = parameter$noise_sigma,
+      minimum_abundances = parameter$minimum_abundances
     )
   )
   ## organise results
@@ -63,18 +63,18 @@ run_temporal_ssfind_method <- function(parameter) {
   ## run a simulation for decreasing ox diff
   down_res <- as.data.frame(
     deSolve::ode(
-      y = p$strain_parameter$initial_state,
+      y = parameter$strain_parameter$initial_state,
       times = times,
-      func = p$dynamic_model,
-      parms = p$strain_parameter,
-      method = p$solver_method,
+      func = parameter$dynamic_model,
+      parms = parameter$strain_parameter,
+      method = parameter$solver_method,
       events = list(
-        func = p$event_definition,
+        func = parameter$event_definition,
         time = event_times
       ),
       log10a_forcing_func = down_l_f_f,
-      noise_sigma = p$noise_sigma,
-      minimum_abundances = p$minimum_abundances
+      noise_sigma = parameter$noise_sigma,
+      minimum_abundances = parameter$minimum_abundances
     )
   )
   ## organise results
@@ -87,6 +87,7 @@ run_temporal_ssfind_method <- function(parameter) {
   result <- rbind(up_res, down_res) %>%
     rename(a_O = a)
   
+  result <- new_temporal_ssfind_results(result = result)
   return(result)
 }
 

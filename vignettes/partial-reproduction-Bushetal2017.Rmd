@@ -24,10 +24,10 @@ mdat <- function(name = "") {
 ### To generate the data, please uncomment the following three lines 
 # and create the directory 
 # 
-# mdat <- function(name = "") {
-#   file.path(".", "data", "partial_reproduction", name)
-# }
-# dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
+mdat <- function(name = "") {
+  file.path(".", "data", "partial_reproduction", name)
+}
+dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
 ##########
 
 
@@ -806,6 +806,8 @@ Not much code is shown because all is rather standard data wrangling. The unique
 
 
 ```{r echo = FALSE, sim_resp_summary, eval = !file.exists(mdat("resp_summary.RDS"))}
+
+
 all_ss <- tibble(readRDS(mdat("ss_no_biology.RDS"))$result,
                  composition = "No organisms") %>%
   bind_rows(tibble(readRDS(mdat("ss_only_CB.RDS"))$result,
@@ -828,7 +830,7 @@ all_ss <- tibble(readRDS(mdat("ss_no_biology.RDS"))$result,
 
 stab_res <- all_ss %>%
   group_by(composition) %>%
-  do(stab_measures = get_stability_measures(.)) %>%
+  do(stab_measures = get_stability_measures_temporal_ssfind_result(.)) %>%
   unnest(cols = c(stab_measures)) %>%
   mutate(composition = as.factor(composition),
          composition = fct_relevel(composition,

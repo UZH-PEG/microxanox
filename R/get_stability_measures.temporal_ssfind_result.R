@@ -1,9 +1,5 @@
-#' Version of function, working with data from the `run_temporal_ssfind_method` function. Gets various measures of the stability, specifically non-linearity and hysteresis measures, of an ecosystem response to environmental change.
-#' Takes steady state data as the input. 
-#'
-#' @param ss_object An object of class \code{replication_ssfind_result} as returned by the run_replication_ssfind_parameter() function or
-#'   the \code{result} e;ement of that object, i.e. \code{x$result}.
-#' @return A data frame of stability measures of each state variable
+#' 
+#' @rdname get_stability_measures
 #' 
 #' @global Quantity starts_with direction up down a_O a 
 #' 
@@ -12,8 +8,9 @@
 #' @importFrom stats na.omit
 #' 
 #' @export
-
-get_stability_measures_new <- function(ss_object) {
+get_stability_measures.temporal_ssfind_result <- function(
+  ss_object
+) {
   if (inherits(ss_object, "replication_ssfind_result")) {
     result <- ss_object$result
   } else {
@@ -49,4 +46,33 @@ get_stability_measures_new <- function(ss_object) {
   
   res
   
+}
+
+#' `tibble` is the same as `temporal_ssfind_result`
+#' @rdname get_stability_measures
+#' 
+#' @export
+get_stability_measures.tbl_df <- function(
+  ss_object
+) {
+  get_stability_measures.temporal_ssfind_result(ss_object)
+}
+
+#' `data.frame` is the same as `temporal_ssfind_result`
+#' @rdname get_stability_measures
+#' 
+#' @export
+get_stability_measures.data.frame <- function(
+  ss_object
+) {
+  get_stability_measures.temporal_ssfind_result(ss_object)
+}
+
+
+#' 
+#' @export
+get_stability_measures_temporal_ssfind_result <- function(
+  ss_object
+) {
+  get_stability_measures.temporal_ssfind_result(ss_object)
 }

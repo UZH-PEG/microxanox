@@ -601,7 +601,7 @@ parameter <- set_temporal_ssfind_initial_state(
 )
                                                
 ## be careful, this could take a long time to run if parameters above are changed (the demonstration parameters are with very short wait time).
-temporal_ss_find_result <- run_temporal_ssfind_method(parameter)
+temporal_ss_find_result <- run_temporal_ssfind(parameter)
 
 saveRDS(temporal_ss_find_result, file = mdat("temporal_ss_find.RDS"))
 ```
@@ -652,9 +652,9 @@ get_stability_measures(ss_3strain)
 
 ## Temporal method
 
-All as in the previous section, except that `get_stability_measures_new()` function takes an object of the type returned by the `run_temporal_ssfind_method` function.
+All as in the previous section, except that `get_stability_measures()` function takes an object of the type returned by the `run_temporal_ssfind` function.
 
 ```{r}
-get_stability_measures_new(temporal_ss_find_result)
+get_stability_measures(temporal_ss_find_result)
 ```
 
