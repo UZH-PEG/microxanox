@@ -5,23 +5,23 @@
 \name{get_stability_measures}
 \alias{get_stability_measures}
 \alias{get_stability_measures.replication_ssfind_result}
+\alias{get_stability_measures_replication_ssfind_result}
 \alias{get_stability_measures.temporal_ssfind_result}
-\alias{get_stability_measures.tbl_df}
-\alias{get_stability_measures.data.frame}
+\alias{get_stability_measures_temporal_ssfind_result}
 \title{Get various measures of the stability}
 \usage{
-get_stability_measures(x, ...)
+get_stability_measures(ss_object, threshold_diff_log10scale, ...)
 
-\method{get_stability_measures}{replication_ssfind_result}(ss_object)
+\method{get_stability_measures}{replication_ssfind_result}(ss_object, threshold_diff_log10scale = 3, ...)
 
-\method{get_stability_measures}{temporal_ssfind_result}(ss_object)
+get_stability_measures_replication_ssfind_result(ss_object)
 
-\method{get_stability_measures}{tbl_df}(ss_object)
+\method{get_stability_measures}{temporal_ssfind_result}(ss_object, threshold_diff_log10scale = 3, ...)
 
-\method{get_stability_measures}{data.frame}(ss_object)
+get_stability_measures_temporal_ssfind_result(ss_object)
 }
 \arguments{
-\item{x}{object from which to calculate the stability measures. At the moment \code{replication_ssfind_result} or \code{data.frame}.}
+\item{ss_object}{object from which to calculate the stability measures. At the moment \code{replication_ssfind_result} or \code{data.frame}.}
 
 \item{...}{additional arguments for methods}
 }

@@ -23,7 +23,7 @@ new_replication_ssfind_results <- function(
   p <- parameter
   p$result <- result
   if (!inherits(p, "replication_ssfind_result")) {
-    class(p) <- append(class(p), "replication_ssfind_result")
+    class(p) <- append("replication_ssfind_result", class(p))
   }
 
   return(p)

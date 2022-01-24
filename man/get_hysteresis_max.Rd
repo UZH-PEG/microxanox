@@ -5,7 +5,7 @@
 \alias{get_hysteresis_max}
 \title{Get the maximum of environmental conditions for which alternate stable states exist}
 \usage{
-get_hysteresis_max(up, down, a)
+get_hysteresis_max(up, down, a, threshold_diff)
 }
 \arguments{
 \item{up}{State variable values as the environmental condition increases}
@@ -13,6 +13,8 @@ get_hysteresis_max(up, down, a)
 \item{down}{State variable values as the environmental condition decreases}
 
 \item{a}{An environmental driver, here it is usually oxygen diffusivity}
+
+\item{threshold_diff}{Amount of different between up and down states to qualify as alternate stable states}
 }
 \value{
 A numeric value, which is the extent of the range of conditions for which alternate stable states exist.

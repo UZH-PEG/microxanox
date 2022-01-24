@@ -19,7 +19,7 @@ new_temporal_ssfind_results <- function(
   # }
 
   if (!inherits(result, "temporal_ssfind_result")) {
-    class(result) <- append(class(result), "temporal_ssfind_result")
+    class(result) <- append("temporal_ssfind_result", class(result))
   }
 
   return(result)

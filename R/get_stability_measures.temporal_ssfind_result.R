@@ -1,7 +1,11 @@
-#' 
+#' #' The function `get_stability_measures.temporal_ssfind_result` extracts the `result`
+#' `data.frame` or `tibble` from the object `x` and processes it. If one wants to extract. If 
+#' one extracts the `results` manually, the function `get_stability_measures_temporal_ssfind_result`
+#' needs to be used.
 #' @rdname get_stability_measures
 #' 
 #' @global Quantity starts_with direction up down a_O a 
+#' 
 #' 
 #' @importFrom tidyr gather spread
 #' @importFrom dplyr summarise pull filter across
@@ -10,7 +14,8 @@
 #' @export
 get_stability_measures.temporal_ssfind_result <- function(
   ss_object,
-  threshold_diff_log10scale = 3
+  threshold_diff_log10scale = 3,
+  ...
 ) {
   if (inherits(ss_object, "replication_ssfind_result")) {
     result <- ss_object$result
@@ -49,28 +54,12 @@ get_stability_measures.temporal_ssfind_result <- function(
   
 }
 
-#' `tibble` is the same as `temporal_ssfind_result`
+#' #' The function `get_stability_measures.temporal_ssfind_result` extracts the `result`
+#' `data.frame` or `tibble` from the object `x` and processes it. If one wants to extract. If 
+#' one extracts the `results` manually, the function `get_stability_measures_temporal_ssfind_result`
+#' needs to be used.
 #' @rdname get_stability_measures
-#' 
-#' @export
-get_stability_measures.tbl_df <- function(
-  ss_object
-) {
-  get_stability_measures.temporal_ssfind_result(ss_object)
-}
-
-#' `data.frame` is the same as `temporal_ssfind_result`
-#' @rdname get_stability_measures
-#' 
-#' @export
-get_stability_measures.data.frame <- function(
-  ss_object
-) {
-  get_stability_measures.temporal_ssfind_result(ss_object)
-}
-
-
-#' 
+#' @md
 #' @export
 get_stability_measures_temporal_ssfind_result <- function(
   ss_object

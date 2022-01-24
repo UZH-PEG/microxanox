@@ -22,8 +22,7 @@ mdat <- function(name = "") {
 }
 
 ##########
-### To generate the data, please uncomment the following three lines 
-# and create the directory.
+### To generate the data, please uncomment the following three lines.
 # 
 # mdat <- function(name = "") {
 #   file.path(".", "data", "user_guide", name)
