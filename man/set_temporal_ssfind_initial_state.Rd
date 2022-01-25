@@ -3,7 +3,8 @@
 \name{set_temporal_ssfind_initial_state}
 \alias{set_temporal_ssfind_initial_state}
 \title{Convenience function for setting initial states during the process of finding
-stable states using the function \code{run_temporal_ssfind_experiment}}
+stable states using the function \code{run_temporal_ssfind_experiment}
+Should only be used internally.}
 \usage{
 set_temporal_ssfind_initial_state(
   p,
@@ -27,4 +28,5 @@ The passed parameter object but with initial states set (overwritten by the new 
 \description{
 Convenience function for setting initial states during the process of finding
 stable states using the function \code{run_temporal_ssfind_experiment}
+Should only be used internally.
 }

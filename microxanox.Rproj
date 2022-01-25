@@ -15,5 +15,6 @@ LaTeX: pdfLaTeX
 BuildType: Package
 PackageUseDevtools: Yes
 PackageBuildArgs: --no-build-vignettes
+PackageBuildBinaryArgs: --no-build-vignettes
 PackageCheckArgs: --ignore-vignettes
 PackageRoxygenize: rd,collate,namespace

@@ -11,8 +11,12 @@ run_simulation(parameter)
 \code{new_runsim_parameter()}.}
 }
 \value{
-an object of class 'runsim_result\verb{, obtained from running the su=imulation as defined in }parameter\code{.}
+an object of class \code{runsim_result}, obtained from running the
+simulation as defined in \code{parameter}.`
 }
 \description{
-Run the simulation
+This function takes the \code{parameter} object and runs a simulation based on these.
+It returns an object of class \code{runsim_result} which contains an additional
+entry, i.e. \code{result} which contains the results of the simulation. The
+simulation can be re-run using the returned object as input \code{parameter}.
 }

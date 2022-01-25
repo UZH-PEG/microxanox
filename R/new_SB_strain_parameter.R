@@ -1,11 +1,11 @@
-#' Create SB strain parameter
+#' Create new `SB_strain_parameter` object
 #'
 #' @param n number of strains 
 #' @param values Allowed values are:
-#' - `"bush"`: default values from Bush et al (2017) will be used
+#' - `"bush"`: default values from Bush et al (2017) \url{https://doi.org/10.1038/s41467-017-00912-x} will be used
 #' - `"NA"`: all parameter will be set to `NA`. Usable for e.g. setting own parameter
 #'
-#' @return object of class \code{PB_strain_parameter}. The object contains a
+#' @return object of class \code{SB_strain_parameter}. The object contains a
 #'   `data.frame` with 8 columns and `n` rows. The columns are:
 #' 
 #' columns: 
@@ -27,14 +27,16 @@ new_SB_strain_parameter <- function(
   n = 1,
   values = "bush"
 ){
+
+  # Check for supported values of the argument "values"
   if (is.na(values)) {
     values <- "NA"
   }
-  
   if (!(values %in% c("NA", "bush"))) {
     stop("Not supported value for `values`!\n", "Only NA, 'NA' and 'bush' supported!")
   }
   
+  ## Create object
   x <- rep(as.numeric(NA), n)
   nm <- paste0("SB_", 1:n)
   result <- data.frame(
@@ -48,6 +50,8 @@ new_SB_strain_parameter <- function(
     m_SB = x,
     i_SB = x
   )
+  
+  ## Add values for the case of Bush et al 2017
   if (values == "bush") {
     result$g_max_SB = rep(0.1, n)
     result$k_SB_SO = rep(5, n)

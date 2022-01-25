@@ -2,12 +2,7 @@
 % Please edit documentation in R/new_strain_parameter.R
 \name{new_strain_parameter}
 \alias{new_strain_parameter}
-\title{Creates a set of parameters and starting conditions for a simulation A
-function to assist with the initialisation of a simulation, by providing
-various reference sets of parameter values and initial conditions. The
-default is to create the parameter set used in Bush et al. (2017) and the
-anoxic favourable initial conditions used in the simulations for Figure 2a&b
-of that publication.}
+\title{Returns object of class \code{strain_parameter}}
 \usage{
 new_strain_parameter(
   n_CB = 1,
@@ -21,33 +16,33 @@ new_strain_parameter(
 )
 }
 \arguments{
-\item{n_CB}{number of CB strains.}
+\item{n_CB}{number of CB strains, default 1.}
 
 \item{values_CB}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) will be used for the parameter for CB
+\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for CB
 \item \code{"NA"}: all initial values set to \code{NA}. Usable for e.g. setting own parameter
 }}
 
-\item{n_PB}{number of PB strains.}
+\item{n_PB}{number of PB strains, default 1.}
 
 \item{values_PB}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) will be used for the parameter for PB
+\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for PB
 \item \code{"NA"}: all parameter will be set to \code{NA}. Usable for e.g. setting own parameter
 }}
 
-\item{n_SB}{number of SB strains.}
+\item{n_SB}{number of SB strains, default 1.}
 
 \item{values_SB}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) will be used for the parameter for SB
+\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for SB
 \item \code{"NA"}: all parameter will be set to \code{NA}. Usable for e.g. setting own parameter
 }}
 
 \item{values_other}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) will be used for additional parameter
+\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used for additional parameter
 \item \code{"NA"}: all parameter will be set to \code{NA}. Usable for e.g. setting own parameter
 values to be used for other parameter or \code{"bush"},
 in which case the default from Bush et al (2017) will be used.
@@ -55,47 +50,48 @@ in which case the default from Bush et al (2017) will be used.
 
 \item{values_initial_state}{values to be used for initial values or
 \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from
-Bush et al (2017) will be used.}
+Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used.}
 }
 \value{
 Object of class \code{strain_parameter}. The object contains the following fields:
-#' The additional parameeter are:
+The additional parameters are:
 \subsection{Strain parameter}{
 \itemize{
-\item CB: strain parameter from Cyano Bacteria
-\item PB: strain parameter for the Phototrophic bacteria
-\item SB: strain parameter for the Sulphur bacteria
+\item \code{CB}: strain parameter from Cyano Bacteria
+\item \code{PB}: strain parameter for the Phototrophic bacteria
+\item \code{SB}: strain parameter for the Sulphur bacteria
 }
 }
 
 \subsection{substrate diffusivity}{
 \itemize{
-\item a_S: substrate diffusivity of sulphur <- 0.001
-\item a_O: substrate diffusivity of oxygen <- 8e-4
-\item a_P: substrate diffusivity of phosphorous <- 0.01
+\item \code{a_S}: substrate diffusivity of sulphur <- 0.001
+\item \code{a_O}: substrate diffusivity of oxygen <- 8e-4
+\item \code{a_P}: substrate diffusivity of phosphorous <- 0.01
 }
 }
 
 \subsection{background substrate concentration}{
 \itemize{
-\item back_SR: background substrate concentration of XXX <- 300
-\item back_SO: background substrate concentration of XXX <- 300
-\item back_O: background substrate concentration of oxygen <- 300
-\item back_P: background substrate concentration of phosphorous<- 9.5
+\item \code{back_SR}: background substrate concentration of XXX <- 300
+\item \code{back_SO}: background substrate concentration of XXX <- 300
+\item \code{back_O}: background substrate concentration of oxygen <- 300
+\item \code{back_P}: background substrate concentration of phosphorous <- 9.5
 }
 }
 
 \subsection{oxidisation rate of reduced sulphur}{
 \itemize{
-\item c: <- 4e-5
+\item \code{c}: <- 4e-5
 }
 }
 }
 \description{
-Creates a set of parameters and starting conditions for a simulation A
-function to assist with the initialisation of a simulation, by providing
+Creates a set of parameters and starting conditions for a simulation. This
+function assists with the initialization of a simulation, by providing
 various reference sets of parameter values and initial conditions. The
-default is to create the parameter set used in Bush et al. (2017) and the
-anoxic favourable initial conditions used in the simulations for Figure 2a&b
-of that publication.
+default is to create the parameter set used in Bush et al. (2017)
+\url{https://doi.org/10.1093/clinchem/39.5.766} and the anoxic favorable
+initial conditions used in the simulations for Figure 2a&b of that
+publication.
 }

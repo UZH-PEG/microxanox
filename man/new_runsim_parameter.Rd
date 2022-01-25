@@ -2,32 +2,30 @@
 % Please edit documentation in R/new_runsim_parameter.R
 \name{new_runsim_parameter}
 \alias{new_runsim_parameter}
-\title{Create parameter to run the simulation by using the function \code{run_sim()}}
+\title{Create parameter set with which to run a simulation.}
 \usage{
-new_runsim_parameter(..., help = FALSE)
+new_runsim_parameter(...)
 }
 \arguments{
 \item{...}{named parameter for the simulation to be set.
 An error will be raised, if they are not part of the parameter set.}
-
-\item{help}{if \code{TRUE}, the parameter will be listed and explained.}
 }
 \value{
 parameter object of the class \code{runsim_parameter}.
 The object contains the following elements:
 \itemize{
-\item dynamic_model      : the dynamic model to be used. At the moment, only \code{bushplus_dynamic_model} is implemented. Fir further info, see the documen tation of \code{bushplus_dynamic_model}.
-\item event_definition   : XXX
+\item dynamic_model      : the dynamic model to be used. At the moment, only \code{bushplus_dynamic_model} is implemented. Fur further info, see the documen tation of \code{bushplus_dynamic_model}.
+\item event_definition   : A function which alters the state variables. At the moment only \code{event_definition_1()} is included. User defined functions with the same signature can be used.
 \item strain_parameter   : object of class \code{strain_parameter} as returned by \code{new_strain_parameter()}
-\item event_interval     : XXX
-\item noise_sigma        : XXX
-\item minimum_abundances : XXX
+\item event_interval     : interval, in timesteps, in which the event occurs"
+\item noise_sigma        : value of variation added to \code{SO}, \code{SR}, \code{O}, and \code{P} during the event
+\item minimum_abundances : Minimum abundances. Smaller abundances will be set to this value duting \code{event_definition_1()}.
 \item sim_duration       : duration of the simulation
 \item sim_sample_interval: interval, at which the simulation will be sampled
-\item log10a_series      : XXX
+\item log10a_series      : TODO
 \item solver_method      : Used for the solver. Default is \code{"radau"}. For other options, see the documentatioom of \code{odeSolve::ode}.
 }
 }
 \description{
-Create parameter to run the simulation by using the function \code{run_sim()}
+Create parameter set with which to run a simulation.
 }
