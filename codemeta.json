@@ -4,10 +4,10 @@
   "identifier": "microxanox",
   "description": "The description will be discussed.",
   "name": "microxanox: Oxic-anoxic regime shifts in microbial communities",
-  "codeRepository": "https://github.com/opetchey/microxanox/",
-  "issueTracker": "https://github.com/opetchey/microxanox/issues ",
+  "codeRepository": "https://github.com/UZH-PEG/microxanox/",
+  "issueTracker": "https://github.com/UZH-PEG/microxanox/issues ",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.4",
+  "version": "0.4.9",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -243,8 +243,8 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "26174.663KB",
-  "releaseNotes": "https://github.com/opetchey/microxanox/blob/master/NEWS.md",
+  "fileSize": "33211.491KB",
+  "releaseNotes": "https://github.com/UZH-PEG/microxanox/blob/master/NEWS.md",
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#experimental", "https://www.repostatus.org/#wip"]
 }
