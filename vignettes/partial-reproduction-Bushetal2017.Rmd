@@ -17,7 +17,7 @@ vignette: >
 options(mc.cores=8)
 
 mdat <- function(name = "") {
-  system.file(file.path("doc", "data", "partial_reproduction", name), package = "microxanox")
+  system.file(file.path("data", "partial_reproduction", name), package = "microxanox")
 }
 
 ##########
