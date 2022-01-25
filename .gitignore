@@ -34,13 +34,12 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
-doc
 Meta
 
 # bbedit project settings
 microxanox.bbprojectd/
 
-/doc/
+
 /Meta/
 microxanox.bbprojectd/rainerkrug.bbprojectsettings
-inst/doc
+/doc/

@@ -1,12 +1,13 @@
-#' Convenience function to plot the dynamics of a model run,
-#' with strains within functional groups.
-#'
+#' Plot the dynamics of a model run
+#' 
+#' This is a convenience function to plot the dynamics of a model run,
+#' with strains within functional groups displayed.
 #' @param simulation_result Object returned by the run_simulation function
 #' @param every_n Plot data of every other n sample.
 #' @return returns the ggplot object of the plot. If it is assigned to a 
 #'    variable, the plot needs to be plotted, otherwise it is plotted.
 #' 
-#' @global a species quantity a functional_group log10_quantity var_type . time
+#' @global
 #' 
 #' @importFrom dplyr filter mutate row_number case_when
 #' @importFrom ggplot2 ggplot aes facet_wrap xlab ylab geom_line scale_colour_manual guides guide_legend
@@ -16,12 +17,17 @@
 #' @import patchwork
 #' 
 #' @export
-plot_dynamics <- function(simulation_result, every_n = 1) {
+plot_dynamics <- function(
+  simulation_result, 
+  every_n = 1
+){
   
+  ## define colours
   colfunc_CB <- grDevices::colorRampPalette(c("#024F17", "#B5FFC9"))
   colfunc_SB <- grDevices::colorRampPalette(c("#7D1402", "#FCBEB3"))
   colfunc_PB <- grDevices::colorRampPalette(c("#6E0172", "#F9AEFC"))
   
+  ## data wrangling
   temp <- simulation_result$result %>%
     dplyr::filter(dplyr::row_number() %% every_n == 0 ) %>%
     dplyr::mutate(a = 10^a) %>%
@@ -31,12 +37,9 @@ plot_dynamics <- function(simulation_result, every_n = 1) {
                                         str_detect(species, "SB_") ~ "SB",
                                         str_detect(species, "PB_") ~ "PB"),
            log10_quantity=log10(quantity))
-  
   num_CB_strains <- nrow(simulation_result$strain_parameter$CB)
   num_SB_strains <- nrow(simulation_result$strain_parameter$SB)
   num_PB_strains <- nrow(simulation_result$strain_parameter$PB)
-  
-  temp$species
   
   p1 <- temp %>%
     dplyr::filter(functional_group == "CB") %>%

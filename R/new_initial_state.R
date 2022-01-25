@@ -1,4 +1,4 @@
-#' Create initial state of the system
+#' Create initial state of the system, selecting them from various preset options.
 #'
 #' @param n_CB number of CB strains
 #' @param n_PB number of PB strains
@@ -19,10 +19,11 @@ new_initial_state <- function(
   n_SB = 1,
   values = "bush_anoxic_fig2ab"
 ){
+  
   if (is.na(values)) {
     values <- "NA"
   }
-
+  
   switch(
     EXPR = values,
     "bush_oxic_fig2cd" = {
