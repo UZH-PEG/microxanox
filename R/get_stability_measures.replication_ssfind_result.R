@@ -149,7 +149,7 @@ get_hysteresis_min <- function(
   a,
   threshold_diff
 ){
-  temp1 <- abs(up - down) > threshold_diff ## harded coded difference sufficient to be alternate state
+  temp1 <- abs(up - down) > threshold_diff ## hard coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
@@ -186,7 +186,7 @@ get_hysteresis_max <- function(
   threshold_diff
 ){
   
-  temp1 <- abs(up - down) > threshold_diff ## harded coded difference sufficient to be alternate state
+  temp1 <- abs(up - down) > threshold_diff ## hard coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
@@ -220,7 +220,7 @@ get_hysteresis_range <- function(
   a,
   threshold_diff
 ){
-  temp1 <- abs(up - down) > threshold_diff ## harded coded difference sufficient to be alternate state
+  temp1 <- abs(up - down) > threshold_diff ## hard coded difference sufficient to be alternate state
   
   if(sum((up+down)) == 0) {
     res = NA
