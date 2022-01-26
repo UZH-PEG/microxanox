@@ -206,7 +206,7 @@ University of Zürich<br><a class="author_email" href="mailto:#"><a href="mailto
 <address class="author_afil">
 University of Zürich<br><a class="author_email" href="mailto:#"><a href="mailto:Owen.Petchey@ieu.uzh.ch" class="email">Owen.Petchey@ieu.uzh.ch</a></a>
 </address>
-<h4 class="date">2022-01-26 14:32:42</h4>
+<h4 class="date">2022-01-26 15:01:19</h4>
 <div class="abstract">
 <p class="abstract">Abstract</p>
 <ol style="list-style-type: decimal">
@@ -232,10 +232,10 @@ University of Zürich<br><a class="author_email" href="mailto:#"><a href="mailto
 <h1>Introduction</h1>
 <p>The aims of the <code>microxanox</code> package are:</p>
 <ul>
-<li>Facilitate reproduction of the results of <a href="https://www.nature.com/articles/s41467-017-00912-x">Bush et al 2017</a>.</li>
+<li>Facilitate reproduction of the results of <span class="citation">(<a href="#ref-bush2017" role="doc-biblioref">Bush et al., 2017</a>)</span>.</li>
 <li>Include new functionality that allows new research questions to be answered.</li>
 </ul>
-<p>We added functionality for:</p>
+<p>In addition to the model described in <span class="citation">(<a href="#ref-bush2017" role="doc-biblioref">Bush et al., 2017</a>)</span>, we added functionality for:</p>
 <ul>
 <li>Adding random noise in substrate concentrations.</li>
 <li>Adding temporally varying oxygen diffusivity.</li>
@@ -243,27 +243,37 @@ University of Zürich<br><a class="author_email" href="mailto:#"><a href="mailto
 <li>Setting minimum population abundances.</li>
 <li>Multiple strains per functional group.</li>
 </ul>
-<p>We also include a function for visualising results, though <strong>please note that it is provided for convenience, and not for production of perfectly formatted print-ready graphs.</strong></p>
-<p>Here (again) is the original publication: <a href="https://www.nature.com/articles/s41467-017-00912-x" class="uri">https://www.nature.com/articles/s41467-017-00912-x</a></p>
+<p>The package also ingcludes some functions to viaualise the results which can function as template functions for developing graphs for own rquirements.</p>
 </div>
 <div id="the-model" class="section level1">
 <h1>The Model</h1>
-<p>Based on <span class="citation">(<a href="#ref-Bush2017" role="doc-biblioref"><strong>Bush2017?</strong></a>)</span></p>
-<p>The framework used for running a simulation, and for varying aspects of a simulation run is:</p>
+<p>The model is based on <span class="citation">(<a href="#ref-bush2017" role="doc-biblioref">Bush et al., 2017</a>)</span>. We use in this package the notation from the Table S1 of the Supplementary information of <span class="citation">(<a href="#ref-bush2017" role="doc-biblioref">Bush et al., 2017</a>)</span>), and not the notation in the main manuscript of <span class="citation">(<a href="#ref-bush2017" role="doc-biblioref">Bush et al., 2017</a>)</span>. (There is only one small difference between these: In the main text the notation is simplified to <code>y_S_PB</code> (<span class="math inline">\(y_{S,PB}\)</span>) (which is <code>y_SR_PB</code> (<span class="math inline">\(y_{SR,PB}\)</span>) in Table S1) and <code>y_S_SB</code> (<span class="math inline">\(y_{S,SB}\)</span>) (which is y_SO_SB (<span class="math inline">\(y_{SO,SB}\)</span>) in Table S1). We also use <code>Pr_cB</code> (<span class="math inline">\(Pr_B\)</span>) instead of <code>P_CB</code> (<span class="math inline">\(P_{CB}\)</span>).</p>
+<div id="model-dimensions" class="section level2">
+<h2>Model dimensions</h2>
 <ul>
-<li>Define the default simulation conditions (i.e. parameters and initial conditions).</li>
-<li>Use these defaults unless other conditions are specified.</li>
-<li>The function call <code>run_simulation()</code> would therefore run a simulation with default conditions.</li>
-<li>The function call <code>run_simulation(initial_state = init_state_favouring_anoxic)</code> would run the simulation with the specified initial state values, and otherwise all the specified defaults.</li>
+<li>Time: hours</li>
+<li>Volume: litres</li>
+<li>Substrate quantity: micromoles</li>
+<li>Organism quantity: cells</li>
 </ul>
-<p>The ordinary differential equations for the rates of change are specified in the function <code>bushplus_dynamic_model()</code>. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events (see below for event definition).</p>
+</div>
+<div id="modelling-framework" class="section level2">
+<h2>Modelling framework</h2>
+<p>The framework used for running a simulation, and for varying aspects of a simulation run is:</p>
+<ol style="list-style-type: decimal">
+<li>Define a parameter set of class <code>runsim_parameter</code> (i.e. parameters and initial conditions) by using the functions <code>new_runsim_parameter()</code>, <code>new_initial_state()</code> and <code>new_strain_parameter()</code>.</li>
+<li>The function call <code>run_simulation(parameter)</code> which will run a simulation using the parameter as defined in the object <code>parameter</code>.</li>
+</ol>
+<p>The ordinary differential equations for the rates of change are specified in the function <code>bushplus_dynamic_model()</code>. This augmented version of the model published in <span class="citation">(<a href="#ref-bush2017" role="doc-biblioref">Bush et al., 2017</a>)</span> can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.</p>
+</div>
 </div>
 <div id="implementation-availability-and-usage" class="section level1">
 <h1>Implementation, Availability and Usage</h1>
-<p>On github <a href="https://github.com/opetchey/microxanox/">microxanox github repository</a></p>
+<p>The package is available in a github repo at <a href="https://github.com/UZH-PEG/microxanox/" class="uri">https://github.com/UZH-PEG/microxanox/</a>.</p>
 </div>
 <div id="use-cases" class="section level1">
 <h1>Use cases</h1>
+<p>This package has been used in the production of the paper <span class="citation">(<a href="#ref-REF_NEEDED" role="doc-biblioref">REF NEEDED, 2222</a>)</span></p>
 </div>
 <div id="conclusions" class="section level1">
 <h1>Conclusions</h1>
@@ -273,6 +283,9 @@ University of Zürich<br><a class="author_email" href="mailto:#"><a href="mailto
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-bush2017" class="csl-entry">
 Bush, T., Diao, M., Allen, R. J., Sinnige, R., Muyzer, G., &amp; Huisman, J. (2017). Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics. <em>Nature Communications</em>, <em>8</em>(1), 789. doi:<a href="https://doi.org/10.1038/s41467-017-00912-x">10.1038/s41467-017-00912-x</a>
+</div>
+<div id="ref-REF_NEEDED" class="csl-entry">
+REF NEEDED, A. (2222). REFERNECE NEEDED. <em>Jurnal of Missing References</em>.
 </div>
 </div>
 </div>

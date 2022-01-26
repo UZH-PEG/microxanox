@@ -18,7 +18,6 @@ abstract: |
   2. indicate the approach and methods;
   3. outline the main results;
   4. identify the conclusions and the wider implications.
-
 journal: 'Ecology and Evolution - Applications'
 bibliography: manuscript_bibliography.bib
 date: "`r Sys.time()`"
@@ -66,38 +65,46 @@ library(microxanox)
 # Introduction
 The aims of the `microxanox` package are:
 
--   Facilitate reproduction of the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+-   Facilitate reproduction of the results of [@bush2017].
 -   Include new functionality that allows new research questions to be answered.
 
-We added functionality for:
+In addition to the model described in [@bush2017], we added functionality for:
 
--   Adding random noise in substrate concentrations.
--   Adding temporally varying oxygen diffusivity.
--   Including immigration.
--   Setting minimum population abundances.
--   Multiple strains per functional group.
+- Adding random noise in substrate concentrations.
+- Adding temporally varying oxygen diffusivity.
+- Including immigration.
+- Setting minimum population abundances.
+- Multiple strains per functional group.
 
-We also include a function for visualising results, though **please note that it is provided for convenience, and not for production of perfectly formatted print-ready graphs.**
+The package also ingcludes some functions to viaualise the results which can function as template functions for developing graphs for own rquirements.
 
-Here (again) is the original publication: <https://www.nature.com/articles/s41467-017-00912-x>
 
 # The Model
-Based on [@Bush2017]
+The model is based on [@bush2017]. We use in this package the notation from the Table S1 of the Supplementary information of [@bush2017]), and not the notation in the main manuscript of [@bush2017]. (There is only one small difference between these: In the main text the notation is simplified to `y_S_PB` ($y_{S,PB}$) (which is `y_SR_PB` ($y_{SR,PB}$) in Table S1) and `y_S_SB` ($y_{S,SB}$) (which is y_SO_SB ($y_{SO,SB}$) in Table S1). We also use `Pr_cB` ($Pr_B$) instead of `P_CB` ($P_{CB}$).
+
+## Model dimensions
+
+-   Time: hours
+-   Volume: litres
+-   Substrate quantity: micromoles
+-   Organism quantity: cells
+
+## Modelling framework
 
 The framework used for running a simulation, and for varying aspects of a simulation run is:
 
--   Define the default simulation conditions (i.e. parameters and initial conditions).
--   Use these defaults unless other conditions are specified.
--   The function call `run_simulation()` would therefore run a simulation with default conditions.
--   The function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with the specified initial state values, and otherwise all the specified defaults.
+1. Define a parameter set of class `runsim_parameter` (i.e. parameters and initial conditions) by using the functions `new_runsim_parameter()`, `new_initial_state()` and `new_strain_parameter()`.
+2. The function call `run_simulation(parameter)` which will run a simulation using the parameter as defined in the object `parameter`.
 
-The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events (see below for event definition).
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
 
 # Implementation, Availability and Usage
-On github [microxanox github repository](https://github.com/opetchey/microxanox/)
+The package is available in a github repo at https://github.com/UZH-PEG/microxanox/.
 
 
 # Use cases
+This package has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. It is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@bush2017] and to extend it to our needs. Consequently, any more substantial, are likely to need a change in the source code.
+Nevertheless, the model is structured in a way which builds on a udular structuere, so that e.g. the event defuinition can easily be changed.
 
 # Conclusions
 
