@@ -1,0 +1,105 @@
+---
+title: "m0.0.1: Microxanox - ..."
+author:
+- name: Rainer M Krug
+  email: Rainer.Krug@uzh.ch & Rainer@krugs.de
+  affiliation: University of Zürich
+  footnote: Corresponding Author
+- name: Owen L. Petchey
+  email: Owen.Petchey@ieu.uzh.ch
+  affiliation: University of Zürich
+address:
+- code: University of Zürich
+  address: Department of Evolutionary Biology and Environmental Studies, Winterthurerstrasse
+    190, 8057 Zurich
+keywords: metadata quality; data curation; archival; long term storage; R package;
+abstract: |
+  1. set the context for and purpose of the work;
+  2. indicate the approach and methods;
+  3. outline the main results;
+  4. identify the conclusions and the wider implications.
+
+journal: 'Ecology and Evolution - Applications'
+bibliography: manuscript_bibliography.bib
+date: "`r Sys.time()`"
+output:
+  html_document:
+    df_print: paged
+  rmarkdown::html_vignette: default
+  pdf_document:
+    keep_tex: yes
+header-includes:
+- \usepackage{lineno}
+- \linenumbers
+- \usepackage{setspace}
+- \doublespacing
+- \usepackage{fancyhdr}
+- \fancyhead{}
+- \fancyfoot{}
+- \fancyhead[CO,CE]{Metadata made easy - the dmdScheme approach}
+- \pagestyle{fancy}
+vignette: |
+  %\VignetteIndexEntry{Manuscript - microxanox} 
+  %\VignetteEncoding{UTF-8} 
+  %\VignetteEngine{knitr::rmarkdown}
+nocite: '@bush2017'
+linkcolor: blue
+link-citations: yes
+csl: methods-in-ecology-and-evolution.csl
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(microxanox)
+```
+  
+# Journal Guidelines
+  - Abstract < 350 words
+  - Article 3000-4000 words
+
+# Introduction
+The aims of the `microxanox` package are:
+
+-   Facilitate reproduction of the results of [Bush et al 2017](https://www.nature.com/articles/s41467-017-00912-x).
+-   Include new functionality that allows new research questions to be answered.
+
+We added functionality for:
+
+-   Adding random noise in substrate concentrations.
+-   Adding temporally varying oxygen diffusivity.
+-   Including immigration.
+-   Setting minimum population abundances.
+-   Multiple strains per functional group.
+
+We also include a function for visualising results, though **please note that it is provided for convenience, and not for production of perfectly formatted print-ready graphs.**
+
+Here (again) is the original publication: <https://www.nature.com/articles/s41467-017-00912-x>
+
+# The Model
+Based on [@Bush2017]
+
+The framework used for running a simulation, and for varying aspects of a simulation run is:
+
+-   Define the default simulation conditions (i.e. parameters and initial conditions).
+-   Use these defaults unless other conditions are specified.
+-   The function call `run_simulation()` would therefore run a simulation with default conditions.
+-   The function call `run_simulation(initial_state = init_state_favouring_anoxic)` would run the simulation with the specified initial state values, and otherwise all the specified defaults.
+
+The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in Bush et al 2017 can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events (see below for event definition).
+
+# Implementation, Availability and Usage
+On github [microxanox github repository](https://github.com/opetchey/microxanox/)
+
+
+# Use cases
+
+# Conclusions
+
+
+# References
