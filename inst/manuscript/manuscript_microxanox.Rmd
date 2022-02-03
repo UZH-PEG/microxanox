@@ -23,8 +23,8 @@ bibliography: manuscript_bibliography.bib
 date: "`r Sys.time()`"
 output:
   html_document:
-    df_print: paged
-  rmarkdown::html_vignette: default
+    toc: true
+    toc_float: true
   pdf_document:
     keep_tex: yes
 header-includes:
@@ -37,11 +37,8 @@ header-includes:
 - \fancyfoot{}
 - \fancyhead[CO,CE]{Metadata made easy - the dmdScheme approach}
 - \pagestyle{fancy}
-vignette: |
-  %\VignetteIndexEntry{Manuscript - microxanox} 
-  %\VignetteEncoding{UTF-8} 
-  %\VignetteEngine{knitr::rmarkdown}
-nocite: '@bush2017'
+
+nocite: '@Bush2017'
 linkcolor: blue
 link-citations: yes
 csl: methods-in-ecology-and-evolution.csl
@@ -63,47 +60,83 @@ library(microxanox)
   - Article 3000-4000 words
 
 # Introduction
-The aims of the `microxanox` package are:
 
--   Facilitate reproduction of the results of [@bush2017].
--   Include new functionality that allows new research questions to be answered.
+{>> Biological justification and background <<}
 
-In addition to the model described in [@bush2017], we added functionality for:
+The aims of the `microxanox` package are twofold. Firstly, the package aims at reproducing the results shown by [@Bush2017]. To take one step further, it includes new functionality to adress our research question as presented in [@REF_NEEDED].
 
-- Adding random noise in substrate concentrations.
-- Adding temporally varying oxygen diffusivity.
-- Including immigration.
-- Setting minimum population abundances.
-- Multiple strains per functional group.
-
-The package also ingcludes some functions to viaualise the results which can function as template functions for developing graphs for own rquirements.
-
+In addition to the model itself, the package includes some functions to analyse the results as well as visualise the results to provide a starting point for customised visualisations based on own requirements.
 
 # The Model
-The model is based on [@bush2017]. We use in this package the notation from the Table S1 of the Supplementary information of [@bush2017]), and not the notation in the main manuscript of [@bush2017]. (There is only one small difference between these: In the main text the notation is simplified to `y_S_PB` ($y_{S,PB}$) (which is `y_SR_PB` ($y_{SR,PB}$) in Table S1) and `y_S_SB` ($y_{S,SB}$) (which is y_SO_SB ($y_{SO,SB}$) in Table S1). We also use `Pr_cB` ($Pr_B$) instead of `P_CB` ($P_{CB}$).
 
-## Model dimensions
+The model is an implementation of the model described by [@Bush2017]. It is an ordinary differential equation (ODE) based numerical non-stochastic model which was implemented in form of an R package.
 
--   Time: hours
--   Volume: litres
--   Substrate quantity: micromoles
--   Organism quantity: cells
+We extended the model and added functionality for:
 
-## Modelling framework
+- Multiple strains per functional group.
+- Adding temporally varying oxygen diffusivity.
+- Adding random noise in substrate concentrations.
+- Including immigration.
+- Setting minimum population abundances.
 
-The framework used for running a simulation, and for varying aspects of a simulation run is:
 
+We will go through these additions in detail below.
+
+We use the notation from the [Table S1](LINK NEEDED) of the Supplementary information of [@Bush2017]), and not the notation in the main manuscript of [@Bush2017]. In the main manuscript the notation is simplified to `y_S_PB` ($y_{S,PB}$) (which is `y_SR_PB` ($y_{SR,PB}$) in Table S1) and `y_S_SB` ($y_{S,SB}$) (which is y_SO_SB ($y_{SO,SB}$) in Table S1). We also use `Pr_cB` ($Pr_B$) instead of `P_CB` ($P_{CB}$).
+
+All parameter and variables follow these base dimensions:
+
+- Time: `hours`
+- Volume: `litres`
+- Substrate quantity: `micromoles`
+- Organism quantity: `cells`
+
+{>> Add a more detailed description of the model and the additions <<}
+
+The ODEs are solved using the "General Solver for Ordinary Differential Equations" of the odeSolve package [@REF_NEEDED]
+
+## The ODEs
+The ODEs for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@Bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
+	
+
+# Availability and Accessability of the Package
+The package is available in a [github repo/](https://github.com/UZH-PEG/microxanox/). The newest version is also available under the [DOI](https://DOI) or via RUniverse [@REF_NEEDED]. This manuscript describes version 1.0 which is available under [DOI](https://DOI) or installable within R by using `remotes::install_github("UZH-PEG", ref = "v1.0")`. 
+
+The package will be updated based on further research activities. It will be tested continuously for the last revent, current and devel version of R.
+Issues, questions and suggestions should be communicated through the issue tracker at [https://github.com/UZH-PEG/microxanox/issues](https://github.com/UZH-PEG/microxanox/issues) 
+
+
+# Usage of the Package
+The package includes a full documentetion, which includes
+
+1. Standard R help for each function (`?COMMAND` in R)
+2. Two vignettes acompanying the paclage, also available under RUniverse [Vignette 1](LINK NEEDED)
+3. This paper as a third vignette, also available under RUniverse [Vignette 1](LINK NEEDED)
+
+## Simulation Preparation
 1. Define a parameter set of class `runsim_parameter` (i.e. parameters and initial conditions) by using the functions `new_runsim_parameter()`, `new_initial_state()` and `new_strain_parameter()`.
+
+- Set parameter
+	- `new_xxx_parameter()`
+
+## Simulation steps
 2. The function call `run_simulation(parameter)` which will run a simulation using the parameter as defined in the object `parameter`.
 
-The ordinary differential equations for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
 
-# Implementation, Availability and Usage
-The package is available in a github repo at https://github.com/UZH-PEG/microxanox/.
+- single simulation `run_simulation()`
+- Stable State Finding 
+	- Replication Method `run_replication_ssfind()`
+	- Temporal Method `run_replication_ssfind()`
+- {>>I would leave the `run_temporal_experiment()` out as it has no counterpart for the replication method <<}
+
+## Analysis and Graphing
+
+{>> Have to add these aspects here <<}
+
 
 
 # Use cases
-This package has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. It is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@bush2017] and to extend it to our needs. Consequently, any more substantial, are likely to need a change in the source code.
+This package has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. It is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs. Consequently, any more substantial, are likely to need a change in the source code.
 Nevertheless, the model is structured in a way which builds on a udular structuere, so that e.g. the event defuinition can easily be changed.
 
 # Conclusions
