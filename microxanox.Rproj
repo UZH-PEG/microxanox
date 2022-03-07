@@ -14,6 +14,7 @@ LaTeX: pdfLaTeX
 
 BuildType: Package
 PackageUseDevtools: Yes
+PackageCleanBeforeInstall: Yes
 PackageBuildArgs: --no-build-vignettes
 PackageBuildBinaryArgs: --no-build-vignettes
 PackageCheckArgs: --ignore-vignettes
