@@ -49,7 +49,7 @@ clean: clean_check clean_readme clean_vignettes
 
 manuscript: $(MANSCRIPTHTML)
 $(MANSCRIPTHTML): $(MANSCRIPTRMD)
-	@Rscript -e "rmarkdown::render('$(MANSCRIPTRMD)', output_format = 'rmarkdown::html_document')"
+	@Rscript -e "rmarkdown::render('$(MANSCRIPTRMD)', output_format = 'bookdown::html_document2')"
 	open $(MANSCRIPTHTML)
   
 clean_manuscript:

@@ -22,9 +22,11 @@ journal: 'Ecology and Evolution - Applications'
 bibliography: manuscript_bibliography.bib
 date: "`r Sys.time()`"
 output:
-  html_document:
+  bookdown::html_document2:
     toc: true
-    toc_float: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
   pdf_document:
     keep_tex: yes
 header-includes:
@@ -89,9 +91,6 @@ All parameter and variables follow these base dimensions:
 
 The ODEs are solved using the "General Solver for Ordinary Differential Equations" of the `deSolve` package [@Soetaert2010].
 
-
-	
-
 # Availability and Accessability of the Package
 The package is available in a [github repo/](https://github.com/UZH-PEG/microxanox/). The newest version is also available under the [DOI](https://DOI) or via RUniverse [@REF_NEEDED]. This manuscript describes version 1.0 which is available under [DOI](https://DOI) or installable within R by using `remotes::install_github("UZH-PEG", ref = "v1.0")`. 
 
@@ -113,29 +112,52 @@ The package contains the full documentetion of the functions, which includes
 
 ## The simulation framework
 
-Here make an overview of how conditions and parameters are specified, stored, and results stored. I think there is text in the user guide vignette that can be used (duplicated) here.
+The framework used for running simulations aims at reproducibility of the results and id=s therefore build on the following points:
+
+1. all parameter needed to run a simulation or find a stable state are contained in a single para,meter object. This object is created by using the functions `new_..._parameter()`, `new_initial_state()` and `new_strain_parameter()`. Which one of the `new_..._parameter()` functions has to be used, will be discussed imn the section  \@ref(runsim)  and in the [User Guide](LINK_NEEDED).
+2. The function call `run_...(parameter)` will than run the simulation using the parameter as defined in the object `parameter`.
+3. The return value of the `run_...(parameter)` function is identical to the parameter object plus an additionla slot named `results` which contains the results of the run
+4. As this return value contains all parameter, it is possible to re-run the simulatuion by simply running `run_...(result)`.
+
+The fact that the results op=bject contains all perameter needed to run the s=imulation, promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations much easier.
+
+A typical simulatiopn would look as followed:
+
+```{r, eval = FALSE}
+parameter <- new_runsim_parameter()
+## manually setting certain parameter
+result <- run_simulatrion(parameter)
+saveRDS(result, "sim1.rds")
+## Do other stuff
+parameter <- loadRDS("sim1.rds")
+## change some parameter
+result <- run_simulatrion(parameter)
+saveRDS(result, "sim2,rds")
+```
 
 
-We will discuss the general structure and functiuonalit of the package without going into to mu=ch detail.
+## Running a simulation {#runsim}
+
+We will now discuss the general structure and functiuonalit of the package without going into to much detail.
 
 The ODEs for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@Bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
 
 In the following sections we describe the general goals of the package: running one simulation, finding steady states across an environmental gradient, calculating measures of stability, and visualisation.
 
-## Running one simulation
+### Running one simulation
 
 The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one parameter - an object as created by the function `new_runsim_parameter()`. One parameter of this object is the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter and how they are created please see the User Guide and which acomnpanies the package or is available at [User Guide](@LINK_NEEDED)
 
 After the paramter object has been defined, it can be used in the `run_simulation()` function. The function returns an object which is identical to the parameter, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used instead of a parameter object to be fed back into the `run_simulation()` function to run the simulation again from the parameter used to generate the results from.
 
-## Find a Steady State of the model
+### Find a Steady State of the model
 
 There are two methods for finding steady states. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the *Replication method*). The second runs only two simulations, with step-wise and slowly temporally increasing or decreasing oxygen diffusivities and recorded of state just before change to a new oxygen diffusivity (let us term this the *Temporal method*).
 
-### Replication Method
+#### Replication Method
 The replication method is implementad in the function `run_replication_ssfind()` which takes a parameter object as returned by the function `new_replication_ssfind_parameter()` and the number of cores for multithreading the simulation.
 
-### Temporal Method
+#### Temporal Method
 The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step. We hereafter term this "the temporal method".
 This is implemented in the function `run_temporal_ssfind()`, which takes a parameter object as created by the function `new_temporal_ssfind_parameter()` and a number indicating the .
 
@@ -146,12 +168,12 @@ From the raw results returned by these `run_...()` functions, the stability meas
 
 ## Visualisation
 
-The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in Figure 1.
+The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
 
+```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function `plot_dynamics()`. Details can be found in the ["User Guide" section "Three strains per functional group"](LINK_NEEDED_).', fig.align="center", out.width = 500 }
+knitr::include_graphics("figures/fig1_plot_dynamics.png")
+```
 
-**Please include figures so they can have captions and be cross referenced, as in the Supplement.**
-
-![](./figures/fig1_plot_dynamics.png)
 
 # Use cases
 
@@ -159,11 +181,13 @@ The first two use cases come from the User Guide and the Partial Reproduction Vi
 
 ## Regime shifts during temporal environmental change
 
-Take from the user guide.
+{>>Take from the user guide.<<}
+
 
 ## The extent of hysteresis depends on community composition
 
-Take from the partial reproduction.
+{>>Take from the partial reproduction.<<}
+
 
 ## Effects of functional diversity on regime shifts
 
