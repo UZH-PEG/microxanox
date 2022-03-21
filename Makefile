@@ -47,10 +47,18 @@ clean: clean_check clean_readme clean_vignettes
 
 ########### Manuscript ###########
 
-manuscript: $(MANSCRIPTHTML)
+manuscript: html pdf
+
+html: $(MANSCRIPTHTML)
 $(MANSCRIPTHTML): $(MANSCRIPTRMD)
 	@Rscript -e "rmarkdown::render('$(MANSCRIPTRMD)', output_format = 'bookdown::html_document2')"
 	open $(MANSCRIPTHTML)
+  
+  
+pdf: $(MANSCRIPTPDF)
+$(MANSCRIPTPDF): $(MANSCRIPTRMD)
+	@Rscript -e "rmarkdown::render('$(MANSCRIPTRMD)', output_format = 'bookdown::pdf_document2')"
+	open $(MANSCRIPTPDF)
   
 clean_manuscript:
 	rm -f $(MANSCRIPTHTML)

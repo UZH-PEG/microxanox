@@ -1,0 +1,396 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Microxanox - an R package to simulate \ldots{}},
+  pdfkeywords={metadata quality; data curation; archival; long term storage; R package;},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Microxanox - an R package to simulate \ldots{}}
+\author{true \and true}
+\date{2022-03-21 14:42:18}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  set the context for and purpose of the work;
+\item
+  indicate the approach and methods;
+\item
+  outline the main results;
+\item
+  identify the conclusions and the wider implications.
+\end{enumerate}
+\end{abstract}
+
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\{\textgreater\textgreater{} Biological justification and background - one paragraph \textless\textless\}
+
+The microxanox package is a package for simulating a three functional group system (\emph{CB}: cyanobacteria, \emph{PB}: phototrophic sulfur bacteria, and \emph{SB}: sulfate-reducing bacteria) with four chemical substrates (\emph{P}: phosphorus, \emph{O}: oxygen, \emph{SR}: reduced sulfur, \emph{SO}: oxidized sulfur). It includes feddback between biogeochemical processes and is based on (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}) (See (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}) for a detailed discussion of the model).
+
+The aims of the \texttt{microxanox} package are twofold. Firstly, the package aims at reproducing the results shown by (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}), which is acomplished in the \href{LINK\%20NEEDED}{vignette Partial reproduction of Bush et al}. Secondly, to take these results one step further, it includes new functionality to adress our research question as presented in (\protect\hyperlink{ref-REF_NEEDED}{REF NEEDED, 2222}).
+
+For this, we extended the model and added functionality for:
+
+\begin{itemize}
+\tightlist
+\item
+  Multiple strains (effectively unlimited) per functional group.
+\item
+  Adding temporally varying oxygen diffusivity.
+\item
+  Adding random noise in substrate concentrations.
+\item
+  Including immigration.
+\item
+  Setting minimum population abundances.
+\end{itemize}
+
+In addition to the model itself, the package includes some functions to analyse the results as well as visualise the results to provide a starting point for customised visualisations based on own requirements.
+
+\hypertarget{the-model}{%
+\section{The Model}\label{the-model}}
+
+The model is an implementation of the model described by (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}). It is an ordinary differential equation (ODE) based numerical non-stochastic model which was implemented in form of an R package.
+
+We use the notation from the \href{LINK\%20NEEDED}{Table S1} of the Supplementary information of (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017})), and not the notation in the main manuscript of (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}). In the main manuscript the notation is simplified to \texttt{y\_S\_PB} (\(y_{S,PB}\)) (which is \texttt{y\_SR\_PB} (\(y_{SR,PB}\)) in Table S1) and \texttt{y\_S\_SB} (\(y_{S,SB}\)) (which is y\_SO\_SB (\(y_{SO,SB}\)) in Table S1). We also use \texttt{Pr\_cB} (\(Pr_B\)) instead of \texttt{P\_CB} (\(P_{CB}\)).
+
+All parameter and variables follow these base dimensions:
+
+\begin{itemize}
+\tightlist
+\item
+  Time: \texttt{hours}
+\item
+  Volume: \texttt{litres}
+\item
+  Substrate quantity: \texttt{micromoles}
+\item
+  Organism quantity: \texttt{cells}
+\end{itemize}
+
+\{\textgreater\textgreater{} Add a more detailed description of the model and the additions \textless\textless\}
+
+The ODEs are solved using the ``General Solver for Ordinary Differential Equations'' of the \texttt{deSolve} package (\protect\hyperlink{ref-Soetaert2010}{Soetaert, Petzoldt, \& Setzer, 2010}).
+
+\hypertarget{availability-and-accessability-of-the-package}{%
+\section{Availability and Accessability of the Package}\label{availability-and-accessability-of-the-package}}
+
+The package is available in a \href{https://github.com/UZH-PEG/microxanox/}{github repo/}. The newest version is also available under the \href{https://DOI}{DOI} or via RUniverse (\protect\hyperlink{ref-REF_NEEDED}{REF NEEDED, 2222}). This manuscript describes version 1.0 which is available under \href{https://DOI}{DOI} or installable within R by using \texttt{remotes::install\_github("UZH-PEG",\ ref\ =\ "v1.0")}.
+
+The package will be updated based on further research activities. It will be tested continuously for the last recent, current and devel version of R.
+\{\textgreater\textgreater If we want that, we have to include some, even rudimentary, GITHUB tests.\textless\textless\}
+\{\textgreater\textgreater RMK: Agreed - let's discuss this when we talk about the package paper.\textless\textless\}
+
+Issues, questions and suggestions should be communicated through the issue tracker at \url{https://github.com/UZH-PEG/microxanox/issues}
+
+\hypertarget{the-r-package}{%
+\section{The R Package}\label{the-r-package}}
+
+\hypertarget{documentation}{%
+\subsection{Documentation}\label{documentation}}
+
+The package contains the full documentetion of the functions, which includes
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Standard R help for each function (\texttt{?COMMAND} in R)
+\item
+  Two vignettes acompanying the package, also available under RUniverse \href{@LINK_NEEDED}{Vignette 1} and \href{@LINK_NEEDED}{Vignette 2}
+\item
+  This paper as a third vignette, also available under RUniverse \href{@LINK_NEEDED}{Vignette 3}
+\end{enumerate}
+
+\hypertarget{the-modelling-framework}{%
+\subsection{The modelling framework}\label{the-modelling-framework}}
+
+The framework used when writing this package aims at reproducibility of the results. It builds on the folowing main considerations:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  all parameter needed to run a simulation or find a stable state are contained in a single parameter object. This object is created by using the functions \texttt{new\_...\_parameter()}, \texttt{new\_initial\_state()} and \texttt{new\_strain\_parameter()}. Which one of the \texttt{new\_...\_parameter()} functions has to be used when, will be discussed in the section \ref{runsim} and in the \href{LINK_NEEDED}{User Guide}.
+\item
+  The function call \texttt{run\_...(parameter)} will run the simulation using the parameter as defined in the object \texttt{parameter}.
+\item
+  The return value of the \texttt{run\_...(parameter)} function is identical to the parameter object plus an additionl slot named \texttt{results} which contains the results of the run
+\item
+  As this return value contains all parameter, it is possible to re-run the simulatuion by simply running \texttt{run\_...(result)}.
+\end{enumerate}
+
+The point that the results object contains all parameter needed to run the simulation, promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations much easier.
+
+A typical simulation would look as followed:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# Create the parameter}
+\NormalTok{parameter }\OtherTok{\textless{}{-}} \FunctionTok{new\_runsim\_parameter}\NormalTok{()}
+\CommentTok{\# manually setting certain parameter}
+
+\DocumentationTok{\#\# Run the simulation and save the result}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{run\_simulatrion}\NormalTok{(parameter)}
+\FunctionTok{saveRDS}\NormalTok{(result, }\StringTok{"sim1.rds"}\NormalTok{)}
+
+\DocumentationTok{\#\# Do other stuff, e.g. plotting}
+
+\DocumentationTok{\#\# Load results, change some parameter, and rerun the simulation and save the result}
+\NormalTok{parameter }\OtherTok{\textless{}{-}} \FunctionTok{loadRDS}\NormalTok{(}\StringTok{"sim1.rds"}\NormalTok{)}
+\CommentTok{\# change some parameter}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{run\_simulatrion}\NormalTok{(parameter)}
+\FunctionTok{saveRDS}\NormalTok{(result, }\StringTok{"sim2,rds"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{runsim}{%
+\subsection{Using the package}\label{runsim}}
+
+We will now discuss the general structure and functiuonality of the package without going into to much detail. A more detailed discussion can be found in the \href{LINK_NEEDED}{User Guide}.
+
+The ODEs for the rates of change are specified in the function \texttt{bushplus\_dynamic\_model()}. This augmented version of the model published in (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}) can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
+
+In the following sections we describe the general usage of the package: running one simulation, finding steady states across an environmental gradient, calculating measures of stability, and visualisation.
+
+\hypertarget{running-one-simulation}{%
+\subsubsection{Running one simulation}\label{running-one-simulation}}
+
+The individual simulation (\texttt{run\_simulation()} function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one parameter - an object as created by the function \texttt{new\_runsim\_parameter()}. One parameter of this object is the \texttt{strain\_parameter} which can be created by the function \texttt{new\_strain\_parameter()}. For a detailed description of the parameter and how they are created please see the User Guide and which acomnpanies the package or is available at \href{@LINK_NEEDED}{User Guide}
+
+After the paramter object has been defined, it can be used in the \texttt{run\_simulation()} function. The function returns an object which is identical to the parameter, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used instead of a parameter object to be fed back into the \texttt{run\_simulation()} function to run the simulation again from the parameter used to generate the results from.
+
+The function \texttt{plot\_dynamics()} plots a single simulation run, as returned from the \texttt{run\_simulation()} function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \ref{fig:plot-dynamics}.
+
+\textbackslash begin\{figure\}
+
+\{\centering \includegraphics[width=500px]{figures/fig1_plot_dynamics}
+
+\}
+
+\textbackslash caption\{Plot of results of a simulation run using the function \texttt{plot\_dynamics()}\$`. Details can be found in the ``User Guide'' section ``Three strains per functional group''.\}\label{fig:plot-dynamics}
+\textbackslash end\{figure\}
+
+\hypertarget{find-a-steady-state-of-the-model}{%
+\subsubsection{Find a Steady State of the model}\label{find-a-steady-state-of-the-model}}
+
+There are two methods for finding steady states. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the \emph{Replication method}). The second runs only two simulations, with step-wise and slowly temporally increasing or decreasing oxygen diffusivities and recorded of state just before change to a new oxygen diffusivity (let us term this the \emph{Temporal method}).
+
+\hypertarget{replication-method}{%
+\paragraph{Replication Method}\label{replication-method}}
+
+The replication method is implementad in the function \texttt{run\_replication\_ssfind()} which takes a parameter object as returned by the function \texttt{new\_replication\_ssfind\_parameter()} and the number of cores for multithreading the simulation.
+
+\hypertarget{temporal-method}{%
+\paragraph{Temporal Method}\label{temporal-method}}
+
+The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is \emph{increased} in a step-wise fashion. In the other it is \emph{decreased} in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step.
+
+This is implemented in the function \texttt{run\_temporal\_ssfind()}, which takes a parameter object as created by the function \texttt{new\_temporal\_ssfind\_parameter()} and a number indicating the .
+
+For a more detailed walk-through of these two approaches and explanation please see the \href{@LINK_NEEDED}{User Guide}.
+
+\hypertarget{extract-stability-measures}{%
+\subsection{Extract Stability Measures}\label{extract-stability-measures}}
+
+From the raw results returned by these \texttt{run\_...()} functions, the stability measures can be extracted by using the function \texttt{get\_stability\_measures()}. These measures include non-linearity and hysteresis measures, of the response of the simulated system to environmental change.
+
+\hypertarget{use-cases}{%
+\section{Use cases}\label{use-cases}}
+
+The first two use cases come from the User Guide and the Partial Reproduction Vignettes. The third comes from a research article that relied on the package.
+
+\hypertarget{regime-shifts-during-temporal-environmental-change}{%
+\subsection{Regime shifts during temporal environmental change}\label{regime-shifts-during-temporal-environmental-change}}
+
+\{\textgreater\textgreater Take from the user guide.\textless\textless\}
+
+\hypertarget{the-extent-of-hysteresis-depends-on-community-composition}{%
+\subsection{The extent of hysteresis depends on community composition}\label{the-extent-of-hysteresis-depends-on-community-composition}}
+
+\{\textgreater\textgreater Take from the partial reproduction.\textless\textless\}
+
+\hypertarget{effects-of-functional-diversity-on-regime-shifts}{%
+\subsection{Effects of functional diversity on regime shifts}\label{effects-of-functional-diversity-on-regime-shifts}}
+
+This model (as part of the package) has been used in the production of the paper (\protect\hyperlink{ref-REF_NEEDED}{REF NEEDED, 2222}). It can be used for similar studies in this study systems.
+
+\{\textgreater\textgreater More details from the paper.\textless\textless\}
+
+\hypertarget{general-usability-and-flexibility-of-the-model}{%
+\subsection{General usability and flexibility of the model}\label{general-usability-and-flexibility-of-the-model}}
+
+The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}) and to extend it to our needs (\protect\hyperlink{ref-REF_NEEDED}{REF NEEDED, 2222}). Consequently, any more substantial changes and adaptaitions, are likely to need a change in the source code.
+
+Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g.~the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems.
+
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
+
+\{\textgreater\textgreater Dependant on journal\textless\textless\}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-Bush2017}{}}%
+Bush, T., Diao, M., Allen, R. J., Sinnige, R., Muyzer, G., \& Huisman, J. (2017). Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics. \emph{Nature Communications}, \emph{8}(1), 789. doi:\href{https://doi.org/10.1038/s41467-017-00912-x}{10.1038/s41467-017-00912-x}
+
+\leavevmode\vadjust pre{\hypertarget{ref-REF_NEEDED}{}}%
+REF NEEDED, A. (2222). {REFERNECE NEEDED}. \emph{Journal of Missing References}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Soetaert2010}{}}%
+Soetaert, K., Petzoldt, T., \& Setzer, R. W. (2010). Solving differential equations in {R}: {Package deSolve}. \emph{Journal of Statistical Software}, \emph{33}(9), 1--25. doi:\href{https://doi.org/10.18637/jss.v033.i09}{10.18637/jss.v033.i09}
+
+\end{CSLReferences}
+
+\end{document}

@@ -1,5 +1,5 @@
 ---
-title: "m0.0.1: Microxanox - ..."
+title: "Microxanox - an R package to simulate ..."
 author:
 - name: Rainer M Krug
   email: Rainer.Krug@uzh.ch & Rainer@krugs.de
@@ -18,31 +18,38 @@ abstract: |
   2. indicate the approach and methods;
   3. outline the main results;
   4. identify the conclusions and the wider implications.
-journal: 'Ecology and Evolution - Applications'
 bibliography: manuscript_bibliography.bib
 date: "`r Sys.time()`"
+
+# RMarkdown output settings
 output:
   bookdown::html_document2:
     toc: true
     toc_float:
       collapsed: true
       smooth_scroll: true
-  pdf_document:
-    keep_tex: yes
-header-includes:
-- \usepackage{lineno}
-- \linenumbers
-- \usepackage{setspace}
-- \doublespacing
-- \usepackage{fancyhdr}
-- \fancyhead{}
-- \fancyfoot{}
-- \fancyhead[CO,CE]{Metadata made easy - the dmdScheme approach}
-- \pagestyle{fancy}
+  bookdown::pdf_document2:
+    keep_tex: yes 
 
+# qarto output settings
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    link-external-icon: true
+    title-block-style: default
+
+# filters:
+#   - type: json
+#     path: criticpandoc.py
+
+# Citation settings    
 nocite: '@Bush2017'
 linkcolor: blue
 link-citations: yes
+
+
 csl: methods-in-ecology-and-evolution.csl
 ---
 
@@ -80,7 +87,7 @@ The model is an implementation of the model described by [@Bush2017]. It is an o
 
 We use the notation from the [Table S1](LINK NEEDED) of the Supplementary information of [@Bush2017]), and not the notation in the main manuscript of [@Bush2017]. In the main manuscript the notation is simplified to `y_S_PB` ($y_{S,PB}$) (which is `y_SR_PB` ($y_{SR,PB}$) in Table S1) and `y_S_SB` ($y_{S,SB}$) (which is y_SO_SB ($y_{SO,SB}$) in Table S1). We also use `Pr_cB` ($Pr_B$) instead of `P_CB` ($P_{CB}$).
 
-All parameter and variables follow these base dimensions:
+All parameter and variables follow these base dimensions: 
 
 - Time: `hours`
 - Volume: `litres`
@@ -94,12 +101,15 @@ The ODEs are solved using the "General Solver for Ordinary Differential Equation
 # Availability and Accessability of the Package
 The package is available in a [github repo/](https://github.com/UZH-PEG/microxanox/). The newest version is also available under the [DOI](https://DOI) or via RUniverse [@REF_NEEDED]. This manuscript describes version 1.0 which is available under [DOI](https://DOI) or installable within R by using `remotes::install_github("UZH-PEG", ref = "v1.0")`. 
 
-The package will be updated based on further research activities. It will be tested continuously for the last recent, current and devel version of R. {>>If we wnat that, we havt o include some, even rudimentary, GITHUB tests.<<}
+The package will be updated based on further research activities. It will be tested continuously for the last recent, current and devel version of R. 
+{>>If we want that, we have to include some, even rudimentary, GITHUB tests.<<}
+{>>RMK: Agreed - let's discuss this when we talk about the package paper.<<}
+
 
 Issues, questions and suggestions should be communicated through the issue tracker at [https://github.com/UZH-PEG/microxanox/issues](https://github.com/UZH-PEG/microxanox/issues) 
 
 
-# Using the package
+# The R Package
 
 ## Documentation
 
@@ -110,45 +120,56 @@ The package contains the full documentetion of the functions, which includes
 3. This paper as a third vignette, also available under RUniverse [Vignette 3](@LINK_NEEDED)
 
 
-## The simulation framework
+## The modelling framework
 
-The framework used for running simulations aims at reproducibility of the results and id=s therefore build on the following points:
+The framework used when writing this package aims at reproducibility of the results. It builds on the folowing main considerations:
 
-1. all parameter needed to run a simulation or find a stable state are contained in a single para,meter object. This object is created by using the functions `new_..._parameter()`, `new_initial_state()` and `new_strain_parameter()`. Which one of the `new_..._parameter()` functions has to be used, will be discussed imn the section  \@ref(runsim)  and in the [User Guide](LINK_NEEDED).
-2. The function call `run_...(parameter)` will than run the simulation using the parameter as defined in the object `parameter`.
-3. The return value of the `run_...(parameter)` function is identical to the parameter object plus an additionla slot named `results` which contains the results of the run
+1. all parameter needed to run a simulation or find a stable state are contained in a single parameter object. This object is created by using the functions `new_..._parameter()`, `new_initial_state()` and `new_strain_parameter()`. Which one of the `new_..._parameter()` functions has to be used when, will be discussed in the section  \@ref(runsim)  and in the [User Guide](LINK_NEEDED).
+2. The function call `run_...(parameter)` will run the simulation using the parameter as defined in the object `parameter`.
+3. The return value of the `run_...(parameter)` function is identical to the parameter object plus an additionl slot named `results` which contains the results of the run
 4. As this return value contains all parameter, it is possible to re-run the simulatuion by simply running `run_...(result)`.
 
-The fact that the results op=bject contains all perameter needed to run the s=imulation, promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations much easier.
+The point that the results object contains all parameter needed to run the simulation, promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations much easier.
 
-A typical simulatiopn would look as followed:
+A typical simulation would look as followed:
 
 ```{r, eval = FALSE}
+## Create the parameter
 parameter <- new_runsim_parameter()
-## manually setting certain parameter
+# manually setting certain parameter
+
+## Run the simulation and save the result
 result <- run_simulatrion(parameter)
 saveRDS(result, "sim1.rds")
-## Do other stuff
+
+## Do other stuff, e.g. plotting
+
+## Load results, change some parameter, and rerun the simulation and save the result
 parameter <- loadRDS("sim1.rds")
-## change some parameter
+# change some parameter
 result <- run_simulatrion(parameter)
 saveRDS(result, "sim2,rds")
 ```
 
+## Using the package {#runsim}
 
-## Running a simulation {#runsim}
-
-We will now discuss the general structure and functiuonalit of the package without going into to much detail.
+We will now discuss the general structure and functiuonality of the package without going into to much detail. A more detailed discussion can be found in the [User Guide](LINK_NEEDED).
 
 The ODEs for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@Bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
 
-In the following sections we describe the general goals of the package: running one simulation, finding steady states across an environmental gradient, calculating measures of stability, and visualisation.
+In the following sections we describe the general usage of the package: running one simulation, finding steady states across an environmental gradient, calculating measures of stability, and visualisation.
 
 ### Running one simulation
 
 The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one parameter - an object as created by the function `new_runsim_parameter()`. One parameter of this object is the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter and how they are created please see the User Guide and which acomnpanies the package or is available at [User Guide](@LINK_NEEDED)
 
 After the paramter object has been defined, it can be used in the `run_simulation()` function. The function returns an object which is identical to the parameter, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used instead of a parameter object to be fed back into the `run_simulation()` function to run the simulation again from the parameter used to generate the results from.
+
+The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
+
+```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function `plot_dynamics()`$`. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 500 }
+knitr::include_graphics("figures/fig1_plot_dynamics.png")
+```
 
 ### Find a Steady State of the model
 
@@ -158,7 +179,8 @@ There are two methods for finding steady states. The first runs a separate simul
 The replication method is implementad in the function `run_replication_ssfind()` which takes a parameter object as returned by the function `new_replication_ssfind_parameter()` and the number of cores for multithreading the simulation.
 
 #### Temporal Method
-The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step. We hereafter term this "the temporal method".
+The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step.
+
 This is implemented in the function `run_temporal_ssfind()`, which takes a parameter object as created by the function `new_temporal_ssfind_parameter()` and a number indicating the .
 
 For a more detailed walk-through of these two approaches and explanation please see the [User Guide](@LINK_NEEDED).
@@ -166,38 +188,31 @@ For a more detailed walk-through of these two approaches and explanation please 
 ## Extract Stability Measures
 From the raw results returned by these `run_...()` functions, the stability measures can be extracted by using the function `get_stability_measures()`. These measures include non-linearity and hysteresis measures, of the response of the simulated system to environmental change.
 
-## Visualisation
-
-The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
-
-```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function `plot_dynamics()`. Details can be found in the ["User Guide" section "Three strains per functional group"](LINK_NEEDED_).', fig.align="center", out.width = 500 }
-knitr::include_graphics("figures/fig1_plot_dynamics.png")
-```
-
-
 # Use cases
 
-The first two use cases come from the User Guide and the Partial Reproduction Vignettes. The third comes from a research article that relied on the package.
+The first two use cases come from the User Guide and the Partial Reproduction Vignettes. The third comes from a research article that relied on the package. All of these use cases can be expanded to larger numbers of strains per functional group.
 
 ## Regime shifts during temporal environmental change
 
-{>>Take from the user guide.<<}
-
+In the [User Guide](LINK_NEEDED) we ued a one strain system (section "1 strain per functional group") and three strain system (section "3 strains per functional group") to analyse as an example the determination of the stable states during temporal environmental chan ge (the oxygen diffusivity). From these simulatiuons, we extracted measures of nonlinearity and hysteresis. 
 
 ## The extent of hysteresis depends on community composition
 
-{>>Take from the partial reproduction.<<}
-
+One of the reasons to develop this package was to reproduce the results presented in @Bush2017, this was achieved as demonstrated in the [Partial Reproduction supplement](LINK_NEEDED). All aspects in the paper could be reproduced.
 
 ## Effects of functional diversity on regime shifts
 
-This package has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. It is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs. Consequently, any more substantial, are likely to need a change in the source code.
+This model (as part of the package) has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. 
 
-Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g. the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed. 
+{>>More details from the paper.<<}
 
+## General usability and flexibility of the model
+The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptaitions, are likely to need a change in the source code.
+
+Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g. the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems. 
 
 # Conclusions
 
-
+{>>Dependant on journal<<}
 
 # References
