@@ -75,7 +75,7 @@ Please see the *User Guide* vignette for further introduction and general method
 
 ## Code availability
 
-Much of the code used to create the content of this vignette is not shown in the rendered (pdf or html) document. It is available in the [microxanox github repository](https://github.com/opetchey/microxanox/blob/main/vignettes/partial-reproduction-Bushetal2017.Rmd)
+Much of the code used to create the content of this vignette is not shown in the rendered (pdf or html) document. It is available in the [microxanox github repository](https://github.com/UZH-PEG/microxanox/blob/main/vignettes/partial-reproduction-Bushetal2017.Rmd)
 
 # Methods
 
