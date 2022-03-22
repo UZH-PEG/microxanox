@@ -19,12 +19,14 @@ abstract: |
   3. outline the main results;
   4. identify the conclusions and the wider implications.
 bibliography: manuscript_bibliography.bib
-date: "`r Sys.time()`"
+
+date: last-modified 
+date-format: "DD MMM YYYY, HH:mm"
 
 # RMarkdown output settings
 output:
   bookdown::html_document2:
-    toc: true
+    toc: true 
     toc_float:
       collapsed: true
       smooth_scroll: true
@@ -39,17 +41,17 @@ format:
     toc-depth: 3
     link-external-icon: true
     title-block-style: default
-
-# filters:
-#   - type: json
-#     path: criticpandoc.py
-
+  pdf:
+    toc: true
+    toc-depth: 3
+    lof: true
+    include-in-header:
+      - headers.tex  
+    
 # Citation settings    
 nocite: '@Bush2017'
 linkcolor: blue
 link-citations: yes
-
-
 csl: methods-in-ecology-and-evolution.csl
 ---
 
@@ -65,7 +67,13 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-{>> Biological justification and background - one paragraph <<}
+{>>Biological justification and background - one paragraph<<}
+{>>Rewrite the abstract for this<<}
+
+> Abstract Romana of paper: The role of functional diversity in ecosystem regime shifts  
+
+
+> Biodiversity can increase the resilience of ecosystems facing environmental change. However, we have limited understanding if this holds true for ecosystems that respond to gradual environmental change with abrupt regime shifts. Here we investigated if functional diversity influences the resilience of ecosystems that abruptly transition between alternative ecosystem states. As a case study, we used a mathematical model developed by Bush et al. (2017) which describes anoxic-oxic regime shifts of aquatic ecosystems mediated by cyanobacteria, sulfate-reducing bacteria, and phototrophic sulfur bacteria. We extended this model so as to include functional diversity in one, two, or all three functional groups. Specifically, we manipulated the amount of variation in environmental tolerance and in maximum growth rate, and explored how trait variation influenced anoxic-oxic regime shifts along a gradient of oxygen influx. We found that greater diversity of either cyanobacteria or sulfate-reducing bacteria increased the resilience of the ecosystem state that these groups dominated, while greater diversity of phototrophic sulfur bacteria reduced the resilience of the state they dominated. We also found that simultaneous variation in multiple functional groups reduced, reversed, or did not change the diversity effect of individual functional groups. Collectively, our findings highlight the importance of considering multiple interacting functional groups when predicting the effect of functional diversity on ecosystem resilience
 
 The microxanox package is a package for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feddback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model).
 
@@ -95,6 +103,7 @@ All parameter and variables follow these base dimensions:
 - Organism quantity: `cells`
 
 {>> Add a more detailed description of the model and the additions <<}
+{>>TODO<<}
 
 The ODEs are solved using the "General Solver for Ordinary Differential Equations" of the `deSolve` package [@Soetaert2010].
 
@@ -116,7 +125,9 @@ Issues, questions and suggestions should be communicated through the issue track
 The package contains the full documentetion of the functions, which includes
 
 1. Standard R help for each function (`?COMMAND` in R)
-2. Two vignettes acompanying the package, also available under RUniverse [Vignette 1](@LINK_NEEDED) and [Vignette 2](@LINK_NEEDED)
+2. Two vignettes acompanying the package:
+  - A **User Guide**, also available on the R-Universe [Vignette 1](@LINK_NEEDED). This gives an introduction of the package and its functions and provides a walk-through of the process of running, visualizing and extra
+   and [Vignette 2](@LINK_NEEDED)
 3. This paper as a third vignette, also available under RUniverse [Vignette 3](@LINK_NEEDED)
 
 
@@ -205,6 +216,7 @@ One of the reasons to develop this package was to reproduce the results presente
 This model (as part of the package) has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. 
 
 {>>More details from the paper.<<}
+{>>Romana will provide two or three sentences<<}
 
 ## General usability and flexibility of the model
 The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptaitions, are likely to need a change in the source code.
