@@ -65,15 +65,23 @@ knitr::opts_chunk$set(
 ```{r setup, include = FALSE}
 ```
 
-# Introduction
 
-{>>Biological justification and background - one paragraph<<}
-{>>Rewrite the abstract for this<<}
-
+<!-- 
 > Abstract Romana of paper: The role of functional diversity in ecosystem regime shifts  
 
 
-> Biodiversity can increase the resilience of ecosystems facing environmental change. However, we have limited understanding if this holds true for ecosystems that respond to gradual environmental change with abrupt regime shifts. Here we investigated if functional diversity influences the resilience of ecosystems that abruptly transition between alternative ecosystem states. As a case study, we used a mathematical model developed by Bush et al. (2017) which describes anoxic-oxic regime shifts of aquatic ecosystems mediated by cyanobacteria, sulfate-reducing bacteria, and phototrophic sulfur bacteria. We extended this model so as to include functional diversity in one, two, or all three functional groups. Specifically, we manipulated the amount of variation in environmental tolerance and in maximum growth rate, and explored how trait variation influenced anoxic-oxic regime shifts along a gradient of oxygen influx. We found that greater diversity of either cyanobacteria or sulfate-reducing bacteria increased the resilience of the ecosystem state that these groups dominated, while greater diversity of phototrophic sulfur bacteria reduced the resilience of the state they dominated. We also found that simultaneous variation in multiple functional groups reduced, reversed, or did not change the diversity effect of individual functional groups. Collectively, our findings highlight the importance of considering multiple interacting functional groups when predicting the effect of functional diversity on ecosystem resilience
+> Biodiversity can increase the resilience of ecosystems facing environmental change. However, we have limited understanding if this holds true for ecosystems that respond to gradual environmental change with abrupt regime shifts. 
+
+> Here we investigated if functional diversity influences the resilience of ecosystems that abruptly transition between alternative ecosystem states. As a case study, we used a mathematical model developed by Bush et al. (2017) which describes anoxic-oxic regime shifts of aquatic ecosystems mediated by cyanobacteria, sulfate-reducing bacteria, and phototrophic sulfur bacteria. We extended this model so as to include functional diversity in one, two, or all three functional groups. Specifically, we manipulated the amount of variation in environmental tolerance and in maximum growth rate, and explored how trait variation influenced anoxic-oxic regime shifts along a gradient of oxygen influx. We found that greater diversity of either cyanobacteria or sulfate-reducing bacteria increased the resilience of the ecosystem state that these groups dominated, while greater diversity of phototrophic sulfur bacteria reduced the resilience of the state they dominated. We also found that simultaneous variation in multiple functional groups reduced, reversed, or did not change the diversity effect of individual functional groups. Collectively, our findings highlight the importance of considering multiple interacting functional groups when predicting the effect of functional diversity on ecosystem resilience
+ -->
+
+
+# Introduction
+
+{>>Biological justification and background - one paragraph<<}   
+{>>Based on abstract from Romana<<}
+
+Many ecosystems are exposed to gradual changes of environmental variables, to which the responses are not always as gradual as the change of the environmental variable. One example where the gradual change of a single environmental causing an abrupt change of the system is the switch from an aerobic to anaerobic system. This system hass been investigated by @Bush2017. We wanted to take this investigation one step further, and look at the role of an increased biodiversity plays in these dynamics [@REF_NEEDED]. For this purpose, we developed this package.  
 
 The microxanox package is a package for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feddback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model).
 
@@ -213,9 +221,12 @@ One of the reasons to develop this package was to reproduce the results presente
 
 ## Effects of functional diversity on regime shifts
 
-This model (as part of the package) has been used in the production of the paper [@REF_NEEDED]. It can be used for similar studies in this study systems. 
+As discussed in the paper [@REF_NEEDED], the role biodiversity plays in abrupt regime shifts based on gradual changing environmental parameter is not well understood. This model (as part of the package) has been used to investigate these dynamics and the results are available in @REF_NEEDED. 
 
-{>>More details from the paper.<<}
+
+
+
+{>>More details from the paper.<<}  
 {>>Romana will provide two or three sentences<<}
 
 ## General usability and flexibility of the model
