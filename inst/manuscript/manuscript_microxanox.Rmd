@@ -1,5 +1,5 @@
 ---
-title: "Microxanox - an R package to simulate ..."
+title: "Microxanox - an R package for simulating an $MICR$obial ecosystem that can occupy $OX$ic or $ANOX$ic states."
 author:
 - name: Rainer M Krug
   email: Rainer.Krug@uzh.ch & Rainer@krugs.de
@@ -97,6 +97,12 @@ For this, we extended the model and added functionality for:
 
 In addition to the model itself, the package includes some functions to analyse the results as well as visualise the results to provide a starting point for customised visualisations based on own requirements.
 
+## General usability and flexibility of the model
+The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptaitions, are likely to need a change in the source code.
+
+Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g. the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems. 
+
+
 # The Model
 
 The model is an implementation of the model described by [@Bush2017]. It is an ordinary differential equation (ODE) based numerical non-stochastic model which was implemented in form of an R package.
@@ -115,7 +121,8 @@ All parameter and variables follow these base dimensions:
 
 The ODEs are solved using the "General Solver for Ordinary Differential Equations" of the `deSolve` package [@Soetaert2010].
 
-# Availability and Accessability of the Package
+# Availability and Accessability of the package
+
 The package is available in a [github repo/](https://github.com/UZH-PEG/microxanox/). The newest version is also available under the [DOI](https://DOI) or via RUniverse [@REF_NEEDED]. This manuscript describes version 1.0 which is available under [DOI](https://DOI) or installable within R by using `remotes::install_github("UZH-PEG", ref = "v1.0")`. 
 
 The package will be updated based on further research activities. It will be tested continuously for the last recent, current and devel version of R. 
@@ -126,7 +133,7 @@ The package will be updated based on further research activities. It will be tes
 Issues, questions and suggestions should be communicated through the issue tracker at [https://github.com/UZH-PEG/microxanox/issues](https://github.com/UZH-PEG/microxanox/issues) 
 
 
-# The R Package
+# Package description
 
 ## Documentation
 
@@ -139,7 +146,7 @@ The package contains the full documentetion of the functions, which includes
 3. This paper as a third vignette, also available under RUniverse [Vignette 3](@LINK_NEEDED)
 
 
-## The modelling framework
+## Reproducibility
 
 The framework used when writing this package aims at reproducibility of the results. It builds on the folowing main considerations:
 
@@ -180,9 +187,9 @@ In the following sections we describe the general usage of the package: running 
 
 ### Running one simulation
 
-The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one parameter - an object as created by the function `new_runsim_parameter()`. One parameter of this object is the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter and how they are created please see the User Guide and which acomnpanies the package or is available at [User Guide](@LINK_NEEDED)
+The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one argument - an object as created by the function `new_runsim_parameter()`. One parameter of this object is the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter and how they are created please see the User Guide and which acomnpanies the package or is available at [User Guide](@LINK_NEEDED)
 
-After the paramter object has been defined, it can be used in the `run_simulation()` function. The function returns an object which is identical to the parameter, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used instead of a parameter object to be fed back into the `run_simulation()` function to run the simulation again from the parameter used to generate the results from.
+After the parameter object has been defined, it can be used in the `run_simulation()` function. The function returns an object which is identical to the parameter, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used instead of a parameter object to be fed back into the `run_simulation()` function to run the simulation again from the parameter used to generate the results from.
 
 The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
 
@@ -190,7 +197,7 @@ The function `plot_dynamics()` plots a single simulation run, as returned from t
 knitr::include_graphics("figures/fig1_plot_dynamics.png")
 ```
 
-### Find a Steady State of the model
+### Finding a Steady State of the model
 
 There are two methods for finding steady states. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the *Replication method*). The second runs only two simulations, with step-wise and slowly temporally increasing or decreasing oxygen diffusivities and recorded of state just before change to a new oxygen diffusivity (let us term this the *Temporal method*).
 
@@ -204,7 +211,7 @@ This is implemented in the function `run_temporal_ssfind()`, which takes a param
 
 For a more detailed walk-through of these two approaches and explanation please see the [User Guide](@LINK_NEEDED).
 
-## Extract Stability Measures
+## Extracting Stability Measures
 From the raw results returned by these `run_...()` functions, the stability measures can be extracted by using the function `get_stability_measures()`. These measures include non-linearity and hysteresis measures, of the response of the simulated system to environmental change.
 
 # Use cases
@@ -229,10 +236,6 @@ As discussed in the paper [@REF_NEEDED], the role biodiversity plays in abrupt r
 {>>More details from the paper.<<}  
 {>>Romana will provide two or three sentences<<}
 
-## General usability and flexibility of the model
-The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptaitions, are likely to need a change in the source code.
-
-Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g. the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems. 
 
 # Conclusions
 
