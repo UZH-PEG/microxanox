@@ -12,47 +12,30 @@ address:
 - code: University of Zürich
   address: Department of Evolutionary Biology and Environmental Studies, Winterthurerstrasse
     190, 8057 Zurich
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+  - code: 2
+    text: "Equal contribution"  
 keywords: metadata quality; data curation; archival; long term storage; R package;
 abstract: | 
-  1. set the context for and purpose of the work;
-  2. indicate the approach and methods;
-  3. outline the main results;
-  4. identify the conclusions and the wider implications.
+  Ca. 100 words.
 bibliography: manuscript_bibliography.bib
+journal: "SoftwareX"
+date: "`r Sys.Date()`"
 
-date: last-modified 
-date-format: "DD MMM YYYY, HH:mm"
-
-# RMarkdown output settings
-output:
-  bookdown::html_document2:
-    toc: true 
-    toc_float:
-      collapsed: true
-      smooth_scroll: true
-  bookdown::pdf_document2:
-    keep_tex: yes 
-
-# qarto output settings
-format:
-  html:
-    self-contained: true
-    toc: true
-    toc-depth: 3
-    link-external-icon: true
-    title-block-style: default
-  pdf:
-    toc: true
-    toc-depth: 3
-    lof: true
-    include-in-header:
-      - headers.tex  
+#linenumbers: true
+#numbersections: true
+csl: elsevier-harvard.csl
+output: 
+  rticles::elsevier_article:
+    includes: 
+      in_header: headers.tex
     
 # Citation settings    
 nocite: '@Bush2017'
 linkcolor: blue
 link-citations: yes
-csl: methods-in-ecology-and-evolution.csl
 ---
 
 ```{r, include = FALSE}
@@ -75,12 +58,25 @@ knitr::opts_chunk$set(
 > Here we investigated if functional diversity influences the resilience of ecosystems that abruptly transition between alternative ecosystem states. As a case study, we used a mathematical model developed by Bush et al. (2017) which describes anoxic-oxic regime shifts of aquatic ecosystems mediated by cyanobacteria, sulfate-reducing bacteria, and phototrophic sulfur bacteria. We extended this model so as to include functional diversity in one, two, or all three functional groups. Specifically, we manipulated the amount of variation in environmental tolerance and in maximum growth rate, and explored how trait variation influenced anoxic-oxic regime shifts along a gradient of oxygen influx. We found that greater diversity of either cyanobacteria or sulfate-reducing bacteria increased the resilience of the ecosystem state that these groups dominated, while greater diversity of phototrophic sulfur bacteria reduced the resilience of the state they dominated. We also found that simultaneous variation in multiple functional groups reduced, reversed, or did not change the diversity effect of individual functional groups. Collectively, our findings highlight the importance of considering multiple interacting functional groups when predicting the effect of functional diversity on ecosystem resilience
  -->
 
+# Required Metadata
+## Current code version
+Ancillary data table required for subversion of the codebase.
 
-# Introduction
+| **Nr.** | **Code metadata description** | **Please fill in this column** |
+|---|---|---|
+| C1 | Current code version | v0.9.0 |
+| C2 | Permanent link to code/repository used for this code version | [https://github.com/UZH-PEG/microxanox](https://github.com/UZH-PEG/microxanox) |
+| C3 | Code Ocean compute capsule |  |
+| C4 | Legal Code License   | CC BY 4.0 |
+| C5 | Code versioning system used |git |
+| C6 | Software code languages, tools, and services used | R | 
+| C7 | Compilation requirements, operating environments | R (>= 4.1.0), ADD PACKAGES | 
+| C8 | If available Link to developer documentation/manual |  |
+| C9 | Support email for questions | Rainer.Krug@uzh.ch; Rainer@krugs.de |
 
-{>>Biological justification and background - one paragraph<<}   
-{>>Based on abstract from Romana<<}
 
+
+# Motivation and significance
 Many ecosystems are exposed to gradual changes of environmental variables, to which the responses are not always as gradual as the change of the environmental variable. One example where the gradual change of a single environmental causing an abrupt change of the system is the switch from an aerobic to anaerobic system. This system hass been investigated by @Bush2017. We wanted to take this investigation one step further, and look at the role of an increased biodiversity plays in these dynamics [@REF_NEEDED]. For this purpose, we developed this package.  
 
 The microxanox package is a package for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feddback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model).
@@ -102,6 +98,41 @@ The package is not intended to provide a modelling framework which can be adjust
 
 Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g. the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems. 
 
+# Software description
+Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact.
+
+## Software Architecture
+Give a short overview of the overall software architecture; provide a pic- torial component overview or similar (if possible). If necessary provide im- plementation details.
+
+## Software Functionalities
+Present the major functionalities of the software.
+
+# Illustrative Examples
+Provide at least one illustrative example to demonstrate the major functions.
+Optional: you may include one explanatory video that will appear next to your article, in the right hand side panel.
+
+# Impact
+This is the main section of the article and the reviewers weight the description here appropriately
+Indicate in what way new research questions can be pursued as a result of the software (if any).
+Indicate in what way, and to what extent, the pursuit of existing research questions is improved (if so).
+Indicate in what way the software has changed the daily practice of its users (if so).
+Indicate how widespread the use of the software is within and outside the intended user group.
+Indicate in what way the software is used in commercial settings and/or how it led to the creation of spin-off companies (if so).
+
+# Conclusions
+Set out the conclusion of this original software publication.
+
+# Conflict of Interest
+We wish to confirm that there are no known conflicts of interest associated with this publication and there has been no significant financial support for this work that could have influenced its outcome.
+
+# Acknowledgements
+Optionally thank people and institutes you need to acknowledge.
+
+
+# THIS NEEDS TO BE TRANSFERED IN THE FORMAT ABOVE
+
+
+
 
 # The Model
 
@@ -116,8 +147,8 @@ All parameter and variables follow these base dimensions:
 - Substrate quantity: `micromoles`
 - Organism quantity: `cells`
 
-{>> Add a more detailed description of the model and the additions <<}
-{>>TODO<<}
+<span style="color:red">{>> Add a more detailed description of the model and the additions <<}
+{>>TODO<<}</span>
 
 The ODEs are solved using the "General Solver for Ordinary Differential Equations" of the `deSolve` package [@Soetaert2010].
 
@@ -126,9 +157,9 @@ The ODEs are solved using the "General Solver for Ordinary Differential Equation
 The package is available in a [github repo/](https://github.com/UZH-PEG/microxanox/). The newest version is also available under the [DOI](https://DOI) or via RUniverse [@REF_NEEDED]. This manuscript describes version 1.0 which is available under [DOI](https://DOI) or installable within R by using `remotes::install_github("UZH-PEG", ref = "v1.0")`. 
 
 The package will be updated based on further research activities. It will be tested continuously for the last recent, current and devel version of R. 
-{>>If we want that, we have to include some, even rudimentary, GITHUB tests.<<}
+<span style="color:green">{>>If we want that, we have to include some, even rudimentary, GITHUB tests.<<}
 {>>RMK: Agreed - let's discuss this when we talk about the package paper.<<}
-
+</span>
 
 Issues, questions and suggestions should be communicated through the issue tracker at [https://github.com/UZH-PEG/microxanox/issues](https://github.com/UZH-PEG/microxanox/issues) 
 
@@ -193,8 +224,8 @@ After the parameter object has been defined, it can be used in the `run_simulati
 
 The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
 
-```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function `plot_dynamics()`$`. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 500 }
-knitr::include_graphics("figures/fig1_plot_dynamics.png")
+```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function $plot_dynamics()$. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 500 }
+knitr::include_graphics("figures/ug_three_strains_dynamics.png")
 ```
 
 ### Finding a Steady State of the model
@@ -216,25 +247,32 @@ From the raw results returned by these `run_...()` functions, the stability meas
 
 # Use cases
 
-The first two use cases come from the User Guide and the Partial Reproduction Vignettes. The third comes from a research article that relied on the package. All of these use cases can be expanded to larger numbers of strains per functional group.
+The first two use cases are described in detail in the User Guide and the Partial Reproduction Vignettes. The third is taken from the @REF_NEEDED for which this R package was designed. All of these use cases can be expanded to larger numbers of strains per functional group and variable values van be changed.
 
 ## Regime shifts during temporal environmental change
 
-In the [User Guide](LINK_NEEDED) we ued a one strain system (section "1 strain per functional group") and three strain system (section "3 strains per functional group") to analyse as an example the determination of the stable states during temporal environmental chan ge (the oxygen diffusivity). From these simulatiuons, we extracted measures of nonlinearity and hysteresis. 
+In the [User Guide](LINK_NEEDED) we used a one strain system (section "1 strain per functional group") and three strain system (section "3 strains per functional group") to determine as an example the stable states during temporal environmental changes (the oxygen diffusivity). From these simulatiuons, we extracted measures of nonlinearity and hysteresis. See Fig \@ref(fig:plot-dynamics) as an example plot of the simulations.
+
+```{r uc1_stable_state, echo = FALSE,  include=TRUE, fig.cap='Plot of the stable states of the simulation runs under different oxygen diffusivity. The top graph are the Organisms (ech initially with three strains) while the lower graph is the substrate availability under the same oxygen diffusivities. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 500 }
+knitr::include_graphics("figures/ug_three_strains_stable_state.png")
+```
+
 
 ## The extent of hysteresis depends on community composition
 
-One of the reasons to develop this package was to reproduce the results presented in @Bush2017, this was achieved as demonstrated in the [Partial Reproduction supplement](LINK_NEEDED). All aspects in the paper could be reproduced.
+One of the reasons to develop this package was to reproduce the results presented in @Bush2017, this was achieved as demonstrated in the [Partial Reproduction supplement](LINK_NEEDED). All aspects in the paper could be reproduced and are shown in the vignette. 
+
+```{r user_guide_hysteresis, echo = FALSE,  include=TRUE, fig.cap='Hysteresis of all assessed combinations of variability.', fig.align="center", out.width = 500 }
+knitr::include_graphics("figures/user_guide_hysteresis.png")
+```
 
 ## Effects of functional diversity on regime shifts
 
 As discussed in the paper [@REF_NEEDED], the role biodiversity plays in abrupt regime shifts based on gradual changing environmental parameter is not well understood. This model (as part of the package) has been used to investigate these dynamics and the results are available in @REF_NEEDED. 
 
 
-
-
-{>>More details from the paper.<<}  
-{>>Romana will provide two or three sentences<<}
+<span style="color:green">{>>More details from the paper.<<}  
+{>>Romana will provide two or three sentences<<}</span>
 
 
 # Conclusions
