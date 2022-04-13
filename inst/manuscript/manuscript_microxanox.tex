@@ -6,6 +6,7 @@
 
 
 \usepackage{lineno} % add
+  \linenumbers % turns line numbering on
 
 \usepackage{graphicx}
 %%%%%%%%%%%%%%%% end my additions to header
@@ -30,6 +31,7 @@
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
 \bibliographystyle{elsarticle-harv}
+\usepackage{graphicx}
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -47,9 +49,8 @@
             pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
 
-\setcounter{secnumdepth}{0}
+\setcounter{secnumdepth}{5}
 % Pandoc toggle for numbering sections (defaults to be off)
-\setcounter{secnumdepth}{0}
 
 % Pandoc syntax highlighting
 \usepackage{color}
@@ -209,11 +210,11 @@ storage; R package;\end{keyword}
 Ancillary data table required for subversion of the codebase.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\centering\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0596}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4106}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5298}}@{}}
 \toprule
-\begin{minipage}[b]{\linewidth}\raggedright
+\begin{minipage}[b]{\linewidth}\centering
 \textbf{Nr.}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Code metadata description}
@@ -222,7 +223,7 @@ Ancillary data table required for subversion of the codebase.
 \end{minipage} \\
 \midrule
 \endhead
-C1 & Current code version & For example v42 \\
+C1 & Current code version & v0.9.0 \\
 C2 & Permanent link to code/repository used for this code version &
 \url{https://github.com/UZH-PEG/microxanox} \\
 C3 & Code Ocean compute capsule & \\
@@ -240,77 +241,6 @@ Rainer@krugs.de \\
 \hypertarget{motivation-and-significance}{%
 \section{Motivation and
 significance}\label{motivation-and-significance}}
-
-Introduce the scientific background and the motivation for developing
-the software. Explain why the software is important, and describe the
-exact (scientific) problem(s) it solves. Indicate in what way the
-software has contributed (or how it will con- tribute in the future) to
-the process of scientific discovery; if available, this is to be
-supported by citing a research paper using the software. Provide a
-description of the experimental setting (how does the user use the
-software?). Introduce related work in literature (cite or list
-algorithms used, other software etc.).
-
-\hypertarget{software-description}{%
-\section{Software description}\label{software-description}}
-
-Describe the software in as much as is necessary to establish a
-vocabulary needed to explain its impact.
-
-\hypertarget{software-architecture}{%
-\subsection{Software Architecture}\label{software-architecture}}
-
-Give a short overview of the overall software architecture; provide a
-pic- torial component overview or similar (if possible). If necessary
-provide im- plementation details.
-
-\hypertarget{software-functionalities}{%
-\subsection{Software Functionalities}\label{software-functionalities}}
-
-Present the major functionalities of the software.
-
-\hypertarget{illustrative-examples}{%
-\section{Illustrative Examples}\label{illustrative-examples}}
-
-Provide at least one illustrative example to demonstrate the major
-functions. Optional: you may include one explanatory video that will
-appear next to your article, in the right hand side panel.
-
-\hypertarget{impact}{%
-\section{Impact}\label{impact}}
-
-This is the main section of the article and the reviewers weight the
-description here appropriately Indicate in what way new research
-questions can be pursued as a result of the software (if any). Indicate
-in what way, and to what extent, the pursuit of existing research
-questions is improved (if so). Indicate in what way the software has
-changed the daily practice of its users (if so). Indicate how widespread
-the use of the software is within and outside the intended user group.
-Indicate in what way the software is used in commercial settings and/or
-how it led to the creation of spin-off companies (if so).
-
-\hypertarget{conclusions}{%
-\section{Conclusions}\label{conclusions}}
-
-Set out the conclusion of this original software publication.
-
-\hypertarget{conflict-of-interest}{%
-\section{Conflict of Interest}\label{conflict-of-interest}}
-
-We wish to confirm that there are no known conflicts of interest
-associated with this publication and there has been no significant
-financial support for this work that could have influenced its outcome.
-
-\hypertarget{acknowledgements}{%
-\section{Acknowledgements}\label{acknowledgements}}
-
-Optionally thank people and institutes you need to acknowledge.
-
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
-
-{\{\textgreater\textgreater Biological justification and background -
-one paragraph - DONE\textless\textless\} }
 
 Many ecosystems are exposed to gradual changes of environmental
 variables, to which the responses are not always as gradual as the
@@ -361,9 +291,44 @@ In addition to the model itself, the package includes some functions to
 analyse the results as well as visualise the results to provide a
 starting point for customised visualisations based on own requirements.
 
-\hypertarget{general-usability-and-flexibility-of-the-model}{%
-\subsection{General usability and flexibility of the
-model}\label{general-usability-and-flexibility-of-the-model}}
+\hypertarget{software-description}{%
+\section{Software description}\label{software-description}}
+
+\{\textgreater\textgreater Describe the software in as much as is
+necessary to establish a vocabulary needed to explain its
+impact.\textless\textless\}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{@startuml}
+\NormalTok{partition "Run Single Simulation" \{}
+\NormalTok{   start}
+\NormalTok{  :parameter \textless{}{-} new\_runsim\_parameter();}
+\NormalTok{  split}
+\NormalTok{    \#palegreen:saveRDS(FILE, parameter);}
+\NormalTok{    detach}
+\NormalTok{  split again}
+\NormalTok{    \#pink:result \textless{}{-} run\_simulation(parameter);}
+\NormalTok{  end split}
+\NormalTok{  split}
+\NormalTok{    \#palegreen:saveRDS(FILE, results);}
+\NormalTok{    detach}
+\NormalTok{  split again}
+\NormalTok{    :Change some parameter;}
+\NormalTok{    \#pink:result2 \textless{}{-} run\_simulation(results);}
+\NormalTok{  end split}
+\NormalTok{  split}
+\NormalTok{    \#palegreen:saveRDS(FILE, results2);}
+\NormalTok{    detach}
+\NormalTok{  split again}
+\NormalTok{    end}
+\NormalTok{  end split}
+\NormalTok{\}}
+\NormalTok{@enduml}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{/var/folders/50/wcr5bjwn75q595n6x82gxj280000gq/T//RtmpRw3cq4/runsim_example.pdf}
 
 The package is not intended to provide a modelling framework which can
 be adjusted easily to all needs, but primarily a tool to implement the
@@ -378,106 +343,13 @@ other aspects can be adjusted. All values in the parameter object can be
 changed as needed and the general structure of the code should make it
 not to difficult to adapt the model to other similar systems.
 
-\hypertarget{the-model}{%
-\section{The Model}\label{the-model}}
+\hypertarget{software-architecture}{%
+\subsection{Software Architecture}\label{software-architecture}}
 
-The model is an implementation of the model described by
-(\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}). It is an ordinary
-differential equation (ODE) based numerical non-stochastic model which
-was implemented in form of an R package.
-
-We use the notation from the \href{LINK\%20NEEDED}{Table S1} of the
-Supplementary information of (\protect\hyperlink{ref-Bush2017}{Bush et
-al., 2017})), and not the notation in the main manuscript of
-(\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}). In the main
-manuscript the notation is simplified to \texttt{y\_S\_PB}
-(\(y_{S,PB}\)) (which is \texttt{y\_SR\_PB} (\(y_{SR,PB}\)) in Table S1)
-and \texttt{y\_S\_SB} (\(y_{S,SB}\)) (which is y\_SO\_SB (\(y_{SO,SB}\))
-in Table S1). We also use \texttt{Pr\_cB} (\(Pr_B\)) instead of
-\texttt{P\_CB} (\(P_{CB}\)).
-
-All parameter and variables follow these base dimensions:
-
-\begin{itemize}
-\tightlist
-\item
-  Time: \texttt{hours}
-\item
-  Volume: \texttt{litres}
-\item
-  Substrate quantity: \texttt{micromoles}
-\item
-  Organism quantity: \texttt{cells}
-\end{itemize}
-
-{\{\textgreater\textgreater{} Add a more detailed description of the
-model and the additions \textless\textless\}
-\{\textgreater\textgreater TODO\textless\textless\}}
-
-The ODEs are solved using the ``General Solver for Ordinary Differential
-Equations'' of the \texttt{deSolve} package
-(\protect\hyperlink{ref-Soetaert2010}{Soetaert et al., 2010}).
-
-\hypertarget{availability-and-accessability-of-the-package}{%
-\section{Availability and Accessability of the
-package}\label{availability-and-accessability-of-the-package}}
-
-The package is available in a
-\href{https://github.com/UZH-PEG/microxanox/}{github repo/}. The newest
-version is also available under the \href{https://DOI}{DOI} or via
-RUniverse (\protect\hyperlink{ref-REF_NEEDED}{REF NEEDED, 2222}). This
-manuscript describes version 1.0 which is available under
-\href{https://DOI}{DOI} or installable within R by using
-\texttt{remotes::install\_github("UZH-PEG",\ ref\ =\ "v1.0")}.
-
-The package will be updated based on further research activities. It
-will be tested continuously for the last recent, current and devel
-version of R. {\{\textgreater\textgreater If we want that, we have to
-include some, even rudimentary, GITHUB tests.\textless\textless\}
-\{\textgreater\textgreater RMK: Agreed - let's discuss this when we talk
-about the package paper.\textless\textless\} }
-
-Issues, questions and suggestions should be communicated through the
-issue tracker at \url{https://github.com/UZH-PEG/microxanox/issues}
-
-\hypertarget{package-description}{%
-\section{Package description}\label{package-description}}
-
-\hypertarget{documentation}{%
-\subsection{Documentation}\label{documentation}}
-
-The package contains the full documentetion of the functions, which
-includes
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Standard R help for each function (\texttt{?COMMAND} in R)
-\item
-  Two vignettes acompanying the package:
-\end{enumerate}
-
-\begin{itemize}
-\tightlist
-\item
-  A \textbf{User Guide}, also available on the R-Universe
-  \href{@LINK_NEEDED}{Vignette 1}. This gives an introduction of the
-  package and its functions and provides a walk-through of the process
-  of running, visualizing and extra and \href{@LINK_NEEDED}{Vignette 2}
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  This paper as a third vignette, also available under RUniverse
-  \href{@LINK_NEEDED}{Vignette 3}
-\end{enumerate}
-
-\hypertarget{reproducibility}{%
-\subsection{Reproducibility}\label{reproducibility}}
+\{\textgreater\textgreater Give a short overview of the overall software
+architecture; provide a pic- torial component overview or similar (if
+possible). If necessary provide im- plementation
+details.\textless\textless\}
 
 The framework used when writing this package aims at reproducibility of
 the results. It builds on the folowing main considerations:
@@ -518,7 +390,7 @@ A typical simulation would look as followed:
 \CommentTok{\# manually setting certain parameter}
 
 \DocumentationTok{\#\# Run the simulation and save the result}
-\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{run\_simulatrion}\NormalTok{(parameter)}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{run\_simulation}\NormalTok{(parameter)}
 \FunctionTok{saveRDS}\NormalTok{(result, }\StringTok{"sim1.rds"}\NormalTok{)}
 
 \DocumentationTok{\#\# Do other stuff, e.g. plotting}
@@ -526,15 +398,18 @@ A typical simulation would look as followed:
 \DocumentationTok{\#\# Load results, change some parameter, and rerun the simulation and save the result}
 \NormalTok{parameter }\OtherTok{\textless{}{-}} \FunctionTok{loadRDS}\NormalTok{(}\StringTok{"sim1.rds"}\NormalTok{)}
 \CommentTok{\# change some parameter}
-\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{run\_simulatrion}\NormalTok{(parameter)}
+\NormalTok{result }\OtherTok{\textless{}{-}} \FunctionTok{run\_simulation}\NormalTok{(parameter)}
 \FunctionTok{saveRDS}\NormalTok{(result, }\StringTok{"sim2,rds"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{runsim}{%
-\subsection{Using the package}\label{runsim}}
+\hypertarget{software-functionalities}{%
+\subsection{Software Functionalities}\label{software-functionalities}}
 
-We will now discuss the general structure and functiuonality of the
+\{\textgreater\textgreater Present the major functionalities of the
+software.\textless\textless\}
+
+We will now discuss the general structure and functionality of the
 package without going into to much detail. A more detailed discussion
 can be found in the \href{LINK_NEEDED}{User Guide}.
 
@@ -546,7 +421,13 @@ temporal variation in oxygen diffusivity, and events.
 
 In the following sections we describe the general usage of the package:
 running one simulation, finding steady states across an environmental
-gradient, calculating measures of stability, and visualisation.
+gradient, calculating measures of stability, and visualization.
+
+\hypertarget{illustrative-examples}{%
+\section{Illustrative Examples}\label{illustrative-examples}}
+
+\{\textgreater\textgreater Present the major functionalities of the
+software.\textless\textless\}
 
 \hypertarget{running-one-simulation}{%
 \subsubsection{Running one simulation}\label{running-one-simulation}}
@@ -626,7 +507,7 @@ For a more detailed walk-through of these two approaches and explanation
 please see the \href{@LINK_NEEDED}{User Guide}.
 
 \hypertarget{extracting-stability-measures}{%
-\subsection{Extracting Stability
+\subsubsection{Extracting Stability
 Measures}\label{extracting-stability-measures}}
 
 From the raw results returned by these \texttt{run\_...()} functions,
@@ -635,8 +516,19 @@ the stability measures can be extracted by using the function
 non-linearity and hysteresis measures, of the response of the simulated
 system to environmental change.
 
-\hypertarget{use-cases}{%
-\section{Use cases}\label{use-cases}}
+\hypertarget{impact}{%
+\section{Impact}\label{impact}}
+
+\{\textgreater\textgreater This is the main section of the article and
+the reviewers weight the description here appropriately Indicate in what
+way new research questions can be pursued as a result of the software
+(if any). Indicate in what way, and to what extent, the pursuit of
+existing research questions is improved (if so). Indicate in what way
+the software has changed the daily practice of its users (if so).
+Indicate how widespread the use of the software is within and outside
+the intended user group. Indicate in what way the software is used in
+commercial settings and/or how it led to the creation of spin-off
+companies (if so).\textless\textless\}
 
 The first two use cases are described in detail in the User Guide and
 the Partial Reproduction Vignettes. The third is taken from the REF
@@ -697,14 +589,25 @@ investigate these dynamics and the results are available in REF NEEDED
 (\protect\hyperlink{ref-REF_NEEDED}{2222}).
 
 {\{\textgreater\textgreater More details from the
-paper.\textless\textless\}\\
-\{\textgreater\textgreater Romana will provide two or three
-sentences\textless\textless\}}
+paper.\textless\textless\} \{\textgreater\textgreater Romana will
+provide two or three sentences\textless\textless\}}
 
-\hypertarget{conclusions-1}{%
-\section{Conclusions}\label{conclusions-1}}
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
 
-\{\textgreater\textgreater Dependant on journal\textless\textless\}
+Set out the conclusion of this original software publication.
+
+\hypertarget{conflict-of-interest}{%
+\section{Conflict of Interest}\label{conflict-of-interest}}
+
+We wish to confirm that there are no known conflicts of interest
+associated with this publication and there has been no significant
+financial support for this work that could have influenced its outcome.
+
+\hypertarget{acknowledgements}{%
+\section{Acknowledgements}\label{acknowledgements}}
+
+Optionally thank people and institutes you need to acknowledge.
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
@@ -721,12 +624,6 @@ doi:\href{https://doi.org/10.1038/s41467-017-00912-x}{10.1038/s41467-017-00912-x
 
 \leavevmode\vadjust pre{\hypertarget{ref-REF_NEEDED}{}}%
 REF NEEDED, A., 2222. {REFERNECE NEEDED}. Journal of missing references.
-
-\leavevmode\vadjust pre{\hypertarget{ref-Soetaert2010}{}}%
-Soetaert, K., Petzoldt, T., Setzer, R.W., 2010. Solving differential
-equations in {R}: {Package deSolve}. Journal of Statistical Software 33,
-1--25.
-doi:\href{https://doi.org/10.18637/jss.v033.i09}{10.18637/jss.v033.i09}
 
 \end{CSLReferences}
 
