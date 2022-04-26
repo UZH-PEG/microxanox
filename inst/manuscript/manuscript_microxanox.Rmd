@@ -46,7 +46,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, include = FALSE}
-library(plantuml)
 ```
 
 
@@ -58,6 +57,10 @@ library(plantuml)
 
 > Here we investigated if functional diversity influences the resilience of ecosystems that abruptly transition between alternative ecosystem states. As a case study, we used a mathematical model developed by Bush et al. (2017) which describes anoxic-oxic regime shifts of aquatic ecosystems mediated by cyanobacteria, sulfate-reducing bacteria, and phototrophic sulfur bacteria. We extended this model so as to include functional diversity in one, two, or all three functional groups. Specifically, we manipulated the amount of variation in environmental tolerance and in maximum growth rate, and explored how trait variation influenced anoxic-oxic regime shifts along a gradient of oxygen influx. We found that greater diversity of either cyanobacteria or sulfate-reducing bacteria increased the resilience of the ecosystem state that these groups dominated, while greater diversity of phototrophic sulfur bacteria reduced the resilience of the state they dominated. We also found that simultaneous variation in multiple functional groups reduced, reversed, or did not change the diversity effect of individual functional groups. Collectively, our findings highlight the importance of considering multiple interacting functional groups when predicting the effect of functional diversity on ecosystem resilience
  -->
+
+# TODO
+- **update links**
+- **update crossref**
 
 # Required Metadata
 ## Current code version
@@ -78,11 +81,11 @@ Ancillary data table required for subversion of the codebase.
 
 
 # Motivation and significance
-Many ecosystems are exposed to gradual changes of environmental variables, to which the responses are not always as gradual as the change of the environmental variable. One example where the gradual change of a single environmental causing an abrupt change of the system is the switch from an aerobic to anaerobic system. This system hass been investigated by @Bush2017. We wanted to take this investigation one step further, and look at the role of an increased biodiversity plays in these dynamics [@REF_NEEDED]. For this purpose, we developed this package.
+Many ecosystems are exposed to gradual changes of environmental variables, to which the responses are not always as gradual as the change of the environmental variable. One example where the gradual change of a single environmental causing an abrupt change of the system is the switch from an aerobic to anaerobic system. This system has been investigated by @Bush2017. We wanted to take this investigation one step further, and look at the role an increased biodiversity plays in these dynamics [@REF_NEEDED]. For this purpose, we developed this package.
 
-The microxanox package is a package for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feddback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model).
+The microxanox package is a package for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feedback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model).
 
-The aims of the `microxanox` package are twofold. Firstly, the package aims at reproducing the results shown by [@Bush2017], which is acomplished in the [vignette Partial reproduction of Bush et al](LINK NEEDED). Secondly, to take these results one step further, it includes new functionality to adress our research question as presented in [@REF_NEEDED].
+The aims of the `microxanox` package are twofold. Firstly, the package aims at reproducing the results shown by [@Bush2017], which is accomplished in the [vignette Partial reproduction of Bush et al](LINK NEEDED). Secondly, to take these results one step further, it includes new functionality to address our research question as presented in [@REF_NEEDED].
 
 For this, we extended the model and added functionality for:
 
@@ -92,48 +95,22 @@ For this, we extended the model and added functionality for:
 - Including immigration.
 - Setting minimum population abundances.
 
-In addition to the model itself, the package includes some functions to analyse the results as well as visualise the results to provide a starting point for customised visualisations based on own requirements.
+In addition to the model itself, the package includes some functions to analyse the results as well as visualize the results to provide a starting point for customized visualizations based on own requirements.
 
 
 # Software description
-{>>Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact.<<}
+> {>>Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact.<<}
 
-```{plantuml runsim_example, eval = TRUE, plantuml.format = "auto", plantuml.preview = TRUE}
-@startuml
-partition "Run Single Simulation" {
-   start
-  :parameter <- new_runsim_parameter();
-  split
-    #palegreen:saveRDS(FILE, parameter);
-    detach
-  split again
-    #pink:result <- run_simulation(parameter);
-  end split
-  split
-    #palegreen:saveRDS(FILE, results);
-    detach
-  split again
-    :Change some parameter;
-    #pink:result2 <- run_simulation(results);
-  end split
-  split
-    #palegreen:saveRDS(FILE, results2);
-    detach
-  split again
-    end
-  end split
-}
-@enduml
-```
 
-The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptaitions, are likely to need a change in the source code.
 
-Nevertheless, the model is structured in a way which builds on a modular structuere, so that e.g. the event definition can easily be changed. or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems.
+The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptations, are likely to need a change in the source code.
+
+Nevertheless, the model is structured in a way which builds on a modular structure, so that e.g. the event definition can easily be changed, or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems.
 
 ## Software Architecture
-{>>Give a short overview of the overall software architecture; provide a pic- torial component overview or similar (if possible). If necessary provide im- plementation details.<<}
+> {>>Give a short overview of the overall software architecture; provide a pictorial component overview or similar (if possible). If necessary provide im- plementation details.<<}
 
-The framework used when writing this package aims at reproducibility of the results. It builds on the folowing main considerations:
+The framework used when writing this package aims at reproducibility of the results. It builds on the following main considerations:
 
 1. all parameter needed to run a simulation or find a stable state are contained in a single parameter object. This object is created by using the functions `new_..._parameter()`, `new_initial_state()` and `new_strain_parameter()`. Which one of the `new_..._parameter()` functions has to be used when, will be discussed in the section  \@ref(runsim)  and in the [User Guide](LINK_NEEDED).
 2. The function call `run_...(parameter)` will run the simulation using the parameter as defined in the object `parameter`.
@@ -142,71 +119,96 @@ The framework used when writing this package aims at reproducibility of the resu
 
 The point that the results object contains all parameter needed to run the simulation, promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations much easier.
 
-A typical simulation would look as followed:
-
-```{r, eval = FALSE}
-## Create the parameter
-parameter <- new_runsim_parameter()
-# manually setting certain parameter
-
-## Run the simulation and save the result
-result <- run_simulation(parameter)
-saveRDS(result, "sim1.rds")
-
-## Do other stuff, e.g. plotting
-
-## Load results, change some parameter, and rerun the simulation and save the result
-parameter <- loadRDS("sim1.rds")
-# change some parameter
-result <- run_simulation(parameter)
-saveRDS(result, "sim2,rds")
-```
-
 ## Software Functionalities
-{>>Present the major functionalities of the software.<<}
+> {>>Present the major functionalities of the software.<<}
 
-We will now discuss the general structure and functionality of the package without going into to much detail. A more detailed discussion can be found in the [User Guide](LINK_NEEDED).
+We will discuss the general structure and functionality of the package without going into to much detail. A more detailed discussion can be found in the [User Guide](LINK_NEEDED).
 
 The ODEs for the rates of change are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@Bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
 
 In the following sections we describe the general usage of the package: running one simulation, finding steady states across an environmental gradient, calculating measures of stability, and visualization.
 
 
-
 # Illustrative Examples
-{>>Present the major functionalities of the software.<<}
+> {>>Present the major functionalities of the software.<<}
 
-### Running one simulation
+## Running one simulation
 
-The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one argument - an object as created by the function `new_runsim_parameter()`. One parameter of this object is the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter and how they are created please see the User Guide and which acomnpanies the package or is available at [User Guide](@LINK_NEEDED)
+A typical simulation would look as shown in \@ref(fig:runsim_example).
+
+```{R runsim_example, eval = TRUE, echo = FALSE, fig.cap='Typical flow of a simulation. Dark Grey boxes: commands necessary for simulation; Light Grey:Saving of parameter and results; Lightest Grey: Different non specified commands.', fig.align="center", out.width = 350 }
+fig <- "./figures/simflow.pdf"
+
+if (!file.exists(fig)){
+  library(plantuml)
+  puml <- '
+    @startuml
+    partition "Run Single Simulation" {
+      start
+      #DarkGrey:\"\"library(microxanox)\"\"\n\"\"parameter <- new_runsim_parameter(...)\"\";
+      :Change some parameter
+      in the \"\"parameter\"\" object;      
+      split
+        #LightGrey:\"\"saveRDS(FILE, parameter)\"\";
+        detach
+      split again
+        #DarkGrey:\"\"result <- run_simulation(parameter)\"\";
+      end split
+      split
+        #LightGrey:\"\"saveRDS(FILE, results)\"\";
+        detach
+      split again
+        #DarkGrey:\"\"plot_dynamics(results)\"\";
+        :Change some parameter
+        in the \"\"result\"\" object;
+        #DarkGrey:\"\"result2 <- run_simulation(results)\"\";
+      end split
+      split
+        #LightGrey:\"\"saveRDS(FILE, results2)\"\";
+        detach
+      split again
+        #DarkGrey:\"\"plot_dynamics(results)\"\";
+        end
+      end split
+    }
+    @enduml
+  '
+
+  plantuml::get_graph(puml, fig)
+}
+
+knitr::include_graphics(fig)
+```
+
+The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved. The function needs only one argument - an object as created by the function `new_runsim_parameter()`. One parameter of this object is the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter and how they are created please see the User Guide which acomnpanies the package or is available at [User Guide](@LINK_NEEDED)
 
 After the parameter object has been defined, it can be used in the `run_simulation()` function. The function returns an object which is identical to the parameter, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used instead of a parameter object to be fed back into the `run_simulation()` function to run the simulation again from the parameter used to generate the results from.
 
 The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This functio is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
 
-```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function $plot_dynamics()$. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 500 }
+```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Plot of results of a simulation run using the function $plot_dynamics()$. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 350 }
 knitr::include_graphics("figures/ug_three_strains_dynamics.png")
 ```
 
-### Finding a Steady State of the model
+## Finding a Steady State of the model
 
 There are two methods for finding steady states. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the *Replication method*). The second runs only two simulations, with step-wise and slowly temporally increasing or decreasing oxygen diffusivities and recorded of state just before change to a new oxygen diffusivity (let us term this the *Temporal method*).
 
-#### Replication Method
+### Replication Method
 The replication method is implementad in the function `run_replication_ssfind()` which takes a parameter object as returned by the function `new_replication_ssfind_parameter()` and the number of cores for multithreading the simulation.
 
-#### Temporal Method
+### Temporal Method
 The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step.
 
 This is implemented in the function `run_temporal_ssfind()`, which takes a parameter object as created by the function `new_temporal_ssfind_parameter()` and a number indicating the .
 
 For a more detailed walk-through of these two approaches and explanation please see the [User Guide](@LINK_NEEDED).
 
-### Extracting Stability Measures
+## Extracting Stability Measures
 From the raw results returned by these `run_...()` functions, the stability measures can be extracted by using the function `get_stability_measures()`. These measures include non-linearity and hysteresis measures, of the response of the simulated system to environmental change.
 
 # Impact
-{>>This is the main section of the article and the reviewers weight the description here appropriately
+> {>>This is the main section of the article and the reviewers weight the description here appropriately
 Indicate in what way new research questions can be pursued as a result of the software (if any).
 Indicate in what way, and to what extent, the pursuit of existing research questions is improved (if so).
 Indicate in what way the software has changed the daily practice of its users (if so).
@@ -220,7 +222,7 @@ The first two use cases are described in detail in the User Guide and the Partia
 
 In the [User Guide](LINK_NEEDED) we used a one strain system (section "1 strain per functional group") and three strain system (section "3 strains per functional group") to determine as an example the stable states during temporal environmental changes (the oxygen diffusivity). From these simulatiuons, we extracted measures of nonlinearity and hysteresis. See Fig \@ref(fig:plot-dynamics) as an example plot of the simulations.
 
-```{r uc1_stable_state, echo = FALSE,  include=TRUE, fig.cap='Plot of the stable states of the simulation runs under different oxygen diffusivity. The top graph are the Organisms (ech initially with three strains) while the lower graph is the substrate availability under the same oxygen diffusivities. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 500 }
+```{r uc1_stable_state, echo = FALSE,  include=TRUE, fig.cap='Plot of the stable states of the simulation runs under different oxygen diffusivity. The top graph are the Organisms (ech initially with three strains) while the lower graph is the substrate availability under the same oxygen diffusivities. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 350 }
 knitr::include_graphics("figures/ug_three_strains_stable_state.png")
 ```
 
@@ -229,7 +231,7 @@ knitr::include_graphics("figures/ug_three_strains_stable_state.png")
 
 One of the reasons to develop this package was to reproduce the results presented in @Bush2017, this was achieved as demonstrated in the [Partial Reproduction supplement](LINK_NEEDED). All aspects in the paper could be reproduced and are shown in the vignette.
 
-```{r user_guide_hysteresis, echo = FALSE,  include=TRUE, fig.cap='Hysteresis of all assessed combinations of variability.', fig.align="center", out.width = 500 }
+```{r user_guide_hysteresis, echo = FALSE,  include=TRUE, fig.cap='Hysteresis of all assessed combinations of variability.', fig.align="center", out.width = 350 }
 knitr::include_graphics("figures/user_guide_hysteresis.png")
 ```
 
