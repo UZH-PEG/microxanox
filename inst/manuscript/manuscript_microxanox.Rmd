@@ -2,7 +2,7 @@
 title: "Microxanox - an R package for simulating an $MICR$obial ecosystem that can occupy $OX$ic or $ANOX$ic states."
 author:
 - name: Rainer M Krug
-  email: Rainer.Krug@uzh.ch & Rainer@krugs.de
+  email: Rainer.Krug@uzh.ch;  Rainer@krugs.de
   affiliation: University of Zürich
   footnote: Corresponding Author
 - name: Owen L. Petchey
@@ -20,7 +20,6 @@ footnote:
 keywords: metadata quality; data curation; archival; long term storage; R package;
 abstract: |
   Ca. 100 words.
-bibliography: manuscript_bibliography.bib
 journal: "SoftwareX"
 date: "`r Sys.Date()`"
 
@@ -33,6 +32,7 @@ output:
       in_header: headers.tex
 
 # Citation settings
+bibliography: bibliography.bib
 nocite: '@Bush2017'
 linkcolor: blue
 link-citations: yes
@@ -58,9 +58,10 @@ knitr::opts_chunk$set(
 > Here we investigated if functional diversity influences the resilience of ecosystems that abruptly transition between alternative ecosystem states. As a case study, we used a mathematical model developed by Bush et al. (2017) which describes anoxic-oxic regime shifts of aquatic ecosystems mediated by cyanobacteria, sulfate-reducing bacteria, and phototrophic sulfur bacteria. We extended this model so as to include functional diversity in one, two, or all three functional groups. Specifically, we manipulated the amount of variation in environmental tolerance and in maximum growth rate, and explored how trait variation influenced anoxic-oxic regime shifts along a gradient of oxygen influx. We found that greater diversity of either cyanobacteria or sulfate-reducing bacteria increased the resilience of the ecosystem state that these groups dominated, while greater diversity of phototrophic sulfur bacteria reduced the resilience of the state they dominated. We also found that simultaneous variation in multiple functional groups reduced, reversed, or did not change the diversity effect of individual functional groups. Collectively, our findings highlight the importance of considering multiple interacting functional groups when predicting the effect of functional diversity on ecosystem resilience
  -->
 
-# TODO
-- **update links**
-- **update crossref**
+# \color{red}TODO
+- \color{red}**update links** 
+- \color{red}**update cross references**
+\pagebreak
 
 # Required Metadata
 ## Current code version
