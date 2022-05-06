@@ -43,7 +43,7 @@
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={},
-            pdftitle={Microxanox - an R package for simulating an MICRobial ecosystem that can occupy OXic or ANOXic states.},
+            pdftitle={Microxanox: an R package for simulating an aquatic MICRobial ecosystem that can occupy OXic or ANOXic states.},
             colorlinks=true,
             urlcolor=blue,
             linkcolor=blue,
@@ -112,8 +112,8 @@
 
 \begin{frontmatter}
 
-  \title{Microxanox - an R package for simulating an \(MICR\)obial
-ecosystem that can occupy \(OX\)ic or \(ANOX\)ic states.}
+  \title{Microxanox: an R package for simulating an aquatic
+\(MICR\)obial ecosystem that can occupy \(OX\)ic or \(ANOX\)ic states.}
     \author[University of Zürich]{Rainer M Krug%
   %
   \fnref{Corresponding Author}}
@@ -130,23 +130,28 @@ Biology and Environmental Studies, Winterthurerstrasse 190, 8057 Zurich}
   Ca. 100 words.
   \end{abstract}
     \begin{keyword}
-    metadata quality; data curation; archival; long term storage; R
-package; \sep 
-    metadata quality; data curation; archival; long term storage; R
-package;
+    reproducibility; regime shift; \sep 
+    reproducibility; regime shift;
   \end{keyword}
   
  \end{frontmatter}
 
-\hypertarget{todo}{%
-\section{\texorpdfstring{\color{red}TODO}{TODO}}\label{todo}}
+\hypertarget{section}{%
+\section{\texorpdfstring{\textcolor{red}{TODO}}{}}\label{section}}
 
 \begin{itemize}
 \tightlist
 \item
-  \color{red}\textbf{update links}
+  \textbf{\textcolor{red}{update links}}
 \item
-  \color{red}\textbf{update cross references} \pagebreak
+  \textbf{\textcolor{red}{update cross references}}
+\item
+  \textbf{\textcolor{red}{check keywords}}
+\item
+  \textbf{\textcolor{red}{add more references}}
+\item
+  \textbf{\textcolor{red}{expand on Impact and Conclusion section}}
+  \pagebreak
 \end{itemize}
 
 \hypertarget{required-metadata}{%
@@ -158,9 +163,9 @@ package;
 Ancillary data table required for subversion of the codebase.
 
 \begin{longtable}[]{@{}
-  >{\centering\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0596}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4106}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5298}}@{}}
+  >{\centering\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0483}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4138}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5379}}@{}}
 \toprule
 \begin{minipage}[b]{\linewidth}\centering
 \textbf{Nr.}
@@ -177,10 +182,29 @@ C2 & Permanent link to code/repository used for this code version &
 C3 & Code Ocean compute capsule & \\
 C4 & Legal Code License & CC BY 4.0 \\
 C5 & Code versioning system used & git \\
-C6 & Software code languages, tools, and services used & R \\
-C7 & Compilation requirements, operating environments & R (\textgreater=
-4.1.0), ADD PACKAGES \\
-C8 & If available Link to developer documentation/manual & \\
+C6 & Software code languages, tools, and services used &
+\href{https://cran.r-project.org/index.html}{R} \\
+C7 & Compilation requirements, operating environments &
+\href{https://cran.r-project.org/index.html}{R (\textgreater= 4.1.0)} \\
+& & magrittr \\
+& & tibble \\
+& & ggplot2 \\
+& & patchwork \\
+& & grDevices \\
+& & stats \\
+& & mgcv \\
+& & deSolve \\
+& & dplyr \\
+& & tidyr \\
+& & stringr \\
+& & multidplyr \\
+& & \\
+& & \\
+& & \\
+& & \\
+& & \\
+C8 & If available Link to developer documentation/manual &
+\textcolor{red}{TO BE ADDED} \\
 C9 & Support email for questions & Rainer.Krug@uzh.ch;
 Rainer@krugs.de \\
 \bottomrule
@@ -192,13 +216,13 @@ significance}\label{motivation-and-significance}}
 
 Many ecosystems are exposed to gradual changes of environmental
 variables, to which the responses are not always as gradual as the
-change of the environmental variable. One example where the gradual
-change of a single environmental variable is causing an abrupt change of
-the system is the switch from an aerobic to anaerobic system. This
-system has been investigated by \citet{Bush2017}. We wanted to take this
-investigation one step further, and look at the role an increased
-biodiversity plays in these dynamics \citep{REF_NEEDED}. For this
-purpose, we developed this package.
+change of the environmental variable \citep{REF_NEEDED}. One example
+where the gradual change of a single environmental variable is causing
+an abrupt change of the system is the switch from an aerobic to
+anaerobic system. This system has been investigated by \citet{Bush2017}.
+We wanted to take this investigation one step further, and look at the
+role an increased biodiversity plays in these dynamics
+\citep{REF_NEEDED}. For this purpose, we developed this package.
 
 The microxanox package is a package for simulating a three functional
 group system (\emph{CB}: cyanobacteria, \emph{PB}: phototrophic sulfur
@@ -208,12 +232,12 @@ sulfur, \emph{SO}: oxidized sulfur). It includes feedback between
 biogeochemical processes and is based on \citep{Bush2017} (See
 \citep{Bush2017} for a detailed discussion of the model).
 
-The aims of the \texttt{microxanox} package are twofold. Firstly, the
-package aims at reproducing the results shown by \citep{Bush2017}, which
-is accomplished in the \href{LINK\%20NEEDED}{vignette Partial
-reproduction of Bush et al}. Secondly, to take these results one step
-further, it includes new functionality to address our research question
-as published in \citep{REF_NEEDED}.
+The aims of the \texttt{microxanox} package are twofold: firstly, to
+reproduce the results shown by \citep{Bush2017}, which is accomplished
+in the \href{LINK\%20NEEDED}{vignette Partial reproduction of Bush et
+al} and secondly, to take these results one step further, to includes
+new functionality to address our research question as published in
+\citep{REF_NEEDED}.
 
 For this, we extended the model and added functionality for:
 
@@ -277,7 +301,8 @@ details.\textless\textless\}
 \end{quote}
 
 The framework used when writing this package aims at reproducibility of
-the results. It builds on the following main considerations:
+the results (see \citep{REF_NEEDED} for examples). It builds on the
+following main considerations:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -304,7 +329,9 @@ the results. It builds on the following main considerations:
 
 The point that the results object contains all parameter needed to run
 the simulation, promotes reproducibility and makes incremental changes
-of individual parameters and re-running the simulations much easier.
+of individual parameters and re-running the simulations much easier, as
+can be seen in our research and the RMarkdown \citep{REF_NEEDED} file
+used to run and analyse the experiments \citep{REF_NEEDED}.
 
 In the following sections we describe the general usage of the package:
 running one simulation, finding steady states across an environmental
@@ -314,10 +341,6 @@ gradient, calculating measures of stability, and visualization.
 \subsubsection{Running one simulation}\label{running-one-simulation}}
 
 A typical simulation would look as shown in @ref(fig:runsim\_example).
-
-\begin{verbatim}
-#> [1] "./figures/simflow.pdf"
-\end{verbatim}
 
 \begin{figure}
 
@@ -329,22 +352,24 @@ A typical simulation would look as shown in @ref(fig:runsim\_example).
 \end{figure}
 
 The individual simulation (\texttt{run\_simulation()} function) is the
-working horse in this package. In this function, the ODEs are solved.
-The function needs only one argument - an object as created by the
-function \texttt{new\_runsim\_parameter()}. One parameter of this object
-is the \texttt{strain\_parameter} which can be created by the function
-\texttt{new\_strain\_parameter()}. For a detailed description of the
-parameter, their meaning and how they are created please see the User
-Guide which accompanies the package or is available at
-\href{@LINK_NEEDED}{User Guide}
+working horse in this package. In this function, the ODEs are solved
+using the function \texttt{ode} in the package deSolve package
+\citep{Soetaert2010}. The \texttt{run\_simulation()} function needs only
+one argument - an object as created by the function
+\texttt{new\_runsim\_parameter()}. The parameter object contains among
+other parameter the \texttt{strain\_parameter} which can be created by
+the function \texttt{new\_strain\_parameter()}. For a detailed
+description of the parameter, their meaning and how they are created and
+can be set and changed please see the User Guide which accompanies the
+package or is available at \href{@LINK_NEEDED}{User Guide}
 
 After the parameter object has been defined, it can be used in the
 \texttt{run\_simulation()} function. The function returns an object
-which is identical to the parameter, except of an additional slot
+which is identical to the parameter object, except of an additional slot
 containing the results. This design produces a fully reproducible object
-as it can be used instead of a parameter object to be fed back into the
+as it can be used as a parameter object to be fed back into the
 \texttt{run\_simulation()} function to run the simulation again from the
-parameter used to generate the results from.
+parameter used to generate the results before.
 
 The function \texttt{plot\_dynamics()} plots a single simulation run, as
 returned from the \texttt{run\_simulation()} function. This function is
@@ -365,13 +390,21 @@ function is shown in @ref(fig:plot-dynamics).
 \subsubsection{Finding a Steady State of the
 model}\label{finding-a-steady-state-of-the-model}}
 
-There are two methods for finding steady states. The first runs a
-separate simulation for each combination of starting conditions and
-oxygen diffusivity (let us term this the \emph{Replication method}). The
-second runs only two simulations, with step-wise and slowly temporally
-increasing or decreasing oxygen diffusivities and recorded of state just
-before change to a new oxygen diffusivity (let us term this the
-\emph{Temporal method}).
+\textcolor{red}{@Owen: can you please fill in the references to these mathods? Thanks.}
+
+There are two methods for finding steady states implemented in this
+package. The first runs a separate simulation for each combination of
+starting conditions and oxygen diffusivity (let us term this the
+\emph{Replication method})
+\textbackslash textcolor\{red\}\{\{\textgreater\textgreater{}\citet{Owen}
+- does this approach has a name, and do you have a reference where it
+has been used or described?\textless\textless\}. The second runs only
+two simulations, with step-wise and slowly temporally increasing or
+decreasing oxygen diffusivities and recorded of state just before change
+to a new oxygen diffusivity (let us term this the \emph{Temporal
+method})\textbackslash textcolor\{red\}\{\{\textgreater\textgreater{}\citet{Owen}
+- Has this been used in other publications? I do not have a clue what I
+could search for to find out\ldots\textless\textless\}.
 
 \hypertarget{replication-method}{%
 \paragraph{Replication Method}\label{replication-method}}
@@ -379,7 +412,11 @@ before change to a new oxygen diffusivity (let us term this the
 The replication method is implementad in the function
 \texttt{run\_replication\_ssfind()} which takes a parameter object as
 returned by the function \texttt{new\_replication\_ssfind\_parameter()}
-and the number of cores for multithreading the simulation.
+and the number of cores for multithreading the simulation. As the
+multithreading uses the package function \texttt{mclapply()} from the
+package \texttt{parallel} \citep{RCoreTeam2022}, the multthreading only
+works on Linux and Mac. It is planned to move to \texttt{parLapply()}
+\citep{RCoreTeam2022} in a future release.
 
 \hypertarget{temporal-method}{%
 \paragraph{Temporal Method}\label{temporal-method}}
@@ -392,11 +429,13 @@ held at a constant level for long enough for steady state to be reach,
 that state is recorded, and then a slightly higher (or lower) oxygen
 diffusivity value is set. Hence, at that time point, the system is
 effectively started with initial conditions that are the state of the
-system in the previous time step.
+system in the previous time step
+\textcolor{red}{{>>@Owen: is there a ref for this approach?<<}}.
 
 This is implemented in the function \texttt{run\_temporal\_ssfind()},
 which takes a parameter object as created by the function
-\texttt{new\_temporal\_ssfind\_parameter()}.
+\texttt{new\_temporal\_ssfind\_parameter()}. It is planned for a later
+release, to run these two simulations in parallel.
 
 For a more detailed walk-through of these two approaches and explanation
 please see the \href{@LINK_NEEDED}{User Guide}.
@@ -409,12 +448,13 @@ From the raw results returned by these \texttt{run\_...()} functions,
 the stability measures can be extracted by using the function
 \texttt{get\_stability\_measures()}. These measures include
 non-linearity and hysteresis measures, of the response of the simulated
-system to environmental change.
+system to environmental change
+\textcolor{red}{{>>@Owen: is there a paper, so that we can say "as e.g. used in REF?<<}}.
 
 \hypertarget{use-cases}{%
 \subsection{Use Cases}\label{use-cases}}
 
-We will now show two use cases which illustrate applications of the
+We will now show three use cases which illustrate applications of the
 package. All use cases can be used as starting points for other
 investigations of the behavior of the system.
 
@@ -427,6 +467,8 @@ group and variable values van be changed.
 \hypertarget{regime-shifts-during-temporal-environmental-change}{%
 \subsubsection{Regime shifts during temporal environmental
 change}\label{regime-shifts-during-temporal-environmental-change}}
+
+\textcolor{red}{@Owen: Do you have some references which could be added here and probably add some more justifying text to this section?}
 
 In the \href{LINK_NEEDED}{User Guide} we used a one strain system
 (section ``1 strain per functional group'') and three strain system
@@ -453,6 +495,8 @@ to the one shown in @ref(fig:runsim\_example).
 \subsubsection{The extent of hysteresis depends on community
 composition}\label{the-extent-of-hysteresis-depends-on-community-composition}}
 
+\textcolor{red}{@Owen: Do you have some references which could be added here and probably add some more justifying text to this section?}
+
 One of the reasons to develop this package was to reproduce the results
 presented in \citet{Bush2017}. This was achieved as demonstrated in the
 \href{LINK_NEEDED}{Partial Reproduction supplement}. All aspects in the
@@ -467,23 +511,23 @@ paper could be reproduced and are shown in the vignette.
 \caption{Hysteresis of all assessed combinations of variability.}\label{fig:user_guide_hysteresis}
 \end{figure}
 
-Ass all objects were saved, results can be easily reproduced and
+As all objects were saved, results can be easily reproduced and
 parameter can be changed to assess the impact of these changes (e.g.~to
-conduc a sensitivity analysis).
+conduct a sensitivity analysis).
 
 \hypertarget{effects-of-functional-diversity-on-regime-shifts}{%
 \subsubsection{Effects of functional diversity on regime
 shifts}\label{effects-of-functional-diversity-on-regime-shifts}}
 
+\textcolor{red}{@Owen: Do you have some references which could be added here and probably add some more justifying text to this section?}
+
 As discussed in the paper \citep{REF_NEEDED}, the role biodiversity
 plays in abrupt regime shifts based on gradual changing environmental
 parameter is not well understood. This model (as part of the package)
 has been used to investigate these dynamics and the results are
-available in \citet{REF_NEEDED}.
+available in with the DOI DOI NEEDED \citet{REF_NEEDED}.
 
-{\{\textgreater\textgreater More details from the
-paper.\textless\textless\} \{\textgreater\textgreater Romana will
-provide two or three sentences\textless\textless\}}
+\textcolor{red}{{>>@Owen: More details from the paper. I will approach Romana when the first draft is ready so that she can put something in, onless you will add a few sentences here.<<}}
 
 \hypertarget{impact}{%
 \section{Impact}\label{impact}}
@@ -512,10 +556,32 @@ the return of the simulation as a result object which inherits from the
 parameter object and adds a results slot provides a relatively easy to
 use framework to implement reproducible experiments.
 
+\textcolor{red}{{>>@Owen: Could you put a few sentence in highlighting the impact this package could have considering the importance of possible research questions?<<}}
+
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-Set out the conclusion of this original software publication.
+\begin{quote}
+\{\textgreater\textgreater Set out the conclusion of this original
+software publication.\textless\textless\}
+\end{quote}
+
+This package makes an important paper
+\textcolor{red}{{>>@Owen: is this correct?<<}} \citep{Bush2017} fully
+reproducible without having to re-implement the code. By doing so, it
+opens the door for further investigations based on the system as done in
+\citet{REF_NEEDED} and, consequently, increases the reach (and ultimaly)
+the impact of the original paper by \citet{Bush2017}. This demonstrates
+again \citep{REF_NEEDED} the importance of publishing not only the data
+but also the code used in a publication.
+
+\textcolor{red}{{>>@Owen: could you write a short conclusion paragraph about the ecological relevance of `microxanox`?<<}}
+
+In addition to the ecological relevance and importance of this package
+as discussed above, it can be used as a template for the implementation
+of other different models. By doing so, other models can profit from the
+reproducibility aspects as well as the flexibility as implemented in
+this package.
 
 \hypertarget{conflict-of-interest}{%
 \section{Conflict of Interest}\label{conflict-of-interest}}
