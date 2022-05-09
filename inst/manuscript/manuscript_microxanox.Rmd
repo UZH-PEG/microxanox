@@ -92,49 +92,54 @@ Ancillary data table required for subversion of the codebase.
 
 
 # Motivation and significance
-Many ecosystems are exposed to gradual changes of environmental variables, to which the responses are not always as gradual as the change of the environmental variable [@REF_NEEDED]. One example where the gradual change of a single environmental variable is causing an abrupt change of the system is the switch from an aerobic to anaerobic system. This system has been investigated by @Bush2017. We wanted to take this investigation one step further, and look at the role an increased biodiversity plays in these dynamics [@REF_NEEDED]. For this purpose, we developed this package.
 
-The microxanox package is a package for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feedback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model).
+Mathematical models play a key role in the development of understanding about how ecosystems work and how they respond to environmental changes [@REF_NEEDED]
+- Chaparro-Pedraza, P.C. (2021). Fast environmental change and eco-evolutionary feedbacks can drive regime shifts in ecosystems before tipping points are crossed. Proc. R. Soc. B., 288, 20211192.
+- Binzer, A., Guill, C., Rall, B.C. & Brose, U. (2016). Interactive effects of warming, eutrophication and size structure: impacts on biodiversity and food-web structure. Global Change Biology, 22, 220–227.
+- Vasseur, D. a & McCann, K.S. (2005). A mechanistic approach for modeling temperature-dependent consumer-resource dynamics. The American Naturalist, 166, 184–198.
 
-The aims of the `microxanox` package are twofold: firstly, to reproduce the results shown by [@Bush2017], which is accomplished in the [vignette Partial reproduction of Bush et al](LINK NEEDED) and secondly, to take these results one step further, to includes new functionality to address our research question as published in [@REF_NEEDED].
+. They are also critical for developing hypotheses that can then be tested in experimental studies. One area of ecology in which simple models have played a very influential role is the area of how ecosystems respond to gradual environmental change [@REF_NEEDED].
+- Scheffer, M., Carpenter, S., Foley, J. a, Folke, C. & Walker, B. (2001). Catastrophic shifts in ecosystems. Nature, 413, 591–6.
 
-For this, we extended the model and added functionality for:
 
-- Multiple strains (effectively unlimited) per functional group.
-- Adding temporally varying oxygen diffusivity.
-- Adding random noise in substrate concentrations.
-- Including immigration.
-- Setting minimum population abundances.
+It is conceivable that an ecosystem state, such as the total biomass of a particular type of bacteria, may remain unchanged when something about its environment changes, such as the temperature. It is possible that the ecosystem state changes gradually itself. It is also possible that the ecosystem state may change abruptly into a new state that is difficult to recover from [@REF_NEEDED]
+- Scheffer, M., Carpenter, S., Foley, J. a, Folke, C. & Walker, B. (2001). Catastrophic shifts in ecosystems. Nature, 413, 591–6.
 
-In addition to the model itself, the package includes some functions to analyse the results as well as visualize the results to provide a starting point for customized visualizations based on own requirements.
+
+This possibility for abrupt, perhaps catastrophic changes that are difficult to reverse causes considerable concern [@REF_NEEDED]. 
+- Collins, S.L., Nippert, J.B., Blair, J.M., Briggs, J.M., Blackmore, P. & Ratajczak, Z. (2021). Fire frequency, state change and hysteresis in tallgrass prairie. Ecology Letters, 24, 636–647.
+- Northrop, A.C., Avalone, V., Ellison, A.M., Ballif, B.A. & Gotelli, N.J. (n.d.). Clockwise and counterclockwise hysteresis characterize state changes in the same aquatic ecosystem. Ecology Letters, n/a.
+- Vandermeer, J. & Perfecto, I. (2019). Hysteresis and critical transitions in a coffee agroecosystem. PNAS, 116, 15074–15079.
+
+
+An example where the gradual change of a single environmental variable is causing an abrupt change of the system is the switch from an aerobic (oxygen is available for metabolism) to anaerobic (oxygen generally unavailable) system. This system has been investigated by @Bush2017 in a simulation study of a mathematical model of the system. They showed that gradual change in the environment could cause catastrophic changes in the ecosystem state that would be difficult to reverse.
+
+One limitation of the study by Bush et al (2017) was limited biodiversity in the ecosystem model. Specifically, there were three functional groups of bacteria, but within each of these groups, there was no biodiversity. This then leaves open the question of if and how biodiversity within functional groups, in their model, affects the ecosystem response to environmental change. This limitation is not limited to the study of Bush et al (2017): there are few if any studies of the effects of biodiversity on abrupt transitions between ecosystem states.
+
+We decided to fill this research gap, by making a simulation study of how within functional group biodiversity affects ecosystem responses to environmental change @Limberger_et_al_2022, and to base our work on the work and model of Bush et al (2017). It was with this goal in mind that we developed the *microxanox* package. The first stage of development was to write code from scratch (as there was no available code to start from) and to confirm that this new implementation would reproduce the previously published results. The resulting reproduction is available as one of the package vignettes: [vignette Partial reproduction of Bush et al](LINK NEEDED).
+
+The second stage was to add functionality that would be necessary to answer our research question. Most importantly, we made it possible to have multiple species of bacteria within each of the three functional groups, for the multiple species to differ in their characteristics, and to vary the number of species and amount of variability among them. We also added functionality that allowed: temporally varying environmental conditions, addition of random noise to state variables, and immigration. In addition to the model itself, the package includes some functions to analyse the results as well as visualize the results to provide a starting point for customized visualizations based on own requirements. The basic and additional functionality is described in the package [User Guide](LINK_NEEDED).
+
+
 
 
 # Software description
 > {>>Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact.<<}
 
-We will discuss the general structure and functionality of the package here without going into to much detail. A more detailed discussion can be found in the [User Guide](LINK_NEEDED).
+The *microxanox* package is for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feedback between biogeochemical processes and is based on [@Bush2017] (See [@Bush2017] for a detailed discussion of the model). At the core of the simulations is a set of ordinary differential equations (specified in the function `bushplus_dynamic_model()`, though users do not need to call this function directly). There are functions for running an individual simulations and for running a set of simulations across, for example, a range of environmental conditions.
 
-The model by @Bush2017 is based on ODEs for the rates of change which are specified in the function `bushplus_dynamic_model()`. This augmented version of the model published in [@Bush2017] can handle multiple strains within each of the three functional groups, temporal variation in oxygen diffusivity, and events.
+To make the simulation run with multiple species, we expressed different species characteristics in the elements of vectors and matrices. We also adapted the code for the ordinary differential equations to include the vectors and matrices, and to use matrix mathematics. In this way, we made it possible to run simulations with different numbers of species without having to change the underlying code.
 
-The package is not intended to provide a modelling framework which can be adjusted easily to all needs, but primarily a tool to implement the model used by [@Bush2017] and to extend it to our needs [@REF_NEEDED]. Consequently, any more substantial changes and adaptations are likely to need a change in the source code.
+The package functions and code are structured in modular, so that some new functionality can be easily added. E.g. the event definition can easily be changed, or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems.
 
-Nevertheless, the source code is structured in modular, so that e.g. the event definition can easily be changed, or other aspects can be adjusted. All values in the parameter object can be changed as needed and the general structure of the code should make it not to difficult to adapt the model to other similar systems.
+## Software architecture
+> {>>Give a short overview of the overall software architecture; provide a pictorial component overview or similar (if possible). If necessary provide implementation details.<<}
 
-## Software Architecture
-> {>>Give a short overview of the overall software architecture; provide a pictorial component overview or similar (if possible). If necessary provide im- plementation details.<<}
+The framework used when writing this package aimed to maximise simplicity for the user, and to make it easy to reproduce results (see [@REF_NEEDED] for examples). As such, all the parameters needed to run a simulation or find a stable state are contained in a single object (which can easily be created using included functions). This parameter object is given to a function that runs the simulations and returns the results. The returned results object is identical to the parameter object but with an additional slot named `results`, which contains the results of the run. Thus the returned results object contains the simulation conditions (parameters) as well as the rsults, and can be used to run the simulation again. This promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations straightforward.
 
-The framework used when writing this package aims at reproducibility of the results (see [@REF_NEEDED] for examples). It builds on the following main considerations:
+In the following sections we describe how to use the package to run one simulation and to find steady states across an environmental gradient.
 
-1. all parameter needed to run a simulation or find a stable state are contained in a single parameter object. This object is created by using the functions `new_..._parameter()`, `new_initial_state()` and `new_strain_parameter()`. Which one of the `new_..._parameter()` functions has to be used when, will be discussed in the section  \@ref(runsim) and in more detail in the [User Guide](LINK_NEEDED).
-2. The function call `run_...(parameter)` will run the simulation using the parameter as defined in the object `parameter`.
-3. The return value of the `run_...(parameter)` function is identical to the parameter object plus an additional slot named `results` which contains the results of the run
-4. As the return value contains all parameter, it is possible to re-run the simulation by simply running `run_...(result)`.
-
-The point that the results object contains all parameter needed to run the simulation, promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations much easier, as can be seen in our research and the RMarkdown [@REF_NEEDED] file used to run and analyse the experiments [@REF_NEEDED].
-
-In the following sections we describe the general usage of the package: running one simulation, finding steady states across an environmental gradient, calculating measures of stability, and visualization.
-
-### Running one simulation
+## Running one simulation
 
 A typical simulation would look as shown in \@ref(fig:runsim_example).
 
@@ -182,9 +187,26 @@ if (!file.exists(fig)){
 knitr::include_graphics(fig)
 ```
 
-The individual simulation (`run_simulation()` function) is the working horse in this package. In this function, the ODEs are solved using the function `ode` in the package deSolve package [@Soetaert2010]. The `run_simulation()` function needs only one argument - an object as created by the function `new_runsim_parameter()`. The parameter object contains among other parameter the `strain_parameter` which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter, their meaning and how they are created and can be set and changed please see the User Guide which accompanies the package or is available at [User Guide](@LINK_NEEDED)
+A simulation is run using the `run_simulation()` function. In this function, the ODEs are solved using the function `ode` in the package deSolve package [@Soetaert2010]. The `run_simulation()` function needs only one argument - an object as created by the function `new_runsim_parameter()`. The parameter object returned by `new_runsim_parameter()` contains among other things the `strain_parameter` object, which can be created by the function `new_strain_parameter()`. For a detailed description of the parameter objects, their meaning and how they are created and have values set and changed please see the *User Guide* which accompanies the package or is available at [User Guide](@LINK_NEEDED)
 
 After the parameter object has been defined, it can be used in the `run_simulation()` function. The function returns an object which is identical to the parameter object, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used as a parameter object to be fed back into the `run_simulation()` function to run the simulation again from the parameter used to generate the results before.
+
+
+## Finding Steady States
+
+The general approach used to find the stable state of the system with a specific parameter set is to run the simulation for a long time and record the final state. When one does this across a range of environmental conditions, one discovers how the steady state of the system responds to the environmental conditions. The package contains functionality for finding steady states that correspond to values of one environmental variable, namely the value of oxygen diffusivity.
+
+Two methods for finding steady states are implemented. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the *Replication method*). This is the method used in the Bush et al (2017) study. The second runs only two simulations, with step-wise and slowly temporally increasing oxygen diffusivity, and the other with step-wise and slowly decreasing or decreasing oxygen diffusivity. During this temporal environmental change, the state of the system was recorded just before change to a new oxygen diffusivity (let us term this the *Temporal method*). We implemented two methods since there is no definitive best method, and in order to check if results were sensitive to choice of method.
+
+The replication method is implementad in the function `run_replication_ssfind()` which takes a parameter object as returned by the function `new_replication_ssfind_parameter()` and the number of cores for multithreading the simulation. As the multithreading uses the package function `mclapply()` from the package `parallel` [@RCoreTeam2022], the multthreading only works on Linux and Mac. It is planned to move to `parLapply()` [@RCoreTeam2022] in a future release.
+
+This temporal method implemented in the function `run_temporal_ssfind()`, which takes a parameter object as created by the function `new_temporal_ssfind_parameter()`. It is planned for a later release, to run these two simulations in parallel.
+
+For a more detailed walk-through of these two approaches and explanation please see the [User Guide](@LINK_NEEDED).
+
+## Visualising and analysing results
+
+From the raw results returned can be extracted summary quantity about how the ecoystem stable states respond to environmental change. The function `get_stability_measures()` returns quantities such as the amount of environmental change required for the system to abruptly change to a different state.
 
 The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This function is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
 
@@ -192,60 +214,8 @@ The function `plot_dynamics()` plots a single simulation run, as returned from t
 knitr::include_graphics("figures/ug_three_strains_dynamics.png")
 ```
 
-
-### Finding a Steady State of the model
-\textcolor{red}{@Owen: can you please fill in the references to these mathods? Thanks.}
-
-There are two methods for finding steady states implemented in this package. The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity (let us term this the *Replication method*) \textcolor{red}{{>>@Owen - does this approach has a name, and do you have a reference where it has been used or described?<<}. The second runs only two simulations, with step-wise and slowly temporally increasing or decreasing oxygen diffusivities and recorded of state just before change to a new oxygen diffusivity (let us term this the *Temporal method*)\textcolor{red}{{>>@Owen - Has this been used in other publications? I do not have a clue what I could search for to find out...<<}.
-
-#### Replication Method
-The replication method is implementad in the function `run_replication_ssfind()` which takes a parameter object as returned by the function `new_replication_ssfind_parameter()` and the number of cores for multithreading the simulation. As the multithreading uses the package function `mclapply()` from the package `parallel` [@RCoreTeam2022], the multthreading only works on Linux and Mac. It is planned to move to `parLapply()` [@RCoreTeam2022] in a future release.
-
-#### Temporal Method
-The temporal method involves two simulations for a particular system configuration (parameter set). In one simulation the oxygen diffusivity is *increased* in a step-wise fashion. In the other it is *decreased* in a step-wise fashion. That is, oxygen diffusivity is held at a constant level for long enough for steady state to be reach, that state is recorded, and then a slightly higher (or lower) oxygen diffusivity value is set. Hence, at that time point, the system is effectively started with initial conditions that are the state of the system in the previous time step \textcolor{red}{{>>@Owen: is there a ref for this approach?<<}}.
-
-This is implemented in the function `run_temporal_ssfind()`, which takes a parameter object as created by the function `new_temporal_ssfind_parameter()`. It is planned for a later release, to run these two simulations in parallel.
-
-For a more detailed walk-through of these two approaches and explanation please see the [User Guide](@LINK_NEEDED).
-
-### Extracting Stability Measures
-From the raw results returned by these `run_...()` functions, the stability measures can be extracted by using the function `get_stability_measures()`. These measures include non-linearity and hysteresis measures, of the response of the simulated system to environmental change \textcolor{red}{{>>@Owen: is there a paper, so that we can say "as e.g. used in REF?<<}}.
-
-## Use Cases
-We will now show three use cases which illustrate applications of the package. All use cases can be used as starting points for other investigations of the behavior of the system.
-
-The first two use cases are described in detail in the User Guide and the Partial Reproduction Vignettes. The third is taken from @REF_NEEDED for which this R package was designed. All of these use cases can be expanded to larger numbers of strains per functional group and variable values van be changed.
-
-### Regime shifts during temporal environmental change
-\textcolor{red}{@Owen: Do you have some references which could be added here and probably add some more justifying text to this section?}
-
-In the [User Guide](LINK_NEEDED) we used a one strain system (section "1 strain per functional group") and three strain system (section "3 strains per functional group") to determine as an example the stable states during temporal environmental changes (the oxygen diffusivity). From these simulatiuons, we extracted measures of nonlinearity and hysteresis. See Fig \@ref(fig:plot-dynamics) as an example plot of the simulations.
-
-```{r uc1_stable_state, echo = FALSE,  include=TRUE, fig.cap='Plot of the stable states of the simulation runs under different oxygen diffusivity. The top graph are the Organisms (ech initially with three strains) while the lower graph is the substrate availability under the same oxygen diffusivities. Details can be found in the "User Guide" section "Three strains per functional group".', fig.align="center", out.width = 350 }
-knitr::include_graphics("figures/ug_three_strains_stable_state.png")
-```
-
-We saved all parameter and result objects, so that all results are completely reproducible. The general flow of the experiment is identical to the one shown in \@ref(fig:runsim_example).
-
-### The extent of hysteresis depends on community composition
-\textcolor{red}{@Owen: Do you have some references which could be added here and probably add some more justifying text to this section?}
-
-One of the reasons to develop this package was to reproduce the results presented in @Bush2017. This was achieved as demonstrated in the [Partial Reproduction supplement](LINK_NEEDED). All aspects in the paper could be reproduced and are shown in the vignette.
-
-```{r user_guide_hysteresis, echo = FALSE,  include=TRUE, fig.cap='Hysteresis of all assessed combinations of variability.', fig.align="center", out.width = 350 }
-knitr::include_graphics("figures/user_guide_hysteresis.png")
-```
-
-As all objects were saved, results can be easily reproduced and parameter can be changed to assess the impact of these changes (e.g. to conduct a sensitivity analysis).
-
-### Effects of functional diversity on regime shifts
-\textcolor{red}{@Owen: Do you have some references which could be added here and probably add some more justifying text to this section?}
-
-As discussed in the paper [@REF_NEEDED], the role biodiversity plays in abrupt regime shifts based on gradual changing environmental parameter is not well understood. This model (as part of the package) has been used to investigate these dynamics and the results are available in with the DOI DOI NEEDED @REF_NEEDED.
-
-\textcolor{red}{{>>@Owen: More details from the paper. I will approach Romana when the first draft is ready so that she can put something in, onless you will add a few sentences here.<<}}
-
 # Impact
+
 > {>>This is the main section of the article and the reviewers weight the description here appropriately
 Indicate in what way new research questions can be pursued as a result of the software (if any).
 Indicate in what way, and to what extent, the pursuit of existing research questions is improved (if so).
@@ -253,29 +223,62 @@ Indicate in what way the software has changed the daily practice of its users (i
 Indicate how widespread the use of the software is within and outside the intended user group.
 Indicate in what way the software is used in commercial settings and/or how it led to the creation of spin-off companies (if so).<<}
 
-The free and open source implementation and extension of the model used in @Bush2017 provides the means of reproducing the results published while at the same time provides the means of doing investigations which extend the original publication, as done in @REF_NEEDED.
+The free and open source implementation and extension of the model used in @Bush2017 provides the means of reproducing the results published while at the same time provides the means of doing unique, innovative, and important investigations of how ecosystems respond to environmental change. The design of the package code and functionality is with reproducibility in mind: the combination of all parameters being in a single parameter object as well as the return of the simulation as a result object which inherits from the parameter object provides a relatively easy to use framework to implement reproducible experiments.
 
-The combination of all parameter in a single parameter object as well as the return of the simulation as a result object which inherits from the parameter object and adds a results slot provides a relatively easy to use framework to implement reproducible experiments.
+While the package was not intended to provide a code which can be very easily adapted to other types of ecosystems and types of organism, it seems likely that the overall framework could be used as a basis for models of other ecosystems and organisms. For example, all such models would have parameters that differ among species and need to be described in an object. All would need to run simulations and sets of simulations across environmental conditions. Researchers want to model a new ecosystem do not, therefore, have to start from scratch.  Nevertheless, depending on how different were the new ecosystem to model, the require code changes could be quite significant.
 
-\textcolor{red}{{>>@Owen: Could you put a few sentence in highlighting the impact this package could have considering the importance of possible research questions?<<}}
+We evidence the impact of the *microxanox* package by describing three use cases, each of which was only possible with the package and that contains new results. The first two use cases are described in detail in the User Guide and the Partial Reproduction Vignettes. The third is taken from @REF_NEEDED for which this R package was designed. All of these use cases can be expanded to larger numbers of strains per functional group and variable values van be changed.
 
+## Use case 1:  Regime shifts during temporal environmental change
+
+The package contains functionality to make a specific pattern of temporal change in the environmental condition oxygen diffusivity; this functionality forms the basis of the temporal method for finding stable states. A simple example of this functionality is given in the Partial Reproduction vignette, which we briefly show here (Figure \@ref(fig:uc1). The example is composed of a single simulation, at the beginning of which the system is in the oxic state with high abundance of cyanobacteria. Oyxgen diffusivity is then slowly decreased and eventually, around hour 30'000 the system switches to the anoxic state, with high abundance of both sulfur bacteria types. The oxygen diffusivity is then quickly increased and at around hour 38'000 the system abruptly switches back to the oxic state.
+
+**Rainer... the figure needs beautifying please.**
+
+```{r uc1, echo = FALSE,  include=TRUE, fig.cap='The temporal dynamics of the ecosystem model when an environmental condition (here parameter *a*, the oxygen diffusivity) changes. Plot of the stable states of the simulation runs under different oxygen diffusivity.', fig.align="center", out.width = 350 }
+knitr::include_graphics("figures/ug_temporal_state_switching.png.png")
+```
+
+## Use case 2: The extent of hysteresis depends on community composition
+
+The package also contains a function to extract summary features of ecosystem responses to environmental change, such as the amount of hysteresis displayed by the ecosystem. Hysteresis is a key feature of ecosystem responses to environemtal change, because it is related to how difficult it can be to reserve the effects of environmental change [@REF_NEEDED Scheffer, M., Carpenter, S., Foley, J. a, Folke, C. & Walker, B. (2001). Catastrophic shifts in ecosystems. Nature, 413, 591–6.
+]. The amount of hysteresis was measured here as the extent of the environmental condition for which there were two stable states. I.e. it was the extent of the environmental conditions for which historical conditions play an important role in determining the current system state (a definition of hysteresis). The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \@ref(fig:uc2)). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the Partial Reproduction vignette.)
+
+**Rainer... the figure needs beautifying please.**
+
+```{r uc2, echo = FALSE,  include=TRUE, fig.cap='The amount of hysteresis depends on the combination of types of organisms present.', fig.align="center", out.width = 350 }
+knitr::include_graphics("figures/user_guide_hysteresis.png")
+```
+
+## Use case 3: Effects of functional diversity on regime shifts
+
+As discussed in the Introduction section, the package was largely motivated by the question of how biodiversity influences ecosystem responses to environmental change. Extensive results concerning this question are given in a separate publication @REF_NEEDED. Here we describe one of the results, which is that having biodiversity in a functional group can allow state changes to occur that otherwise would not have. I.e. biodiversity can qualitatively change the state of the ecosystem.
+
+Biodiversity was added to the functional groups using the 'new_strain_parameter()' function to create a parameter set with multiple species per functional group (albeit all with identical features) and then to add variability among the species by calling the 'add_strain_var()' function. This function takes an already existing parameter set and adds the specified about of variation. The new parameter object is then used as before.
+
+Figure \@ref(fig:uc3) shows a simulation with two species (strains) in each of the three functional groups. The ecosystem starts in the oxic state, though with relatively high abundance of each functional group. The strain of SB that is more tolerant to oxygen (SB_1) initially decreases in abundance, but then increases, and the other (SB_2) strain then becomes abundance and SB_1 declines. Furthermore, the cyanobacteria crash in abundance, and the system switches to the anoxic state. Importantly, the switch does not occur if there are two identical strains with tolerance half way between those in Figure \@ref(fig:uc3).
+
+**Rainer... please beautify the figure as required. It comes from the Limberger et al supplement, Figure 5.4**
+
+```{r uc3, echo = FALSE,  include=TRUE, fig.cap='The dynamics of the ecosystem when there are two species in each functional group, and some variation (diversity) in species parameters.', fig.align="center", out.width = 350 }
+knitr::include_graphics("figures/uc3_2strain_temporal_switch.png")
+```
 
 
 
 # Conclusions
 > {>>Set out the conclusion of this original software publication.<<}
 
-This package makes an important paper \textcolor{red}{{>>@Owen: is this correct?<<}} [@Bush2017] fully reproducible without having to re-implement the code. By doing so, it opens the door for further investigations based on the system as done in @REF_NEEDED and, consequently, increases the reach (and ultimaly) the impact of the original paper by @Bush2017. This demonstrates again [@REF_NEEDED] the importance of publishing not only the data but also the code used in a publication.
+*microxanox* allows the simulation, visualisation, and analysis of a model of a microbial ecosystem while allowing variation in the amount of diversity containing in each of the functional groups of organisms present. It has been used for the research described in another paper of ours that is one of the first investigations of the effects of diversity on ecosystem resilience @REF_NEEDED. In that paper, we show that diversity can have large and important effects of ecosystem responses, highlighting the need for models such as ours, within which one can easily manipulate the amount of biodiversity. The 'microxanox' package has also been used to reproduce the results of the paper that inspired the package development @Bush2017.
 
-\textcolor{red}{{>>@Owen: could you write a short conclusion paragraph about the ecological relevance of `microxanox`?<<}}
-
-In addition to the ecological relevance and importance of this package as discussed above, it can be used as a template for the implementation of other different models. By doing so, other models can profit from the reproducibility aspects as well as the flexibility as implemented in this package.
+The package greatly lowers the amount of work required in further investigations of the specific ecosystem modelled. There has, for example, been quite limited investigation of how biodiversity influences the short-term responses of the modelled ecosystem to environmental change. Likewise, the package could be used to power an investigation of the effects of biodiversity on the usefulness of early warning signals of abrupt ecosystem change @REF_NEEDED ->>> Scheffer, M., Bascompte, J., Brock, W.A., Brovkin, V., Carpenter, S.R., Dakos, V., et al. (2009). Early-warning signals for critical transitions. Nature, 461, 53–59.
+]. In addition this package could be used as a template for the implementation for developing models of other types of ecosystems and organism. By doing so, other models can profit from the overall framework used, and the reproducibility aspects as well as the flexibility implemented.
 
 
 # Conflict of Interest
-We wish to confirm that there are no known conflicts of interest associated with this publication and there has been no significant financial support for this work that could have influenced its outcome.
+The authors declare no known conflicting or competing interests associated with this publication and there has been no significant financial support for this work that could have influenced its outcome.
 
 # Acknowledgements
-Optionally thank people and institutes you need to acknowledge.
+This project was part of SNF Project 310030_188431. The project was also supported by the University of Zurich Research Priority Programme in Global Change and Biodiversity.
 
 # References
