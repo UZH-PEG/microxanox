@@ -17,9 +17,14 @@ footnote:
     text: "Corresponding Author"
   - code: 2
     text: "Equal contribution"
-keywords: reproducibility; regime shift; 
+keywords: 
+  - reproducibility
+  - regime shift 
+  - stable state
+  - ordinary differential equations
 abstract: |
-  Ca. 100 words.
+  $Microxanox$ is an R package to simulate a three functional group system (cyanobacteria, phototrophic sulfur bacteria, and sulfate-reducing bacteria) with four chemical substrates (phosphorus, oxygen, reduced sulfur, and oxidized sulfur) osing a set of ordinary differential equations. Simulations can be run individually or over a parameter range, to find stable states.  The model features multiple species per functional group, where the number is only limited by computational constraints.
+  The R package is constructed in such a way, that the results contain the input parameter used, so that a saved results can be loaded again and the simulation be repeated.
 journal: "SoftwareX"
 date: "`r Sys.Date()`"
 
@@ -50,10 +55,12 @@ knitr::opts_chunk$set(
 
 # \textcolor{red}{TODO}
 - **\textcolor{red}{update links}**
-- [x] ~~**\textcolor{red}{update cross references}**~~
-- **\textcolor{red}{check keywords}**
-- [x] ~~**\textcolor{red}{add more references}**~~
-- **\textcolor{red}{expand on Impact and Conclusion section}**
+- [x] ~~**\textcolor{green}{update cross references}**~~
+- [x] ~~**\textcolor{green}{add abstract}**~~
+- [x] ~~**\textcolor{green}{check keywords}**~~
+- [x] ~~**\textcolor{green}{add more references}**~~
+- [x] ~~**\textcolor{green}{expand on Impact section}**~~
+- [x] ~~**\textcolor{green}{expand on Conclusion section}**~~
 \pagebreak
 
 # Required Metadata
@@ -81,11 +88,6 @@ Ancillary data table required for subversion of the codebase.
 |         |                                                              | tidyr                                                                          |  
 |         |                                                              | stringr                                                                        |  
 |         |                                                              | multidplyr                                                                     |  
-|         |                                                              |                                                                                |  
-|         |                                                              |                                                                                |  
-|         |                                                              |                                                                                |  
-|         |                                                              |                                                                                |  
-|         |                                                              |                                                                                |  
 |   C8    | If available Link to developer documentation/manual          | \textcolor{red}{TO BE ADDED}                                                   |  
 |   C9    | Support email for questions                                  | Rainer.Krug@uzh.ch; Rainer@krugs.de                                            |  
 
