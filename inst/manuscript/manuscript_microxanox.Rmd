@@ -50,9 +50,9 @@ knitr::opts_chunk$set(
 
 # \textcolor{red}{TODO}
 - **\textcolor{red}{update links}**
-- **\textcolor{red}{update cross references}**
+- [x] ~~**\textcolor{red}{update cross references}**~~
 - **\textcolor{red}{check keywords}**
-- **\textcolor{red}{add more references}**
+- [x] ~~**\textcolor{red}{add more references}**~~
 - **\textcolor{red}{expand on Impact and Conclusion section}**
 \pagebreak
 
@@ -107,7 +107,7 @@ The second stage was to add functionality that would be necessary to answer our 
 
 
 # Software description
-> {>>Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact.<<}
+<!-- > {>>Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact.<<} -->
 
 The *microxanox* package is for simulating a three functional group system (*CB*: cyanobacteria, *PB*: phototrophic sulfur bacteria, and *SB*: sulfate-reducing bacteria) with four chemical substrates (*P*: phosphorus, *O*: oxygen, *SR*: reduced sulfur, *SO*: oxidized sulfur). It includes feedback between organisms and biogeochemical processes and is based on @Bush2017 (See @Bush2017 for a detailed discussion of the model). At the core of the simulations is a set of ordinary differential equations (specified in the function `bushplus_dynamic_model()`, though this function need not be directly called). There are functions for running individual simulations and for running a set of simulations across, for example, a range of environmental conditions.
 
@@ -116,7 +116,7 @@ To make the simulation run with multiple species, we expressed different species
 The package functions and code have modular structure, so that new functionality can be easily added. E.g. temporally defined events of any type could be specified. Further, all parameter values required to run a simulation are stored in one object. Lastly, the general structure of the code should make it straightforward to adapt the model to other similar systems (described in more detail in the Impact section).
 
 ## Software architecture
-> {>>Give a short overview of the overall software architecture; provide a pictorial component overview or similar (if possible). If necessary provide implementation details.<<}
+<!-- > {>>Give a short overview of the overall software architecture; provide a pictorial component overview or similar (if possible). If necessary provide implementation details.<<} -->
 
 The framework used when writing this package aimed to maximise simplicity for the user, and to make it easy to reproduce results (see the supplement to @Limberger2022 for an example of how this is used). As such, all the parameters needed to run a simulation or find a stable state (i.e. the final state of the ecosystem) are contained in a single object (which can easily be created using included functions). This parameter object is given to a function that runs the simulations and returns the results. The returned results object is identical to the parameter object but with an additional slot named `results`, which contains the results of the run. Thus the returned results object contains the simulation conditions (parameters) as well as the results, and can be used to run the simulation again. This promotes reproducibility and makes incremental changes of individual parameters and re-running the simulations straightforward.
 
@@ -124,7 +124,7 @@ In the following sections we describe how to use the package to run one simulati
 
 ## Running one simulation
 
-A typical simulation would look as shown in \@ref(fig:runsim_example).
+A typical simulation would look as shown in \ref{fig:runsim_example}.
 
 ```{R runsim_example, eval = TRUE, echo = FALSE, fig.cap='Typical flow of a simulation. Dark Grey boxes: commands necessary for simulation; Light Grey:Saving of parameter and results; Lightest Grey: Different non specified commands.', fig.align="center", out.width = 350 }
 fig <- "./figures/simflow.pdf"
@@ -191,20 +191,20 @@ For a more detailed walk-through of these two approaches and explanation please 
 
 From the results returned, summary measures about how the ecosystem stable states respond to environmental change can be extracted. The function `get_stability_measures()` returns quantities such as the amount of environmental change required for the system to abruptly change to a different state.
 
-The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This function is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \@ref(fig:plot-dynamics).
+The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This function is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in \ref{fig:plot-dynamics}.
 
-```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap='Results of a simulation run shown using the function $plot_dynamics()$. In this case, there were three strains per functional group, though strains within functional groups had identical properties in this example. CB_1 = cyanobacteria strain 1; SB_1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show the figure produce by $plot_dynamics()$, which produces figures not with all features ideal for publication.', fig.align="center", out.width = 350 }
+```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap="Results of a simulation run shown using the function $plot_dynamics()$. In this case, there were three strains per functional group, though strains within functional groups had identical properties in this example. CB\textunderscore1 = cyanobacteria strain 1; SB\textunderscore1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show the figure produce by $plot_dynamics()$, which produces figures not with all features ideal for publication.", fig.align="center", out.width = 350 }
 knitr::include_graphics("figures/ug_three_strains_dynamics.png")
 ```
 
 # Impact
 
-> {>>This is the main section of the article and the reviewers weight the description here appropriately
-Indicate in what way new research questions can be pursued as a result of the software (if any).
-Indicate in what way, and to what extent, the pursuit of existing research questions is improved (if so).
-Indicate in what way the software has changed the daily practice of its users (if so).
-Indicate how widespread the use of the software is within and outside the intended user group.
-Indicate in what way the software is used in commercial settings and/or how it led to the creation of spin-off companies (if so).<<}
+<!-- > {>>This is the main section of the article and the reviewers weight the description here appropriately -->
+<!-- Indicate in what way new research questions can be pursued as a result of the software (if any). -->
+<!-- Indicate in what way, and to what extent, the pursuit of existing research questions is improved (if so). -->
+<!-- Indicate in what way the software has changed the daily practice of its users (if so). -->
+<!-- Indicate how widespread the use of the software is within and outside the intended user group. -->
+<!-- Indicate in what way the software is used in commercial settings and/or how it led to the creation of spin-off companies (if so).<<} -->
 
 The open source implementation and extension of the model used in @Bush2017 provides the means of reproducing the results published while at the same time provides the means of doing unique, innovative, and important investigations of how ecosystems respond to environmental change, and how biodiversity may modulate this response. 
 
@@ -216,12 +216,12 @@ Here we evidence the impact of the *microxanox* package by describing three use 
 
 The study of @Bush2017 includes simulations of the effect of oxygen diffusivity (an environmental driver, in the sense that it affects the ecosystem but is not affected by it) on the ecosystem state (oxic or anoxic). The *microxonax* package contains functionality to make a specific temporal pattern of change in the oxygen diffusivity. As well as allowing individual simulations during which oxygen diffusivity varies, this functionality forms the basis of the temporal method for finding stable states.
 
-An example of this functionality is given in the *Partial Reproduction* vignette, which we briefly show here (Figure \@ref(fig:uc1). The example is composed of a single simulation, at the beginning of which the system is in the oxic state with high abundance of cyanobacteria. Oyxgen diffusivity is then slowly decreased and eventually, around hour 30'000 the system switches to the anoxic state, with high abundance of both sulfur bacteria types. The oxygen diffusivity is then increased and at around hour 38'000 the system abruptly switches back to the oxic state.
+An example of this functionality is given in the *Partial Reproduction* vignette, which we briefly show here (Figure \ref{fig:uc1}. The example is composed of a single simulation, at the beginning of which the system is in the oxic state with high abundance of cyanobacteria. Oyxgen diffusivity is then slowly decreased and eventually, around hour 30'000 the system switches to the anoxic state, with high abundance of both sulfur bacteria types. The oxygen diffusivity is then increased and at around hour 38'000 the system abruptly switches back to the oxic state.
 
 Also visible in the results are thick lines showing abundances of bacteria when abundances are low. This is due to the implementation of a function that at regular intervals, increases the abundance to a preset level. This prevents abundances reducing to very small numbers. The function that implements this increase abundance can also be made to add a certain abundance to each strain at regular intervals, thus simulating immigration in to the system.
 
 
-```{r uc1, echo = FALSE,  include=TRUE, fig.cap='The temporal dynamics of the ecosystem model when an environmental condition (here parameter *a*, the oxygen diffusivity) changes. Plot of the stable states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB_1 = cyanobacteria strain 1; SB_1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot_dynamics()$  function.', fig.align="center", out.width = 350}
+```{r uc1, echo = FALSE,  include=TRUE, fig.cap='The temporal dynamics of the ecosystem model when an environmental condition (here parameter *a*, the oxygen diffusivity) changes. Plot of the stable states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB\textunderscore1 = cyanobacteria strain 1; SB\textunderscore1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot_dynamics()$  function.', fig.align="center", out.width = 350}
 fig <- here::here("inst/manuscript/figures/gen_uc1_partrep_temporal_state_switching.pdf")
 #if (!file.exists(fig)){
   library(ggplot2)
@@ -277,7 +277,7 @@ The package contains a function to extract summary features of ecosystem respons
 
 Using the package to calculate the extent of hysteresis involves setting ecosystem and simulation parameters, including parameters for the finding of stable states across an environmental gradient, running the stable state finding function, and analysing the results with the function that calculates extent of hysteresis. The code for this is provided in the *User Guide* vignette.
 
-The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \@ref(fig:uc2)). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the *Partial Reproduction* vignette.)
+The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \ref(figL:uc2)). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the *Partial Reproduction* vignette.)
 
 
 ```{r uc2, echo = FALSE,  include=TRUE, fig.cap='The amount of hysteresis depends on the combination of types of organisms present. The model is entirely deterministic, hence there are no error bars.', fig.align="center", out.width = 150 }
@@ -314,7 +314,7 @@ As discussed in the Introduction section, the package was motivated by the quest
 
 Biodiversity was added to the functional groups using the `new_strain_parameter()` function to create a parameter set with multiple species per functional group (albeit all with identical features) and then to add variability among the species by calling the `add_strain_var()` function. This function takes an already existing parameter set and adds the specified about of variation. The new parameter object is then used as before.
 
-Figure \@ref(fig:uc3) shows a simulation with two species (strains) in each of the three functional groups. The ecosystem starts in the oxic state, though with relatively high abundance of each functional group. The strain of SB that is more tolerant to oxygen (SB_1) initially decreases in abundance, but then increases, and the other (SB_2) strain then becomes abundance and SB_1 declines. Furthermore, the cyanobacteria crash in abundance, and the system switches to the anoxic state. In contrast, if there are two identical strains with tolerance half way between those in Figure \@ref(fig:uc3) the ecosystem remains in the oxic state.
+Figure \ref{fig:uc3} shows a simulation with two species (strains) in each of the three functional groups. The ecosystem starts in the oxic state, though with relatively high abundance of each functional group. The strain of SB that is more tolerant to oxygen (SB_1) initially decreases in abundance, but then increases, and the other (SB_2) strain then becomes abundance and SB_1 declines. Furthermore, the cyanobacteria crash in abundance, and the system switches to the anoxic state. In contrast, if there are two identical strains with tolerance half way between those in Figure \ref{fig:uc3} the ecosystem remains in the oxic state.
 
 
 ```{r uc3, echo = FALSE,  include=TRUE, fig.cap='The dynamics of the ecosystem when there are two species in each functional group, and some variation (diversity) in species parameters.', fig.align="center", out.width = 350 }
@@ -330,7 +330,7 @@ Researchers wanting to model a new ecosystem do not, therefore, have to start fr
 
 
 # Conclusions
-> {>>Set out the conclusion of this original software publication.<<}
+<!-- > {>>Set out the conclusion of this original software publication.<<} -->
 
 The *microxanox* R package allows the simulation, visualisation, and analysis of a model of a microbial ecosystem while allowing variation in the amount of diversity containing in each of the functional groups of organisms present. It has been used for the research described in another paper that describes one of the first investigations of the effects of diversity on ecosystem resilience @Limberger2022. In that paper, we show that diversity can have large and important effects of ecosystem responses, highlighting the need for models such as ours, with which one can easily manipulate the amount of biodiversity. The *microxanox* package has also been used to reproduce the results of the paper that inspired the package development @Bush2017.
 
