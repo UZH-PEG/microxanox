@@ -1,45 +1,73 @@
-# h/t to @jimhester and @yihui for this parse block:
-# https://github.com/yihui/knitr/blob/dc5ead7bcfc0ebd2789fe99c527c7d91afb3de4a/Makefile#L1-L4
-# Note the portability change as suggested in the manual:
-# https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Writing-portable-packages
-PKGNAME = `sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION`
-PKGVERS = `sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION`
+## R parts based on https://github.com/yihui/knitr/blob/master/Makefile
+
+PKGNAME := $(shell sed -n "s/^Package: *\([^ ]*\)/\1/p" DESCRIPTION)
+PKGVERS := $(shell sed -n "s/^Version: *\([^ ]*\)/\1/p" DESCRIPTION)
+PKGSRC  := $(shell basename `pwd`)
+
+# SRCDIR = source
+# OUTDIR = docs
+# DATADIR = $(OUTDIR)/data
+# INSTDIR = inst
+
+# VIGHTMLDIR = doc
+
+# DOCDIR = doc
+
+VIGDIR = vignettes
+VIGRMD = $(wildcard $(VIGDIR)/*.Rmd)
+TMP1  = $(VIGRMD:.Rmd=.html)
+VIGHTML = ${subst $(VIGDIR),$(VIGHTMLDIR),$(TMP1)}
+# VIGHTMLOUT = ${subst $(VIGDIR),$(OUTDIR),$(TMP1)}
+
+# EXAMPLEXML = $(wildcard $(INSTDIR)/dmdScheme_example.xml)
+
+# RMD = $(wildcard $(SRCDIR)/*.Rmd)
+# TMP2  = $(RMD:.Rmd=.html)
+# HTML = ${subst $(SRCDIR),$(OUTDIR),$(TMP2)}
+
+READMERMD = Readme.Rmd
+READMEMD = Readme.md
+READMEHTML = Readme.html
+
+MANSCRIPTRMD = ./inst/manuscript/manuscript_microxanox.Rmd
+MANSCRIPTHTML = ./inst/manuscript/manuscript_microxanox.html
+MANSCRIPTPDF = ./inst/manuscript/manuscript_microxanox.pdf
+MANSCRIPTDOC = ./inst/manuscript/manuscript_microxanox.doc
+MANSCRIPTLOG = ./inst/manuscript/manuscript_microxanox.log
+MANSCRIPTR = ./inst/manuscript/manuscript_microxanox.R
+
+#############
+
+all: readme docs vignettes build
+
+#############
+
+clean: clean_check clean_readme clean_vignettes
 
 
-####################################
+########### Manuscript ###########
 
-all: check
+manuscript: html pdf
 
-####################################
+html: $(MANSCRIPTHTML)
+$(MANSCRIPTHTML): $(MANSCRIPTRMD)
+	@Rscript -e "rmarkdown::render('$(MANSCRIPTRMD)', output_format = 'bookdown::html_document2')"
+	open $(MANSCRIPTHTML)
+  
+  
+pdf: $(MANSCRIPTPDF)
+$(MANSCRIPTPDF): $(MANSCRIPTRMD)
+	@Rscript -e "rmarkdown::render('$(MANSCRIPTRMD)', output_format = 'bookdown::pdf_document2')"
+	open $(MANSCRIPTPDF)
+  
+clean_manuscript:
+	rm -f $(MANSCRIPTHTML)
+	rm -f $(MANSCRIPTPDF)
+	rm -f $(MANSCRIPTDOC)
+	rm -f $(MANSCRIPTLOG)
+	rm -f $(MANSCRIPTR)
 
-build: install_deps
-	R CMD build .
-
-####################################
-
-check: build
-	R CMD check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
-
-####################################
-
-install_deps:
-	Rscript \
-	-e 'if (!requireNamespace("remotes")) install.packages("remotes")' \
-	-e 'remotes::install_deps(dependencies = TRUE)'
-
-####################################
-
-install: build
-	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
-
-####################################
-
-clean:
-	@rm -rf $(PKGNAME)_$(PKGVERS).tar.gz $(PKGNAME).Rcheck
-
-########################################
-############### Readme #################
-########################################
+########### Readme ###########
 
 ####
 
@@ -51,38 +79,27 @@ Readme.md: $(READMERMD)
 clean_readme:
 	rm -f $(READMEMD)
 
-########################################
-############### pkgdown ################
-########################################
+####
 
-pkgdown: readme
-	@Rscript -e "pkgdown::build_site()"
-	cp dep_graph.png ./docs/dep_graph.png
-
-clean_pkgdown:
-	@Rscript -e "pkgdown::clean_site()"
+########### Package  ###########
 
 ####
 
+deps:
+	Rscript -e 'if (!require("Rd2roxygen")) install.packages("Rd2roxygen", repos="http://cran.rstudio.com")'
 
-########################################
-############ Documentation #############
-########################################
+####
 
-docs:
+_docs:
+	Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))"
+
+_codemeta:
 	Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))"
 	Rscript -e "codemetar::write_codemeta()"
 
-########################################
-################ Tests #################
-########################################
+docs: _codemeta _docs
 
-test:
-	@Rscript -e "devtools::test()"
-	
-########################################
-############## Vignettes ###############
-########################################
+####
 
 vignettes: $(VIGHTML)
 
@@ -92,10 +109,65 @@ $(VIGHTML): $(VIGRMD)
 clean_vignettes:
 	@Rscript -e "devtools::clean_vignettes()"
 
+####
 
-########################################
+
+_build: 
+	cd ..;\
+	R CMD build $(PKGSRC)
+
+build: docs _build
+	cd ..;\
+	R CMD build $(PKGSRC)
+
+####
+
+_drat:
+	cd
+	@Rscript -e "drat::insertPackage('./../$(PKGNAME)_$(PKGVERS).tar.gz', repodir = './../../drat/', commit = TRUE)"
+
+drat: docs _build _drat
+
+####
+
+_build-cran:
+	cd ..;\
+	R CMD build $(PKGSRC)
+
+build-cran: docs _build_cran
+
+####
+
+_install:
+	cd ..;\
+	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
+
+install: build _install
+
+####
+
+_check:
+	cd ..;\
+	R CMD check $(PKGNAME)_$(PKGVERS).tar.gz --as-cran
+
+check: build-cran _check
+
+clean_check:
+	$(RM) -r ./../$(PKGNAME).Rcheck/
+
+####
+
+# check_rhub
+# 	@Rscript -e "rhub::check_for_cran(".")
+
+####
+
+test:
+	@Rscript -e "devtools::test()"
+
+####
+
 ############# Help targets #############
-########################################
 
 list_variables:
 	@echo
@@ -116,8 +188,6 @@ list_targets:
 
 list: list_variables list_targets
 
-########################################
-################ PHONY #################
-########################################
+#############
 
 .PHONY: list files clean docs
