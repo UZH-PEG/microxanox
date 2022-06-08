@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6624125.svg)](https://doi.org/10.5281/zenodo.6624125)
+
 [![:name status badge](https://uzh-peg.r-universe.dev/badges/:name)](https://uzh-peg.r-universe.dev)
 [![microxanox status badge](https://uzh-peg.r-universe.dev/badges/microxanox)](https://uzh-peg.r-universe.dev)
 [![:registry status badge](https://uzh-peg.r-universe.dev/badges/:registry)](https://uzh-peg.r-universe.dev)
