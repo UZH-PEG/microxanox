@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "microxanox",
-  "description": "The description will be discussed.",
+  "description": "Model to simulate a three functional group system with four chemical substrates using a set of ordinary differential equations. Simulations can be run individually or over a parameter range, to find stable states. The model features multiple species per functional group, where the number is only limited by computational constraints. The R package is constructed in such a way, that the results contain the input parameter used, so that a saved results can be loaded again and thesimulation be repeated.",
   "name": "microxanox: Oxic-anoxic regime shifts in microbial communities",
   "codeRepository": "https://github.com/UZH-PEG/microxanox/",
   "issueTracker": "https://github.com/UZH-PEG/microxanox/issues ",
@@ -243,8 +243,8 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "33801.811KB",
+  "fileSize": "33802.956KB",
   "releaseNotes": "https://github.com/UZH-PEG/microxanox/blob/master/NEWS.md",
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
-  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#experimental", "https://www.repostatus.org/#wip"]
+  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "https://www.repostatus.org/#active"]
 }
