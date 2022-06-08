@@ -21,4 +21,5 @@
 #' @aliases microxanox
 #' @docType package
 #' @importFrom magrittr %>%
+utils::globalVariables(c("Species", "pars", "ssfind_pars"))
 NULL

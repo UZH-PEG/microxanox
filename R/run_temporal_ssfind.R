@@ -7,6 +7,9 @@
 #' @md
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
+#' @importFrom dplyr rename slice
+#' 
+#' @global time
 #' 
 #' @export
 

@@ -36,6 +36,3 @@ A data frame of stability measures of each state variable
 The measures include non-linearity and hysteresis measures, of an ecosystem
 response to environmental change. Takes steady state data as the input.
 }
-\examples{
-
-}
