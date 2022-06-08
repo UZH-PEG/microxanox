@@ -48,9 +48,6 @@
             urlcolor=blue,
             linkcolor=blue,
             pdfborder={0 0 0}}
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 
 \setcounter{secnumdepth}{5}
 % Pandoc toggle for numbering sections (defaults to be off)
@@ -148,27 +145,7 @@ Biology and Environmental Studies, Winterthurerstrasse 190, 8057 Zurich}
   
  \end{frontmatter}
 
-\hypertarget{section}{%
-\section{\texorpdfstring{\textcolor{red}{TODO}}{}}\label{section}}
-
-\begin{itemize}
-\tightlist
-\item
-  \textbf{\textcolor{red}{update links}}
-\item[$\boxtimes$]
-  \sout{\textbf{\textcolor{green}{update cross references}}}
-\item[$\boxtimes$]
-  \sout{\textbf{\textcolor{green}{add abstract}}}
-\item[$\boxtimes$]
-  \sout{\textbf{\textcolor{green}{check keywords}}}
-\item[$\boxtimes$]
-  \sout{\textbf{\textcolor{green}{add more references}}}
-\item[$\boxtimes$]
-  \sout{\textbf{\textcolor{green}{expand on Impact section}}}
-\item[$\boxtimes$]
-  \sout{\textbf{\textcolor{green}{expand on Conclusion section}}}
-  \pagebreak
-\end{itemize}
+\pagebreak
 
 \hypertarget{required-metadata}{%
 \section{Required Metadata}\label{required-metadata}}
@@ -195,6 +172,7 @@ Ancillary data table required for subversion of the codebase.
 C1 & Current code version & v0.9.0 \\
 C2 & Permanent link to code/repository used for this code version &
 \url{https://github.com/UZH-PEG/microxanox} \\
+& & \href{https://zenodo.org/record/6624125}{10.5281/zenodo.6624125} \\
 C3 & Code Ocean compute capsule & \\
 C4 & Legal Code License & CC BY 4.0 \\
 C5 & Code versioning system used & git \\
@@ -215,7 +193,8 @@ C7 & Compilation requirements, operating environments &
 & & stringr \\
 & & multidplyr \\
 C8 & If available Link to developer documentation/manual &
-\textcolor{red}{TO BE ADDED} \\
+\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{Usert
+Manual} \\
 C9 & Support email for questions & Rainer.Krug@uzh.ch;
 Rainer@krugs.de \\
 \bottomrule()
@@ -271,12 +250,13 @@ We decided to fill this research gap by making a simulation study of how
 within functional group biodiversity affects ecosystem responses to
 environmental change \citet{Limberger2022}, and to base our work on the
 work and model of \citet{Bush2017}. It was with this goal in mind that
-we developed the \emph{microxanox} package. The first stage of
-development was to write code from scratch (as there was no available
-code to start from) and to confirm that this new implementation would
-reproduce the previously published results. The resulting reproduction
-is available as one of the package vignettes:
-\href{LINK\%20NEEDED}{vignette Partial reproduction of Bush et al}.
+we developed the \emph{microxanox} package \citep{Krug2022}. The first
+stage of development was to write code from scratch (as there was no
+available code to start from) and to confirm that this new
+implementation would reproduce the previously published results. The
+resulting reproduction is available as one of the package vignettes:
+\href{https://uzh-peg.r-universe.dev/articles/microxanox/partial-reproduction-Bushetal2017.html}{vignette
+Partial reproduction of Bush et al}.
 
 The second stage was to add functionality that would be necessary to
 answer our research question. Most importantly, we made it possible to
@@ -289,7 +269,9 @@ immigration. In addition to the model itself, the package includes some
 functions to analyse the results as well as visualize the results to
 provide a starting point for customized visualizations based on own
 requirements. The basic and additional functionality is described in the
-package \href{LINK_NEEDED}{User Guide}.
+package
+\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
+Guide}.
 
 \hypertarget{software-description}{%
 \section{Software description}\label{software-description}}
@@ -367,7 +349,8 @@ created by the function \texttt{new\_strain\_parameter()}. For a
 detailed description of the parameter objects, their meaning and how
 they are created and have values set and changed please see the
 \emph{User Guide} which accompanies the package or is available at
-\href{@LINK_NEEDED}{User Guide}
+\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
+Guide}.
 
 After the parameter object has been defined, it can be used in the
 \texttt{run\_simulation()} function. The function returns an object
@@ -416,7 +399,9 @@ is planned for a later release, to run these two simulations in
 parallel.
 
 For a more detailed walk-through of these two approaches and explanation
-please see the \href{@LINK_NEEDED}{User Guide}.
+please see the
+\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
+Guide}.
 
 \hypertarget{analysing-and-visualising-results}{%
 \subsection{Analysing and visualising
@@ -505,10 +490,6 @@ immigration in to the system.
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-#> Warning in knitr::include_graphics(fig): It is highly recommended
-#> to use relative paths for images. You had absolute paths: "/
-#> Users/rainer/git/0.RPackages/microxanox/inst/manuscript/figures/
-#> gen_uc1_partrep_temporal_state_switching.pdf"
 \end{verbatim}
 
 \begin{figure}
@@ -548,13 +529,6 @@ with only the CB (cyanobacteria) present, there was no hysteresis. In
 contrast, the presence of both CB and SB (sulfate reducing bacteria) led
 to a large amount of hysteresis. (These results are also given in the
 \emph{Partial Reproduction} vignette.)
-
-\begin{verbatim}
-#> Warning in knitr::include_graphics(fig): It is highly recommended
-#> to use relative paths for images. You had absolute paths: "/
-#> Users/rainer/git/0.RPackages/microxanox/inst/manuscript/figures/
-#> gen_uc2_user_guide_hysteresis.pdf"
-\end{verbatim}
 
 \begin{figure}
 
