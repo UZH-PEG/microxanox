@@ -28,5 +28,5 @@ You can also install the bleeding edge (sometimes non-stable) version fromthe [g
 remotes::install_github( "UZH-PEG/microxanox", ref = "dev", build_vignettes = TRUE, upgrade = FALSE)
 ```
 
-For more details see the [User Guide](https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html) and [Reproducing some Results of Bush ewt al 2017](https://uzh-peg.r-universe.dev/ui#view:microxanox/partial-reproduction-Bushetal2017.html)
+For more details see the [User Guide](https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html) and [Reproducing some Results of Bush et al 2017](https://uzh-peg.r-universe.dev/articles/microxanox/partial-reproduction-Bushetal2017.html)
 
