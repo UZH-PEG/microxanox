@@ -130,7 +130,7 @@ Biology and Environmental Studies, Winterthurerstrasse 190, 8057 Zurich}
   \(Microxanox\) is an R package to simulate a three functional group
   system (cyanobacteria, phototrophic sulfur bacteria, and
   sulfate-reducing bacteria) with four chemical substrates (phosphorus,
-  oxygen, reduced sulfur, and oxidized sulfur) osing a set of ordinary
+  oxygen, reduced sulfur, and oxidized sulfur) using a set of ordinary
   differential equations. Simulations can be run individually or over a
   parameter range, to find stable states. The model features multiple
   species per functional group, where the number is only limited by
@@ -174,7 +174,7 @@ C2 & Permanent link to code/repository used for this code version &
 \url{https://github.com/UZH-PEG/microxanox} \\
 & & \href{https://zenodo.org/record/6624125}{10.5281/zenodo.6624125} \\
 C3 & Code Ocean compute capsule & \\
-C4 & Legal Code License & CC BY 4.0 \\
+C4 & Legal Code License & MIT \\
 C5 & Code versioning system used & git \\
 C6 & Software code languages, tools, and services used &
 \href{https://cran.r-project.org/index.html}{R} \\
@@ -196,7 +196,7 @@ C8 & If available Link to developer documentation/manual &
 \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{Usert
 Manual} \\
 C9 & Support email for questions & Rainer.Krug@uzh.ch;
-Rainer@krugs.de \\
+Owen.Petchey@ieu.uzh \\
 \bottomrule()
 \end{longtable}
 
@@ -308,18 +308,18 @@ similar systems (described in more detail in the Impact section).
 
 The framework used when writing this package aimed to maximise
 simplicity for the user, and to make it easy to reproduce results (see
-the supplement to \citet{Limberger2022} for an example of how this is
-used). As such, all the parameters needed to run a simulation or find a
-stable state (i.e.~the final state of the ecosystem) are contained in a
-single object (which can easily be created using included functions).
-This parameter object is given to a function that runs the simulations
-and returns the results. The returned results object is identical to the
-parameter object but with an additional slot named \texttt{results},
-which contains the results of the run. Thus the returned results object
-contains the simulation conditions (parameters) as well as the results,
-and can be used to run the simulation again. This promotes
-reproducibility and makes incremental changes of individual parameters
-and re-running the simulations straightforward.
+the supplement \citep{Petchey2022} to \citet{Limberger2022} for an
+example of how this is used). As such, all the parameters needed to run
+a simulation or find a stable state (i.e.~the final state of the
+ecosystem) are contained in a single object (which can easily be created
+using included functions). This parameter object is given to a function
+that runs the simulations and returns the results. The returned results
+object is identical to the parameter object but with an additional slot
+named \texttt{results}, which contains the results of the run. Thus the
+returned results object contains the simulation conditions (parameters)
+as well as the results, and can be used to run the simulation again.
+This promotes reproducibility and makes incremental changes of
+individual parameters and re-running the simulations straightforward.
 
 In the following sections we describe how to use the package to run one
 simulation and to find steady states across an environmental gradient.
@@ -327,7 +327,8 @@ simulation and to find steady states across an environmental gradient.
 \hypertarget{running-one-simulation}{%
 \subsection{Running one simulation}\label{running-one-simulation}}
 
-A typical simulation would look as shown in \ref{fig:runsim_example}.
+A typical simulation would look as shown in Figure
+\ref{fig:runsim_example}.
 
 \begin{figure}
 
@@ -417,7 +418,7 @@ The function \texttt{plot\_dynamics()} plots a single simulation run, as
 returned from the \texttt{run\_simulation()} function. This function is
 only provided as a convenience function to provide a way to easily see
 the results of a simulation run. An example plot resulting from this
-function is shown in \ref{fig:plot-dynamics}.
+function is shown in Figure \ref{fig:plot-dynamics}.
 
 \begin{figure}
 
@@ -425,7 +426,7 @@ function is shown in \ref{fig:plot-dynamics}.
 
 }
 
-\caption{Results of a simulation run shown using the function $plot_dynamics()$. In this case, there were three strains per functional group, though strains within functional groups had identical properties in this example. CB  extunderscore1 = cyanobacteria strain 1; SB extunderscore1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show the figure produce by $plot_dynamics()$, which produces figures not with all features ideal for publication.}\label{fig:plot-dynamics}
+\caption{Results of a simulation run shown using the function $plot\_dynamics()$. In this case, there were three strains per functional group, though strains within functional groups had identical properties in this example. CB\_1 = cyanobacteria strain 1; SB\_1 = sulfur reducing bacteria stain 1; PB\_1 = phototrophic sulfur bacteria strain 1.}\label{fig:plot-dynamics}
 \end{figure}
 
 \hypertarget{impact}{%
@@ -448,7 +449,7 @@ describing three use cases and then by describing how the package can be
 a starting point for models of other ecosystems. The first two use cases
 are described in detail (including the code for reproducing them) in the
 \emph{User Guide} and the \emph{Partial Reproduction} vignettes. The
-third is taken from \citet{REF_NEEDED}.
+third is taken from \citet{Limberger2022} and \citet{Petchey2022}.
 
 \hypertarget{use-case-1-regime-shifts-during-temporal-environmental-change}{%
 \subsection{Use case 1: Regime shifts during temporal environmental
@@ -465,7 +466,7 @@ method for finding stable states.
 
 An example of this functionality is given in the \emph{Partial
 Reproduction} vignette, which we briefly show here (Figure
-\ref{fig:uc1}. The example is composed of a single simulation, at the
+\ref{fig:uc1}). The example is composed of a single simulation, at the
 beginning of which the system is in the oxic state with high abundance
 of cyanobacteria. Oyxgen diffusivity is then slowly decreased and
 eventually, around hour 30'000 the system switches to the anoxic state,
@@ -481,24 +482,13 @@ function that implements this increase abundance can also be made to add
 a certain abundance to each strain at regular intervals, thus simulating
 immigration in to the system.
 
-\begin{verbatim}
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-\end{verbatim}
-
 \begin{figure}
 
 {\centering \includegraphics[width=350px]{/Users/rainer/git/0.RPackages/microxanox/inst/manuscript/figures/gen_uc1_partrep_temporal_state_switching} 
 
 }
 
-\caption{The temporal dynamics of the ecosystem model when an environmental condition (here parameter *a*, the oxygen diffusivity) changes. Plot of the stable states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB   extunderscore1 = cyanobacteria strain 1; SB extunderscore1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot_dynamics()$  function.}\label{fig:uc1}
+\caption{The temporal dynamics of the ecosystem model when an environmental condition (here parameter $a$, the oxygen diffusivity) changes. Plot of the stable states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB   extunderscore1 = cyanobacteria strain 1; SB\_1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot\_dynamics()$  function.}\label{fig:uc1}
 \end{figure}
 
 \hypertarget{use-case-2-the-extent-of-hysteresis-depends-on-community-composition}{%
@@ -524,7 +514,7 @@ function that calculates extent of hysteresis. The code for this is
 provided in the \emph{User Guide} vignette.
 
 The results show that the amount of hysteresis depends greatly on the
-combinations of organisms present (Figure \ref(figL:uc2)). For example,
+combinations of organisms present (Figure \ref{fig:uc2}). For example,
 with only the CB (cyanobacteria) present, there was no hysteresis. In
 contrast, the presence of both CB and SB (sulfate reducing bacteria) led
 to a large amount of hysteresis. (These results are also given in the
@@ -615,7 +605,7 @@ large and important effects of ecosystem responses, highlighting the
 need for models such as ours, with which one can easily manipulate the
 amount of biodiversity. The \emph{microxanox} package has also been used
 to reproduce the results of the paper that inspired the package
-development \citet{Bush2017}.
+development \citep{Bush2017}.
 
 The package greatly lowers the amount of work required in further
 investigations of the specific ecosystem modelled. There has, for
