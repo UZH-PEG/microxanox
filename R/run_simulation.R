@@ -62,6 +62,14 @@ run_simulation <- function(
     rule = 2
   )
   
+  if (is.null(parameter$event_definition)){
+    events <- NULL
+  } else {
+    events <- list(
+      func = parameter$event_definition,
+      time = event_times
+    )
+  }
   ## Run the simulation
   out <- as.data.frame(
     deSolve::ode(
@@ -70,10 +78,7 @@ run_simulation <- function(
       func = parameter$dynamic_model,
       parms = parameter$strain_parameter,
       method = parameter$solver_method,
-      events = list(
-        func = parameter$event_definition,
-        time = event_times
-      ),
+      events = events,
       log10a_forcing_func = l_f_f,
       noise_sigma = parameter$noise_sigma,
       minimum_abundances = parameter$minimum_abundances
