@@ -184,7 +184,7 @@ new_CB_strain_parameter(values = "bush")
 ## The duration of the simulation:
 
 ```{r}
-parameter_set1$sim_duration <- 2000
+parameter_set1$sim_duration <- 3600
 ```
 
 ## The sampling interval
@@ -264,7 +264,7 @@ sp <- new_strain_parameter(
 parameter_set1 <- new_runsim_parameter(
     dynamic_model = bushplus_dynamic_model,
     strain_parameter = sp,
-    sim_duration = 2000,
+    sim_duration = 3600,
     sim_sample_interval = 1,
     log10a_series = c(
         log10(sp$a_O),

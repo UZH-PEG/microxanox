@@ -1,6 +1,6 @@
 Package: microxanox
-Version: 0.9.0
-Date: 2022-06-08
+Version: 0.9.1
+Date: 2022-09-05
 Title: Oxic-anoxic regime shifts in microbial communities
 Description: Model to simulate a three functional group system with four chemical substrates
   using a set of ordinary differential equations. 
@@ -45,8 +45,7 @@ Suggests:
     rootSolve,
     tidyverse,
     testthat (>= 3.0.0)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-
