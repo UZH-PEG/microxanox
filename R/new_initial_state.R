@@ -53,6 +53,15 @@ new_initial_state <- function(
       O  <-  150
       P  <-  9.5
     },
+    "symmetric" = {
+      CB <-  1e5
+      PB <-  0
+      SB <-  1e5
+      SO <-  0
+      SR <-  20
+      O  <-  20
+      P  <-  10
+    },
     "NA" = {
       CB <-  as.numeric(NA)
       PB <-  as.numeric(NA)
@@ -62,7 +71,7 @@ new_initial_state <- function(
       O  <-  as.numeric(NA)
       P  <-  as.numeric(NA)
     },
-    stop("Not supported value for `values`!\n", "Only NA, 'NA', 'bush_oxic_figcd', 'bush_anoxic_figcd` and 'bush_ssfig3` are supported!")
+    stop("Not supported value for `values`!\n", "Only NA, 'NA', 'bush_oxic_figcd', 'bush_anoxic_figcd`, 'bush_ssfig3` and 'symmetric' are supported!")
   )
   
   result <- c(

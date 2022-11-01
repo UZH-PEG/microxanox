@@ -32,8 +32,8 @@ new_SB_strain_parameter <- function(
   if (is.na(values)) {
     values <- "NA"
   }
-  if (!(values %in% c("NA", "bush"))) {
-    stop("Not supported value for `values`!\n", "Only NA, 'NA' and 'bush' supported!")
+  if (!(values %in% c("NA", "bush", "symmetric"))) {
+    stop("Not supported value for `values`!\n", "Only NA, 'NA', 'bush' and 'symmetric' supported!")
   }
   
   ## Create object
@@ -62,6 +62,27 @@ new_SB_strain_parameter <- function(
     result$m_SB = rep(0.04, n)
     result$i_SB = rep(0, n)
   }
+  
+  if (values == "symmetric") {
+    
+    custom <- list( "g_max" = 0.1,  # growth rate
+                    "k_B_P" = 0.5,  # SC50 on Phosphorus
+                    "h_S_B" = 100,  # IC50 on substrates produced by bacteria
+                    "y_P_B" = 1.67e8,  # abundance (bacteria) to concentration (P) conversion factor
+                    "p_S_B" = 3e-8,  # abundance (bacteria) to concentration (Substrate) conversion factor (=production of S)
+                    "m_B" = 0.04,    # mortality rate
+                    "i_B" = 0)     # imigration of bacteria
+    
+    result$g_max_SB = rep(custom$g_max, n)
+    result$k_SB_SO = rep(20, n)
+    result$k_SB_P = rep(custom$k_B_P, n)
+    result$h_O_SB = rep(custom$h_S_B, n)
+    result$y_SO_SB = rep(custom$p_S_B, n)
+    result$y_P_SB = rep(custom$y_P_B, n)
+    result$m_SB = rep(custom$m_B)
+    result$i_SB = rep(custom$i_B, n)
+  }
+  
   class(result) <- append( "SB_strain_parameter", class(result))
   return(result)
 }

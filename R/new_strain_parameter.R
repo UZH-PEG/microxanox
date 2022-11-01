@@ -62,8 +62,8 @@ new_strain_parameter <- function(
     values_other <- "NA"
   }
   
-  if (!(values_other %in% c("NA", "bush"))) {
-    stop("Not supported value for `values_other`!\n", "Only NA, 'NA' and 'bush' supported!")
+  if (!(values_other %in% c("NA", "bush", "symmetric"))) {
+    stop("Not supported value for `values_other`!\n", "Only NA, 'NA',  'bush' and 'symmetric' supported!")
   }
   
   parms <- list()
@@ -102,6 +102,20 @@ new_strain_parameter <- function(
     parms$back_P <- 9.5
     ## oxidisation rate of reduced sulphur
     parms$c <- 4e-5
+  }
+  
+  if (values_other == "symmetric") {
+    ## substrate diffusivity
+    parms$a_S <- 0.1
+    parms$a_O <- 0.1
+    parms$a_P <- 0.1
+    ## background substrate concentration
+    parms$back_SR <- 100
+    parms$back_SO <- 0
+    parms$back_O <- 100
+    parms$back_P <- 10
+    ## oxidisation rate of reduced sulphur
+    parms$c <- 1e-2
   }
   
   ## set initial conditions
