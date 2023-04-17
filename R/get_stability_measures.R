@@ -15,7 +15,6 @@
 #' @rdname get_stability_measures
 #' @export
 #'
-#' @examples
 #'
 get_stability_measures <- function(
   ss_object,

@@ -1,8 +1,13 @@
 Package: microxanox
-Version: 0.4.9
-Date: 2022-01-25
+Version: 0.9.1
+Date: 2022-09-05
 Title: Oxic-anoxic regime shifts in microbial communities
-Description: The description will be discussed.
+Description: Model to simulate a three functional group system with four chemical substrates
+  using a set of ordinary differential equations. 
+  Simulations can be run individually or over a parameter range, to find stable states. The 
+  model features multiple species per functional group, where the number is only limited by 
+  computational constraints. The R package is constructed in such a way, that the results 
+  contain the input parameter used, so that a saved results can be loaded again and thesimulation be repeated.
 Authors@R: 
     c(person(given = "Owen L.",
              family = "Petchey",
@@ -40,7 +45,7 @@ Suggests:
     rootSolve,
     tidyverse,
     testthat (>= 3.0.0)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 VignetteBuilder: knitr
 Config/testthat/edition: 3

@@ -12,8 +12,10 @@ add_strain_var(
   SB_var_h = 0,
   PB_var_gmax = 0,
   PB_var_h = 0,
-  variability = function(strain_parameter, var) {     strain_parameter * 2^(seq(-var,
-    var, length = length(strain_parameter))) }
+  variability = function(strain_parameter, var) {
+     strain_parameter * 2^(seq(-var,
+    var, length = length(strain_parameter)))
+ }
 )
 }
 \arguments{

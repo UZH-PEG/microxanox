@@ -4,11 +4,11 @@
 #' needs to be used.
 #' @rdname get_stability_measures
 #' 
-#' @global Quantity starts_with direction up down a_O a 
+#' @global Quantity starts_with direction up down a_O a Species time
 #' 
 #' 
 #' @importFrom tidyr gather spread
-#' @importFrom dplyr summarise pull filter across
+#' @importFrom dplyr summarise pull filter across select 
 #' @importFrom stats na.omit
 #' 
 #' @export

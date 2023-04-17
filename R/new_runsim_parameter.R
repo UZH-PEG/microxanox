@@ -13,7 +13,7 @@
 #' - minimum_abundances : Minimum abundances. Smaller abundances will be set to this value duting `event_definition_1()`.
 #' - sim_duration       : duration of the simulation
 #' - sim_sample_interval: interval, at which the simulation will be sampled
-#' - log10a_series      : TODO
+#' - log10a_series      : A vector of values of log10 oxygen diffusivity parameter at which stable states will be found.
 #' - solver_method      : Used for the solver. Default is `"radau"`. For other options, see the documentatioom of `odeSolve::ode`.
 #' @md
 #' @export

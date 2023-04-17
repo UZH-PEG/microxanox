@@ -69,7 +69,7 @@ bushplus_dynamic_model <- function(
   
   P_rate <- - sum(1 / parameters$CB$y_P_CB * CB_growth_rate) -
     sum(1 / parameters$PB$y_P_PB * PB_growth_rate) -
-    sum(1 / parameters$SB$y_P_SB * PB_growth_rate) +
+    sum(1 / parameters$SB$y_P_SB * SB_growth_rate) +
     parameters$a_P * (parameters$back_P - state["P"])
   
   # Assemble results
