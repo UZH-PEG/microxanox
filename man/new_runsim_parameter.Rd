@@ -22,7 +22,7 @@ The object contains the following elements:
 \item minimum_abundances : Minimum abundances. Smaller abundances will be set to this value duting \code{event_definition_1()}.
 \item sim_duration       : duration of the simulation
 \item sim_sample_interval: interval, at which the simulation will be sampled
-\item log10a_series      : TODO
+\item log10a_series      : A vector of values of log10 oxygen diffusivity parameter at which stable states will be found.
 \item solver_method      : Used for the solver. Default is \code{"radau"}. For other options, see the documentatioom of \code{odeSolve::ode}.
 }
 }

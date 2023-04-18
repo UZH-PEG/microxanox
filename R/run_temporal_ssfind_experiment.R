@@ -11,7 +11,9 @@
 #' @param cores Number of cores to use. If more than one, then `multidplyr` is used
 #' @return an `tibble` object containing the stable state result, as well as the simulation parameters.
 #' @md
+#' @importFrom dplyr collect rowwise
 #' @importFrom multidplyr new_cluster cluster_library partition
+#' @global pars ssfind_pars
 #' @export
 
 

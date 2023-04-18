@@ -17,15 +17,15 @@ vignette: >
 options(mc.cores=8)
 
 mdat <- function(name = "") {
-  system.file(file.path("data", "partial_reproduction", name), package = "microxanox")
+  system.file(file.path("data_pkg", "partial_reproduction", name), package = "microxanox")
 }
 
 ##########
-### To generate the data, please uncomment the following three lines 
+### To generate the data_pkg, please uncomment the following three lines 
 # and create the directory 
 # 
 # mdat <- function(name = "") {
-#   file.path(".", "data", "partial_reproduction", name)
+#   file.path(".", "data_pkg", "partial_reproduction", name)
 # }
 # dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
 ##########
