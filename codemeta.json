@@ -243,7 +243,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "34630.67KB",
+  "fileSize": "34597.215KB",
   "releaseNotes": "https://github.com/UZH-PEG/microxanox/blob/master/NEWS.md",
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
   "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "https://www.repostatus.org/#active"]
