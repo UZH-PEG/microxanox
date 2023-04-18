@@ -24,6 +24,8 @@ utils::globalVariables(c(
   "time", # <plot_dynamics>
   "log10_quantity", # <plot_dynamics>
   "var_type", # <plot_dynamics>
+  "", # <plot_dynamics_symmetric>
+  "", # <sym_plot_temporal_ss>
   "time", # <run_temporal_ssfind>
   "pars", # <run_temporal_ssfind_experiment>
   "ssfind_pars", # <run_temporal_ssfind_experiment>
