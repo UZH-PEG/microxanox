@@ -1,11 +1,10 @@
-#' Plot the dynamics of a model run of a symmetric parameterset
+#' Plot the dynamics of a model run of a symmetric parameter set
 #' 
 #' This is a convenience function to plot the dynamics of a model run particularly
-#' for a symmetric model
-#' with strains within functional groups displayed.
+#' for a symmetric model with strains within functional groups displayed.
 #' @param simulation_result Object returned by the run_simulation function
 #' @param every_n Plot data of every other n sample.
-#' @param plot_a if \code{TRUE}, a will be plotted
+#' @param plot_a if \code{TRUE}, diffusivities will be plotted in lower pane, default is \code{FALSE}.
 #' @return returns the ggplot object of the plot. If it is assigned to a 
 #'    variable, the plot needs to be plotted, otherwise it is plotted.
 #' 
@@ -22,7 +21,7 @@
 plot_dynamics_symmetric <- function(
     simulation_result, 
     every_n = 1,
-    plot_a = TRUE
+    plot_a = FALSE
 ){
   
   ## define colours
@@ -32,13 +31,14 @@ plot_dynamics_symmetric <- function(
   
   col_SR <- "#ea9999"
   col_O <- "#6edd3d"
-  col_a <- "#6b5205"
+  col_aO <- "#6ba405"
+  col_aS <- "#6b3205"
   col_P <- "#6fa8dc"
   
   ## data wrangling
   temp <- simulation_result$result %>%
     dplyr::filter(dplyr::row_number() %% every_n == 0 ) %>%
-    dplyr::mutate(a = 10^a) %>%
+    dplyr::mutate(aO = 10^aO, aS = 10^aS) %>%
     tidyr::gather(species, quantity, 2:ncol(.)) %>% 
     dplyr::mutate(var_type=ifelse(grepl("B_", species), "Organism", "Substrate"),
                   functional_group = dplyr::case_when(str_detect(species, "CB_") ~ "CB",
@@ -53,20 +53,21 @@ plot_dynamics_symmetric <- function(
   
   if(plot_a == FALSE){
     temp_S <- temp_S %>%
-      filter(species != "a")
+      filter(species != "aO", species != "aS")
   }
   
   num_CB_strains <- nrow(simulation_result$strain_parameter$CB)
   num_SB_strains <- nrow(simulation_result$strain_parameter$SB)
   num_PB_strains <- nrow(simulation_result$strain_parameter$PB)
   
+  # plotting
   p1 <- temp %>%
     dplyr::filter(functional_group == "CB") %>%
     mutate(species = factor(species, levels = unique(species))) %>%
     ggplot2::ggplot(aes(x=time, y=log10_quantity, col=microbe)) +
     ggplot2::geom_line() +
     # ylab('log10(quantity)') +
-    ylab('log10(abundance)\n[cells]') +
+    ylab('log10(abundance)\n[cells / L]') +
     ylim(0,10) +
     # xlab('time [hours]') +
     xlab(" ") + 
@@ -79,7 +80,7 @@ plot_dynamics_symmetric <- function(
     mutate(species = factor(species, levels = unique(species))) %>%
     ggplot2::ggplot(aes(x=time, y=log10_quantity, col=microbe)) +
     ggplot2::geom_line() +
-    ylab('log10(abundance)\n[cells]') +
+    ylab('log10(abundance)\n[cells / L]') +
     ylim(0,10) +
     # xlab('time [hours]') +
     xlab(" ") +
@@ -87,28 +88,18 @@ plot_dynamics_symmetric <- function(
     ggplot2::guides(colour = guide_legend(ncol = 3)) + 
     ggplot2::theme_bw()
   
-  # p3 <- temp %>%
-  #   dplyr::filter(functional_group == "PB") %>%
-  #   mutate(species = factor(species, levels = unique(species))) %>%
-  #   ggplot2::ggplot(aes(x=time, y=log10_quantity, col=species)) +
-  #   ggplot2::geom_line() +
-  #   ylab('log10(quantity [cells])') +
-  #   xlab('time [hours]') +
-  #   ggplot2::scale_colour_manual(values = colfunc_PB(num_PB_strains))+
-  #   ggplot2::guides(colour = guide_legend(ncol = 3))
-  
   p4 <- temp_S %>%
     dplyr::filter(species != "SO") %>%
     ggplot(aes(x=time, y=log10_quantity, col=substrate)) +
     ggplot2::geom_line() +
-    ggplot2::ylab('log10(concentration)\n[micromoles]') +
+    ggplot2::ylab('log10(concentration)\n[µM]') +
     ggplot2::xlab('time [hours]') +
     ggplot2::theme_bw()
   
   if(plot_a == FALSE){
     p4 <- p4 + scale_color_manual(values = c(col_O, col_P, col_SR))
   } else{
-    p4 <- p4 + scale_color_manual(values = c(col_a, col_O, col_P, col_SR))
+    p4 <- p4 + scale_color_manual(values = c(col_aO, col_aS, col_O, col_P, col_SR))
   }
   
   
