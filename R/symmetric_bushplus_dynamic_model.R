@@ -1,18 +1,21 @@
-#' The rate equations, as published in the Bush et al 2017
-#' \url{https://doi.org/10.1093/clinchem/39.5.766} paper, but with forcing of
-#' oxygen diffusivity `a_0` potential added, and the possibility to simulate
-#' multiple strains per functional group
+#' The rate equations, modified from publication of Bush et al 2017
+#' \url{https://doi.org/10.1093/clinchem/39.5.766}. Equations of antagonistic
+#' environmental variables are identical, while the oxygen and sulfide 
+#' diffusivities are forced in antisymmetric manner.
+#' Possibility to simulate multiple strain per functional group as published in 
+#' \url{https://doi.org/10.1111/ele.14217} by Limberger et al 2023 remains.
 #'
 #' @param t The current time in the simulation
 #' @param state A vector containing the current (named) values of each state
 #'   variable
 #' @param parameters An object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()``
-#' @param log10a_forcing_func function to change oxygen diffusivity `a` depending on `t`
+#' @param log10aO_forcing_func function to change oxygen diffusivity `aO` depending on `t`
+#' @param log10aS_forcing_func function to change sulfide diffusivity `aS` depending on `t`
 #' @param ... not used. Needed to catch additional parameters.
 #' 
 #' @return a list containing two elements, namely the rate of change of the
-#'   strains, and also the current values of oxygen diffusivity `a`.
+#'   strains, and also the current values of oxygen diffusivity `aO`, as well as sulfide diffusivity `aS`.
 #' @md
 #' 
 #' @export
@@ -20,7 +23,8 @@ symmetric_bushplus_dynamic_model <- function(
     t, 
     state, 
     parameters, 
-    log10a_forcing_func,
+    log10aO_forcing_func,
+    log10aS_forcing_func,
     ...
 ){
   
@@ -47,30 +51,23 @@ symmetric_bushplus_dynamic_model <- function(
   CB_rate <- CB_growth_rate - CB_mortality_rate + parameters$CB$i_CB
   SB_rate <- SB_growth_rate - SB_mortality_rate + parameters$SB$i_SB
   
-  # PB rates of change
-  # PB_growth_rate <- growth2(state["P"], state["SR"], parameters$PB$g_max_PB, parameters$PB$k_PB_P, parameters$PB$k_PB_SR) * inhibition(state["O"], parameters$PB$h_O_PB) * PB
-  # PB_mortality_rate <- parameters$PB$m_PB * PB
-  # PB_rate <- PB_growth_rate - PB_mortality_rate + parameters$PB$i_PB
+  # PB rates of change = 0: excluded from simulation
   PB_growth_rate <- 0 # no need to calculate in every step
   PB_rate <- 0
   
   # Substrate rates of change
-  # SO_rate <- sum(1 / parameters$PB$y_SR_PB * PB_growth_rate) -
-  #   sum(1 / parameters$SB$y_SO_SB * SB_growth_rate) +
-  #   parameters$c * state["O"] * state["SR"] +
-  #   parameters$a_S * (parameters$back_SO -state[["SO"]])
+  
+  # because only term != 0 is consumption by SB (inexisting in growth1)
   SO_rate <- 0 # leaving the ODE will lead to drastic decrease,
-  ## because only term != 0 is consumption by SB (inexisting in growth1)
   
-  
-  
+  # in symmetric model, both aS and aO are changed
   SR_rate <- sum(parameters$SB$y_SO_SB * SB_growth_rate) -
     parameters$c * state["O"] * state["SR"] + # = 0
-    parameters$a_S * (parameters$back_SR - state["SR"])
+    10^log10aS_forcing_func(t) * (parameters$back_SR - state["SR"])
   
   O_rate <- sum(parameters$CB$Pr_CB * CB_growth_rate) -
     parameters$c * state["O"] * state["SR"] + # = 0
-    10^log10a_forcing_func(t) * (parameters$back_O - state["O"]) # look at to construct symmetry only based on log10a forc, looking at func only
+    10^log10aO_forcing_func(t) * (parameters$back_O - state["O"]) 
   
   P_rate <- - sum(1 / parameters$CB$y_P_CB * CB_growth_rate) -
     #sum(1 / parameters$PB$y_P_PB * PB_growth_rate) -
@@ -88,7 +85,8 @@ symmetric_bushplus_dynamic_model <- function(
       O_rate = O_rate,
       P_rate = P_rate
     ),
-    a = log10a_forcing_func(t)
+    aO = log10aO_forcing_func(t),
+    aS = log10aS_forcing_func(t)
   )
   
   # Name results
@@ -101,6 +99,7 @@ symmetric_bushplus_dynamic_model <- function(
     "O_rate",
     "P_rate"
   )
+  
   
   return(result)
 }
