@@ -14,7 +14,7 @@
 #' - sim_duration       : duration of the simulation
 #' - sim_sample_interval: interval, at which the simulation will be sampled
 #' - log10a_series      : A vector of values of log10 oxygen diffusivity parameter at which stable states will be found.
-#' - sym_axis:          : log10 of diffusivity where log10a series is mirrored to obtan sulfide diffusivity vector.
+#' - sym_axis:          : For symmetric simulations only: log10 of diffusivity value where log10a series are mirrored to obtan sulfide diffusivity vector.
 #' - solver_method      : Used for the solver. Default is `"radau"`. For other options, see the documentatioom of `odeSolve::ode`.
 #' @md
 #' @export
