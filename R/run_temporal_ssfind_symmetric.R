@@ -5,7 +5,7 @@
 #'
 #' @param parameter an object of class `runsim_parameter` as returned by
 #'   `new_runsim_parameter()`.
-#' @return A data frame of final states and oxygen diffusivity values
+#' @return A data frame of final states, oxygen and sulfide diffusivity values
 #' @md
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
@@ -15,8 +15,7 @@
 #' 
 #' @export
 
-
-run_temporal_ssfind <- function(parameter) {
+run_temporal_ssfind_symmetric <- function(parameter) {
   
   ## recalculate the wait time (length of a step)
   wait_time <- parameter$sim_duration / length(parameter$log10a_series)
@@ -54,7 +53,8 @@ run_temporal_ssfind <- function(parameter) {
         func = parameter$event_definition,
         time = event_times
       ),
-      log10a_forcing_func = up_l_f_f,
+      log10aO_forcing_func = up_l_f_f, # oxygen diffusivity increases
+      log10aS_forcing_func = down_l_f_f, # sulfur diffusivity decreases
       noise_sigma = parameter$noise_sigma,
       minimum_abundances = parameter$minimum_abundances
     )
@@ -63,7 +63,7 @@ run_temporal_ssfind <- function(parameter) {
   up_res <- up_res %>%
     filter(time %in% times) %>%
     slice(-1) %>%
-    mutate(direction = "up")
+    mutate(recovery = "oxic")
   
   ## run a simulation for decreasing ox diff
   down_res <- as.data.frame(
@@ -77,7 +77,8 @@ run_temporal_ssfind <- function(parameter) {
         func = parameter$event_definition,
         time = event_times
       ),
-      log10a_forcing_func = down_l_f_f,
+      log10aO_forcing_func = down_l_f_f,
+      log10aS_forcing_func = up_l_f_f,
       noise_sigma = parameter$noise_sigma,
       minimum_abundances = parameter$minimum_abundances
     )
@@ -86,17 +87,11 @@ run_temporal_ssfind <- function(parameter) {
   down_res <- down_res %>%
     filter(time %in% times) %>%
     slice(-1) %>%
-    mutate(direction = "down")
+    mutate(recovery = "anoxic")
   
   ## combine results
-  result <- rbind(up_res, down_res) %>%
-    rename(a_O = a)
+  result <- rbind(up_res, down_res)
   
   result <- new_temporal_ssfind_results(result = result)
   return(result)
 }
-
-
-
-
-
