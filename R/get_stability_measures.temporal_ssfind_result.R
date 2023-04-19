@@ -23,6 +23,15 @@ get_stability_measures.temporal_ssfind_result <- function(
     result <- ss_object
   }
   
+  # check whether simulation result from symmetric or bush/trait
+  if ("recovery" %in% colnames(result)) {
+    # reformat the data.table so it fits the function
+    result <- result %>%
+      mutate(direction = ifelse(recovery == "oxic", "up", "down"), 
+             a_O = aO) %>%
+      select(-recovery, -aS, -aO)
+  }
+  
   ## The following is preparing the data
   these <- grep("B_", names(result))
   these <- c(these, which(names(result) %in% c("SO", "SR", "O", "P")))
