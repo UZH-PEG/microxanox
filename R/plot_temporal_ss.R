@@ -35,7 +35,7 @@ plot_temporal_ss <- function(temporal_results){
     ggplot() + 
     geom_path(aes(x = aO, y = log10(Quantity + 1), col = species, linetype = recovery), linewidth = 1) + 
     scale_color_manual(values = c("#38761d", "#cc0000" )) + 
-    geom_vline(xintercept = log10(0.1), linetype = "dotted", color = "black", linewidth = 2) +
+    # geom_vline(xintercept = log10(0.1), linetype = "dotted", color = "black", linewidth = 2) +
     ylab(expression(Log[10](Abundance+1))) +
     xlab(expression(Log[10](Oxygen~diffusivity))) +
     ylim(0,10) +
@@ -48,7 +48,7 @@ plot_temporal_ss <- function(temporal_results){
     ggplot() + 
     geom_path(aes(x = aO, y = log10(Quantity + 1), col = substrate, linetype = recovery), linewidth = 1) + 
     scale_color_manual(values = c("#38761d", "#2986cc", "#cc0000")) +
-    geom_vline(xintercept = log10(0.1), linetype = "dotted", color = "black", linewidth = 2) +
+    # geom_vline(xintercept = log10(0.1), linetype = "dotted", color = "black", linewidth = 2) +
     ylab(expression(Log[10](Quantity))) +
     xlab(expression(Log[10](Oxygen~diffusivity))) +
     #vylim(0,10) +
