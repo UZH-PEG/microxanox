@@ -15,6 +15,7 @@
 #' @importFrom tidyr gather
 #' @importFrom grDevices colorRampPalette
 #' @importFrom stringr str_detect
+#' @importFrom ggpubr ggarrange
 #' @import patchwork
 #' 
 #' @export
@@ -104,6 +105,6 @@ plot_dynamics_symmetric <- function(
   
   
   
-  return (p1 / p2 / p4)
+  return (ggpubr::ggarrange(p1, p2, p4, ncol = 1, nrow = 3))
   
 }
