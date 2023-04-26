@@ -11,8 +11,8 @@
 #' 
 
 
-plot_symmetry_measures <- function(species, 
-                                   res){
+plot_symmetry_measures <- function(res, 
+                                   species){
   
   measures <- get_symmetry_measures(res)
   ## check whether bush or symmetry simulation prepare dataframe scale_fill_manual scale_color_manual labs
@@ -24,6 +24,9 @@ plot_symmetry_measures <- function(species,
   } else {
     res <- res %>%
       select(-starts_with("PB"), -aS, -SO )
+  }
+  if (!(species %in% colnames(res))){
+    stop(paste("Please select a species of", paste(colnames(res), collapse = ", "), "."))
   }
   # speciesmeasures <- gather(measures[species,], key = "measure", value = "value")
   ## data wrangling to plotting-mature frame with xy coords in seperate columns
@@ -56,8 +59,7 @@ plot_symmetry_measures <- function(species,
                 mapping = aes(x = aO, ymin = oxic, ymax = anoxic, fill = "hysteresis area"), alpha = 0.3) +
     scale_fill_manual(values = c("blue")) +
     scale_color_manual(values = c("red", "green")) + 
-    labs(x = "aO", y = species, fill = "measures", color = "measures", linetype = "recovery") +
-    theme_bw()
+    labs(x = "aO", y = species, fill = "measures", color = "measures", linetype = "recovery")
   
   return(p)
 }

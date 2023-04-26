@@ -98,23 +98,22 @@ plot_trajectory_symmetry <-  function(res,
   
   # mask the shift segments with NAs, so that dotted line is not underplotted with normal one 
   plt.traj <- rbind(res_ox, res_anox)
-  na_mask <- which((plt.traj$recovery == "anoxic" & plt.traj$aO <= measures$ox_TP & plt.traj$aO >= measures$ox_TPafter) | (plt.traj$recovery == "oxic" & plt.traj$aO >= measures$anox_TP & plt.traj$aO <= measures$anox_TPafter))
-  plt.traj[na_mask, "state"] <-  NA
+  na_mask <- which((plt.traj$recovery == "anoxic" & plt.traj$aO <= measures$ox_TP & plt.traj$aO >= measures$ox_TPafter) | (plt.traj$recovery == "oxic" & plt.traj$aO >= measures$anox_TP & plt.traj$aO < measures$anox_TPafter))
+  plt.traj[na_mask+1, "state"] <-  NA
   
   
   # bacteria
   p <- ggplot(data = plt.traj %>% filter(type == typ)) + 
     geom_segment(data = plt.seg,
                  mapping = aes(x = x, y = y, xend = xend,  yend = yend, color = species),
-                 lineend = "round", linejoin = "round", size = 0.5, linetype = "dotted",
+                 lineend = "round", linejoin = "round", linewidth = 0.5, linetype = "dotted",
                  arrow = arrow(length = unit(0.5, "cm"))) +
     geom_path(mapping = aes(x = aO, y = state, color = species)) + 
     scale_color_manual(values = c("#00BD54", "#FF0000")) + 
     labs(title = paste(trajectory, "trajectories"),
          x = "aO",
          y = "concentration", 
-         color = type) + 
-    theme_bw()
+         color = "type")
   
   return(p)
   
