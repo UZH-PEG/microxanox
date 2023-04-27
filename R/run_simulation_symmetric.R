@@ -22,10 +22,6 @@ run_simulation_symmetric <- function(
     stop("parameter has to be an object of type `runsim_parameter`!")
   }
   
-  if (is.na(parameter$sym_axis)) {
-    stop("Please specify the symmetry axis of the system in parameter as `parameter$sym_axis <- log10(...)`")
-  }
-  
   if(parameter$sim_sample_interval > parameter$sim_duration){
     stop("Simulation sample interval is greater than simulation duration... it should be shorter.")
   } 
@@ -40,7 +36,8 @@ run_simulation_symmetric <- function(
   ## make the times at which events will occur
   event_times <- seq(min(times),
                      max(times),
-                     by = parameter$event_interval)  
+                     by = parameter$event_interval) 
+  
   
   ## create the series of oxygen diffusivity values
   log10a_forcing <- matrix(
@@ -54,8 +51,8 @@ run_simulation_symmetric <- function(
           length=length(parameter$log10a_series)
         )
       ),
-      parameter$log10a_series,                         # oxygen diffusivities
-      2 * parameter$sym_axis - parameter$log10a_series # mirrored sulfur diffusivities at sym_axis
+      parameter$log10aO_series,                         # oxygen diffusivities
+      parameter$log10aS_series # mirrored sulfur diffusivities at sym_axis
       
     )
   )

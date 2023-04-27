@@ -21,13 +21,13 @@ run_temporal_ssfind_symmetric <- function(parameter) {
   wait_time <- parameter$sim_duration / length(parameter$log10a_series)
   
   ## make function for the increasing ox diff steps
-  up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10a_series)), 
-                        y = (c(parameter$log10a_series, parameter$log10a_series[length(parameter$log10a_series)])),
+  up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aO_series)), 
+                        y = (c(parameter$log10aO_series, parameter$log10aO_series[length(parameter$log10aO_series)])),
                         method = "constant", rule = 1)
   
   ## make function for the decreasing ox diff steps
-  down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10a_series)), 
-                          y = c(rev(parameter$log10a_series), parameter$log10a_series[1]),
+  down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aS_series)), 
+                          y = c(parameter$log10aS_series, parameter$log10aS_series[length(parameter$log10aS_series)]),
                           method = "constant", rule = 1)
   
   ## make times at which observations are made (i.e. at the end of a step)

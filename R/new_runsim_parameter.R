@@ -14,7 +14,7 @@
 #' - sim_duration       : duration of the simulation
 #' - sim_sample_interval: interval, at which the simulation will be sampled
 #' - log10a_series      : A vector of values of log10 oxygen diffusivity parameter at which stable states will be found.
-#' - sym_axis:          : For symmetric simulations only: log10 of diffusivity value where log10a series are mirrored to obtan sulfide diffusivity vector.
+#' - asym_factor:       : For symmetric simulations only: enables manipulating `aS` forcing in asymmetric manner to decrease (<1) or increase (>1) stress on cyanobacteria.
 #' - solver_method      : Used for the solver. Default is `"radau"`. For other options, see the documentatioom of `odeSolve::ode`.
 #' @md
 #' @export
@@ -33,12 +33,26 @@ new_runsim_parameter <- function(
     sim_duration = NA, # default_sim_duration,
     sim_sample_interval = NA, # default_sim_sample_interval,
     log10a_series = NA, # default_log10a_series,
-    sym_axis = NA,      # default_sym_axis
+    asym_factor = FALSE, # default_asym_factor
     solver_method = "radau" # "radau",
   )
   if (!inherits(p, "runsim_parameter")) {
     class(p) <- append(class(p), "runsim_parameter")
   }
+  if (asym_factor) {
+    ## extract diffusivity series
+    sym.axis <- mean(parameter$log10a_series) # symmetry axis is between log10a_series limits
+    p$log10aO_series <- parameter$log10a_series
+    # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
+    p$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(axis - min(log10a_series)) * parameter$asym_factor),
+                                          sym.axis + (abs(axis - min(log10a_series)) * parameter$asym_factor),
+                                          length = length(log10a_series)))
+  }
+  # } else {
+  #   warning("This `runsim_parameter` can only be used for simulations in Bush et al. 2017 and Limberger et al 2023. If symmetry simulation is required, please provide parameter `asym_factor`.")
+  # }
+    
+  
   if (...length() > 0) {
     valid <- ...names() %in% names(p)
     if (!all(valid)) {

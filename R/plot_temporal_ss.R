@@ -52,7 +52,7 @@ plot_temporal_ss <- function(temporal_results){
     ylab(expression(Log[10](Quantity))) +
     xlab(expression(Log[10](Oxygen~diffusivity))) +
     #vylim(0,10) +
-    theme_bw() +
+    # theme_bw() +
     labs(title="Substrates")
   
   
