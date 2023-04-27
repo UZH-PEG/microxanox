@@ -45,7 +45,7 @@ plot_dynamics_symmetric <- function(
                   functional_group = dplyr::case_when(str_detect(species, "CB_") ~ "CB",
                                                       str_detect(species, "SB_") ~ "SB",
                                                       str_detect(species, "PB_") ~ "PB"),
-                  log10_quantity=log10(quantity)) %>%
+                  log10_quantity=log10(abs(quantity))) %>%
     dplyr::mutate(microbe = functional_group)
   
   temp_S <- temp %>% 
@@ -73,13 +73,13 @@ plot_dynamics_symmetric <- function(
     # xlab('time [hours]') +
     xlab(" ") + 
     ggplot2::scale_colour_manual(values = colfunc_CB(num_CB_strains)) +
-    ggplot2::guides(colour = ggplot2::guide_legend(ncol = 3)) +
-    ggplot2::theme_bw()
+    ggplot2::guides(colour = ggplot2::guide_legend(ncol = 3)) # +
+    # ggplot2::theme_bw()
   
   p2 <- temp %>%
     dplyr::filter(functional_group == "SB") %>%
     mutate(species = factor(species, levels = unique(species))) %>%
-    ggplot2::ggplot(aes(x=time, y=log10_quantity, col=microbe)) +
+    ggplot2::ggplot(aes(x=time, y=log10_quantity, col=microbe)) # +
     ggplot2::geom_line() +
     ylab('log10(abundance)\n[cells / L]') +
     ylim(0,10) +
@@ -87,15 +87,15 @@ plot_dynamics_symmetric <- function(
     xlab(" ") +
     ggplot2::scale_colour_manual(values = colfunc_SB(num_SB_strains))+
     ggplot2::guides(colour = guide_legend(ncol = 3)) + 
-    ggplot2::theme_bw()
+    # ggplot2::theme_bw()
   
   p4 <- temp_S %>%
     dplyr::filter(species != "SO") %>%
     ggplot(aes(x=time, y=log10_quantity, col=substrate)) +
     ggplot2::geom_line() +
     ggplot2::ylab('log10(concentration)\n[µM]') +
-    ggplot2::xlab('time [hours]') +
-    ggplot2::theme_bw()
+    ggplot2::xlab('time [hours]') #+
+    # ggplot2::theme_bw()
   
   if(plot_a == FALSE){
     p4 <- p4 + scale_color_manual(values = c(col_O, col_P, col_SR))

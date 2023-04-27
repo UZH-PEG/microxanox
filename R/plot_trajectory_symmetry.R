@@ -16,7 +16,8 @@
 
 plot_trajectory_symmetry <-  function(res,
                                       trajectory,
-                                      typ)
+                                      typ,
+                                      plot_log10 = FALSE)
 {
   
   ## extract symmetry measure from result
@@ -101,20 +102,26 @@ plot_trajectory_symmetry <-  function(res,
   na_mask <- which((plt.traj$recovery == "anoxic" & plt.traj$aO <= measures$ox_TP & plt.traj$aO >= measures$ox_TPafter) | (plt.traj$recovery == "oxic" & plt.traj$aO >= measures$anox_TP & plt.traj$aO < measures$anox_TPafter))
   plt.traj[na_mask+1, "state"] <-  NA
   
+  # log transfrom the data
+  if (plot_log10){
+    plt.traj$state <- log10(abs(plt.traj$state))
+    plt.seg[,c("y", "yend")] <- log10(plt.seg[,c("y", "yend")])
+  }
+  
   
   # bacteria
   p <- ggplot(data = plt.traj %>% filter(type == typ)) + 
     geom_segment(data = plt.seg,
                  mapping = aes(x = x, y = y, xend = xend,  yend = yend, color = species),
                  lineend = "round", linejoin = "round", linewidth = 0.5, linetype = "dotted",
-                 arrow = arrow(length = unit(0.5, "cm"))) +
+                 arrow = arrow(length = unit(0.3, "cm"))) +
     geom_path(mapping = aes(x = aO, y = state, color = species)) + 
-    scale_color_manual(values = c("#00BD54", "#FF0000")) + 
-    labs(title = paste(trajectory, "trajectories"),
-         x = "aO",
-         y = "concentration", 
-         color = "type")
-  
+    scale_color_manual(values = c("#00BD54", "#FF0000")) #+ 
+    # labs(# title = paste(trajectory, "trajectories"),
+    #      x = "aO",
+    #      y = "concentration", 
+    #      color = "type")
+    # 
   return(p)
   
 }
