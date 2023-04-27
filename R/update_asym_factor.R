@@ -23,9 +23,9 @@ update_asym_factor <- function(param,
   sym.axis <- mean(param$log10a_series) # symmetry axis is between log10a_series limits
   param$log10aO_series <- param$log10a_series
   # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
-  param$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(axis - min(param$log10a_series)) * param$asym_factor),
-                                        sym.axis + (abs(axis - min(param$log10a_series)) * param$asym_factor),
-                                        length = length(param$log10a_series)))
+  param$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(param$log10a_series)) * param$asym_factor),
+                                            sym.axis + (abs(sym.axis - min(param$log10a_series)) * param$asym_factor),
+                                            length = length(param$log10a_series)))
   
   return (param)
 }

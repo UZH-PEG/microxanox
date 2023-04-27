@@ -18,17 +18,28 @@
 run_temporal_ssfind_symmetric <- function(parameter) {
   
   ## recalculate the wait time (length of a step)
-  wait_time <- parameter$sim_duration / length(parameter$log10a_series)
+  wait_time <- parameter$sim_duration / mean(length(parameter$log10aO_series), 
+                                             length(parameter$log10aS_series))
   
-  ## make function for the increasing ox diff steps
-  up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aO_series)), 
-                        y = (c(parameter$log10aO_series, parameter$log10aO_series[length(parameter$log10aO_series)])),
-                        method = "constant", rule = 1)
+  ## sanity check
   
-  ## make function for the decreasing ox diff steps
-  down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aS_series)), 
-                          y = c(parameter$log10aS_series, parameter$log10aS_series[length(parameter$log10aS_series)]),
-                          method = "constant", rule = 1)
+  ## make function for the increasing oxygen diff steps
+  aO.up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aO_series)), 
+                           y = (c(parameter$log10aO_series, parameter$log10aO_series[length(parameter$log10aO_series)])),
+                           method = "constant", rule = 1)
+  ## make function for the decreasing oxygen diff steps
+  aO.down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aO_series)), 
+                             y = (c(rev(parameter$log10aO_series), parameter$log10aO_series[1])),
+                             method = "constant", rule = 1)
+  
+  ## make function for the decreasing sulfide diff steps
+  aS.down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aS_series)), 
+                             y = c(parameter$log10aS_series, parameter$log10aS_series[length(parameter$log10aS_series)]),
+                             method = "constant", rule = 1)
+  ## make function for the decreasing sulfide diff steps
+  aS.up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aS_series)), 
+                           y = c(rev(parameter$log10aS_series), parameter$log10aS_series[1]),
+                           method = "constant", rule = 1)
   
   ## make times at which observations are made (i.e. at the end of a step)
   times <- c(0,
@@ -53,8 +64,8 @@ run_temporal_ssfind_symmetric <- function(parameter) {
         func = parameter$event_definition,
         time = event_times
       ),
-      log10aO_forcing_func = up_l_f_f, # oxygen diffusivity increases
-      log10aS_forcing_func = down_l_f_f, # sulfur diffusivity decreases
+      log10aO_forcing_func = aO.up_l_f_f, # oxygen diffusivity increases
+      log10aS_forcing_func = aS.down_l_f_f, # sulfur diffusivity decreases
       noise_sigma = parameter$noise_sigma,
       minimum_abundances = parameter$minimum_abundances
     )
@@ -77,8 +88,8 @@ run_temporal_ssfind_symmetric <- function(parameter) {
         func = parameter$event_definition,
         time = event_times
       ),
-      log10aO_forcing_func = down_l_f_f,
-      log10aS_forcing_func = up_l_f_f,
+      log10aO_forcing_func = aO.down_l_f_f,
+      log10aS_forcing_func = aS.up_l_f_f,
       noise_sigma = parameter$noise_sigma,
       minimum_abundances = parameter$minimum_abundances
     )

@@ -39,7 +39,7 @@ plot_temporal_ss <- function(temporal_results){
     ylab(expression(Log[10](Abundance+1))) +
     xlab(expression(Log[10](Oxygen~diffusivity))) +
     ylim(0,10) +
-    theme_bw() +
+    #theme_bw() +
     labs(title="Organisms")
   
   p_substrates <- temporal_results %>%

@@ -39,13 +39,13 @@ new_runsim_parameter <- function(
   if (!inherits(p, "runsim_parameter")) {
     class(p) <- append(class(p), "runsim_parameter")
   }
-  if (asym_factor) {
+  if (p$asym_factor) {
     ## extract diffusivity series
-    sym.axis <- mean(parameter$log10a_series) # symmetry axis is between log10a_series limits
-    p$log10aO_series <- parameter$log10a_series
+    sym.axis <- mean(p$log10a_series) # symmetry axis is between log10a_series limits
+    p$log10aO_series <- p$log10a_series
     # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
-    p$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(axis - min(log10a_series)) * parameter$asym_factor),
-                                          sym.axis + (abs(axis - min(log10a_series)) * parameter$asym_factor),
+    p$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
+                                          sym.axis + (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
                                           length = length(log10a_series)))
   }
   # } else {
