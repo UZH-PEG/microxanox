@@ -15,8 +15,8 @@
 
 
 plot_trajectory_symmetry <-  function(res,
-                                      trajectory,
-                                      typ,
+                                      trajectory = "recovery",
+                                      typ = "substrate",
                                       plot_log10 = FALSE)
 {
 
@@ -81,16 +81,16 @@ plot_trajectory_symmetry <-  function(res,
   } else if (trajectory == "collapse"){
     
     res_ox <- res %>% 
-      select(starts_with("CB"), "O", "aO", "aS", "recovery") %>% 
+      { if (sym.flag) select(., starts_with("CB"), "O", "aO", "aS", "recovery") else select(., starts_with("CB"), "O", "aO", "recovery") } %>% 
       filter(recovery == "anoxic") %>% 
-      gather(key = "species", value = "state", -c(aO, aS, recovery)) %>%
+      { if(sym.flag) gather(data = ., key = "species", value = "state", -c(aO, aS, recovery)) else gather(data = ., key = "species", value = "state", -c(aO, recovery)) } %>%
       mutate(type = ifelse(species == "O", "substrate", "bacteria"))
     
     res_anox <- res %>% 
-      select(starts_with("SB"), "SR", "aO", "aS", "recovery") %>% 
+      { if (sym.flag) select(., starts_with("SB"), "SR", "aO", "aS", "recovery") else select(., starts_with("SB"), "SR", "aO", "recovery") } %>% 
       filter(recovery == "oxic") %>% 
       # arrange(SB_1, SR, recovery, desc(aO)) %>% 
-      gather(key = "species", value = "state", -c(aO, aS, recovery)) %>% 
+      { if(sym.flag) gather(data = ., key = "species", value = "state", -c(aO, aS, recovery)) else gather(data = ., key = "species", value = "state", -c(aO, recovery)) } %>%
       mutate(type = ifelse(species == "SR", "substrate", "bacteria")) 
     
     plt.seg <- data.frame(species = measures$species, 
