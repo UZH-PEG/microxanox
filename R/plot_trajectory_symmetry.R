@@ -19,7 +19,7 @@ plot_trajectory_symmetry <-  function(res,
                                       typ,
                                       plot_log10 = FALSE)
 {
-  
+
   ## extract symmetry measure from result
   measures <- get_symmetry_measures(res)
   
@@ -29,13 +29,19 @@ plot_trajectory_symmetry <-  function(res,
       rename(aO = a_O) %>%
       mutate(recovery = ifelse(direction == "up", "oxic", "anoxic")) %>%
       select(-direction)
+    sym.flag = F
   } else {
     res <- res %>%
-      select(-starts_with("PB"), -aS, -SO )
+      select(-starts_with("PB"), -SO )
+    sym.flag = T
+
   }
   
   if (!(typ %in% c("bacteria", "substrate"))){
     stop("Type must be either 'bacteria' 'or substrate'")
+  }
+  if (typ == "bacteria"){
+    warning("Function is not fully developed to precicely plot batceria comparisons!")
   }
   
   # if (nrow(measures) != ncol(select(res, -c(time, aO, recovery)))){
@@ -53,16 +59,16 @@ plot_trajectory_symmetry <-  function(res,
   if (trajectory == "recovery"){
     
     res_ox <- res %>% 
-      select(starts_with("CB"), "O", "aO", "recovery") %>% 
+      { if (sym.flag) select(., starts_with("CB"), "O", "aO", "aS", "recovery") else select(., starts_with("CB"), "O", "aO", "recovery") } %>% 
       filter(recovery == "oxic") %>% 
-      gather(key = "species", value = "state", -c(aO, recovery)) %>%
+      { if(sym.flag) gather(data = ., key = "species", value = "state", -c(aO, aS, recovery)) else gather(data = ., key = "species", value = "state", -c(aO, recovery)) } %>%
       mutate(type = ifelse(species == "O", "substrate", "bacteria"))
     
     res_anox <- res %>% 
-      select(starts_with("SB"), "SR", "aO", "recovery") %>% 
+      { if (sym.flag) select(., starts_with("SB"), "SR", "aO", "aS", "recovery") else select(., starts_with("SB"), "SR", "aO", "recovery") } %>% 
       filter(recovery == "anoxic") %>% 
       # arrange(SB_1, SR, recovery, desc(aO)) %>% 
-      gather(key = "species", value = "state", -c(aO, recovery)) %>% 
+      { if(sym.flag) gather(data = ., key = "species", value = "state", -c(aO, aS, recovery)) else gather(data = ., key = "species", value = "state", -c(aO, recovery)) } %>%
       mutate(type = ifelse(species == "SR", "substrate", "bacteria"))
     
     plt.seg <- data.frame(species = measures$species, 
@@ -75,16 +81,16 @@ plot_trajectory_symmetry <-  function(res,
   } else if (trajectory == "collapse"){
     
     res_ox <- res %>% 
-      select(starts_with("CB"), "O", "aO", "recovery") %>% 
+      select(starts_with("CB"), "O", "aO", "aS", "recovery") %>% 
       filter(recovery == "anoxic") %>% 
-      gather(key = "species", value = "state", -c(aO, recovery)) %>%
+      gather(key = "species", value = "state", -c(aO, aS, recovery)) %>%
       mutate(type = ifelse(species == "O", "substrate", "bacteria"))
     
     res_anox <- res %>% 
-      select(starts_with("SB"), "SR", "aO", "recovery") %>% 
+      select(starts_with("SB"), "SR", "aO", "aS", "recovery") %>% 
       filter(recovery == "oxic") %>% 
       # arrange(SB_1, SR, recovery, desc(aO)) %>% 
-      gather(key = "species", value = "state", -c(aO, recovery)) %>% 
+      gather(key = "species", value = "state", -c(aO, aS, recovery)) %>% 
       mutate(type = ifelse(species == "SR", "substrate", "bacteria")) 
     
     plt.seg <- data.frame(species = measures$species, 
@@ -109,19 +115,34 @@ plot_trajectory_symmetry <-  function(res,
   }
   
   
-  # bacteria
+  
   p <- ggplot(data = plt.traj %>% filter(type == typ)) + 
     geom_segment(data = plt.seg,
                  mapping = aes(x = x, y = y, xend = xend,  yend = yend, color = species),
                  lineend = "round", linejoin = "round", linewidth = 0.5, linetype = "dotted",
                  arrow = arrow(length = unit(0.3, "cm"))) +
     geom_path(mapping = aes(x = aO, y = state, color = species)) + 
-    scale_color_manual(values = c("#00BD54", "#FF0000")) #+ 
-    # labs(# title = paste(trajectory, "trajectories"),
-    #      x = "aO",
-    #      y = "concentration", 
-    #      color = "type")
-    # 
+    scale_color_manual(values = c("#00BD54", "#FF0000")) #+
+  # labs(# title = paste(trajectory, "trajectories"),
+  #      x = "aO",
+  #      y = "concentration", 
+  #      color = "type")
+  # 
+  
+  # secondary x axis for aS in symmetry case
+  if (sym.flag) {
+    # transformtion function for later secondary x axis
+    t_func <- function(a) 
+    {approx(x = unique(plt.traj$aO), 
+            y = unique(plt.traj$aS),
+            xout =  a,
+            method = "linear", rule = 1)$y # [1:length(temporal_results$aO)] # slice a random 0 element
+    }
+    p <- p + scale_x_continuous(expand = c(0,0), 
+                                sec.axis = sec_axis(trans = . ~ t_func(.),
+                                                    name = expression(Log[10](Sulfide~diffusivity))))
+  }
+
   return(p)
   
 }

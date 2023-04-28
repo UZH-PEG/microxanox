@@ -55,6 +55,26 @@ plot_temporal_ss <- function(temporal_results){
     # theme_bw() +
     labs(title="Substrates")
   
+  if ("aS" %in% colnames(temporal_results)){
+    # transformtion function
+    t_func <- function(a) 
+      {approx(x = unique(temporal_results$aO), 
+              y = unique(temporal_results$aS),
+              xout =  a,
+              method = "linear", rule = 1)$y # [1:length(temporal_results$aO)] # slice a random 0 element
+      }
+    
+    p_substrates <- p_substrates + scale_x_continuous(expand = c(0,0), 
+                                                      sec.axis = sec_axis(trans = . ~ t_func(.),
+                                                                          name = expression(Log[10](Sulfide~diffusivity)))
+                                                      )
+    
+    p_organisms <- p_organisms + scale_x_continuous(expand = c(0,0), 
+                                                    sec.axis = sec_axis(trans = . ~ t_func(.),
+                                                                        name = expression(Log[10](Sulfide~diffusivity)))
+                                                    )
+  }
+  
   
   return (ggpubr::ggarrange(p_organisms, p_substrates, ncol = 1, nrow = 3))
 }
