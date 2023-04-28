@@ -40,9 +40,6 @@ plot_trajectory_symmetry <-  function(res,
   if (!(typ %in% c("bacteria", "substrate"))){
     stop("Type must be either 'bacteria' 'or substrate'")
   }
-  if (typ == "bacteria"){
-    warning("Function is not fully developed to precicely plot batceria comparisons!")
-  }
   
   # if (nrow(measures) != ncol(select(res, -c(time, aO, recovery)))){
   #   stop("Ensure symmetry measure input is from according data ")
@@ -122,12 +119,12 @@ plot_trajectory_symmetry <-  function(res,
                  lineend = "round", linejoin = "round", linewidth = 0.5, linetype = "dotted",
                  arrow = arrow(length = unit(0.3, "cm"))) +
     geom_path(mapping = aes(x = aO, y = state, color = species)) + 
-    scale_color_manual(values = c("#00BD54", "#FF0000")) #+
-  # labs(# title = paste(trajectory, "trajectories"),
-  #      x = "aO",
-  #      y = "concentration", 
-  #      color = "type")
-  # 
+    scale_color_manual(values = c("#00BD54", "#FF0000")) +
+  labs(title = paste(trajectory, "trajectories"),
+       x = expression(Log[10](Sulfide~diffusivity)),
+       y = expression(Log[10](Concentration)),
+       color = "type")
+
   
   # secondary x axis for aS in symmetry case
   if (sym.flag) {
