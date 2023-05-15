@@ -1,19 +1,20 @@
-\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+ \documentclass[preprint,12pt, a4paper]{elsarticle}
+
 %%% Begin My package additions %%%%%%%%%%%%%%%%%%%
 
 \usepackage[hyphens]{url}
 
-  \journal{SoftwareX} % Sets Journal name
+ \journal{SoftwareX} % Sets Journal name
 
 \usepackage{lineno} % add
-  \linenumbers % turns line numbering on
+ \linenumbers % turns line numbering on
 
 \usepackage{graphicx}
 %%%%%%%%%%%%%%%% end my additions to header
 
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
+% \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
 % use upquote if available, for straight quotes in verbatim environments
@@ -30,16 +31,10 @@
 \fi
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
-\usepackage[]{natbib}
-\bibliographystyle{plainnat}
 
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \usepackage[unicode=true]{hyperref}
-\fi
+
+\usepackage[unicode=true]{hyperref}
+
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={},
@@ -65,9 +60,7 @@
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
+
 
 
 %% \documentclass[preprint,12pt, a4paper]{elsarticle}
@@ -84,27 +77,10 @@
 %% The amsthm package provides extended theorem environments
 %% \usepackage{amsthm}
 
-%% The lineno packages adds line numbers. Start line numbering with
-%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
-%% for the whole article with \linenumbers.
-\usepackage{lineno}
-
 \usepackage{float}
 \restylefloat{table}
 
 \journal{SoftwareX}
-
-%\usepackage{lineno}
-%\linenumbers
-%\usepackage{setspace}
-%\doublespacing
-%\usepackage{fancyhdr}
-%\fancyhead{}
-%\fancyfoot{}
-%\fancyhead[CO,CE]{Microxanox R package}
-%\pagestyle{fancy}
-%
-
 
 
 \begin{document}
@@ -118,7 +94,9 @@
   %
   \fnref{Corresponding Author}}
    \ead{Rainer.Krug@uzh.ch; Rainer@krugs.de} 
-    \author[University of Zürich]{Owen L. Petchey}
+    \author[University of Zürich]{Owen L. Petchey%
+  %
+  }
    \ead{Owen.Petchey@ieu.uzh.ch} 
       \affiliation[University of Zürich]{Department of Evolutionary
 Biology and Environmental Studies, Winterthurerstrasse 190, 8057 Zurich}
@@ -138,7 +116,7 @@ Biology and Environmental Studies, Winterthurerstrasse 190, 8057 Zurich}
   used, so that a saved results can be loaded again and the simulation
   be repeated. Furthermore, the package framework and code should serve
   as a useful starting point for making simulation models of other types
-  of ecosystem.
+  of ecosystems.
   \end{abstract}
     \begin{keyword}
     reproducibility \sep regime shift \sep stable state \sep 
@@ -161,7 +139,7 @@ Ancillary data table required for subversion of the codebase.
   >{\centering\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0483}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4138}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5379}}@{}}
-\toprule
+\toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\centering
 \textbf{Nr.}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -169,10 +147,12 @@ Ancillary data table required for subversion of the codebase.
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Please fill in this column}
 \end{minipage} \\
-\midrule
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 C1 & Current code version & v0.9.0 \\
-C2 & Permanent link to code/repository used for this code version &
+C2 & Permanent links to code/repository used for this code version &
 \url{https://github.com/UZH-PEG/microxanox} \\
 & & \href{https://zenodo.org/record/6624125}{10.5281/zenodo.6624125} \\
 C3 & Code Ocean compute capsule & \\
@@ -199,22 +179,23 @@ C8 & If available Link to developer documentation/manual &
 Guide} \\
 C9 & Support email for questions & Rainer.Krug@uzh.ch;
 Owen.Petchey@ieu.uzh \\
-\bottomrule
 \end{longtable}
 
 \hypertarget{motivation-and-significance}{%
 \section{Motivation and
 significance}\label{motivation-and-significance}}
 
-Mathematical models play a key role in the development of understanding
-about how ecosystems work and how they respond to environmental changes
+Mathematical models play a key role in the development of ecosystem
+models and the understanding about how ecosystems work and respond to
+environmental changes
 \citep{Binzer2016a, Chaparro-Pedraza2021, Vasseur2005}. They are also
 important for developing hypotheses to test in empirical studies. One
-area of ecology in which models have played a influential role is how
-ecosystems respond to gradual change in an environmental driver
-\citep{Scheffer2001}. An environmental driver is a environmental
-condition that affects an ecosystem, but is assumed to not be affected
-by the ecosystem, such as the rate of nutrient input into a lake.
+area of ecology in which models have been influential is the
+understanding of their response to a gradual change in an environmental
+driver \citep{Scheffer2001}. An environmental driver is an environmental
+condition that affects an ecosystem. Still, it is assumed not to be
+affected by the ecosystem, such as the rate of nutrient input into a
+lake.
 
 It is conceivable that an ecosystem state, such as the total biomass of
 a particular type of bacteria, may remain unchanged when an
@@ -226,22 +207,22 @@ changes that are difficult to reverse causes considerable concern
 \citep{Collins2021, Northrop2021, Vandermeer2019}.
 
 An example where a gradual change of an environmental variable causes an
-abrupt change of the system is the switch from an aerobic (oxygen is
-available for metabolism) to anaerobic (oxygen generally unavailable)
+abrupt change in the system is the switch from an aerobic (oxygen is
+available for metabolism) to an anaerobic (oxygen generally unavailable)
 state in a microbial ecosystem. This system has been investigated by
 \citet{Bush2017} in a simulation study of a mathematical model. Three
 types of microbes occur in the model: cyanobacteria (CB) dominating the
 oxic state, and two types of sulfur bacteria that dominate the anoxic
 state (sulfate reducing bacteria (SB) and phototrophic sulfur bacteria
 (PB)). The model shows that gradual change in the rate at which oxygen
-could diffuse into the ecosystem (termed the oxygen diffusitivity) could
+could diffuse into the ecosystem (termed oxygen diffusitivity) could
 cause catastrophic changes in the ecosystem state that would be
 difficult to reverse.
 
 One feature of the study by \citet{Bush2017} was limited biodiversity.
 Specifically, there was no biodiversity within each of the three types
-of bacteria. This leaves open the question of if and how biodiversity
-within these types (i.e.~functional groups) of bacteria affects the
+of bacteria. This leaves the question of if and how bacteria's
+biodiversity within these types (i.e., functional groups) affects the
 ecosystem response to environmental change. This limitation is not
 specific to the study of \citet{Bush2017}. There are few if any studies
 of the effects of biodiversity on abrupt transitions between ecosystem
@@ -250,12 +231,12 @@ states.
 We decided to fill this research gap by making a simulation study of how
 within functional group biodiversity affects ecosystem responses to
 environmental change \citet{Limberger2022}, and to base our work on the
-work and model of \citet{Bush2017}. It was with this goal in mind that
-we developed the \emph{microxanox} package \citep{Krug2022}. The first
-stage of development was to write code from scratch (as there was no
-available code to start from) and to confirm that this new
-implementation would reproduce the previously published results. The
-resulting reproduction is available as one of the package vignettes:
+work and model of \citet{Bush2017}. With this goal in mind, we developed
+the microxanox package \citep{Krug2022}. The first stage of development
+was to write code from scratch (as there was no available code to start
+from) and to confirm that this new implementation would reproduce the
+previously published results. The resulting reproduction is available as
+one of the package vignettes:
 \href{https://uzh-peg.r-universe.dev/articles/microxanox/partial-reproduction-Bushetal2017.html}{vignette
 Partial reproduction of Bush et al}.
 
@@ -265,12 +246,11 @@ have multiple species of bacteria within each of the three functional
 groups, for the multiple species to differ in their characteristics, and
 to vary the number of species and amount of variability among them. We
 also added functionality that allowed: temporally varying environmental
-conditions, addition of random noise to state variables, and
+conditions, the addition of random noise to state variables, and
 immigration. In addition to the model itself, the package includes some
-functions to analyse the results as well as to visualize the results to
-provide a starting point for customized visualizations based on own
-requirements. The basic and additional functionality is described in the
-package
+functions to analyse the results and visualize these to provide a
+starting point for customized visualizations based on own requirements.
+The basic and additional functionality is described in the package
 \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
 Guide}.
 
@@ -287,28 +267,28 @@ organisms and biogeochemical processes and is based on \citet{Bush2017}
 core of the simulations is a set of ordinary differential equations
 (specified in the function \texttt{bushplus\_dynamic\_model()}, though
 this function need not be directly called). There are functions for
-running individual simulations and for running a set of simulations
-across, for example, a range of environmental conditions.
+running individual simulations and a set of simulations across, for
+example, a range of environmental conditions.
 
 To make the simulation run with multiple species per functional group,
 we expressed different species characteristics in the elements of
 vectors and matrices. We also coded the ordinary differential equations
-to include the vectors and matrices, and to use matrix mathematics. In
-this way, we made it possible to run simulations with different numbers
-of species without having to change the underlying code.
+to include the vectors and matrices and used matrix mathematics. In this
+way, we made it possible to run simulations with different numbers of
+species without having to change the underlying code.
 
-The package functions and code have modular structure so that new
-functionality can be easily added. E.g. temporally defined events of any
-type could be specified. Further, all parameter values required to run a
-simulation are stored in one object. Lastly, the general structure of
-the code should make it straightforward to adapt the model to other
+The package functions and code have a modular structure so that new
+functionality can be easily added. E.g., temporally defined events of
+any type could be specified. Further, all parameter values required to
+run a simulation are stored in one object. Lastly, the general structure
+of the code should make it straightforward to adapt the model to other
 similar systems (described in more detail in the Impact section).
 
 \hypertarget{software-architecture}{%
 \subsection{Software architecture}\label{software-architecture}}
 
 The framework used when writing this package aimed to maximise
-simplicity for the user, and to make it straightforward to reproduce
+simplicity for the user and to make it straightforward to reproduce
 results (see the supplement \citep{Petchey2022} to \citet{Limberger2022}
 for an example of how this is used). As such, all the parameters needed
 to run a simulation or find a stable state (i.e.~the final state of the
@@ -316,11 +296,12 @@ ecosystem) are contained in a single object (which can easily be created
 using included functions). This parameter object is given to a function
 that runs the simulations and returns the results. The returned results
 object is identical to the parameter object but with an additional slot
-named \texttt{results}, which contains the results of the run. Thus the
+named \texttt{results}, which contains the simulation results. Thus the
 returned results object contains the simulation conditions (parameters)
 as well as the results, and can be used to run the simulation again.
 This promotes reproducibility and makes incremental changes of
-individual parameters and re-running the simulations straightforward.
+individual parameters with a consecutive re-running of the simulations
+straightforward.
 
 In the following sections we describe how to use the package to run one
 simulation and to find steady states across an environmental gradient.
@@ -345,33 +326,34 @@ this function, the ODEs are solved using the function \texttt{ode()} in
 the package \emph{deSolve} package \citep{Soetaert2010}. The
 \texttt{run\_simulation()} function needs only one argument - an object
 as created by the function \texttt{new\_runsim\_parameter()}. The
-parameter object returned by \texttt{new\_runsim\_parameter()} contains
-among other things the \texttt{strain\_parameter} object, which can be
+parameter object returned by \texttt{new\_runsim\_parameter()} contains,
+among other things, the \texttt{strain\_parameter} object, which can be
 created by the function \texttt{new\_strain\_parameter()}. For a
 detailed description of the parameter objects, their meaning and how
-they are created and have values set and changed please see the
+they are created and have values set and changed, please see the
 \emph{User Guide} which accompanies the package or is available at
 \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
 Guide}.
 
 After the parameter object has been defined, it can be used in the
 \texttt{run\_simulation()} function. The function returns an object
-which is identical to the parameter object, except of an additional slot
+identical to the parameter object, except of an additional slot
 containing the results. This design produces a fully reproducible object
 as it can be used as a parameter object to be fed back into the
-\texttt{run\_simulation()} function to run the simulation again from the
-parameter used to generate the results before.
+\texttt{run\_simulation()} function to rerun the simulation again from
+the parameter used to generate the results before.
 
 \hypertarget{finding-stable-states}{%
 \subsection{Finding Stable States}\label{finding-stable-states}}
 
-The general approach used to find the stable state of the system with a
-specific parameter set is to run the simulation for a long time and
-record the final state. When one does this across a range of
-environmental conditions, one discovers how the steady state of the
-system responds to the environmental conditions. The package contains
-functionality for finding steady states that correspond to values of one
-environmental driver, namely the value of oxygen diffusivity.
+The general approach to finding the numerical value of a system's stable
+state (if it exists) with a specific parameter set is to run the
+simulation for a long time and record the final state. When one does
+this across a range of environmental conditions, one discovers how the
+steady state of the system responds to the environmental conditions. The
+package contains functionality for finding steady states that correspond
+to values of one environmental driver, namely the value of oxygen
+diffusivity.
 
 Two methods for finding steady states are implemented. The first runs a
 separate simulation for each combination of starting conditions and
@@ -635,7 +617,7 @@ also supported by the University of Zurich Research Priority Programme
 in Global Change and Biodiversity.
 
 \renewcommand\refname{References}
-\bibliography{bibliography.bib}
-
+\bibliography{bibliography}
+\bibliographystyle{elsarticle-num-names.bst} 
 
 \end{document}
