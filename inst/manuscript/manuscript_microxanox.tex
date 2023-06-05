@@ -2,7 +2,7 @@
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
-% 
+%
 \documentclass[
 ]{article}
 \usepackage{amsmath,amssymb}
@@ -96,8 +96,7 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Microxanox: an R package for simulating an aquatic MICRobial ecosystem that can occupy OXic or ANOXic states.},
-  pdfkeywords={reproducibility, regime shift, steady state, ordinary
-differential equations},
+  pdfkeywords={reproducibility, regime shift, steady state, ordinary differential equations},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -105,28 +104,21 @@ differential equations},
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
-\title{Microxanox: an R package for simulating an aquatic \(MICR\)obial
-ecosystem that can occupy \(OX\)ic or \(ANOX\)ic states.}
+\title{Microxanox: an R package for simulating an aquatic \(MICR\)obial ecosystem that can occupy \(OX\)ic or \(ANOX\)ic states.}
 \author{true \and true}
-\date{2023-06-02}
+\date{2023-06-05}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-\(Microxanox\) is an R package to simulate a three functional group
-ecosystem (cyanobacteria, phototrophic sulfur bacteria, and
-sulfate-reducing bacteria) with four chemical substrates (phosphorus,
-oxygen, reduced sulfur, and oxidized sulfur) using a set of ordinary
-differential equations. Simulations can be run individually or over a
-parameter range, to find steady states. The model can be implemented
-with different numbers of species per functional group. The package is
-constructed in such a way that the results contain the input parameter
-used, so that a saved results can be loaded again and the simulation be
-repeated. Furthermore, the package framework and code should serve as a
-useful starting point for making simulation models of other types of
-ecosystems.
+\(Microxanox\) is an R package to simulate a three functional group ecosystem (cyanobacteria, phototrophic sulfur bacteria, and sulfate-reducing bacteria) with four chemical substrates (phosphorus, oxygen, reduced sulfur, and oxidized sulfur) using a set of ordinary differential equations. Simulations can be run individually or over a parameter range, to find steady states. The model can be implemented with different numbers of species per functional group. The package is constructed in such a way that the results contain the input parameter used, so that a saved results can be loaded again and the simulation be repeated. Furthermore, the package framework and code should serve as a useful starting point for making simulation models of other types of ecosystems.
 \end{abstract}
 
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
 \pagebreak
 
 \hypertarget{required-metadata}{%
@@ -153,17 +145,14 @@ Ancillary data table required for subversion of the codebase.
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-C1 & Current code version & v0.9.0 \\
-C2 & Permanent links to code/repository used for this code version &
-\url{https://github.com/UZH-PEG/microxanox} \\
-& & \href{https://zenodo.org/record/6624125}{10.5281/zenodo.6624125} \\
+C1 & Current code version & v0.9.1 \\
+C2 & Permanent links to code/repository used for this code version & \url{https://github.com/UZH-PEG/microxanox} \\
+& & \href{https://zenodo.org/record/7148667}{10.5281/zenodo.7148667} \\
 C3 & Code Ocean compute capsule & \\
 C4 & Legal Code License & MIT \\
-C5 & Code versioning system used & git \\
-C6 & Software code languages, tools, and services used &
-\href{https://cran.r-project.org/index.html}{R} \\
-C7 & Compilation requirements, operating environments &
-\href{https://cran.r-project.org/index.html}{R (\textgreater= 4.1.0)} \\
+C5 & Code versioning system used & \href{https://git-scm.com}{git} \\
+C6 & Software code languages, tools, and services used & \href{https://cran.r-project.org/index.html}{R} \\
+C7 & Compilation requirements, operating environments & \href{https://cran.r-project.org/index.html}{R (\textgreater= 4.1.0)} \\
 & & magrittr \\
 & & tibble \\
 & & ggplot2 \\
@@ -176,157 +165,45 @@ C7 & Compilation requirements, operating environments &
 & & tidyr \\
 & & stringr \\
 & & multidplyr \\
-C8 & If available Link to developer documentation/manual &
-\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
-Guide} \\
-C9 & Support email for questions &
-\href{mailto:Rainer.Krug@uzh.ch}{\nolinkurl{Rainer.Krug@uzh.ch}};
-\href{mailto:Owen.Petchey@ieu.uzh}{\nolinkurl{Owen.Petchey@ieu.uzh}} \\
+C8 & If available Link to developer documentation/manual & \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User Guide} \\
+C9 & Support email for questions & \href{mailto:Rainer.Krug@uzh.ch}{\nolinkurl{Rainer.Krug@uzh.ch}}; \href{mailto:Owen.Petchey@ieu.uzh}{\nolinkurl{Owen.Petchey@ieu.uzh}} \\
 \end{longtable}
 
 \hypertarget{motivation-and-significance}{%
-\section{Motivation and
-significance}\label{motivation-and-significance}}
+\section{Motivation and significance}\label{motivation-and-significance}}
 
-Mathematical models play a key role in the development of ecosystem
-models and the understanding about how and why ecosystems change when
-the environment changes (\protect\hyperlink{ref-Binzer2016a}{Binzer et
-al., 2016};
-\protect\hyperlink{ref-Chaparro-Pedraza2021}{Chaparro-Pedraza, 2021};
-\protect\hyperlink{ref-Vasseur2005}{Vasseur and McCann, 2005}). They are
-also important for developing hypotheses to test in empirical studies.
-One area of ecology in which models have been influential is the
-understanding of their response to a gradual change in an environmental
-driver (\protect\hyperlink{ref-Scheffer2001}{Scheffer et al., 2001}). An
-environmental driver is an environmental condition that affects an
-ecosystem. Still, it is assumed not to be affected by the ecosystem,
-such as the rate of nutrient input into a lake.
+Mathematical models play a key role in the development of ecosystem models and the understanding about how and why ecosystems change when the environment changes (\protect\hyperlink{ref-Binzer2016a}{Binzer et al., 2016}; \protect\hyperlink{ref-Chaparro-Pedraza2021}{Chaparro-Pedraza, 2021}; \protect\hyperlink{ref-Vasseur2005}{Vasseur and McCann, 2005}). They are also important for developing hypotheses to test in empirical studies. One area of ecology in which models have been influential is the understanding of their response to a gradual change in an environmental driver (\protect\hyperlink{ref-Scheffer2001}{Scheffer et al., 2001}). An environmental driver is an environmental condition that affects an ecosystem. Still, it is assumed not to be affected by the ecosystem, such as the rate of nutrient input into a lake.
 
-It is conceivable that an ecosystem state, such as the total biomass of
-a particular type of bacteria, may remain unchanged when an
-environmental driver changes. It is also possible that the ecosystem
-state changes gradually. It is also possible that the ecosystem state
-changes abruptly to a new state that is difficult to recover from
-(\protect\hyperlink{ref-Scheffer2001}{Scheffer et al., 2001}). This
-possibility for abrupt, perhaps catastrophic changes that are difficult
-to reverse causes considerable concern
-(\protect\hyperlink{ref-Collins2021}{Collins et al., 2021};
-\protect\hyperlink{ref-Northrop2021}{Northrop et al., 2021};
-\protect\hyperlink{ref-Vandermeer2019}{Vandermeer and Perfecto, 2019}).
+It is conceivable that an ecosystem state, such as the total biomass of a particular type of bacteria, may remain unchanged when an environmental driver changes. It is also possible that the ecosystem state changes gradually. It is also possible that the ecosystem state changes abruptly to a new state that is difficult to recover from (\protect\hyperlink{ref-Scheffer2001}{Scheffer et al., 2001}). This possibility for abrupt, perhaps catastrophic changes that are difficult to reverse causes considerable concern (\protect\hyperlink{ref-Collins2021}{Collins et al., 2021}; \protect\hyperlink{ref-Northrop2021}{Northrop et al., 2021}; \protect\hyperlink{ref-Vandermeer2019}{Vandermeer and Perfecto, 2019}).
 
-An example where a gradual change of an environmental variable causes an
-abrupt change in the system is the switch from an aerobic (oxygen is
-available for metabolism) to an anaerobic (oxygen generally unavailable)
-state in a microbial ecosystem. This system has been investigated by
-Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) in a simulation
-study of a mathematical model. Three types of microbes occur in the
-model: cyanobacteria (CB) dominating the oxic state, and two types of
-sulfur bacteria that dominate the anoxic state (sulfate reducing
-bacteria (SB) and phototrophic sulfur bacteria (PB)). The model shows
-that gradual change in the rate at which oxygen could diffuse into the
-ecosystem (termed oxygen diffusitivity) could cause catastrophic changes
-in the ecosystem state that would be difficult to reverse.
+An example where a gradual change of an environmental variable causes an abrupt change in the system is the switch from an aerobic (oxygen is available for metabolism) to an anaerobic (oxygen generally unavailable) state in a microbial ecosystem. This system has been investigated by Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) in a simulation study of a mathematical model. Three types of microbes occur in the model: cyanobacteria (CB) dominating the oxic state, and two types of sulfur bacteria that dominate the anoxic state (sulfate reducing bacteria (SB) and phototrophic sulfur bacteria (PB)). The model shows that gradual change in the rate at which oxygen could diffuse into the ecosystem (termed oxygen diffusitivity) could cause catastrophic changes in the ecosystem state that would be difficult to reverse.
 
-One feature of the study by Bush et al.
-(\protect\hyperlink{ref-Bush2017}{2017}) was limited biodiversity.
-Specifically, there was no biodiversity within each of the three types
-of bacteria. This leaves the question of if and how bacteria's
-biodiversity within these types (i.e., functional groups) affects the
-ecosystem response to environmental change. This limitation is not
-specific to the study of Bush et al.
-(\protect\hyperlink{ref-Bush2017}{2017}). There are few if any studies
-of the effects of biodiversity on abrupt transitions between ecosystem
-states.
+One feature of the study by Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) was limited biodiversity. Specifically, there was no biodiversity within each of the three types of bacteria. This leaves the question of if and how bacteria's biodiversity within these types (i.e., functional groups) affects the ecosystem response to environmental change. This limitation is not specific to the study of Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}). There are few if any studies of the effects of biodiversity on abrupt transitions between ecosystem states.
 
-We decided to fill this research gap by making a simulation study of how
-within functional group biodiversity affects ecosystem responses to
-environmental change Limberger et al.
-(\protect\hyperlink{ref-Limberger2022}{2022}), and to base our work on
-the work and model of Bush et al.
-(\protect\hyperlink{ref-Bush2017}{2017}). With this goal in mind, we
-developed the microxanox package (\protect\hyperlink{ref-Krug2022}{Krug
-and Petchey, 2022}). The first stage of development was to write code
-from scratch (as there was no available code to start from) and to
-confirm that this new implementation would reproduce the previously
-published results. The resulting reproduction is available as one of the
-package vignettes:
-\href{https://uzh-peg.r-universe.dev/articles/microxanox/partial-reproduction-Bushetal2017.html}{vignette
-Partial reproduction of Bush et al}.
+We decided to fill this research gap by making a simulation study of how within functional group biodiversity affects ecosystem responses to environmental change Limberger et al. (\protect\hyperlink{ref-Limberger2022}{2023}), and to base our work on the work and model of Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}). With this goal in mind, we developed the \texttt{microxanox} package (\protect\hyperlink{ref-Krug2022}{Krug and Petchey, 2022}). The first stage of development was to write code from scratch (as there was no available code to start from) and to confirm that this new implementation would reproduce the previously published results. The resulting reproduction is available as one of the package vignettes: \href{https://uzh-peg.r-universe.dev/articles/microxanox/partial-reproduction-Bushetal2017.html}{vignette Partial reproduction of Bush et al}.
 
-The second stage was to add functionality that would be necessary to
-answer our research question. Most importantly, we made it possible to
-have multiple species of bacteria within each of the three functional
-groups, for the multiple species to differ in their characteristics, and
-to vary the number of species and amount of variability among them. We
-also added functionality that allowed: temporally varying environmental
-conditions, the addition of random noise to state variables, and
-immigration. In addition to the model itself, the package includes some
-functions to analyse the results and visualize these to provide a
-starting point for customized visualizations based on own requirements.
-The basic and additional functionality is described in the package
-\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
-Guide}.
+The second stage was to add functionality that would be necessary to answer our research question. Most importantly, we made it possible to have multiple species of bacteria within each of the three functional groups, for the multiple species to differ in their characteristics, and to vary the number of species and amount of variability among them. We also added functionality that allowed: temporally varying environmental conditions, the addition of random noise to state variables, and immigration. In addition to the model itself, the package includes some functions to analyse the results and visualize these to provide a starting point for customized visualizations based on own requirements. The basic and additional functionality is described in the package \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User Guide}.
 
 \hypertarget{software-description}{%
 \section{Software description}\label{software-description}}
 
-The \emph{microxanox} package is for simulating a three functional group
-system (\emph{CB}: cyanobacteria, \emph{PB}: phototrophic sulfur
-bacteria, and \emph{SB}: sulfate-reducing bacteria) with four chemical
-substrates (\emph{P}: phosphorus, \emph{O}: oxygen, \emph{SR}: reduced
-sulfur, \emph{SO}: oxidized sulfur). It includes feedback between
-organisms and biogeochemical processes and is based on Bush et al.
-(\protect\hyperlink{ref-Bush2017}{2017}) (See Bush et al.
-(\protect\hyperlink{ref-Bush2017}{2017}) for a detailed discussion of
-the model). At the core of the simulations is a set of ordinary
-differential equations (specified in the function
-\texttt{bushplus\_dynamic\_model()}, though this function need not be
-directly called). There are functions for running individual simulations
-and a set of simulations across, for example, a range of environmental
-conditions.
+The \emph{microxanox} package is for simulating a three functional group system (\emph{CB}: cyanobacteria, \emph{PB}: phototrophic sulfur bacteria, and \emph{SB}: sulfate-reducing bacteria) with four chemical substrates (\emph{P}: phosphorus, \emph{O}: oxygen, \emph{SR}: reduced sulfur, \emph{SO}: oxidized sulfur). It includes feedback between organisms and biogeochemical processes and is based on Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) (See Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) for a detailed discussion of the model). At the core of the simulations is a set of ordinary differential equations (specified in the function \texttt{bushplus\_dynamic\_model()}, though this function need not be directly called). There are functions for running individual simulations and a set of simulations across, for example, a range of environmental conditions.
 
-To make the simulation run with multiple species per functional group,
-we expressed different species characteristics in the elements of
-vectors and matrices. We also coded the ordinary differential equations
-to include the vectors and matrices and used matrix mathematics. In this
-way, we made it possible to run simulations with different numbers of
-species without having to change the underlying code.
+To make the simulation run with multiple species per functional group, we expressed different species characteristics in the elements of vectors and matrices. We also coded the ordinary differential equations to include the vectors and matrices and used matrix mathematics. In this way, we made it possible to run simulations with different numbers of species without having to change the underlying code.
 
-The package functions and code have a modular structure so that new
-functionality can be easily added. E.g., temporally defined events of
-any type could be specified. Further, all parameter values required to
-run a simulation are stored in one object. Lastly, the general structure
-of the code should make it straightforward to adapt the model to other
-similar systems (described in more detail in the Impact section).
+The package functions and code have a modular structure so that new functionality can be easily added. E.g., temporally defined events of any type could be specified. Further, all parameter values required to run a simulation are stored in one object. Lastly, the general structure of the code should make it straightforward to adapt the model to other similar systems (described in more detail in the Impact section).
 
 \hypertarget{software-architecture}{%
 \subsection{Software architecture}\label{software-architecture}}
 
-The framework used when writing this package aimed to maximise
-simplicity for the user and to make it straightforward to reproduce
-results (see the supplement (\protect\hyperlink{ref-Petchey2022}{Petchey
-et al., 2022}) to Limberger et al.
-(\protect\hyperlink{ref-Limberger2022}{2022}) for an example of how this
-is used). As such, all the parameters needed to run a simulation or find
-a steady state (i.e.~the final state of the ecosystem) are contained in
-a single object (which can easily be created using included functions).
-This parameter object is given to a function that runs the simulations
-and returns the results. The returned results object is identical to the
-parameter object but with an additional slot named \texttt{results},
-which contains the simulation results. Thus the returned results object
-contains the simulation conditions (parameters) as well as the results,
-and can be used to run the simulation again. This promotes
-reproducibility and makes incremental changes of individual parameters
-with a consecutive re-running of the simulations straightforward.
+The framework used when writing this package aimed to maximise simplicity for the user and to make it straightforward to reproduce results (see the supplement (\protect\hyperlink{ref-Petchey2022}{Petchey et al., 2022}) to Limberger et al. (\protect\hyperlink{ref-Limberger2022}{2023}) for an example of how this is used). As such, all the parameters needed to run a simulation or find a steady state (i.e.~the final state of the ecosystem) are contained in a single object (which can easily be created using included functions). This parameter object is given to a function that runs the simulations and returns the results. The returned results object is identical to the parameter object but with an additional slot named \texttt{results}, which contains the simulation results. Thus the returned results object contains the simulation conditions (parameters) as well as the results, and can be used to run the simulation again. This promotes reproducibility and makes incremental changes of individual parameters with a consecutive re-running of the simulations straightforward.
 
-In the following sections we describe how to use the package to run one
-simulation and to find steady states across an environmental gradient.
+In the following sections we describe how to use the package to run one simulation and to find steady states across an environmental gradient.
 
 \hypertarget{running-one-simulation}{%
 \subsection{Running one simulation}\label{running-one-simulation}}
 
-A typical simulation would look as shown in Figure
-\ref{fig:runsim_example}.
+A typical simulation would look as shown in Figure \ref{fig:runsim_example}.
 
 \begin{figure}
 
@@ -334,105 +211,36 @@ A typical simulation would look as shown in Figure
 
 }
 
-\caption{Typical flow of a simulation. Dark Grey boxes: commands necessary for simulation; Light Grey:Saving of parameter and results; Lightest Grey: Different non specified commands.}\label{fig:runsim_example}
+\caption{Typical flow of a simulation. Dark Grey boxes: commands necessary for simulation; Light Grey:Saving of parameter and results; Lightest Grey: Different non specified commands.}(\#fig:runsim_example)
 \end{figure}
 
-A simulation is run using the \texttt{run\_simulation()} function. In
-this function, the ODEs are solved using the function \texttt{ode()} in
-the package \emph{deSolve} package
-(\protect\hyperlink{ref-Soetaert2010}{Soetaert et al., 2010}). The
-\texttt{run\_simulation()} function needs only one argument - an object
-as created by the function \texttt{new\_runsim\_parameter()}. The
-parameter object returned by \texttt{new\_runsim\_parameter()} contains,
-among other things, the \texttt{strain\_parameter} object, which can be
-created by the function \texttt{new\_strain\_parameter()}. For a
-detailed description of the parameter objects, their meaning and how
-they are created and have values set and changed, please see the
-\emph{User Guide} which accompanies the package or is available at
-\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
-Guide}.
+A simulation is run using the \texttt{run\_simulation()} function. In this function, the ODEs are solved using the function \texttt{ode()} in the package \emph{deSolve} package (\protect\hyperlink{ref-Soetaert2010}{Soetaert et al., 2010}). The \texttt{run\_simulation()} function needs only one argument - an object as created by the function \texttt{new\_runsim\_parameter()}. The parameter object returned by \texttt{new\_runsim\_parameter()} contains, among other things, the \texttt{strain\_parameter} object, which can be created by the function \texttt{new\_strain\_parameter()}. For a detailed description of the parameter objects, their meaning and how they are created and have values set and changed, please see the \emph{User Guide} which accompanies the package or is available at \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User Guide}.
 
-After the parameter object has been defined, it can be used in the
-\texttt{run\_simulation()} function. The function returns an object
-identical to the parameter object, except of an additional slot
-containing the results. This design produces a fully reproducible object
-as it can be used as a parameter object to be fed back into the
-\texttt{run\_simulation()} function to rerun the simulation again from
-the parameter used to generate the results before.
+After the parameter object has been defined, it can be used in the \texttt{run\_simulation()} function. The function returns an object identical to the parameter object, except of an additional slot containing the results. This design produces a fully reproducible object as it can be used as a parameter object to be fed back into the \texttt{run\_simulation()} function to rerun the simulation again from the parameter used to generate the results before.
 
 \hypertarget{finding-steady-states}{%
 \subsection{Finding Steady States}\label{finding-steady-states}}
 
-The general approach to finding the numerical value of a system's steady
-state (if it exists) with a specific parameter set is to run the
-simulation for a long time and record the final state. When one does
-this across a range of environmental conditions, one discovers how the
-steady state of the system changes with the environmental conditions.
-The package contains functionality for finding steady states that
-correspond to values of one environmental driver, namely the value of
-oxygen diffusivity.
+The general approach to finding the numerical value of a system's steady state (if it exists) with a specific parameter set is to run the simulation for a long time and record the final state. When one does this across a range of environmental conditions, one discovers how the steady state of the system changes with the environmental conditions. The package contains functionality for finding steady states that correspond to values of one environmental driver, namely the value of oxygen diffusivity.
 
-Two numerical strategies for finding steady states and their sensitivity
-to parameters are implemented. Two strategies are implemented in order
-to allow comparison of their results. The first method runs a
-independent simulation for each combination of initial conditions and
-oxygen diffusivity (we term this the \emph{Replication method}). This is
-the method used in the Bush et al.
-(\protect\hyperlink{ref-Bush2017}{2017}) study and was used to obtain
-the results in figures 3 and 4 of that article.
+Two numerical strategies for finding steady states and their sensitivity to parameters are implemented. Two strategies are implemented in order to allow comparison of their results. The first method runs a independent simulation for each combination of initial conditions and oxygen diffusivity (we term this the \emph{Replication method}). This is the method used in the Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) study and was used to obtain the results in figures 3 and 4 of that article.
 
-The second method runs two simulations, one with step-wise and slowly
-temporally \emph{increasing} oxygen diffusivity, and the other with
-step-wise and slowly \emph{decreasing} oxygen diffusivity. (Put another
-way, to explore the sensitivity of steady states of the dynamic model
-under oxygen diffusivity variation, subset values of this parameter are
-numerically evaluated. Two value vectors of oxygen diffusivity are
-presented step-wise, gradually increasing and decreasing.) During this
-temporal environmental change, the state of the system is recorded just
-before change to a new oxygen diffusivity (we term this the
-\emph{Temporal method}).
+The second method runs two simulations, one with step-wise and slowly temporally \emph{increasing} oxygen diffusivity, and the other with step-wise and slowly \emph{decreasing} oxygen diffusivity. (Put another way, to explore the sensitivity of steady states of the dynamic model under oxygen diffusivity variation, subset values of this parameter are numerically evaluated. Two value vectors of oxygen diffusivity are presented step-wise, gradually increasing and decreasing.) During this temporal environmental change, the state of the system is recorded just before change to a new oxygen diffusivity (we term this the \emph{Temporal method}).
 
-The package does not include methods for a formal analysis of the
-stability of the system and users should take care to assess if steady
-states are unique, and indeed if a steady state has been achieved.
+The package does not include methods for a formal analysis of the stability of the system and users should take care to assess if steady states are unique, and indeed if a steady state has been achieved.
 
-The replication method is implemented in the function
-\texttt{run\_replication\_ssfind()} which takes a parameter object as
-returned by the function \texttt{new\_replication\_ssfind\_parameter()}
-and the number of cores for multithreading the simulation. As the
-multithreading uses the package function \texttt{mclapply()} from the
-package \texttt{parallel} (\protect\hyperlink{ref-RCoreTeam2022}{R Core
-Team, 2022}), the multithreading only works on Linux and Mac. It is
-planned to move to \texttt{parLapply()}
-(\protect\hyperlink{ref-RCoreTeam2022}{R Core Team, 2022}) in a future
-release.
+The replication method is implemented in the function \texttt{run\_replication\_ssfind()} which takes a parameter object as returned by the function \texttt{new\_replication\_ssfind\_parameter()} and the number of cores for multithreading the simulation. As the multithreading uses the package function \texttt{mclapply()} from the package \texttt{parallel} (\protect\hyperlink{ref-RCoreTeam2022}{R Core Team, 2022}), the multithreading only works on Linux and Mac. It is planned to move to \texttt{parLapply()} (\protect\hyperlink{ref-RCoreTeam2022}{R Core Team, 2022}) in a future release.
 
-The temporal method is implemented in the function
-\texttt{run\_temporal\_ssfind()}, which takes a parameter object as
-created by the function \texttt{new\_temporal\_ssfind\_parameter()}. It
-is planned for a later release, to run these two simulations in
-parallel.
+The temporal method is implemented in the function \texttt{run\_temporal\_ssfind()}, which takes a parameter object as created by the function \texttt{new\_temporal\_ssfind\_parameter()}. It is planned for a later release, to run these two simulations in parallel.
 
-For a more detailed walk-through of these two approaches and explanation
-please see the
-\href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User
-Guide}.
+For a more detailed walk-through of these two approaches and explanation please see the \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User Guide}.
 
 \hypertarget{analysing-and-visualising-results}{%
-\subsection{Analysing and visualising
-results}\label{analysing-and-visualising-results}}
+\subsection{Analysing and visualising results}\label{analysing-and-visualising-results}}
 
-From the results returned, summary measures about how the ecosystem
-steady states changes with environmental change can be extracted. The
-function \texttt{get\_stability\_measures()} returns quantities such as
-the amount of environmental change required for the system to abruptly
-change to a different state.
+From the results returned, summary measures about how the ecosystem steady states changes with environmental change can be extracted. The function \texttt{get\_stability\_measures()} returns quantities such as the amount of environmental change required for the system to abruptly change to a different state.
 
-The function \texttt{plot\_dynamics()} plots a single simulation run, as
-returned from the \texttt{run\_simulation()} function. This function is
-only provided as a convenience function to provide a way to easily see
-the results of a simulation run. An example plot resulting from this
-function is shown in Figure \ref{fig:plot-dynamics}.
+The function \texttt{plot\_dynamics()} plots a single simulation run, as returned from the \texttt{run\_simulation()} function. This function is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in Figure \ref{fig:plot-dynamics}.
 
 \begin{figure}
 
@@ -446,59 +254,20 @@ function is shown in Figure \ref{fig:plot-dynamics}.
 \hypertarget{impact}{%
 \section{Impact}\label{impact}}
 
-The open source implementation and extension of the model used in Bush
-et al. (\protect\hyperlink{ref-Bush2017}{2017}) provides the means of
-reproducing the results published while at the same time provides the
-means of doing unique, innovative, and important investigations of how
-ecosystems change as the environmental changes, and how biodiversity may
-modulate this.
+The open source implementation and extension of the model used in Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) provides the means of reproducing the results published while at the same time provides the means of doing unique, innovative, and important investigations of how ecosystems change as the environmental changes, and how biodiversity may modulate this.
 
-The design of the package code and functionality is with reproducibility
-in mind: the combination of all parameters being in a single parameter
-object as well as the return of the simulation as a result object which
-inherits from the parameter object provides a relatively easy to use
-framework to implement reproducible experiments.
+The design of the package code and functionality is with reproducibility in mind: the combination of all parameters being in a single parameter object as well as the return of the simulation as a result object which inherits from the parameter object provides a relatively easy to use framework to implement reproducible experiments.
 
-Here we evidence the impact of the \emph{microxanox} package by
-describing three use cases and then by describing how the package can be
-a starting point for models of other ecosystems. The first two use cases
-are described in detail (including the code for reproducing them) in the
-\emph{User Guide} and the \emph{Partial Reproduction} vignettes. The
-third is taken from Limberger et al.
-(\protect\hyperlink{ref-Limberger2022}{2022}) and Petchey et al.
-(\protect\hyperlink{ref-Petchey2022}{2022}).
+Here we evidence the impact of the \emph{microxanox} package by describing three use cases and then by describing how the package can be a starting point for models of other ecosystems. The first two use cases are described in detail (including the code for reproducing them) in the \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User Guide} and the \emph{Partial Reproduction} vignettes. The third is taken from Limberger et al. (\protect\hyperlink{ref-Limberger2022}{2023}) and Petchey et al. (\protect\hyperlink{ref-Petchey2022}{2022}).
 
 \hypertarget{use-case-1-regime-shifts-during-temporal-environmental-change}{%
-\subsection{Use case 1: Regime shifts during temporal environmental
-change}\label{use-case-1-regime-shifts-during-temporal-environmental-change}}
+\subsection{Use case 1: Regime shifts during temporal environmental change}\label{use-case-1-regime-shifts-during-temporal-environmental-change}}
 
-The study of Bush et al. (\protect\hyperlink{ref-Bush2017}{2017})
-includes simulations of the effect of oxygen diffusivity (an
-environmental driver, in the sense that it affects the ecosystem but is
-not affected by it) on the ecosystem state (oxic or anoxic). The
-\emph{microxonax} package contains functionality to make a specific
-temporal pattern of change in the oxygen diffusivity. As well as
-allowing individual simulations during which oxygen diffusivity varies,
-this functionality forms the basis of the temporal method for finding
-steady states.
+The study of Bush et al. (\protect\hyperlink{ref-Bush2017}{2017}) includes simulations of the effect of oxygen diffusivity (an environmental driver, in the sense that it affects the ecosystem but is not affected by it) on the ecosystem state (oxic or anoxic). The \texttt{microxonox} package contains functionality to make a specific temporal pattern of change in the oxygen diffusivity. As well as allowing individual simulations during which oxygen diffusivity varies, this functionality forms the basis of the temporal method for finding steady states.
 
-An example of this functionality is given in the \emph{Partial
-Reproduction} vignette, which we briefly show here (Figure
-\ref{fig:uc1}). The example is composed of a single simulation, at the
-beginning of which the system is in the oxic state with high abundance
-of cyanobacteria. Oyxgen diffusivity is then slowly decreased and
-eventually, around hour 30'000 the system switches to the anoxic state,
-with high abundance of both sulfur bacteria types. The oxygen
-diffusivity is then increased and at around hour 38'000 the system
-abruptly switches back to the oxic state.
+An example of this functionality is given in the \emph{Partial Reproduction} vignette, which we briefly show here (Figure \ref{fig:uc1}). The example is composed of a single simulation, at the beginning of which the system is in the oxic state with high abundance of cyanobacteria. Oyxgen diffusivity is then slowly decreased and eventually, around hour 30'000 the system switches to the anoxic state, with high abundance of both sulfur bacteria types. The oxygen diffusivity is then increased and at around hour 38'000 the system abruptly switches back to the oxic state.
 
-Also visible in the results are thick lines showing abundances of
-bacteria when abundances are low. This is due to the implementation of a
-function that at regular intervals, increases the abundance to a preset
-level. This prevents abundances reducing to very small numbers. The
-function that implements this increase abundance can also be made to add
-a certain abundance to each strain at regular intervals, thus simulating
-immigration in to the system.
+Also visible in the results are thick lines showing abundances of bacteria when abundances are low. This is due to the implementation of a function that at regular intervals, increases the abundance to a preset level. This prevents abundances reducing to very small numbers. The function that implements this increase abundance can also be made to add a certain abundance to each strain at regular intervals, thus simulating immigration in to the system.
 
 \begin{figure}
 
@@ -506,38 +275,17 @@ immigration in to the system.
 
 }
 
-\caption{The temporal dynamics of the ecosystem model when an environmental condition (here parameter $a$, the oxygen diffusivity) changes. Plot of the steady states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB   extunderscore1 = cyanobacteria strain 1; SB\_1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot\_dynamics()$  function.}\label{fig:uc1}
+\caption{The temporal dynamics of the ecosystem model when an environmental condition (here parameter $a$, the oxygen diffusivity) changes. Plot of the steady states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB   extunderscore1 = cyanobacteria strain 1; SB extunderscore1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot\_dynamics()$  function.}\label{fig:uc1}
 \end{figure}
 
 \hypertarget{use-case-2-the-extent-of-hysteresis-depends-on-community-composition}{%
-\subsection{Use case 2: The extent of hysteresis depends on community
-composition}\label{use-case-2-the-extent-of-hysteresis-depends-on-community-composition}}
+\subsection{Use case 2: The extent of hysteresis depends on community composition}\label{use-case-2-the-extent-of-hysteresis-depends-on-community-composition}}
 
-The package contains a function to extract summary features of ecosystem
-responses to environmental change, such as the amount of hysteresis
-displayed by the ecosystem. Hysteresis is a key feature of ecosystem
-responses to environmental change, because it is related to how
-difficult it can be to reserve the effects of environmental change
-(\protect\hyperlink{ref-Scheffer2001}{Scheffer et al., 2001}). The
-amount of hysteresis is measured as the extent of the environmental
-condition (here oxygen diffusitivity) for which there were two steady
-states. I.e. it is the extent of the environmental conditions for which
-historical conditions play an important role in determining the current
-system state (a definition of hysteresis).
+The package contains a function to extract summary features of ecosystem responses to environmental change, such as the amount of hysteresis displayed by the ecosystem. Hysteresis is a key feature of ecosystem responses to environmental change, because it is related to how difficult it can be to reserve the effects of environmental change (\protect\hyperlink{ref-Scheffer2001}{Scheffer et al., 2001}). The amount of hysteresis is measured as the extent of the environmental condition (here oxygen diffusitivity) for which there were two steady states. I.e. it is the extent of the environmental conditions for which historical conditions play an important role in determining the current system state (a definition of hysteresis).
 
-Using the package to calculate the extent of hysteresis involves setting
-ecosystem and simulation parameters, including parameters for the
-finding of steady states across an environmental gradient, running the
-steady state finding function, and analysing the results with the
-function that calculates extent of hysteresis. The code for this is
-provided in the \emph{User Guide}.
+Using the package to calculate the extent of hysteresis involves setting ecosystem and simulation parameters, including parameters for the finding of steady states across an environmental gradient, running the steady state finding function, and analysing the results with the function that calculates extent of hysteresis. The code for this is provided in the \href{https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html}{User Guide}.
 
-The results show that the amount of hysteresis depends greatly on the
-combinations of organisms present (Figure \ref{fig:uc2}). For example,
-with only the CB (cyanobacteria) present, there was no hysteresis. In
-contrast, the presence of both CB and SB (sulfate reducing bacteria) led
-to a large amount of hysteresis. (These results are also given in the
-\emph{Partial Reproduction} vignette.)
+The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \ref{fig:uc2}). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the \emph{Partial Reproduction} vignette.)
 
 \begin{figure}
 
@@ -549,36 +297,13 @@ to a large amount of hysteresis. (These results are also given in the
 \end{figure}
 
 \hypertarget{use-case-3-effects-of-functional-diversity-on-regime-shifts}{%
-\subsection{Use case 3: Effects of functional diversity on regime
-shifts}\label{use-case-3-effects-of-functional-diversity-on-regime-shifts}}
+\subsection{Use case 3: Effects of functional diversity on regime shifts}\label{use-case-3-effects-of-functional-diversity-on-regime-shifts}}
 
-As discussed in the Introduction section, the package was motivated by
-the question of how biodiversity influences ecosystem responses to
-environmental change. Extensive results concerning this question are
-given in a separate publication Limberger et al.
-(\protect\hyperlink{ref-Limberger2022}{2022}). Here we describe one of
-the results, which is that having biodiversity in a functional group can
-allow state changes to occur that otherwise would not have. I.e.
-biodiversity can qualitatively change the state of the ecosystem.
+As discussed in the Introduction section, the package was motivated by the question of how biodiversity influences ecosystem responses to environmental change. Extensive results concerning this question are given in a separate publication Limberger et al. (\protect\hyperlink{ref-Limberger2022}{2023}). Here we describe one of the results, which is that having biodiversity in a functional group can allow state changes to occur that otherwise would not have. I.e. biodiversity can qualitatively change the state of the ecosystem.
 
-Biodiversity was added to the functional groups using the
-\texttt{new\_strain\_parameter()} function to create a parameter set
-with multiple species per functional group (albeit all with identical
-features) and then to add variability among the species by calling the
-\texttt{add\_strain\_var()} function. This function takes an already
-existing parameter set and adds the specified about of variation. The
-new parameter object is then used as before.
+Biodiversity was added to the functional groups using the \texttt{new\_strain\_parameter()} function to create a parameter set with multiple species per functional group (albeit all with identical features) and then to add variability among the species by calling the \texttt{add\_strain\_var()} function. This function takes an already existing parameter set and adds the specified about of variation. The new parameter object is then used as before.
 
-Figure \ref{fig:uc3} shows a simulation with two species (strains) in
-each of the three functional groups. The ecosystem starts in the oxic
-state, though with relatively high abundance of each functional group.
-The strain of SB that is more tolerant to oxygen (SB\_1) initially
-decreases in abundance, but then increases, and the other (SB\_2) strain
-then becomes abundance and SB\_1 declines. Furthermore, the
-cyanobacteria crash in abundance, and the system switches to the anoxic
-state. In contrast, if there are two identical strains with tolerance
-half way between those in Figure \ref{fig:uc3} the ecosystem remains in
-the oxic state.
+Figure \ref{fig:uc3} shows a simulation with two species (strains) in each of the three functional groups. The ecosystem starts in the oxic state, though with relatively high abundance of each functional group. The strain of SB that is more tolerant to oxygen (SB\_1) initially decreases in abundance, but then increases, and the other (SB\_2) strain then becomes abundance and SB\_1 declines. Furthermore, the cyanobacteria crash in abundance, and the system switches to the anoxic state. In contrast, if there are two identical strains with tolerance half way between those in Figure \ref{fig:uc3} the ecosystem remains in the oxic state.
 
 \begin{figure}
 
@@ -590,70 +315,28 @@ the oxic state.
 \end{figure}
 
 \hypertarget{adapting-for-other-ecosystems-and-organisms}{%
-\subsection{Adapting for other ecosystems and
-organisms}\label{adapting-for-other-ecosystems-and-organisms}}
+\subsection{Adapting for other ecosystems and organisms}\label{adapting-for-other-ecosystems-and-organisms}}
 
-We anticipate that the package can be a useful starting point for
-investigating models of other types of ecosystem and how biodiversity in
-them affects responses to environmental change. The overall framework of
-the package, the purpose of each function, and the objects used for
-storing parameters and results could be retained. E.g., all such models
-would have parameters that differ among species and need to be described
-in an object, and studies will often need to run simulations and sets of
-simulations across environmental conditions.
+We anticipate that the package can be a useful starting point for investigating models of other types of ecosystem and how biodiversity in them affects responses to environmental change. The overall framework of the package, the purpose of each function, and the objects used for storing parameters and results could be retained. E.g., all such models would have parameters that differ among species and need to be described in an object, and studies will often need to run simulations and sets of simulations across environmental conditions.
 
-Researchers wanting to model a new ecosystem do not, therefore, have to
-start from scratch. This will relieve researchers from needing to make
-software design decisions, and rather focus on appropriately
-representing their ecosystem and finding the results that interest them.
-Nevertheless, adaptation of the code in the package will require a
-person / persons that can take a conceptual model of an ecosystem and
-then represent that in terms of parameters and rate equations, and that
-is relatively proficient in R programming.
+Researchers wanting to model a new ecosystem do not, therefore, have to start from scratch. This will relieve researchers from needing to make software design decisions, and rather focus on appropriately representing their ecosystem and finding the results that interest them. Nevertheless, adaptation of the code in the package will require a person / persons that can take a conceptual model of an ecosystem and then represent that in terms of parameters and rate equations, and that is relatively proficient in R programming.
 
 \hypertarget{conclusions}{%
 \section{Conclusions}\label{conclusions}}
 
-The \emph{microxanox} R package allows the simulation, visualisation,
-and analysis of a model of a microbial ecosystem while allowing
-variation in the amount of diversity containing in each of the
-functional groups of organisms present. It has been used for the
-research described in another paper that describes one of the first
-investigations of the effects of diversity on ecosystem resilience
-Limberger et al. (\protect\hyperlink{ref-Limberger2022}{2022}). In that
-paper, we show that diversity can have large and important effects of
-ecosystem responses, highlighting the need for models such as ours, with
-which one can easily manipulate the amount of biodiversity. The
-\emph{microxanox} package has also been used to reproduce the results of
-the paper that inspired the package development
-(\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}).
+The \emph{microxanox} R package allows the simulation, visualisation, and analysis of a model of a microbial ecosystem while allowing variation in the amount of diversity containing in each of the functional groups of organisms present. It has been used for the research described in another paper that describes one of the first investigations of the effects of diversity on ecosystem resilience Limberger et al. (\protect\hyperlink{ref-Limberger2022}{2023}). In that paper, we show that diversity can have large and important effects of ecosystem responses, highlighting the need for models such as ours, with which one can easily manipulate the amount of biodiversity. The \emph{microxanox} package has also been used to reproduce the results of the paper that inspired the package development (\protect\hyperlink{ref-Bush2017}{Bush et al., 2017}).
 
-The package greatly lowers the amount of work required in further
-investigations of the specific ecosystem modelled. There has, for
-example, been quite limited investigation of how biodiversity influences
-the short-term responses of the modelled ecosystem to environmental
-change. Likewise, the package could be used to power an investigation of
-the effects of biodiversity on the usefulness of early warning signals
-of abrupt ecosystem change
-(\protect\hyperlink{ref-Scheffer2009}{Scheffer et al., 2009}). In
-addition this package could be used as a template for the implementation
-for developing models of other types of ecosystems and organism. By
-doing so, other models can profit from the overall framework used, and
-the reproducibility aspects as well as the flexibility implemented.
+The package greatly lowers the amount of work required in further investigations of the specific ecosystem modelled. There has, for example, been quite limited investigation of how biodiversity influences the short-term responses of the modelled ecosystem to environmental change. Likewise, the package could be used to power an investigation of the effects of biodiversity on the usefulness of early warning signals of abrupt ecosystem change (\protect\hyperlink{ref-Scheffer2009}{Scheffer et al., 2009}). In addition this package could be used as a template for the implementation for developing models of other types of ecosystems and organism. By doing so, other models can profit from the overall framework used, and the reproducibility aspects as well as the flexibility implemented.
 
 \hypertarget{conflict-of-interest}{%
 \section{Conflict of Interest}\label{conflict-of-interest}}
 
-The authors declare no known conflicting or competing interests
-associated with this publication and there has been no significant
-financial support for this work that could have influenced its outcome.
+The authors declare no known conflicting or competing interests associated with this publication and there has been no significant financial support for this work that could have influenced its outcome.
 
 \hypertarget{acknowledgements}{%
 \section{Acknowledgements}\label{acknowledgements}}
 
-This project was part of SNF Project 310030\_188431. The project was
-also supported by the University of Zurich Research Priority Programme
-in Global Change and Biodiversity.
+This project was part of SNF Project 310030\_188431. The project was also supported by the University of Zurich Research Priority Programme in Global Change and Biodiversity.
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
@@ -662,88 +345,46 @@ in Global Change and Biodiversity.
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-Binzer2016a}{}}%
-Binzer, A., Guill, C., Rall, B.C., Brose, U., 2016. Interactive effects
-of warming, eutrophication and size structure: Impacts on biodiversity
-and food-web structure. Global Change Biology 22, 220--227.
-doi:\href{https://doi.org/10.1111/gcb.13086}{10.1111/gcb.13086}
+Binzer, A., Guill, C., Rall, B.C., Brose, U., 2016. Interactive effects of warming, eutrophication and size structure: Impacts on biodiversity and food-web structure. Global Change Biology 22, 220--227. doi:\href{https://doi.org/10.1111/gcb.13086}{10.1111/gcb.13086}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Bush2017}{}}%
-Bush, T., Diao, M., Allen, R.J., Sinnige, R., Muyzer, G., Huisman, J.,
-2017. Oxic-anoxic regime shifts mediated by feedbacks between
-biogeochemical processes and microbial community dynamics. Nature
-Communications 8, 789.
-doi:\href{https://doi.org/10.1038/s41467-017-00912-x}{10.1038/s41467-017-00912-x}
+Bush, T., Diao, M., Allen, R.J., Sinnige, R., Muyzer, G., Huisman, J., 2017. Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics. Nature Communications 8, 789. doi:\href{https://doi.org/10.1038/s41467-017-00912-x}{10.1038/s41467-017-00912-x}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Chaparro-Pedraza2021}{}}%
-Chaparro-Pedraza, P.C., 2021. Fast environmental change and
-eco-evolutionary feedbacks can drive regime shifts in ecosystems before
-tipping points are crossed. Proceedings of the Royal Society B:
-Biological Sciences 288, 20211192.
-doi:\href{https://doi.org/10.1098/rspb.2021.1192}{10.1098/rspb.2021.1192}
+Chaparro-Pedraza, P.C., 2021. Fast environmental change and eco-evolutionary feedbacks can drive regime shifts in ecosystems before tipping points are crossed. Proceedings of the Royal Society B: Biological Sciences 288, 20211192. doi:\href{https://doi.org/10.1098/rspb.2021.1192}{10.1098/rspb.2021.1192}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Collins2021}{}}%
-Collins, S.L., Nippert, J.B., Blair, J.M., Briggs, J.M., Blackmore, P.,
-Ratajczak, Z., 2021. Fire frequency, state change and hysteresis in
-tallgrass prairie. Ecology Letters 24, 636--647.
-doi:\href{https://doi.org/10.1111/ele.13676}{10.1111/ele.13676}
+Collins, S.L., Nippert, J.B., Blair, J.M., Briggs, J.M., Blackmore, P., Ratajczak, Z., 2021. Fire frequency, state change and hysteresis in tallgrass prairie. Ecology Letters 24, 636--647. doi:\href{https://doi.org/10.1111/ele.13676}{10.1111/ele.13676}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Krug2022}{}}%
-Krug, R.M., Petchey, O.L., 2022. Microxanox: {Model} to simulate three
-functional group system.
-doi:\href{https://doi.org/10.5281/ZENODO.6624125}{10.5281/ZENODO.6624125}
+Krug, R.M., Petchey, O.L., 2022. Microxanox: {Model} to simulate three functional group system. doi:\href{https://doi.org/10.5281/ZENODO.6624125}{10.5281/ZENODO.6624125}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Limberger2022}{}}%
-Limberger, R., Daugaard, U., Gupta, A., Krug, R., Lemmen, K., Moorsel,
-S. van, Suleiman, M., Zuppinger-Dingley, D., Petchey, O., 2022.
-Functional diversity can facilitate the collapse of an undesirable
-ecosystem state. Authorea Preprint.
-doi:\href{https://doi.org/10.22541/au.165513066.66785786/v1}{10.22541/au.165513066.66785786/v1}
+Limberger, R., Daugaard, U., Gupta, A., Krug, R.M., Lemmen, K.D., Van Moorsel, S.J., Suleiman, M., Zuppinger-Dingley, D., Petchey, O.L., 2023. Functional diversity can facilitate the collapse of an undesirable ecosystem state. Ecology Letters 26, 883--895. doi:\href{https://doi.org/10.1111/ele.14217}{10.1111/ele.14217}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Northrop2021}{}}%
-Northrop, A.C., Avalone, V., Ellison, A.M., Ballif, B.A., Gotelli, N.J.,
-2021. Clockwise and counterclockwise hysteresis characterize state
-changes in the same aquatic ecosystem. Ecology Letters 24, 94--101.
-doi:\href{https://doi.org/10.1111/ele.13625}{10.1111/ele.13625}
+Northrop, A.C., Avalone, V., Ellison, A.M., Ballif, B.A., Gotelli, N.J., 2021. Clockwise and counterclockwise hysteresis characterize state changes in the same aquatic ecosystem. Ecology Letters 24, 94--101. doi:\href{https://doi.org/10.1111/ele.13625}{10.1111/ele.13625}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Petchey2022}{}}%
-Petchey, O.L., Daugaard, U., Gupta, A., Krug, R.M., Lemmen, K.D., van
-Moorsel, Sofia J., Suleiman, M., Zuppinger-Dingley, Debra, Limberger,
-R., 2022. Code package for: "{Functional} diversity can facilitate the
-collapse of an undesirable ecosystem state".
-doi:\href{https://doi.org/10.5281/ZENODO.6334544}{10.5281/ZENODO.6334544}
+Petchey, O.L., Daugaard, U., Gupta, A., Krug, R.M., Lemmen, K.D., van Moorsel, Sofia J., Suleiman, M., Zuppinger-Dingley, Debra, Limberger, R., 2022. Code package for: "{Functional} diversity can facilitate the collapse of an undesirable ecosystem state". doi:\href{https://doi.org/10.5281/ZENODO.6334544}{10.5281/ZENODO.6334544}
 
 \leavevmode\vadjust pre{\hypertarget{ref-RCoreTeam2022}{}}%
-R Core Team, 2022. R: {A} language and environment for statistical
-computing. {R Foundation for Statistical Computing}, {Vienna, Austria}.
+R Core Team, 2022. R: {A} language and environment for statistical computing. {R Foundation for Statistical Computing}, {Vienna, Austria}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-Scheffer2009}{}}%
-Scheffer, M., Bascompte, J., Brock, W.A., Brovkin, V., Carpenter, S.R.,
-Dakos, V., Held, H., van Nes, E.H., Rietkerk, M., Sugihara, G., 2009.
-Early-warning signals for critical transitions. Nature 461, 53--59.
-doi:\href{https://doi.org/10.1038/nature08227}{10.1038/nature08227}
+Scheffer, M., Bascompte, J., Brock, W.A., Brovkin, V., Carpenter, S.R., Dakos, V., Held, H., van Nes, E.H., Rietkerk, M., Sugihara, G., 2009. Early-warning signals for critical transitions. Nature 461, 53--59. doi:\href{https://doi.org/10.1038/nature08227}{10.1038/nature08227}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Scheffer2001}{}}%
-Scheffer, M., Carpenter, S., Foley, J.A., Folke, C., Walker, B., 2001.
-Catastrophic shifts in ecosystems. Nature 413, 591--596.
-doi:\href{https://doi.org/10.1038/35098000}{10.1038/35098000}
+Scheffer, M., Carpenter, S., Foley, J.A., Folke, C., Walker, B., 2001. Catastrophic shifts in ecosystems. Nature 413, 591--596. doi:\href{https://doi.org/10.1038/35098000}{10.1038/35098000}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Soetaert2010}{}}%
-Soetaert, K., Petzoldt, T., Setzer, R.W., 2010. Solving differential
-equations in {R}: {Package deSolve}. Journal of Statistical Software 33,
-1--25.
-doi:\href{https://doi.org/10.18637/jss.v033.i09}{10.18637/jss.v033.i09}
+Soetaert, K., Petzoldt, T., Setzer, R.W., 2010. Solving differential equations in {R}: {Package deSolve}. Journal of Statistical Software 33, 1--25. doi:\href{https://doi.org/10.18637/jss.v033.i09}{10.18637/jss.v033.i09}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Vandermeer2019}{}}%
-Vandermeer, J., Perfecto, I., 2019. Hysteresis and critical transitions
-in a coffee agroecosystem. Proceedings of the National Academy of
-Sciences 116, 15074--15079.
-doi:\href{https://doi.org/10.1073/pnas.1902773116}{10.1073/pnas.1902773116}
+Vandermeer, J., Perfecto, I., 2019. Hysteresis and critical transitions in a coffee agroecosystem. Proceedings of the National Academy of Sciences 116, 15074--15079. doi:\href{https://doi.org/10.1073/pnas.1902773116}{10.1073/pnas.1902773116}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Vasseur2005}{}}%
-Vasseur, D.A., McCann, K.S., 2005. A {Mechanistic Approach} for
-{Modeling Temperature}-{Dependent Consumer}-{Resource Dynamics}. The
-American Naturalist 166, 184--198.
-doi:\href{https://doi.org/10.1086/431285}{10.1086/431285}
+Vasseur, D.A., McCann, K.S., 2005. A {Mechanistic Approach} for {Modeling Temperature}-{Dependent Consumer}-{Resource Dynamics}. The American Naturalist 166, 184--198. doi:\href{https://doi.org/10.1086/431285}{10.1086/431285}
 
 \end{CSLReferences}
 
