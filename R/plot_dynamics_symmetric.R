@@ -105,6 +105,6 @@ plot_dynamics_symmetric <- function(
   
   
   
-  return (ggpubr::ggarrange(p1, p2, p4, ncol = 1, nrow = 3))
+  return (p1 / p2 / p4)
   
 }

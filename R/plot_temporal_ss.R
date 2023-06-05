@@ -76,5 +76,5 @@ plot_temporal_ss <- function(temporal_results){
   }
   
   
-  return (ggpubr::ggarrange(p_organisms, p_substrates, ncol = 1, nrow = 3))
+  return (p_organisms / p_substrates)
 }

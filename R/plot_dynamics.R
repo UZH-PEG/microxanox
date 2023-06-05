@@ -14,7 +14,6 @@
 #' @importFrom tidyr gather
 #' @importFrom grDevices colorRampPalette
 #' @importFrom stringr str_detect
-#' @importFrom ggpubr ggarrangeß
 #' @import patchwork
 #' 
 #' @export
@@ -80,6 +79,6 @@ plot_dynamics <- function(
     ggplot2::xlab('time [hours]') 
   p4
   
-  return(ggpubr::ggarrange(p1, p2, p3, p4, ncol = 1, nrow = 4))
+  return(p1 / p2 / p3 / p4)
   
 }
