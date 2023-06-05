@@ -39,6 +39,18 @@ new_runsim_parameter <- function(
   if (!inherits(p, "runsim_parameter")) {
     class(p) <- append(class(p), "runsim_parameter")
   }
+
+  if (...length() > 0) {
+    valid <- ...names() %in% names(p)
+    if (!all(valid)) {
+      stop(paste0("Non defined parameter supplied: ", paste(...names()[!valid], collapse = ", ")))
+    } else {
+      for (nm in 1:...length()) {
+        p[[...names()[[nm]]]] <- ...elt(nm)
+      }
+    }
+  }
+  
   if (p$asym_factor) {
     ## extract diffusivity series
     sym.axis <- mean(p$log10a_series) # symmetry axis is between log10a_series limits
@@ -51,18 +63,6 @@ new_runsim_parameter <- function(
   # } else {
   #   warning("This `runsim_parameter` can only be used for simulations in Bush et al. 2017 and Limberger et al 2023. If symmetry simulation is required, please provide parameter `asym_factor`.")
   # }
-    
-  
-  if (...length() > 0) {
-    valid <- ...names() %in% names(p)
-    if (!all(valid)) {
-      stop(paste0("Non defined parameter supplied: ", paste(...names()[!valid], collapse = ", ")))
-    } else {
-      for (nm in 1:...length()) {
-        p[[...names()[[nm]]]] <- ...elt(nm)
-      }
-    }
-  }
   
   return(p)
 }
