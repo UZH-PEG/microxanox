@@ -120,10 +120,11 @@ plot_trajectory_symmetry <-  function(res,
                  arrow = arrow(length = unit(0.3, "cm"))) +
     geom_path(mapping = aes(x = aO, y = state, color = species)) + 
     scale_color_manual(values = c("#00BD54", "#FF0000")) +
-  labs(title = paste(trajectory, "trajectories"),
-       x = expression(Log[10](Sulfide~diffusivity)),
-       y = expression(Log[10](Concentration)),
-       color = "type")
+    labs(title = paste(trajectory, "trajectories"),
+         x = expression(Log[10](Sulfide~diffusivity)),
+         y = expression(Log[10](Concentration)),
+         color = "type")
+    # xlim(-1.5, -0.5)
 
   
   # secondary x axis for aS in symmetry case
@@ -137,7 +138,9 @@ plot_trajectory_symmetry <-  function(res,
     }
     p <- p + scale_x_continuous(expand = c(0,0), 
                                 sec.axis = sec_axis(trans = . ~ t_func(.),
-                                                    name = expression(Log[10](Sulfide~diffusivity))))
+                                                    name = expression(Log[10](Sulfide~diffusivity))),
+                                # limits = c(-1.5, -0.5)
+                                )
   }
 
   return(p)
