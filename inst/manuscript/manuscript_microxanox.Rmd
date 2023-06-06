@@ -29,14 +29,16 @@ date: "`r Sys.Date()`"
 
 linenumbers: true
 numbersections: true
-csl: elsevier-harvard.csl
 output:
-  rticles::elsevier_article:
+  bookdown::pdf_book:
+    base_format: rticles::elsevier_article
+    keep_tex: true
     includes:
       in_header: headers.tex
 
 # Citation settings
 bibliography: bibliography.bib
+csl: 'softwarex.csl'
 nocite: '@Bush2017'
 linkcolor: blue
 link-citations: yes
@@ -128,9 +130,9 @@ In the following sections we describe how to use the package to run one simulati
 
 ## Running one simulation
 
-A typical simulation would look as shown in Figure \ref{fig:runsim_example}.
+A typical simulation would look as shown in Figure \@ref(fig:runsimexample).
 
-```{R runsim_example, eval = TRUE, echo = FALSE, fig.cap='Typical flow of a simulation. Dark Grey boxes: commands necessary for simulation; Light Grey:Saving of parameter and results; Lightest Grey: Different non specified commands.', fig.align="center", out.width = 350 }
+```{R runsimexample, eval = TRUE, echo = FALSE, fig.cap='Typical flow of a simulation. Dark Grey boxes: commands necessary for simulation; Light Grey:Saving of parameter and results; Lightest Grey: Different non specified commands.', fig.align="center", out.width = 350 }
 fig <- "./figures/simflow.pdf"
 
 if (!file.exists(fig)){
@@ -199,7 +201,7 @@ For a more detailed walk-through of these two approaches and explanation please 
 
 From the results returned, summary measures about how the ecosystem steady states changes with environmental change can be extracted. The function `get_stability_measures()` returns quantities such as the amount of environmental change required for the system to abruptly change to a different state.
 
-The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This function is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in Figure \ref{fig:plot-dynamics}.
+The function `plot_dynamics()` plots a single simulation run, as returned from the `run_simulation()` function. This function is only provided as a convenience function to provide a way to easily see the results of a simulation run. An example plot resulting from this function is shown in Figure \@ref(fig:plot-dynamics).
 
 ```{r plot-dynamics, echo = FALSE,  include=TRUE, fig.cap="Results of a simulation run shown using the function $plot\\_dynamics()$. In this case, there were three strains per functional group, though strains within functional groups had identical properties in this example. CB\\_1 = cyanobacteria strain 1; SB\\_1 = sulfur reducing bacteria stain 1; PB\\_1 = phototrophic sulfur bacteria strain 1.", fig.align="center", out.width = 350 }
 knitr::include_graphics("figures/ug_three_strains_dynamics.png")
@@ -224,7 +226,7 @@ Here we evidence the impact of the *microxanox* package by describing three use 
 
 The study of @Bush2017 includes simulations of the effect of oxygen diffusivity (an environmental driver, in the sense that it affects the ecosystem but is not affected by it) on the ecosystem state (oxic or anoxic). The `microxonox` package contains functionality to make a specific temporal pattern of change in the oxygen diffusivity. As well as allowing individual simulations during which oxygen diffusivity varies, this functionality forms the basis of the temporal method for finding steady states.
 
-An example of this functionality is given in the *Partial Reproduction* vignette, which we briefly show here (Figure \ref{fig:uc1}). The example is composed of a single simulation, at the beginning of which the system is in the oxic state with high abundance of cyanobacteria. Oyxgen diffusivity is then slowly decreased and eventually, around hour 30'000 the system switches to the anoxic state, with high abundance of both sulfur bacteria types. The oxygen diffusivity is then increased and at around hour 38'000 the system abruptly switches back to the oxic state.
+An example of this functionality is given in the *Partial Reproduction* vignette, which we briefly show here (Figure \@ref(fig:uc1)). The example is composed of a single simulation, at the beginning of which the system is in the oxic state with high abundance of cyanobacteria. Oyxgen diffusivity is then slowly decreased and eventually, around hour 30'000 the system switches to the anoxic state, with high abundance of both sulfur bacteria types. The oxygen diffusivity is then increased and at around hour 38'000 the system abruptly switches back to the oxic state.
 
 Also visible in the results are thick lines showing abundances of bacteria when abundances are low. This is due to the implementation of a function that at regular intervals, increases the abundance to a preset level. This prevents abundances reducing to very small numbers. The function that implements this increase abundance can also be made to add a certain abundance to each strain at regular intervals, thus simulating immigration in to the system.
 
@@ -285,7 +287,7 @@ The package contains a function to extract summary features of ecosystem respons
 
 Using the package to calculate the extent of hysteresis involves setting ecosystem and simulation parameters, including parameters for the finding of steady states across an environmental gradient, running the steady state finding function, and analysing the results with the function that calculates extent of hysteresis. The code for this is provided in the [User Guide](https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html).
 
-The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \ref{fig:uc2}). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the *Partial Reproduction* vignette.)
+The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \@ref(fig:uc2)). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the *Partial Reproduction* vignette.)
 
 
 ```{r uc2, echo = FALSE,  include=TRUE, fig.cap='The amount of hysteresis depends on the combination of types of organisms present. The model is entirely deterministic, hence there are no error bars.', fig.align="center", out.width = 150 }
@@ -321,7 +323,7 @@ As discussed in the Introduction section, the package was motivated by the quest
 
 Biodiversity was added to the functional groups using the `new_strain_parameter()` function to create a parameter set with multiple species per functional group (albeit all with identical features) and then to add variability among the species by calling the `add_strain_var()` function. This function takes an already existing parameter set and adds the specified about of variation. The new parameter object is then used as before.
 
-Figure \ref{fig:uc3} shows a simulation with two species (strains) in each of the three functional groups. The ecosystem starts in the oxic state, though with relatively high abundance of each functional group. The strain of SB that is more tolerant to oxygen (SB_1) initially decreases in abundance, but then increases, and the other (SB_2) strain then becomes abundance and SB_1 declines. Furthermore, the cyanobacteria crash in abundance, and the system switches to the anoxic state. In contrast, if there are two identical strains with tolerance half way between those in Figure \ref{fig:uc3} the ecosystem remains in the oxic state.
+Figure \@ref(fig:uc3) shows a simulation with two species (strains) in each of the three functional groups. The ecosystem starts in the oxic state, though with relatively high abundance of each functional group. The strain of SB that is more tolerant to oxygen (SB_1) initially decreases in abundance, but then increases, and the other (SB_2) strain then becomes abundance and SB_1 declines. Furthermore, the cyanobacteria crash in abundance, and the system switches to the anoxic state. In contrast, if there are two identical strains with tolerance half way between those in Figure \@ref(fig:uc3) the ecosystem remains in the oxic state.
 
 
 ```{r uc3, echo = FALSE,  include=TRUE, fig.cap='The dynamics of the ecosystem when there are two species in each functional group, and some variation (diversity) in species parameters.', fig.align="center", out.width = 350 }
@@ -348,11 +350,6 @@ The authors declare no known conflicting or competing interests associated with 
 
 # Acknowledgements
 This project was part of SNF Project 310030_188431. The project was also supported by the University of Zurich Research Priority Programme in Global Change and Biodiversity.
-
-# TODO in RMD file
-# TODO in LaTeX file
-- [ ] fix citation style
-- [ ] fix references to figures
 
 
 # References
