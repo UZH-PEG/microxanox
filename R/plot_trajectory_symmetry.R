@@ -129,6 +129,7 @@ plot_trajectory_symmetry <-  function(res,
   
   # secondary x axis for aS in symmetry case
   if (sym.flag) {
+    if (length(unique(plt.traj$aS)) > 1) {
     # transformtion function for later secondary x axis
     t_func <- function(a) 
     {approx(x = unique(plt.traj$aO), 
@@ -141,6 +142,7 @@ plot_trajectory_symmetry <-  function(res,
                                                     name = expression(Log[10](Sulfide~diffusivity))),
                                 # limits = c(-1.5, -0.5)
                                 )
+    }
   }
 
   return(p)

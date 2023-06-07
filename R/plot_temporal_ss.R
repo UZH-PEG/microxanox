@@ -56,6 +56,7 @@ plot_temporal_ss <- function(temporal_results){
     labs(title="Substrates")
   
   if ("aS" %in% colnames(temporal_results)){
+    if (length(unique(temporal_results$aS)) > 1){
     # transformtion function
     t_func <- function(a) 
       {approx(x = unique(temporal_results$aO), 
@@ -73,6 +74,7 @@ plot_temporal_ss <- function(temporal_results){
                                                     sec.axis = sec_axis(trans = . ~ t_func(.),
                                                                         name = expression(Log[10](Sulfide~diffusivity)))
                                                     )
+    }
   }
   
   
