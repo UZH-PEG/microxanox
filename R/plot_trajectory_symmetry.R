@@ -121,7 +121,7 @@ plot_trajectory_symmetry <-  function(res,
     geom_path(mapping = aes(x = aO, y = state, color = species)) + 
     scale_color_manual(values = c("#00BD54", "#FF0000")) +
     labs(title = paste(trajectory, "trajectories"),
-         x = expression(Log[10](Sulfide~diffusivity)),
+         x = expression(Log[10](Oxygen~diffusivity)),
          y = expression(Log[10](Concentration)),
          color = "type")
     # xlim(-1.5, -0.5)
