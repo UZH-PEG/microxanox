@@ -28,30 +28,29 @@ SoftwareX
 
 ### Reviewer #1
 
-> 1. Please consider reference style: Number the references (numbers in square brackets) in the list in the order in which they appear in the text.
+> 1.  Please consider reference style: Number the references (numbers in square brackets) in the list in the order in which they appear in the text.
 
-{>>Owen: Rainer - please correct and then make a response here.<<} {>>Rainer: Will do this at the end<<} *
+{\>\>Owen: Rainer - please correct and then make a response here.\<\<} {\>\>Rainer: Will do this at the end\<\<} \*
 
-> The authors in section 3.3 claim several sentences that could confuse readers.
-2.1 `one discovers how the steady state of the system responds to the environmental conditions`. There are several concerns that the authors should clarify:
+> The authors in section 3.3 claim several sentences that could confuse readers. 2.1 `one discovers how the steady state of the system responds to the environmental conditions`. There are several concerns that the authors should clarify:
 >
 > a)  `The steady state`. Is there a unique steady state? Is there a reported contribution concerning a formal analysis of the model in the sense of stability (stable state existence and uniqueness)? Maybe, authors should refer as `a system's stable state (if it exists)`.
 
-**Response:** We have added the text `The package does not include methods for a formal analysis of the stability of the system and users should take care to assess if steady states are unique, and indeed if a steady state has been achieved.`
+**Response:** Thank you for raising this important issue, which we had overlooked. A number of the reviewer comments below are closely related, hence we sometimes refer to this response and do so using the label "Response R1". In order to clarify about the existence and uniqueness of steady states we have added the text `When one wishes to be able to make conclusions about how the steady state of the system is affected by the environmental driver, it is very important to note that the *final state* (found by the simulation) is not guaranteed to be a *steady state*. The user must ensure that the simulation is run for sufficiently long time for any transient dynamics to disappeared, and must also check the type of long-term dynamics occurring. In the results presented here, and in the paper @Limberger2022, this was performed by visual inspection, and by checking the sensitivity of conclusions to the length of the simulation. Furthermore, the package does not include methods for a formal analysis of the stability of the system and users should take care to assess if steady states are unique.` 
 
-**Response:** Since we do not provide methods for formal analysis of stability, we always use "steady state" and have removed all methods of "stable state".
+**Response:** In addition, we notice that we sometimes used the term "stable state" and sometimes "steady state". We now use only the term "steady state". Furthermore, we now use the term "final state" to refer to the state of the system at the end of a simulation.
 
->`b)`The steady state of the system responds`. It should be noted that the steady state does not respond to the environment. Maybe, the authors refer to the numerical result of a steady state as a function of parameter and initial condition (if a steady state is not unique).
+> `b)`The steady state of the system responds\`. It should be noted that the steady state does not respond to the environment. Maybe, the authors refer to the numerical result of a steady state as a function of parameter and initial condition (if a steady state is not unique).
 
 **Response:** Thank you. We have edited the text so that we do not state that the steady state responds to the environment.
 
 > 2.2 `finding steady states that correspond to values of one environmental driver`. The software does not find a steady state. Maybe the authors refer to the software running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (oxygen diffusivity). Then, the numerical evaluation of steady states could be related to environmental conditions in real systems.
 
-**Response:** we do not understand why the reviewer states that the software does not find a steady state. We are very sorry that we are missing some key point of understanding here.
+**Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding. 
 
 > 2.3 `Two methods for finding steady states are implemented`. Again, the software does not find a steady state. Maybe the authors refer to two simulations proposed to evaluate an open loop simulation of the dynamic model numerically.
 
-**Response:** we do not understand why the reviewer states that the software does not find a steady state. We are very sorry that we are missing some key point of understanding here.
+**Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding. 
 
 > 2.4 `The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity`. This sentence is confusing. What the authors mean with `separate simulation` and `starting conditions`. Maybe the authors refer to each initial condition and parameter set value (oxygen diffusivity) as an open loop simulation run of the dynamic system. Are these simulations results focused on obtaining a bifurcation diagram Fig. 3 and 4 from {10.1038/s41467-017-00912-x}? Please clarified this point.
 
@@ -65,11 +64,11 @@ SoftwareX
 
 **Response:** Thank you for pointing out this source of confusion. We change the text to "Two strategies are implemented in order to allow comparison of their results." and moved it to just after we state that two strategies are provided.
 
-> a) `two methods` Maybe the authors mean the following: two numerical strategies to explore a parametric sensitivity numerical evaluation.
+> a)  `two methods` Maybe the authors mean the following: two numerical strategies to explore a parametric sensitivity numerical evaluation.
 
 **Response:** Thank you for this suggestions. We have changed the text to "Two numerical strategies for finding steady states and their sensitivity to parameters are implemented."
 
-> b) `there is no definitive best method`. Under which criteria? The authors present only two numerical evaluations. Please clarified this point.
+> b)  `there is no definitive best method`. Under which criteria? The authors present only two numerical evaluations. Please clarified this point.
 
 **Response:** We have removed this claim since it is not demonstrated to be true and is unimportant.
 
@@ -79,17 +78,17 @@ SoftwareX
 
 > 2.8 Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
-**Response:** we are of the opinion that the with the revisions already made and detailed above, and those below, that the terminology is now more in line with this text, and will be clearly understandable by the target audience (theoretical ecologists) even when the section is not completely rewritten.
+**Response:** We have the opinion that the with the revisions already made and detailed above, and those below, that the terminology is now more in line with this text, and will be clearly understandable by the target audience (theoretical ecologists) even when the section is not more substatially rewritten.
 
-> 3. Please consider the following suggestions:
+> 3.  Please consider the following suggestions:
 >
 > Line 5 `types of ecosystem`
 
-Changed to  `types of ecosystems`
+Changed to `types of ecosystems`
 
 > Line 10 `Permanent link to`
 
-Changed to  `Permanent links to`
+Changed to `Permanent links to`
 
 > Line 12 `role in the development of understanding about how ecosystems`
 
@@ -97,7 +96,7 @@ Changed to  `Permanent links to`
 
 > Line 13: `and how they respond`
 
-Changed to  `and respond`
+Changed to `and respond`
 
 > Line 15 `have played a influential role is 16 how ecosystems respond to gradual change`
 
@@ -109,31 +108,31 @@ Changed to `is an environmental`
 
 > Line 17 `affects an ecosystem, but 18 is assumed to not be`
 
-Changed to  `affects an ecosystem. Still, it is assumed not to be`
+Changed to `affects an ecosystem. Still, it is assumed not to be`
 
 > Line 27 `change of the system`
 
-Changed to  `change in the system`
+Changed to `change in the system`
 
 > Line 28 `to anaerobic`
 
-Changed to  `to an anaerobic`
+Changed to `to an anaerobic`
 
 > Line 34 `termed the oxygen diffusitivity`
 
-Changed to  `termed oxygen diffusivity`
+Changed to `termed oxygen diffusivity`
 
 > Line 38 `This leaves open the question of if and how biodiversity within these types (i.e. functional groups) of bacteria affects the ecosystem`
 
-Changed to  `This leaves the question of if and how bacteria's biodiversity within these types (i.e., functional groups) affects the ecosystem`
+Changed to `This leaves the question of if and how bacteria's biodiversity within these types (i.e., functional groups) affects the ecosystem`
 
 > Line 47 `It was with this goal in mind that we developed the microxanox package`
 
-Changed to  `With this goal in mind, we developed the microxanox package`
+Changed to `With this goal in mind, we developed the microxanox package`
 
 > Line 58 `conditions, addition`
 
-Changed to  `conditions, the addition`
+Changed to `conditions, the addition`
 
 > Line 60 `some functions to analyse the results as well as to visualize the results to provide a starting`
 
@@ -141,23 +140,23 @@ Changed to  `conditions, the addition`
 
 > Line 71 `for running individual simulations and for running a set of simulations`
 
-Changed to  `for running individual simulations and a set of simulations`
+Changed to `for running individual simulations and a set of simulations`
 
 > Line 76 `the vectors and matrices, and to use matrix mathematics`
 
-Changed to  `the vectors and matrices and used matrix mathematics`
+Changed to `the vectors and matrices and used matrix mathematics`
 
 > Line 80 `code have modular structure so that new functionality can be easily added. E.g. temporally`
 
-Changed to  `code have a modular structure so that new functionality can be easily added. E.g., temporally`
+Changed to `code have a modular structure so that new functionality can be easily added. E.g., temporally`
 
 > Line 87 `to maximise simplicity for the user, and`
 
-Changed to  `to maximize simplicity for the user and`
+Changed to `to maximize simplicity for the user and`
 
 > Line 95 `results of the run`
 
-Changed to  `simulation results`
+Changed to `simulation results`
 
 > Line 98 `parameters and re-running the simulations straightforward. In the following sections we`
 
@@ -165,37 +164,39 @@ Changed to  `simulation results`
 
 > Line 107 `contains among other things the`
 
-Changed to  `contains, among other things, the`
+Changed to `contains, among other things, the`
 
 > Line 109 `their meaning and how they are created and have values set and changed please`
 
-Changed to  `their meaning, and how they are created and have values set and changed, please`
+Changed to `their meaning, and how they are created and have values set and changed, please`
 
 > Line 113 `an object which is identical to the parameter`
 
-Changed to  `an object identical to the parameter`
+Changed to `an object identical to the parameter`
 
 > Line 116 `to run the simulation again from`
 
-Changed to  `to rerun the simulation from`
+Changed to `to rerun the simulation from`
 
 > Line 119 `The general approach used to find the stable state of the system`
 
-Changed to  `The general approach to finding the numerical value of a system's stable state (if it exists)`
+Changed to `The general approach to finding the numerical value of a system's stable state (if it exists)`
 
 > Line ...
 >
-> 4. Please, consider English Editing Service or Proofread Your Paper.
+> 4.  Please, consider English Editing Service or Proofread Your Paper.
 
-{>>Owen: Rainer - please would you see to this?<<}
+The paper has been proofread and edited.
 
-> 5. Please, consider include two or three references of SoftwareX Journal.
+{\>\>Owen: Rainer - please would you see to this?\<\<} 
 
-{>>Owen: Rainer - please would you see to this?<<}
+> 5.  Please, consider include two or three references of SoftwareX Journal.
 
----
+{\>\>Owen: Rainer - please would you see to this?\<\<}
 
----
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 More information and support
 
