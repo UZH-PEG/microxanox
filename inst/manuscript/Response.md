@@ -1,6 +1,6 @@
 # Manuscript Number: SOFTX-D-22-00172
 
-CC: [nkourkou\@uoi.gr](mailto:nkourkou@uoi.gr){.email}
+<!-- CC: [nkourkou\@uoi.gr](mailto:nkourkou@uoi.gr){.email}
 
 Microxanox: an R package for simulating an aquatic MICRobial ecosystem that can occupy OXic orANOXic states.
 
@@ -22,15 +22,15 @@ Randall Sobie
 
 Editor-in-Chief
 
-SoftwareX
+SoftwareX -->
 
-## Editor and Reviewer comments
+## Response from Authors to Editor and Reviewer comments
 
 ### Reviewer #1
 
 > 1.  Please consider reference style: Number the references (numbers in square brackets) in the list in the order in which they appear in the text.
 
-{\>\>Owen: Rainer - please correct and then make a response here.\<\<} {\>\>Rainer: Will do this at the end\<\<} \*
+**Response:**: Done
 
 > The authors in section 3.3 claim several sentences that could confuse readers. 2.1 `one discovers how the steady state of the system responds to the environmental conditions`. There are several concerns that the authors should clarify:
 >
@@ -188,15 +188,21 @@ Changed to `The general approach to finding the numerical value of a system's st
 
 The paper has been proofread and edited.
 
-{\>\>Owen: Rainer - please would you see to this?\<\<} 
+The manuscript has been proofread by a native speaker with extensive experience in publishing scientific articles. 
 
 > 5.  Please, consider include two or three references of SoftwareX Journal.
 
-{\>\>Owen: Rainer - please would you see to this?\<\<}
+Added three references from SoftwareX.
 
 ------------------------------------------------------------------------
 
-------------------------------------------------------------------------
+I hope we adressed all the comments to your satisfaction.
+
+Sincerely,
+
+Rainer M Krug
+
+<!-- ------------------------------------------------------------------------
 
 More information and support
 
@@ -212,4 +218,4 @@ FAQ: How can I reset a forgotten password? <https://service.elsevier.com/app/ans
 
 To ensure this email reaches the intended recipient, please do not delete the above code
 
-In compliance with data protection regulations, you may request that we remove your personal registration details at any time. (Remove my information/details). Please contact the publication office if you have any questions.
+In compliance with data protection regulations, you may request that we remove your personal registration details at any time. (Remove my information/details). Please contact the publication office if you have any questions. -->
