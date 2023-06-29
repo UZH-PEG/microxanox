@@ -26,13 +26,17 @@ SoftwareX -->
 
 ## Response from Authors to Editor and Reviewer comments
 
+> 0. It was difficult to follow the [Responses and Suggestions] in the new version. Those sections/paragraphs that have been rewritten, added, or modified in the paper should be included in the reply letter and explicitly highlight the parts that correspond precisely to each remark. The highlighted paper and the clean version should be shown at the end of the reply letter.
+
+!!! Needs a response.
+
 ### Reviewer #1
 
 > 1.  Please consider reference style: Number the references (numbers in square brackets) in the list in the order in which they appear in the text.
 
 **Response:**: Done
 
-> The authors in section 3.3 claim several sentences that could confuse readers. 2.1 `one discovers how the steady state of the system responds to the environmental conditions`. There are several concerns that the authors should clarify:
+> 2.1 The authors in section 3.3 claim several sentences that could confuse readers. 2.1 `one discovers how the steady state of the system responds to the environmental conditions`. There are several concerns that the authors should clarify:
 >
 > a)  `The steady state`. Is there a unique steady state? Is there a reported contribution concerning a formal analysis of the model in the sense of stability (stable state existence and uniqueness)? Maybe, authors should refer as `a system's stable state (if it exists)`.
 
@@ -46,11 +50,15 @@ SoftwareX -->
 
 > 2.2 `finding steady states that correspond to values of one environmental driver`. The software does not find a steady state. Maybe the authors refer to the software running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (oxygen diffusivity). Then, the numerical evaluation of steady states could be related to environmental conditions in real systems.
 
-**Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding. 
+**Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding.
+
+!!! 2.2 The comment has not been addressed.
 
 > 2.3 `Two methods for finding steady states are implemented`. Again, the software does not find a steady state. Maybe the authors refer to two simulations proposed to evaluate an open loop simulation of the dynamic model numerically.
 
-**Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding. 
+**Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding.
+
+!!! 2.3 The comment has not been addressed.
 
 > 2.4 `The first runs a separate simulation for each combination of starting conditions and oxygen diffusivity`. This sentence is confusing. What the authors mean with `separate simulation` and `starting conditions`. Maybe the authors refer to each initial condition and parameter set value (oxygen diffusivity) as an open loop simulation run of the dynamic system. Are these simulations results focused on obtaining a bifurcation diagram Fig. 3 and 4 from {10.1038/s41467-017-00912-x}? Please clarified this point.
 
@@ -72,16 +80,26 @@ SoftwareX -->
 
 **Response:** We have removed this claim since it is not demonstrated to be true and is unimportant.
 
-> c)  `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.2.7 It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
+> c)  `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
+
+!!! 2.6c The comment has not been addressed.
+
+> 2.7 It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
 
 **Response:** We removed this text and now simply state that having two methods allows the comparison of their results.
+
+!!! 2.7 The comment has not been addressed.
 
 > 2.8 Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
 **Response:** We have the opinion that the with the revisions already made and detailed above, and those below, that the terminology is now more in line with this text, and will be clearly understandable by the target audience (theoretical ecologists) even when the section is not more substatially rewritten.
 
+!!! 2.8 The comment has not been addressed.
+
 > 3.  Please consider the following suggestions:
->
+
+!!! 3 It wasn't easy to follow the [Suggestion] in the new version.
+
 > Line 5 `types of ecosystem`
 
 Changed to `types of ecosystems`
