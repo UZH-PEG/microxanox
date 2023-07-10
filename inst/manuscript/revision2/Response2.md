@@ -93,7 +93,7 @@ Thank you.
 
 > 3 It wasn't easy to follow the [Suggestion] in the new version.
 
-We interpret this as the reviewer asking for clearer accounts of what was changed, and now provide those below, with line numbers corresponding to those in the newly revised document, and the corresponding text in green font. *Rainer, please do this.*
+We interpret this as the reviewer asking for clearer accounts of what was changed, and now provide below, with line numbers corresponding to those in the newly revised document, and the corresponding text in green font. *Rainer, please do this.*
 
 > 3.  Please consider the following suggestions:
 
