@@ -111,15 +111,29 @@ plot_trajectory_symmetry <-  function(res,
     plt.seg[,c("y", "yend")] <- log10(plt.seg[,c("y", "yend")])
   }
   
+  # mutate for appropriate legend
+  plt.seg <- plt.seg %>% 
+    mutate(plot_species = recode(species, 
+                                 O = "Oxygen", 
+                                 CB_1 = "Cyanobacteria", 
+                                 SR = "Sulfide", 
+                                 SB_1 = "Sulfur-reducing bacteria"))
   
+  plt.traj <- plt.traj %>% 
+    mutate(plot_species = recode(species, 
+                                 O = "Oxygen", 
+                                 CB_1 = "Cyanobacteria", 
+                                 SR = "Sulfide", 
+                                 SB_1 = "Sulfur-reducing bacteria"))
   
   p <- ggplot(data = plt.traj %>% filter(type == typ)) + 
     geom_segment(data = plt.seg,
-                 mapping = aes(x = x, y = y, xend = xend,  yend = yend, color = species),
+                 mapping = aes(x = x, y = y, xend = xend,  yend = yend, color = plot_species),
                  lineend = "round", linejoin = "round", linewidth = 0.5, linetype = "dotted",
                  arrow = arrow(length = unit(0.3, "cm"))) +
-    geom_path(mapping = aes(x = aO, y = state, color = species)) + 
-    scale_color_manual(values = c("#00BD54", "#FF0000")) +
+    geom_path(mapping = aes(x = aO, y = state, color = plot_species)) + 
+    scale_color_manual(values = c("#e85050", "#5da1df")) +
+    # scale_color_manual(values = c("#00BD54", "#FF0000")) +
     labs(title = paste(trajectory, "trajectories"),
          x = expression(Log[10](Oxygen~diffusivity)),
          y = expression(Log[10](Concentration)),
@@ -140,7 +154,7 @@ plot_trajectory_symmetry <-  function(res,
     p <- p + scale_x_continuous(expand = c(0,0), 
                                 sec.axis = sec_axis(trans = . ~ t_func(.),
                                                     name = expression(Log[10](Sulfide~diffusivity))),
-                                # limits = c(-1.5, -0.5)
+                                # limits = c(-1.5, -0.5)
                                 )
     }
   }

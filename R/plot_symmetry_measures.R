@@ -47,18 +47,18 @@ plot_symmetry_measures <- function(res,
     # plot extent of shifts
     geom_segment(data = slice(plot_df, c(1, 2)),
                  mapping = aes(x = aO[1], y = state[1], xend = aO[2], yend = state[2], group = "recovery"),
-                 color = "red",
+                 color = "#5da1df",
                  lineend = "round", linejoin = "round", linewidth = 0.5,  
                  arrow = arrow(length = unit(0.5, "cm"))) +
     geom_segment(data = slice(plot_df, c(3, 4)),
                  mapping = aes(x = aO[1], y = state[1], xend = aO[2], yend = state[2], group = "collapse"),
-                 color = "green",
+                 color = "#e85050",
                  lineend = "round", linejoin = "round", linewidth = 0.5,  
                  arrow = arrow(length = unit(0.5, "cm"))) + 
     geom_ribbon(data = ribbon_df,
                 mapping = aes(x = aO, ymin = oxic, ymax = anoxic, fill = "hysteresis area"), alpha = 0.3) +
-    scale_fill_manual(values = c("blue")) +
-    scale_color_manual(values = c("red", "green")) + 
+    scale_fill_manual(values = c("grey")) +
+    scale_color_manual(values = c("#e85050", "#5da1df")) +
     labs(x = "aO", y = species, fill = "measures", color = "measures", linetype = "recovery")
   
   return(p)
