@@ -14,7 +14,7 @@
 plot_symmetry_measures <- function(res, 
                                    species){
   
-  measures <- get_symmetry_measures(res)
+  measures <- get_symmetry_measurements(res)
   ## check whether bush or symmetry simulation prepare dataframe scale_fill_manual scale_color_manual labs
   if ("a_O" %in% colnames(res)){
     res <- res %>% 

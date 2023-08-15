@@ -10,7 +10,7 @@
 #'  @importFrom dplyr rename mutate select filter slice 
 #'  @importFrom DescTools AUC
 #'  
-get_symmetry_measures <- function(res){
+get_symmetry_measurements <- function(res){
   
   ## check whether bush or symmetry simulation prepare dataframe
   if ("a_O" %in% colnames(res)){
