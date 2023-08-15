@@ -69,7 +69,7 @@ plot_dynamics_symmetric <- function(
     ggplot2::geom_line() +
     # ylab('log10(quantity)') +
     ylab('log10(abundance)\n[cells / L]') +
-    ylim(0,10) +
+    # ylim(0,10) +
     # xlab('time [hours]') +
     xlab(" ") + 
     ggplot2::scale_colour_manual(values = colfunc_CB(num_CB_strains)) +
@@ -82,7 +82,7 @@ plot_dynamics_symmetric <- function(
     ggplot2::ggplot(aes(x=time, y=log10_quantity, col=microbe))  +
     ggplot2::geom_line() +
     ylab('log10(abundance)\n[cells / L]') +
-    ylim(0,10) +
+    # ylim(0,10) +
     # xlab('time [hours]') +
     xlab(" ") +
     ggplot2::scale_colour_manual(values = colfunc_SB(num_SB_strains))+

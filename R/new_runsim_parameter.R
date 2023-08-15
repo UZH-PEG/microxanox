@@ -52,13 +52,14 @@ new_runsim_parameter <- function(
   }
   
   if (p$asym_factor) {
-    ## extract diffusivity series
-    sym.axis <- mean(p$log10a_series) # symmetry axis is between log10a_series limits
-    p$log10aO_series <- p$log10a_series
-    # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
-    p$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
-                                          sym.axis + (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
-                                          length = length(log10a_series)))
+    # ## extract diffusivity series
+    # sym.axis <- mean(p$log10a_series) # symmetry axis is between log10a_series limits
+    # p$log10aO_series <- p$log10a_series
+    # # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
+    # p$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
+    #                                       sym.axis + (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
+    #                                       length = length(log10a_series)))
+    set_diffusivities(p, asym_factor = p$asym_factor)
   }
   # } else {
   #   warning("This `runsim_parameter` can only be used for simulations in Bush et al. 2017 and Limberger et al 2023. If symmetry simulation is required, please provide parameter `asym_factor`.")
