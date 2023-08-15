@@ -18,14 +18,14 @@ vignette: >
 options(mc.cores=8)
 
 mdat <- function(name = "") {
-  system.file(file.path("data_pkg", "user_guide", name), package = "microxanox")
+  system.file(file.path("data_pkg", "sym-sys-user_guide", name), package = "microxanox")
 }
 
 ##########
 ### To generate the data_pkg, please uncomment the following three lines.
 # 
 # mdat <- function(name = "") {
-#   file.path(".", "data_pkg", "user_guide", name)
+#   file.path(".", "data_pkg", "sym-sys-user_guide", name)
 # }
 # dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
 ##########
