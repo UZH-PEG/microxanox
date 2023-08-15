@@ -1,0 +1,232 @@
+---
+title: "SymSys User guide -- Extension of microxanox R Package for microbial oxic and anoxic, symmetric ecosystem simulations"
+author: "Pascal Bärtschi, Owen Petchey"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{SymSys User guide -- Extension of microxanox R Package for microbial oxic and anoxic, symmetric ecosystem simulations}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, echo = FALSE, output = FALSE, message = FALSE}
+## should some of the more intense simulations be run...
+options(mc.cores=1)
+mdat <- function(name = "") {
+  system.file(file.path("data_pkg", "user_guide", name), package = "microxanox")
+}
+##########
+### To generate the data_pkg, please uncomment the following three lines.
+# 
+# mdat <- function(name = "") {
+#   file.path(".", "data_pkg", "user_guide", name)
+# }
+# dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
+##########
+knitr::opts_chunk$set(
+  cache = FALSE,
+  fig.align = "centre", 
+  fig.width = 7, 
+  fig.height = 7
+)
+library(tidyverse)
+library(deSolve)
+library(rootSolve)
+library(microxanox)
+library(patchwork)
+library(DescTools)
+## Set random number generator seed
+## Is redundant if there are no stochastic components in the model
+set.seed(13)
+```
+
+# To be removed: 
+```{r}
+# load files from neigbour dir
+for (f in list.files(path = "../")){
+  source(paste0("../R/", f))
+}
+
+```
+
+
+# Package version
+
+The `microxanox` package may be updated / changed, so please take care to work with a specific version. This reproduction guide requires at least version _____________________ and the loaded version is:
+
+```{r}
+packageVersion("microxanox")
+```
+
+# Introduction
+
+TO become convenient with the package's power and its function's please first consult the [original user guide](https://uzh-peg.r-universe.dev/articles/microxanox/User-guide.html) of the `microxanox` package developed by [Owen L. Petchey](https://opetchey.r-universe.dev/builds) and [Rainer M. Krug](https://rkrug.r-universe.dev/builds) to understand the workflow of setting up different simulation and analyse, visualize and interpret their results. 
+This reproduction guide particularly serves the purpose to explain the workflow necessary to set up the symmetric model and perform symmetric simulations, as well as asymmetric manipulations of the latter.
+
+Compared to the version 0.9.1 of the `microxanox` package we added functionality for:
+
+* Adding a symmetric configuration of trait and environmental values.
+* Adding a model displaying system symmetry
+* Adding a second environmental driver
+* Modiyfing the system (a)symmetry by manipulating either trait values of both functional group or the pattern of environmental driver change.
+
+
+# Setting up a symmetric parameter set
+
+## Strain paramter set
+
+To initialize a symmetric strain parameter set `new_strain_parameter` with values argument == `symmetric` needs to be called.
+Number of strains stays one, meaning no investigations in trait variation.
+
+```{r}
+
+# number of strains per group
+num_strains <- 1 
+
+# initial abundance of strain is set to 10^5 per default
+num_CB_strains <- num_strains
+num_SB_strains <- num_strains
+num_PB_strains <- num_strains
+
+# values == "symmetric" initiates symmetric strain parameter
+sp <- new_strain_parameter(
+  n_CB = num_CB_strains,
+  values_CB = "symmetric",
+  n_PB = num_SB_strains,
+  values_PB = "symmetric",
+  n_SB = num_PB_strains,
+  values_SB = "symmetric",
+  values_other  = "symmetric",
+  values_initial_state = "symmetric"
+  
+)
+```
+
+## Simulation framework
+
+The simulation frame work is initialized by calling `sym_new_strain_parameter`. The extent and pattern of environmental change is implemented in the `log10a_series` and `asym_factor` argument (i.e. symmetric means 1) and its speed with the `sim_sample_interval`. The `sim_duration`is then calculated from number of steps times wait time per step.
+Here, it is important to set the `dynamic model` to `symmetric_bush_plus_dynamic_model`, as well as using `event_definintion_symmetric` for the `event_definition` argument.
+
+```{r}
+
+# Simulation dimensions
+wait_time <- 100    ## time spent at each step, sim_sample_interval
+event_interval <- 10 ## interval of event occurence during simulation
+
+# Environmental properties
+asym_factor <- 1    ## defines asymmetry in the system, 1 means symmetric
+start_aO <- -2      ## start of oxygen diffusivity vector
+start_aS <- 0       ## start of sulfur diffusivity vector
+steps <- 1e3        ## number of steps with duration of one wait_time
+log10a_series <- seq(start_aO, start_aS, length = steps) 
+
+parameter <- sym_new_runsim_parameter(
+  dynamic_model = symmetric_bushplus_dynamic_model, ## sym!
+  event_definition = event_definition_symmetric,        ## sym!
+  event_interval = event_interval,
+  noise_sigma = 0,
+  minimum_abundances = c(1, 0 , 1),                 ## PB stays 0
+  strain_parameter = sp,
+  log10a_series =  log10a_series,
+  asym_factor = 1                        ## 1 -> symmetric!
+)
+
+names(parameter$minimum_abundances) <- c("CB", "PB", "SB") ## rename subvector of paramter list
+# rm(sp)
+parameter$sim_duration <- wait_time * length(parameter$log10a_series)
+parameter$sim_sample_interval <- wait_time  ## to avoid having negative ODE results
+
+```
+
+# Running simulations and visualize respective results
+
+Running simulations is possible either straightforward calculating dynamics from a given diffusivity pattern with `run_simlation_symmetric` or to use by  `run_temporal_ssfind` which calculates dynamics in both directions of environmental change of the given diffusivity pattern in log10a_series.
+
+However, first it is important to understand how to control the environmental pattern of change to be able to produce the desired simulations.
+
+## Understanding `log10a_series` and using `update_asym_factor` to control the pattern of change
+
+To observe regime shifts in both direction, we have to change the log10a_series of both, oxygen and sulfide diffusivity. This is done by first changing the sequence `log10a_series`, which directly defines the oxygen diffusivity vector (i.e. `log10aO_series`), followed by updating the new series in the object `parameter`.
+
+```{r}
+# define series
+log10a_series <- c(seq(start_aO, start_aS, length = steps), 
+                   rep(start_aS, times = 10),
+                   seq(start_aS, start_aO, length = steps), 
+                   rep(start_aO, times = 10), 
+                   seq(start_aO, start_aS, length = steps), 
+                   rep(start_aS, times = 10))
+
+# redefine in parameter
+parameter$log10a_series
+```
+
+To now apply the changes done in log10a_series, onto `10aO_series` and the inverse `log10aS_series` in `parameter`we need the helper function `update_asym_factor`. It is absolutely necessary to use this function WHENEVER the diffusivity pattern of change is modyfied!
+
+```{r}
+parameter <- update_asym_factor(parameter)
+```
+
+Let's visualize the diffusivity pattern we have created to ensure it our simulation will go as expected. We see that the pattern is inverted as desired.
+
+```{r}
+# define a time vector
+time <- seq(0, 1, length = length(parameter$log10a_series)) 
+
+# define a data frame suited for plotting
+plt.df <- data.frame(value = c(parameter$log10aO_series, parameter$log10aS_series), 
+                     key = rep(c("Oxygen diffusivity", "Sulfur diffusivity"), each = 300), 
+                     time = rep(time, times = 2))
+
+ggplot(data = plt.df) + 
+  geom_line(aes(x = time, y = value, color = key)) + 
+  scale_color_manual(values = c("#e85050", "#5da1df")) +
+  # geom_hline(aes(yintercept = axis, color = "sym axis"), linetype = "dashed") + 
+  labs(x = "Time", y = "Value", color = "") + 
+  theme_bw()
+```
+
+
+## `run_simulation_symmetric`: Dynamics according to given vector i 
+
+Next, we will run a symmetric simulation driven by the vector we just defined. For more realistic simulations we can increase the `parameter$sim_duration`, but doing so can lead to simulation taking enourmous times if the used computer has low parallelised computation power. Thus, we will leave it short (and not in stable state) for presentation porpuses.
+
+The simulation is simply run by calling the function `run_simulation_symmetric` and assigning its result to a variable.
+
+```{r  eval = !file.exists(mdat("_______________________"))}
+result_dynamics <- run_simulation_symmetric(parameter)
+```
+
+## Visulaizing the result of `run_simulation_symmetric` with `plot_dynamics_symmetric`
+
+We implemented a convenience function, `plot_dynamics_symmetric` to quickly visualize the result from `run_simulation_symmetric`. By putting the argument `plot_a` to `TRUE` we can additionally visualize the pattern of diffusivity already shown above.
+
+
+```{r}
+plot_dynamics_symmetric(result_dynamics)
+```
+
+## `run_temporal_ssfind_symmetric`: Dynamics in both direction of given vector with the temporal method
+
+The function `run_temporal_ssfind_symmetric` performs simulations forth and back of the provided environmental driver pattern. It is suited to find the optimal value for wait_time, to eventually make the system display stable states. Here, we leave the wait_time short again to keep the simulation fast computing-wise.
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
