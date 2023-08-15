@@ -251,7 +251,7 @@ To visualize the temporal dynamics resulting from the input diffusivity pattern 
 plot_temporal_ss(result_temporal)
 ```
 
-# Calculating asymmetric result using the temporal method and visualizing extent of asymmetry
+# Calculating, quantifying and visualizing asymmetric dynamics
 
 To run asymmetric experiments we first have to change to the parameter configuration to be asymmetric. We do this by either changing trait values, background conditions or the diffusivity pattern. Here, we look at examples trait and diffusivity asymmetry.
 
@@ -331,8 +331,31 @@ Let's run the dynamics resulting from the diffusivity pattern with asymmetry fac
 result_stressor.asym <- run_temporal_ssfind_symmetric(parameter)
 ```
 
-## Visualizing asymmetry
+## Quantificataion of asymmetry
 
+The function `get_symmetry_measurements` returns different values used to quantify the (a)symmetry.
+
+```{r}
+asym_measures <- get_symmetry_measurements(result_stressor.asym)
+```
+
+## Visualization of asymmetry
+
+The (a)symmetry measures obtained from `get_symmetry_measurements` can directly visualized by using `plot_asymmetry_measures`. This convenience function serves for graphical orientation of the measurements. As a first argument it takes the result data frame and as the second one we need to define the species to plot, which is either a bacteria or a chemical.
+
+```{r}
+plot_symmetry_measurements(result_stressor.asym)
+```
+
+
+To visualize the asymmetry between amelioration and degradation trajectories is it recommend to use the function `plot_tajectory_asymmetry`, as it better organizes contrasts the visual difference between these trajectory dynamics.
+
+```{r}
+plot_trajectory_symmetry(result_stressor.asym)
+```
+
+
+Thank you for conducting this user guide, if there are still remaining questions or you find bugs of any kind I would be pleased if you [reached out](mailto:compbio.baertschi@gmail.com)!
 
 
 
