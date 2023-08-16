@@ -1,5 +1,5 @@
 #' Visualizes the symmetry of antagonistic collapse or recovery trajectories, symmetry measures of shift
-#' are computed by the function \code{get_symmetry_measures()}
+#' are computed by the function \code{get_symmetry_measurements()}
 #' 
 #' @param res Results from \code{run_temporal_ssfind()} or from \code{run_temporal_ssfind_symmetric()}
 #' @param trajectory Trajectory to be plotted. Either `collapse` or `recovery`.`.
@@ -21,7 +21,7 @@ plot_trajectory_symmetry <-  function(res,
 {
 
   ## extract symmetry measure from result
-  measures <- get_symmetry_measures(res)
+  measures <- get_symmetry_measurements(res)
   
   ## check whether bush or symmetry simulation and prepare data frame accordingly
   if ("a_O" %in% colnames(res)){
