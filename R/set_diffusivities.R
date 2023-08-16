@@ -16,7 +16,7 @@
 set_diffusivities <- function(param, 
                               asym_factor = 1
 ) {
-  if (!inherits(parameter, "runsim_parameter")){
+  if (!inherits(param, "runsim_parameter")){
     stop("Provide parameter object of class `runsim_parameter`")
   }
   # check whether vector is used for time dynamics

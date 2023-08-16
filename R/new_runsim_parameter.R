@@ -59,7 +59,7 @@ new_runsim_parameter <- function(
     # p$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
     #                                       sym.axis + (abs(sym.axis - min(p$log10a_series)) * p$asym_factor),
     #                                       length = length(log10a_series)))
-    set_diffusivities(p, asym_factor = p$asym_factor)
+    p <- set_diffusivities(p, asym_factor = p$asym_factor)
   }
   # } else {
   #   warning("This `runsim_parameter` can only be used for simulations in Bush et al. 2017 and Limberger et al 2023. If symmetry simulation is required, please provide parameter `asym_factor`.")
