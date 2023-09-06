@@ -30,63 +30,69 @@ SoftwareX -->
 
 > 0. It was difficult to follow the [Responses and Suggestions] in the new version. Those sections/paragraphs that have been rewritten, added, or modified in the paper should be included in the reply letter and explicitly highlight the parts that correspond precisely to each remark. The highlighted paper and the clean version should be shown at the end of the reply letter.
 
-We apologise on this oversight on our side. Attached please find a diff between the Original submission and the revised version. We hope this helps.
+**Response:** We apologise on these oversights on our side. We have attached a pdf document with filename `diff_R0_R2.pdf` which shows the changes between the original submission (R0) and the current one (R2).
 
-
-> 2.6 `We implemented two methods since there is no definitive best method, and in order to check if results were sensitive to choice of method`. This sentence is confusing.
-
-> c)  `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
-
-!!! 2.6c The comment has not been addressed.
-
-**Response:** We agree with the reviewer that there is no sensitivity to the methods themselves, but rather to the choice of oxygen variation. As this was not clear from the onset, we implemented these two methods. The paragraph in the revision reads:
-
-> Two numerical strategies for finding final states and their sensitivity to parameters are implemented. Two strategies are implemented in order to allow comparison of their results. The first method runs a independent simulation for each combination of initial conditions and oxygen diffusivity (we term this the *Replication method*). This is the method used in the @Bush2017 study and was used to obtain the results in figures 3 and 4 of that article.
-
-which hopefully clarifies this.
-
-> 2.7 It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
-
-!!! 2.7 The comment has not been addressed.
-
-Please see our response to 2.6c.
+**Response:** Below we address each of the comments that the reviewer report to be not addressed, and do so by first copying the original comment, and then responding.
 
 
 
-We would like to address the following comments together:
+
+
+> !!! 2.2 The comment has not been addressed.
 
 > 2.2 `finding steady states that correspond to values of one environmental driver`. The software does not find a steady state. Maybe the authors refer to the software running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (oxygen diffusivity). Then, the numerical evaluation of steady states could be related to environmental conditions in real systems.
 
-> **Response:** We envisage and hope that Response R1 sufficiently clarifies steady state finding.
+**Response:** In the first revision we altered text to address this comment. These alterations included but were not limited to: "When one wishes to be able to make conclusions about how the *steady state* of the system is affected by the environmental driver, it is very important to note that the *final state* (provided by the simulation) is not guaranteed to be a *steady state*. The software does not provide the user with a steady state. In order to somewhat safely assume that the final state is a steady state, the user must ensure that the simulation is run for sufficiently long time for any transient dynamics to disappeared, and must also check the type of long-term dynamics occurring."
 
 
-!!! 2.2 The comment has not been addressed.
+
+
+
+> !!! 2.3 The comment has not been addressed.
 
 > 2.3 `Two methods for finding steady states are implemented`. Again, the software does not find a steady state. Maybe the authors refer to two simulations proposed to evaluate an open loop simulation of the dynamic model numerically.
 
-!!! 2.3 The comment has not been addressed.
 
-For context we copied from first response:
-> a)  `The steady state`. Is there a unique steady state? Is there a reported contribution concerning a formal analysis of the model in the sense of stability (stable > state existence and uniqueness)? Maybe, authors should refer as `a system's stable state (if it exists)`.
->
-> **Response:** Thank you for raising this important issue, which we had overlooked. A number of the reviewer comments below are closely related, hence we sometimes refer to this response and do so using the label "Response R1". In order to clarify about the existence and uniqueness of steady states we have added the text `When one wishes to be able to make conclusions about how the steady state of the system is affected by the environmental driver, it is very important to note that the *final state* (found by the simulation) is not guaranteed to be a *steady state*. The user must ensure that the simulation is run for sufficiently long time for any transient dynamics to disappeared, and must also check the type of long-term dynamics occurring. In the results presented here, and in the paper @Limberger2022, this was performed by visual inspection, and by checking the sensitivity of conclusions to the length of the simulation. Furthermore, the package does not include methods for a formal analysis of the stability of the system and users should take care to assess if steady states are unique.`
+**Response:** We acknowledge now that the software does find a final state: e.g., "The software does not provide the user with a steady state." and do in the surrounding text carefully describe what the software does do.
+
+**Response:** Regarding the phrase "open loop simulation" we interpret that the reviewer comment intends to bring this phrase to our attention, but is refraining from requiring us to use that phrase. Since the phrase is not used in relevant fields of ecology, we refrain from using it so as to not create the potential for  intended readers to not understand.
+
+
+
+
+> !!! 2.6c The comment has not been addressed.
+
+> 2.6 c)  `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
+
+**Response:** We agree with the reviewer that there is no sensitivity to the methods themselves, but rather to variation in the oxygen diffusivity parameter. We have revised the corresponding text to read: "Two numerical strategies for finding final states and their sensitivity to parameters are implemented. Two strategies are implemented in order to allow users to compare of their results. The first method runs a independent simulation for each combination of initial conditions and oxygen diffusivity (we term this the *Replication method*). This is the method used in the Bush et al (2017) study and was used to obtain the results in figures 3 and 4 of that article."
+
+
+
+
+> !!! 2.7 The comment has not been addressed.
+
+> 2.7 It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
+
+**Response**: We now state: "Two strategies are implemented in order to allow users to compare of their results."
+
+
+
+
+
+> !!! 2.8 The comment has not been addressed.
 
 > 2.8 Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
-> **Response:** We have the opinion that the with the revisions already made and detailed above, and those below, that the terminology is now more in line with this text, and will be clearly understandable by the target audience (theoretical ecologists) even when the section is not more substatially rewritten.
-
-!!! 2.8 The comment has not been addressed.
-
-***Response:*** These poiints raised by the Reviewer are related to the point we (hopefully) clarified in our last response above. The terminology we used, is widely used and accepted in the field this publication is aimed at, namely theoretical ecology. We do not doubt, that there is another terminology used in different fields (particularly in the field of Open Loop Dynamic Behaviour), but using that terminology, would make the article inaccessible for theoratical ecologists while at the same time (we would assume) be to simplistic to be of interest to the field of Open Loop Dynamic Behaviour Research.
-We therefore would prefer to keep the terminolgy used to jeep the paper as accessible as possible for the intendeed audience.
+**Response:** We have the opinion that the with the revisions already made and detailed above that the terminology and language is clearly understandable by the target audience (ecologists) even when the section is not more substantially rewritten. The terminology we used, is widely used and accepted in the field this publication is aimed at. Using terms and language from another area i.e., open loop dynamic behaviour, would very likely make the article less accessible for many ecologists. We therefore would prefer to keep the terminolgy and language used to keep the paper as accessible as possible for the intended audience.
 
 ------------------------------------------------------------------------
 
 Dear Editor,
 
-we did not do any textual changes in this revision as we did not receive any actionable comments from the reviewer. Most remaining comments were based on the terminology we used in the manuscript. To re-iterate, the terminology is established in the field of the intended audience (theoretical ecology) and therefore would prefer to keep it as it is.
 
-We would humbly like to ask you if you could take a decision based on the our review and clarifications provided, as we do not see any productive way forward based on the comments of the reviewer. We would be happy to suggest potential reviewers from our field of therotecal ecology, if you would like to have a third round of review. Unfortiunately, we would object to including the current reviewer in further reviews, if requeted from your side.
+Thank you for the opportunity to make a second revision. The latest comments from the reviewer were that we had made it difficult to follow our previous revisions, and so in this revision we take even more care and provide a difference file that shows the changes from the original ms to the current revision. The reviewer also pointed out which of their original comments they felt were inadequately addressed. We revisited all of these, and make a response that includes the text that was revised.
+
+We hope that a final editorial decision can be made without referring back the current reviewer. In our opinion, the benefits of doing so would now be rather small, while the costs relatively significant. We do, of course, recognise and respect where the editorial authority and responsibility lies.
 
 Sincerely,
 
@@ -109,3 +115,5 @@ FAQ: How can I reset a forgotten password? <https://service.elsevier.com/app/ans
 To ensure this email reaches the intended recipient, please do not delete the above code
 
 In compliance with data protection regulations, you may request that we remove your personal registration details at any time. (Remove my information/details). Please contact the publication office if you have any questions. -->
+
+
