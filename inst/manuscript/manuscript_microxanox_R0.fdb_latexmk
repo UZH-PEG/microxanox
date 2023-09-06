@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex manuscript_microxanox"] 1693983587 "manuscript_microxanox.aux" "manuscript_microxanox.bbl" "manuscript_microxanox" 1693983643 0
+["bibtex manuscript_microxanox_R0"] 1693984891 "manuscript_microxanox_R0.aux" "manuscript_microxanox_R0.bbl" "manuscript_microxanox_R0" 1693986769 0
   "./bibliography.bib" 1686322526 35779 068b0e9e2bbd7a8c2e12a90a13504d7f ""
   "/usr/local/texlive/2023/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "manuscript_microxanox.aux" 1693983643 10562 e4fc6a16a29e90b2da84d393a9cc2933 "pdflatex"
+  "manuscript_microxanox_R0.aux" 1693986769 9864 bdbf869cbb03a87d75f4c7fbf27668db "pdflatex"
   (generated)
-  "manuscript_microxanox.bbl"
-  "manuscript_microxanox.blg"
+  "manuscript_microxanox_R0.bbl"
+  "manuscript_microxanox_R0.blg"
   (rewritten before read)
-["pdflatex"] 1693983642 "./manuscript_microxanox.tex" "manuscript_microxanox.pdf" "manuscript_microxanox" 1693983643 0
-  "./manuscript_microxanox.tex" 1693983607 32243 fd3aeeb4d40ba31ca8b65df58710e055 ""
+["pdflatex"] 1693986768 "/Users/rainerkrug/Documents_Local/git/0.RPackages/microxanox/inst/manuscript/manuscript_microxanox_R0.tex" "manuscript_microxanox_R0.pdf" "manuscript_microxanox_R0" 1693986769 0
+  "/Users/rainerkrug/Documents_Local/git/0.RPackages/microxanox/inst/manuscript/manuscript_microxanox_R0.tex" 1693984656 30342 a75d1cd2328d64381a796b0179cc6ac3 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1202520719 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1202520719 2840 216e6e45ad352e2456e1149f28885bee ""
@@ -163,15 +163,15 @@
   "figures/simflow.pdf" 1684146016 31046 713eb6784e242415697ea75c52b3aa81 ""
   "figures/uc3_supplement_5_4.png" 1684146016 219053 02d0393156822c51b9a0f59215aa9250 ""
   "figures/ug_three_strains_dynamics.png" 1684146016 90982 694421f5a7cf57ce9835abfeba729ec8 ""
-  "manuscript_microxanox.aux" 1693983643 10562 e4fc6a16a29e90b2da84d393a9cc2933 "pdflatex"
-  "manuscript_microxanox.bbl" 1693983587 7354 757e6debd507a34b0a5ead306c513245 "bibtex manuscript_microxanox"
-  "manuscript_microxanox.out" 1693983643 3474 38d0da478080916f559064b6efbb3ef5 "pdflatex"
-  "manuscript_microxanox.spl" 1693983642 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "manuscript_microxanox.tex" 1693983607 32243 fd3aeeb4d40ba31ca8b65df58710e055 ""
+  "manuscript_microxanox_R0.aux" 1693986769 9864 bdbf869cbb03a87d75f4c7fbf27668db "pdflatex"
+  "manuscript_microxanox_R0.bbl" 1693984891 5400 39697cf7c42e502403e70912ea198086 "bibtex manuscript_microxanox_R0"
+  "manuscript_microxanox_R0.out" 1693986769 3305 e32e6584ce51616b1ea255ae27e7f16d "pdflatex"
+  "manuscript_microxanox_R0.spl" 1693986768 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "manuscript_microxanox_R0.tex" 1693984656 30342 a75d1cd2328d64381a796b0179cc6ac3 ""
   (generated)
-  "manuscript_microxanox.aux"
-  "manuscript_microxanox.log"
-  "manuscript_microxanox.out"
-  "manuscript_microxanox.pdf"
-  "manuscript_microxanox.spl"
+  "manuscript_microxanox_R0.aux"
+  "manuscript_microxanox_R0.log"
+  "manuscript_microxanox_R0.out"
+  "manuscript_microxanox_R0.pdf"
+  "manuscript_microxanox_R0.spl"
   (rewritten before read)

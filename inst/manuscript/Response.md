@@ -82,13 +82,19 @@ SoftwareX -->
 
 > c)  `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
 
+
 !!! 2.6c The comment has not been addressed.
 
 > 2.7 It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
+!!! 2.7 The comment has not been addressed.
 
 **Response:** We removed this text and now simply state that having two methods allows the comparison of their results.
 
-!!! 2.7 The comment has not been addressed.
+
+**Response:** We removed this text and now simply state that having two methods allows the comparison of their results.
+
+> 2.7 It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
+
 
 > 2.8 Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
