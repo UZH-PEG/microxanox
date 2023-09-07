@@ -32,7 +32,7 @@ SoftwareX -->
 
 **Response:** We apologise on these oversights on our side. We have attached a pdf document with filename `diff_R0_R2.pdf` which shows the changes between the original submission (R0) and the current one (R2).
 
-**Response:** Below we address each of the comments that the reviewer report to be not addressed, and do so by first copying the original comment, and then responding.
+**Response:** Below we address each of the comments that the reviewer reported to be not addressed, and do so by first copying the original comment, and then responding.
 
 
 
@@ -55,7 +55,7 @@ SoftwareX -->
 
 **Response:** We acknowledge now that the software does find a final state: e.g., "The software does not provide the user with a steady state." and do in the surrounding text carefully describe what the software does do.
 
-**Response:** Regarding the phrase "open loop simulation" we interpret that the reviewer comment intends to bring this phrase to our attention, but is refraining from requiring us to use that phrase. Since the phrase is not used in relevant fields of ecology, we refrain from using it so as to not create the potential for  intended readers to not understand.
+**Response:** We have added "In terms of non-linear systems analysis, this would be termed a *parameteric sensitivity analysis* being conducted by running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (here oxygen diffusivity)." to the first paragraph of section 3.3.
 
 
 
@@ -83,16 +83,20 @@ SoftwareX -->
 
 > 2.8 Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
-**Response:** We have the opinion that the with the revisions already made and detailed above that the terminology and language is clearly understandable by the target audience (ecologists) even when the section is not more substantially rewritten. The terminology we used, is widely used and accepted in the field this publication is aimed at. Using terms and language from another area i.e., open loop dynamic behaviour, would very likely make the article less accessible for many ecologists. We therefore would prefer to keep the terminolgy and language used to keep the paper as accessible as possible for the intended audience.
+**Response:** We have considered this request carefully. Doing so included reviewing the content of the book *Khalil (2002) Nonlinear Systems*. As a result, we have made the following two changes to section 3.3. We have added the sentence "In terms of non-linear systems analysis, this would be termed a *parameteric sensitivity analysis* being conducted by running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (here oxygen diffusivity)." in the first paragraph of section 3.3. And we have added "(or an equilibrium point)" to the sentence "When one wishes to be able to make conclusions about how the *steady state* (or an equilibrium point) of the system is affected by the environmental driver, it is very important to note that the *final state* (provided by the simulation) is not guaranteed to be a *steady state*." in the second paragraph of section 3.3.
+
+**Response:** We have, however, refrained from a "rewrite" of section 3.3. The text as written uses terms and language that will be familiar to the intended audience: quantitative ecologists with some interest in simulating ecological systems. Changing the terms and language to that in *Khalil, H. K. (2002). Nonlinear Systems* would make it more appropriate for the intended readers of that book, namely engineers and applied mathematicians.
 
 ------------------------------------------------------------------------
 
 Dear Editor,
 
 
-Thank you for the opportunity to make a second revision. The latest comments from the reviewer were that we had made it difficult to follow our previous revisions, and so in this revision we take even more care and provide a difference file that shows the changes from the original ms to the current revision. The reviewer also pointed out which of their original comments they felt were inadequately addressed. We revisited all of these, and make a response that includes the text that was revised.
+Thank you for the opportunity to make a second revision. The latest comments from the reviewer included that we had made it difficult to follow our previous revisions, and so in this revision we take even more care and provide a difference file that shows the changes from the original ms to the current revision.
 
-We hope that a final editorial decision can be made without referring back the current reviewer. In our opinion, the benefits of doing so would now be rather small, while the costs relatively significant. We do, of course, recognise and respect where the editorial authority and responsibility lies.
+The reviewer also pointed out which of their original comments they felt were inadequately addressed. We revisited all of these, made additional changes in some cases, while in others we clarify the change already made. In all cases, we provide the  make a response that includes the text that was revised.
+
+We would like to thank the reviewer for their insights, which have helped to improve the manuscript again. We would also like to that you for allowing us additional time to revise the manuscript. We hope that you will find the changes acceptable now, and hope for a positive outcome.
 
 Sincerely,
 
