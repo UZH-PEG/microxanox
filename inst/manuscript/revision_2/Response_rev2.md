@@ -89,7 +89,7 @@ Thank you.
 
 > Here is the original comment 2.8: Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
-**Response:** in our previous response we attempted to argue that the language and terms used in the text were appropriate and understandable by the target audience (quantitative ecologists with some knowledge of dynamical systems modelling). *Rainer, you could ask an experienced quantitative ecologist for testimony on this and then include that here as evidence that that language is suitable.*
+**Response:** in our previous response we attempted to argue that the language and terms used in the text were appropriate and understandable by the target audience (quantitative ecologists with some knowledge of dynamical systems modelling).
 
 > 3 It wasn't easy to follow the [Suggestion] in the new version.
 
