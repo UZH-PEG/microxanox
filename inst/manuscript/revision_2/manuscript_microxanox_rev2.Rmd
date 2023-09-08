@@ -38,10 +38,10 @@ output:
 
 # Citation settings
 bibliography: bibliography.bib
-csl: 'softwarex.csl'
+csl: './../softwarex.csl'
 nocite: '@Bush2017'
 linkcolor: blue
-link-citations: yes
+link-citations: true
 ---
 
 ```{r, include = FALSE}

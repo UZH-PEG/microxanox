@@ -1,18 +1,9 @@
 # Fdb version 4
-["bibtex manuscript_microxanox_R0"] 1693984891 "manuscript_microxanox_R0.aux" "manuscript_microxanox_R0.bbl" "manuscript_microxanox_R0" 1693986769 0
-  "./bibliography.bib" 1686322526 35779 068b0e9e2bbd7a8c2e12a90a13504d7f ""
-  "/usr/local/texlive/2023/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1233624470 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "manuscript_microxanox_R0.aux" 1693986769 9864 bdbf869cbb03a87d75f4c7fbf27668db "pdflatex"
-  (generated)
-  "manuscript_microxanox_R0.bbl"
-  "manuscript_microxanox_R0.blg"
-  (rewritten before read)
-["pdflatex"] 1693986768 "/Users/rainerkrug/Documents_Local/git/0.RPackages/microxanox/inst/manuscript/manuscript_microxanox_R0.tex" "manuscript_microxanox_R0.pdf" "manuscript_microxanox_R0" 1693986769 0
-  "/Users/rainerkrug/Documents_Local/git/0.RPackages/microxanox/inst/manuscript/manuscript_microxanox_R0.tex" 1693984656 30342 a75d1cd2328d64381a796b0179cc6ac3 ""
+["pdflatex"] 1694153981 "./manuscript_microxanox_R0.tex" "manuscript_microxanox_R0.pdf" "manuscript_microxanox_R0" 1694153987 2
+  "./manuscript_microxanox_R0.tex" 1693984656 30342 a75d1cd2328d64381a796b0179cc6ac3 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1254269338 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1202520719 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1202520719 2840 216e6e45ad352e2456e1149f28885bee ""
-  "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc" 1202520719 2327 9d6df24f9c4f7368395224341a95523a ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm" 1136768653 3584 adb004a0c8e7c46ee66cad73671f37b4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -55,7 +46,6 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb" 1255129361 121021 1bf809ce4a594679006bd72263eba59b ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb" 1254269338 30388 702fae6a5f0e6e9c48a1d872b442ffcf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi12.pfb" 1254269338 30696 2654571912f9cd384da9f7cb8a60c568 ""
-  "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi8.pfb" 1254269338 30635 833ec815d446ec453a4913fc26d24cbc ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr10.pfb" 1255129361 119235 f35b44530a1d90eb90fe15d9cba67ea0 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr12.pfb" 1255129361 113634 f99c44d58bae0863375faf0e1d74d612 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/lm/lmr6.pfb" 1255129361 123394 d390152bb30feeb496aaaa93299ee9ba ""
@@ -158,15 +148,10 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1679914322 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1679914253 7883453 f4a7d61e2c41ee595df9ea102530e5e1 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "figures/gen_uc1_partrep_temporal_state_switching.pdf" 1684146016 148014 b412b54f37856acb047875d42f450015 ""
-  "figures/gen_uc2_user_guide_hysteresis.pdf" 1684146016 5138 a7b480e921b9115d8d38195de45307bd ""
-  "figures/simflow.pdf" 1684146016 31046 713eb6784e242415697ea75c52b3aa81 ""
-  "figures/uc3_supplement_5_4.png" 1684146016 219053 02d0393156822c51b9a0f59215aa9250 ""
-  "figures/ug_three_strains_dynamics.png" 1684146016 90982 694421f5a7cf57ce9835abfeba729ec8 ""
-  "manuscript_microxanox_R0.aux" 1693986769 9864 bdbf869cbb03a87d75f4c7fbf27668db "pdflatex"
-  "manuscript_microxanox_R0.bbl" 1693984891 5400 39697cf7c42e502403e70912ea198086 "bibtex manuscript_microxanox_R0"
-  "manuscript_microxanox_R0.out" 1693986769 3305 e32e6584ce51616b1ea255ae27e7f16d "pdflatex"
-  "manuscript_microxanox_R0.spl" 1693986768 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "figures/simflow" 0 -1 0 ""
+  "manuscript_microxanox_R0.aux" 1694153987 1864 cb67c8cfe88e1870ab6e01a2c17cfa61 "pdflatex"
+  "manuscript_microxanox_R0.out" 1694153987 478 d069d2b39f3720b9ce55a025e491a2f8 "pdflatex"
+  "manuscript_microxanox_R0.spl" 1694153981 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   "manuscript_microxanox_R0.tex" 1693984656 30342 a75d1cd2328d64381a796b0179cc6ac3 ""
   (generated)
   "manuscript_microxanox_R0.aux"
