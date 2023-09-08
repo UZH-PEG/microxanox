@@ -43,7 +43,7 @@ Below, we cover each of the latest reviewer comments in turn.
 
 > It was difficult to follow the [Responses and Suggestions] in the new version. Those sections/paragraphs that have been rewritten, added, or modified in the paper should be included in the reply letter and explicitly highlight the parts that correspond precisely to each remark. The highlighted paper and the clean version should be shown at the end of the reply letter.
 
-Apologies that we provided materials that were difficult to follow. With the current revision we provide two versions of the revised manuscript, as requested, one a clean version, and one with changes highlight. *Rainer, please do this.* We also, as requested, include all revised text in this response document and then reference the location in the revised document by line number. *Rainer, please check that this is so, before resubmission. Wait for our final version of the text before inserting the correct line numbers below.*
+Apologies that we provided materials that were difficult to follow. With the current revision we provide two versions of the revised manuscript, as requested, one a clean version, and one with changes highlight. We also, as requested, include all revised text in this response document and then reference the location in the revised document by line number. *Rainer, please check that this is so, before resubmission. Wait for our final version of the text before inserting the correct line numbers below.*
 
 > 2.1a-b The comment has been addressed.
 
