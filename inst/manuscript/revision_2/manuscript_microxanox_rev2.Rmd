@@ -24,7 +24,7 @@ keywords:
   - ordinary differential equations
 abstract: |
   $Microxanox$ is an R package to simulate a three functional group ecosystem (cyanobacteria, phototrophic sulfur bacteria, and sulfate-reducing bacteria) with four chemical substrates (phosphorus, oxygen, reduced sulfur, and oxidized sulfur) using a set of ordinary differential equations. Simulations can be run individually or over a parameter range.  The model can be implemented with different numbers of species per functional group. The package is constructed in such a way that the results contain the input parameter used, so that a saved results can be loaded again and the simulation be repeated. Furthermore, the package framework and code should serve as a useful starting point for making simulation models of other types of ecosystems.
-journal: "SoftwareX"
+journal: SoftwareX
 date: "`r Sys.Date()`"
 
 linenumbers: true
@@ -246,7 +246,7 @@ An example of this functionality is given in the *Partial Reproduction* vignette
 Also visible in the results are thick lines showing abundances of bacteria when abundances are low. This is due to the implementation of a function that at regular intervals, increases the abundance to a preset level. This prevents abundances reducing to very small numbers. The function that implements this increase abundance can also be made to add a certain abundance to each strain at regular intervals, thus simulating immigration in to the system.
 
 ```{r uc1, echo=FALSE, fig.align="center", fig.cap='The temporal dynamics of the ecosystem model when an environmental condition (here parameter $a$, the oxygen diffusivity) changes. Plot of the final states of the simulation runs under different oxygen diffusivity. In this simulation there is only one strain in each functional group. CB\textunderscore1 = cyanobacteria strain 1; SB\textunderscore1 = sulfur reducing bacteria stain 1; PB = phototrophic sulfur bacteria strain 1. Here we show a figure adapted from the output of the $plot\\_dynamics()$  function.', message=FALSE, warning=FALSE, include=TRUE, messages=FALSE, out.width=350}
-fig <- here::here("inst/manuscript/figures/gen_uc1_partrep_temporal_state_switching.pdf")
+fig <- "./figures/gen_uc1_partrep_temporal_state_switching.pdf"
 if (!file.exists(fig)){
   library(ggplot2)
   library(microxanox)
@@ -304,7 +304,7 @@ Using the package to calculate the extent of hysteresis involves setting ecosyst
 The results show that the amount of hysteresis depends greatly on the combinations of organisms present (Figure \@ref(fig:uc2)). For example, with only the CB (cyanobacteria) present, there was no hysteresis. In contrast, the presence of both CB and SB (sulfate reducing bacteria) led to a large amount of hysteresis. (These results are also given in the *Partial Reproduction* vignette.)
 
 ```{r uc2, echo = FALSE,  include=TRUE, fig.cap='The amount of hysteresis depends on the combination of types of organisms present. The model is entirely deterministic, hence there are no error bars.', fig.align="center", out.width = 150 }
-fig <- here::here("inst/manuscript/figures/gen_uc2_user_guide_hysteresis.pdf")
+fig <- "./figures/gen_uc2_user_guide_hysteresis.pdf"
 if (!file.exists(fig)){
   library(ggplot2)
   x <- readRDS(here::here("inst/manuscript/data/resp_summ5.rds"))
