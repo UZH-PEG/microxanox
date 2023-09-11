@@ -24,6 +24,19 @@ Editor-in-Chief
 
 SoftwareX -->
 
+Dear Editor,
+
+Thank you for the opportunity to make a second revision. The latest comments from the reviewer included that we had made it difficult to follow our previous revisions, and so in this revision we take even more care and provide a difference file that shows the changes from the original ms to the current revision.
+
+The reviewer also pointed out which of their original comments they felt were inadequately addressed. We revisited all of these, made additional changes in some cases, while in others we clarify the change already made. In all cases, we provide the  make a response that includes the text that was revised.
+
+We would like to thank the reviewer for their insights, which have helped to improve the manuscript again. We would also like to that you for allowing us additional time to revise the manuscript. We hope that you will find the changes acceptable now, and hope for a positive outcome.
+
+Sincerely,
+
+Rainer M Krug
+
+
 ## Response from Authors to Editor and Reviewer comments
 
 ### Introduction
@@ -59,7 +72,9 @@ Thank you.
 
 > Here is the original comment 2.3: `Two methods for finding steady states are implemented`. Again, the software does not find a steady state. Maybe the authors refer to two simulations proposed to evaluate an open loop simulation of the dynamic model numerically.
 
-**Response**: We agree--the software does not find a steady state of the system. We no longer claim that it does, and we have added `The software does not provide the user with a steady state.` (lines XXX-YYY). 
+**Response:** We acknowledge now that the software does find a final state: e.g., `The software does not provide the user with a steady state." and do in the surrounding text carefully describe what the software does do.`
+
+**Response:** We have added `In terms of non-linear systems analysis, this would be termed a *parameteric sensitivity analysis* being conducted by running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (here oxygen diffusivity).` to the first paragraph of section 3.3.
 
 > 2.4 The comment has been addressed.
 
@@ -75,7 +90,7 @@ Thank you.
 
 > 2.6c The comment has not been addressed.
 
-> Here is the original comment 2.6c:  `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
+> Here is the original comment 2.6c: `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
 
 **Response:** We agree that the software does not itself make a comparison. It only provides users information that they could use to make a comparison. This and the surround text have been revised and the points clarified: `Two numerical strategies for finding final states and their sensitivity to parameters are implemented. Two strategies are implemented in order to allow users to compare of their results.` (lines XXX-YYY). 
 
@@ -89,7 +104,9 @@ Thank you.
 
 > Here is the original comment 2.8: Please consider rewrite the section 3.3 (see previous 2.1 - 2.7 points) in the sense of Parametric sensitivity analysis, Open loop dynamical behavior, Equilibrium points (see Khalil, H. K. (2002). Nonlinear Systems. Prentice Hall, New Jersey.)
 
-**Response:** in our previous response we attempted to argue that the language and terms used in the text were appropriate and understandable by the target audience (quantitative ecologists with some knowledge of dynamical systems modelling).
+**Response:** We have considered this request carefully. Doing so included reviewing the content of the book *Khalil (2002) Nonlinear Systems*. As a result, we have made the following two changes to section 3.3. We have added the sentence `In terms of non-linear systems analysis, this would be termed a *parameteric sensitivity analysis* being conducted by running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (here oxygen diffusivity).` in the first paragraph of section 3.3. And we have added `(or an equilibrium point)` to the sentence `When one wishes to be able to make conclusions about how the *steady state* (or an equilibrium point) of the system is affected by the environmental driver, it is very important to note that the *final state* (provided by the simulation) is not guaranteed to be a *steady state*.` in the second paragraph of section 3.3.
+
+**Response:** We have, however, refrained from a "rewrite" of section 3.3. The text as written uses terms and language that will be familiar to the intended audience: quantitative ecologists with some interest in simulating ecological systems. Changing the terms and language to that in *Khalil, H. K. (2002). Nonlinear Systems* would make it more appropriate for the intended readers of that book, namely engineers and applied mathematicians.
 
 > 3 It wasn't easy to follow the [Suggestion] in the new version.
 
