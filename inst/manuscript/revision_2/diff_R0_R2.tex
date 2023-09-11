@@ -1,7 +1,7 @@
 \documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL ./../revision_0/manuscript_microxanox_R0.tex   Wed Sep  6 09:17:36 2023
-%DIF ADD ./manuscript_microxanox_rev2.tex               Fri Sep  8 16:08:48 2023
+%DIF ADD ./manuscript_microxanox_rev2.tex               Mon Sep 11 14:36:35 2023
 %%% Begin My package additions %%%%%%%%%%%%%%%%%%%
 
 \usepackage[hyphens]{url}
@@ -384,7 +384,7 @@ implemented two methods since there is no definitive best method, and in
 order to check if results were sensitive to choice of method.
 }\DIFdelend 
 
-\DIFaddbegin \DIFadd{An potentially important difference between the two methods is in the system state when a new value of oxygen diffusivity is set. In the replication method, the system state when a new value of oxygen diffusivity is set is always the same. Whereas in the temporal method, the system state when a new value of oxygen diffusivity is set is the final state of the system for the previously set value of oxygen diffusivity. Since some modellers prefer one approach and others another, we decided to implement both.
+\DIFaddbegin \DIFadd{A potentially important difference between the two methods is in the system state when a new value of oxygen diffusivity is set. In the replication method, the system state when a new value of oxygen diffusivity is set is always the same. Whereas in the temporal method, the system state when a new value of oxygen diffusivity is set is the final state of the system for the previously set value of oxygen diffusivity. Since some modellers prefer one approach and others another, we decided to implement both.
 }
 
 \DIFaddend The replication method is implemented in the function \texttt{run\_replication\_ssfind()} which takes a parameter object as returned by the function \texttt{new\_replication\_ssfind\_parameter()} and the number of cores for multithreading the simulation. As the multithreading uses the package function \texttt{mclapply()} from the package \texttt{parallel} \citep{RCoreTeam2022}, the multithreading only works on Linux and Mac. It is planned to move to \texttt{parLapply()} \citep{RCoreTeam2022} in a future release.

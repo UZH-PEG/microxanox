@@ -49,14 +49,14 @@ First is this document. In it we use this typeface to give our responses and we 
 
 > This kind of box contains comments from the reviewer.
 
-The second document is the revised and clean manuscript, and the third is the revised manuscript with changes shown.
+The second document is the revised and clean manuscript, and the third is the revised manuscript with changes shown. Thease take note, that the revised manuscript with changes shows "?" instead of slinks to references and notes. We did not find a way of changing this and left it as it does not concern the changes made.
 
 Below, we cover each of the latest reviewer comments in turn.
 
 
 > It was difficult to follow the [Responses and Suggestions] in the new version. Those sections/paragraphs that have been rewritten, added, or modified in the paper should be included in the reply letter and explicitly highlight the parts that correspond precisely to each remark. The highlighted paper and the clean version should be shown at the end of the reply letter.
 
-Apologies that we provided materials that were difficult to follow. With the current revision we provide two versions of the revised manuscript, as requested, one a clean version, and one with changes highlight. We also, as requested, include all revised text in this response document and then reference the location in the revised document by line number. *Rainer, please check that this is so, before resubmission. Wait for our final version of the text before inserting the correct line numbers below.*
+Apologies that we provided materials that were difficult to follow. With the current revision we provide two versions of the revised manuscript, as requested, one a clean version, and one with changes highlight. We also, as requested, include all revised text in this response document and then reference the location in the revised document by line number.
 
 > 2.1a-b The comment has been addressed.
 
@@ -66,7 +66,7 @@ Thank you.
 
 > Here is the original comment 2.2: `finding steady states that correspond to values of one environmental driver`. The software does not find a steady state. Maybe the authors refer to the software running an open loop of the dynamic system under a set of initial conditions and a subset of parameter values (oxygen diffusivity). Then, the numerical evaluation of steady states could be related to environmental conditions in real systems.
 
-**Response**: We agree--the software does not find a steady state of the system. We no longer claim that it does, and we have added `The software does not provide the user with a steady state.` (lines XXX-YYY). Furthermore, in lines XXX-YYY of the newly revised manuscript we explain that the simulations provide a *final state* of the system, and that this is not guaranteed to be a steady state of the system: `When one wishes to be able to make conclusions about how the *steady state* of the system is affected by the environmental driver, it is very important to note that the *final state* (provided by the simulation) is not guaranteed to be a *steady state*.` (lines XXX-YYY). We also then list the actions that users need to take in order to somewhat safely assume that the provided final state is a steady state of the system: `In order to somewhat safely assume that the final state is a steady state, the user must ensure that the simulation is run for sufficiently long time for any transient dynamics to disappeared, and must also check the type of long-term dynamics occurring. In the results presented here, and in the paper @Limberger2023, this was performed by visual inspection, and by checking the sensitivity of conclusions to the length of the simulation.` (lines XXX-YYY)
+**Response**: We agree--the software does not find a steady state of the system. We no longer claim that it does, and we have added `The software does not provide the user with a steady state.` (lines 143 in track changes document). Furthermore, in lines 139-151 of the newly revised manuscript we explain that the simulations provide a *final state* of the system, and that this is not guaranteed to be a steady state of the system: `When one wishes to be able to make conclusions about how the *steady state* of the system is affected by the environmental driver, it is very important to note that the *final state* (provided by the simulation) is not guaranteed to be a *steady state*.` (lines 139-142). We also then list the actions that users need to take in order to somewhat safely assume that the provided final state is a steady state of the system: `In order to somewhat safely assume that the final state is a steady state, the user must ensure that the simulation is run for sufficiently long time for any transient dynamics to disappeared, and must also check the type of long-term dynamics occurring. In the results presented here, and in the paper @Limberger2023, this was performed by visual inspection, and by checking the sensitivity of conclusions to the length of the simulation.` (lines 143-149)
 
 > 2.3 The comment has not been addressed.
 
@@ -92,13 +92,13 @@ Thank you.
 
 > Here is the original comment 2.6c: `in order to check if results were sensitive to choice of method`. This sentence needs to be clarified. There is no comparison between numerical evaluations in any sense. The numerical simulations or simulation results are not sensitive to choice or method. Indeed, the numerical solution of the dynamical model is sensitive to a set of parameters and initial conditions. Maybe the authors mean the following: to evaluate the performance of the numerical parametric sensitivity analysis of the dynamical model concerning one parametric variation (oxygen diffusivity) under two schemes.
 
-**Response:** We agree that the software does not itself make a comparison. It only provides users information that they could use to make a comparison. This and the surround text have been revised and the points clarified: `Two numerical strategies for finding final states and their sensitivity to parameters are implemented. Two strategies are implemented in order to allow users to compare of their results.` (lines XXX-YYY). 
+**Response:** We agree that the software does not itself make a comparison. It only provides users information that they could use to make a comparison. This and the surround text have been revised and the points clarified: `Two numerical strategies for finding final states and their sensitivity to parameters are implemented.` (lines 152-153). 
 
 > 2.7 The comment has not been addressed.
 
 > Here is the original comment 2.7: It is not clear why there are two `methods` for numerical parametric sensitivity analysis. The authors should include the arguments of this.
 
-**Response:** We now state that `Two numerical strategies for finding final states and their sensitivity to parameters are implemented. Two strategies are implemented in order to allow users to compare of their results.` (lines XXX-YYY). Furthermore, we have added the following text: `An potentially important difference between the two methods is in the system state when a new value of oxygen diffusivity is set. In the replication method, the system state when a new value of oxygen diffusivity is set is always the same. Whereas in the temporal method, the system state when a new value of oxygen diffusivity is set is the final state of the system for the previously set value of oxygen diffusivity. Since some modellers prefer one approach and others another, we decided to implement both.` (lines XXX-YYY)
+**Response:** We now state that `Two numerical strategies for finding final states and their sensitivity to parameters are implemented.` (lines 152-153). Furthermore, we have added the following text: `An potentially important difference between the two methods is in the system state when a new value of oxygen diffusivity is set. In the replication method, the system state when a new value of oxygen diffusivity is set is always the same. Whereas in the temporal method, the system state when a new value of oxygen diffusivity is set is the final state of the system for the previously set value of oxygen diffusivity. Since some modellers prefer one approach and others another, we decided to implement both.` (lines 168-174)
 
 > 2.8 The comment has not been addressed.
 
@@ -110,111 +110,109 @@ Thank you.
 
 > 3 It wasn't easy to follow the [Suggestion] in the new version.
 
-We interpret this as the reviewer asking for clearer accounts of what was changed, and now provide below, with line numbers corresponding to those in the newly revised document, and the corresponding text in green font. *Rainer, please do this.*
+We interpret this as the reviewer asking for clearer accounts of what was changed, and now provide below, with line numbers corresponding to those in the newly revised document including track changes.
 
 > 3.  Please consider the following suggestions:
 
 > Line 5 `types of ecosystem`
 
-Changed to `types of ecosystems`
+Changed to `types of ecosystems` (L5, Abstract)
 
 > Line 10 `Permanent link to`
 
-Changed to `Permanent links to`
+Changed to `Permanent links to` (C2 in Ancillary data table)
 
 > Line 12 `role in the development of understanding about how ecosystems`
 
-`role in understanding how ecosystems` Changed to `Mathematical models play a key role in the development of ecosystem models and the understanding about how ecosystems work`
+`role in understanding how ecosystems` Changed to `Mathematical models play a key role in the development of ecosystem models and the understanding about how ecosystems work` (L12)
 
 > Line 13: `and how they respond`
 
-Changed to `and respond`
+Changed to `and respond` (L13)
 
 > Line 15 `have played a influential role is 16 how ecosystems respond to gradual change`
 
-`have been influential in how ecosystems respond to a gradual change` changed to `One area of ecology in which models have been influential is the understanding of their response to a gradual change in an environmental driver [@Scheffer2001].`
+`have been influential in how ecosystems respond to a gradual change` changed to `One area of ecology in which models have been influential is the understanding of their response to a gradual change in an environmental driver [@Scheffer2001].`  (L17)
 
 > Line 16 `is a environmental`
 
-Changed to `is an environmental`
+Changed to `is an environmental` (L19)
 
 > Line 17 `affects an ecosystem, but 18 is assumed to not be`
 
-Changed to `affects an ecosystem. Still, it is assumed not to be`
+Changed to `affects an ecosystem. Still, it is assumed not to be` (L20)
 
 > Line 27 `change of the system`
 
-Changed to `change in the system`
+Changed to `change in the system` (L31)
 
 > Line 28 `to anaerobic`
 
-Changed to `to an anaerobic`
+Changed to `to an anaerobic` (L32)
 
 > Line 34 `termed the oxygen diffusitivity`
 
-Changed to `termed oxygen diffusivity`
+Changed to `termed oxygen diffusivity` (L38)
 
 > Line 38 `This leaves open the question of if and how biodiversity within these types (i.e. functional groups) of bacteria affects the ecosystem`
 
-Changed to `This leaves the question of if and how bacteria's biodiversity within these types (i.e., functional groups) affects the ecosystem`
+Changed to `This leaves the question of if and how bacteria's biodiversity within these types (i.e., functional groups) affects the ecosystem` (L43 - L44)
 
 > Line 47 `It was with this goal in mind that we developed the microxanox package`
 
-Changed to `With this goal in mind, we developed the microxanox package`
+Changed to `With this goal in mind, we developed the microxanox package` (L51)
 
 > Line 58 `conditions, addition`
 
-Changed to `conditions, the addition`
+Changed to `conditions, the addition` (L62)
 
 > Line 60 `some functions to analyse the results as well as to visualize the results to provide a starting`
 
-`some functions to analyze the results and visualize them to provide a starting` changed to `some functions to analyse the results and visualize these to provide a starting point`
+`some functions to analyze the results and visualize these to provide a starting` changed to `some functions to analyse the results and visualize these to provide a starting point` (L64 - L65)
 
 > Line 71 `for running individual simulations and for running a set of simulations`
 
-Changed to `for running individual simulations and a set of simulations`
+Changed to `for running individual simulations and a set of simulations` (L77)
 
 > Line 76 `the vectors and matrices, and to use matrix mathematics`
 
-Changed to `the vectors and matrices and used matrix mathematics`
+Changed to `We also coded the ordinary differential equations in matrix form to use matrix mathematics.` (L81 - L82)
 
 > Line 80 `code have modular structure so that new functionality can be easily added. E.g. temporally`
 
-Changed to `code have a modular structure so that new functionality can be easily added. E.g., temporally`
+Changed to `code have a modular structure so that new functionality can be easily added. E.g., temporally` (L85)
 
-> Line 87 `to maximise simplicity for the user, and`
+> Line 87 `to maximise simplicity for the user, and` 
 
-Changed to `to maximize simplicity for the user and`
+Changed to `to maximize simplicity for the user and` (L92)
 
 > Line 95 `results of the run`
 
-Changed to `simulation results`
+Changed to `simulation results` (L100)
 
 > Line 98 `parameters and re-running the simulations straightforward. In the following sections we`
 
-`parameters, and reruns the simulations straightforwardly. In the following sections, we` changed to `This promotes reproducibility and makes incremental changes of individual parameters with a consecutive and re-running of the simulations straightforward.`
+`parameters, and reruns the simulations straightforwardly. In the following sections, we` changed to `This promotes reproducibility and makes incremental changes of individual parameters with a consecutive re-running of the simulations straightforward.` (L102 * L104)
 
 > Line 107 `contains among other things the`
 
-Changed to `contains, among other things, the`
+Changed to `contains, among other things, the` (L113)
 
 > Line 109 `their meaning and how they are created and have values set and changed please`
 
-Changed to `their meaning, and how they are created and have values set and changed, please`
+Changed to `their meaning, and how they are created and have values set and changed, please` (L116)
 
 > Line 113 `an object which is identical to the parameter`
 
-Changed to `an object identical to the parameter`
+Changed to `an object identical to the parameter` (L119)
 
 > Line 116 `to run the simulation again from`
 
-Changed to `to rerun the simulation from`
+Changed to `to rerun the simulation from` (L122)
 
 > Line 119 `The general approach used to find the stable state of the system`
 
-Changed to `The general approach to finding the numerical value of a system's stable state (if it exists)`
-
-
+Changed to `The general approach to finding the numerical value of a system's stable state (if it exists)` (L125)
 
 > 4 The suggestion seems to have been heeded.
 
