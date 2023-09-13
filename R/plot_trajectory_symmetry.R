@@ -135,8 +135,8 @@ plot_trajectory_symmetry <-  function(res,
     scale_color_manual(values = c("#e85050", "#5da1df")) +
     # scale_color_manual(values = c("#00BD54", "#FF0000")) +
     labs(title = paste(trajectory, "trajectories"),
-         x = expression(Log[10](Oxygen~diffusivity)),
-         y = expression(Log[10](Concentration)),
+         x = expression(Log[10](Oxygen~diffusivity)~"["*hr^-1*"]"),
+         y = expression(Log[10](Concentration)~"[μM]"),
          color = "type")
     # xlim(-1.5, -0.5)
 
@@ -153,7 +153,7 @@ plot_trajectory_symmetry <-  function(res,
     }
     p <- p + scale_x_continuous(expand = c(0,0), 
                                 sec.axis = sec_axis(trans = . ~ t_func(.),
-                                                    name = expression(Log[10](Sulfide~diffusivity))),
+                                                    name = expression(Log[10](Sulfide~Diffusivity)~"["*hr^-1*"]"))),
                                 # limits = c(-1.5, -0.5)
                                 )
     }
