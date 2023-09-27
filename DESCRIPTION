@@ -18,7 +18,12 @@ Authors@R:
              family = "Krug",
              role = "ctb",
              email = "Rainer.Krug@uzh.ch",
-             comment = c(ORCID = "0000-0002-7490-0066"))
+             comment = c(ORCID = "0000-0002-7490-0066")),
+      person(given = "Pascal",
+             family = "Baertschi",
+             role = "ctb",
+             email = "compbio.baertschi@gmail.com",
+             comment = c(ORCID = "0000-0002-6533-0399"))
       )
 Maintainer: Owen L Petchey <owen.petchey@ieu.uzh.ch>
 URL: https://github.com/UZH-PEG/microxanox/
@@ -38,7 +43,8 @@ Imports:
   dplyr,
   tidyr,
   stringr,
-  multidplyr
+  multidplyr,
+  ggpubr
 Suggests: 
     knitr,
     rmarkdown,

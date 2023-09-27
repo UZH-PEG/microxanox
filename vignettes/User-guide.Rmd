@@ -18,7 +18,7 @@ vignette: >
 options(mc.cores=8)
 
 mdat <- function(name = "") {
-  system.file(file.path("data_pkg", "sym-sys-user_guide", name), package = "microxanox")
+  system.file(file.path("data_pkg", "user_guide", name), package = "microxanox")
 }
 
 ##########

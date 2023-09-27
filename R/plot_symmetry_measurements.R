@@ -9,8 +9,7 @@
 #' @importFrom dplyr rename mutate select filter
 #' @importFrom ggplot2 geom_path geom_point geom_segment geom_ribbon scale_color_manual labs
 #' 
-
-
+#' @export
 plot_symmetry_measures <- function(res, 
                                    species){
   
