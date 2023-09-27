@@ -1,5 +1,7 @@
+# 0.9.2: Added symmetric model functionality
+
 # 0.9.1: Fix typo in bushplus_dynamic_model.R
-The error had no cincernible impact on the results of the vignettes
+The error had no discernible impact on the results of the vignettes
 
 # 0.9.0: For first submission submission
 

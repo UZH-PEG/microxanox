@@ -7,7 +7,7 @@
   "codeRepository": "https://github.com/UZH-PEG/microxanox/",
   "issueTracker": "https://github.com/UZH-PEG/microxanox/issues ",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.9.1.1",
+  "version": "0.9.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
