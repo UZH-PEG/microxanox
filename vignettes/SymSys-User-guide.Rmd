@@ -267,7 +267,7 @@ parameter$strain_parameter$SB$h_O_SB <- 30
 
 Next, we simulate the dynamics using the temporal method:
 
-```{r}
+```{r eval = !file.exists(mdat("simulation_asymmetric_hOSB.RDS"))}
 result_trait.asym <- run_temporal_ssfind_symmetric(parameter) 
 ```
 
@@ -296,8 +296,7 @@ ui <- fluidPage(
     max = 2,
     value = 1,
     step = 0.1,
-    ticks = seq(0, 2, by = 0.1),
-    labels = seq(0, 2, by = 0.5)
+    ticks = seq(0, 2, by = 0.1)
   ),
   plotOutput("plot")
 )
@@ -323,11 +322,15 @@ server <- function(input, output) {
   })
 }
 ```
+```{r}
+shinyApp(ui, server)
+```
+
 
 
 Let's run the dynamics resulting from the diffusivity pattern with asymmetry factor 0.5
 
-```{r}
+```{r eval = !file.exists(mdat("simulation_asymmetric_stressor.asym0.6.RDS"))}
 result_stressor.asym <- run_temporal_ssfind_symmetric(parameter)
 ```
 

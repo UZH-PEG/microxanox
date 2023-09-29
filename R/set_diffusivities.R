@@ -23,7 +23,6 @@ set_diffusivities <- function(param,
   if (length(which(param$log10a_series == max(param$log10a_series))) > 1 | length(which(param$log10a_series == min(param$log10a_series))) > 1){
     param$log10aO_series <- log10a_series
     param$log10aS_series <- 2 * mean(param$log10a_series) - param$log10a_series
-    print("yes")
   } 
   else {
   param$asym_factor <- asym_factor
