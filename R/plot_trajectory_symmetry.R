@@ -153,7 +153,7 @@ plot_trajectory_symmetry <-  function(res,
     }
     p <- p + scale_x_continuous(expand = c(0,0), 
                                 sec.axis = sec_axis(trans = . ~ t_func(.),
-                                                    name = expression(Log[10](Sulfide~Diffusivity)~"["*hr^-1*"]"))
+                                                    name = expression(Log[10](Sulfide~Diffusivity)~"["*hr^-1*"]")))
                                 # limits = c(-1.5, -0.5)
                                 
     }

@@ -296,10 +296,11 @@ parameter <- set_diffusivities(param = parameter,
                                asym_factor = 0.5) ## here we set the factor of 0.5
 ```
 
+<!--
 You can use the slider to explore how different asymmetry factor affect different patterns of diffusivity asymmetries:
+-->
 
-
-```{r}
+```{r eval = FALSE}
 ui <- fluidPage(
   sliderInput(
     "variable",
@@ -334,7 +335,8 @@ server <- function(input, output) {
   })
 }
 ```
-```{r}
+
+```{r eval = FALSE}
 shinyApp(ui, server)
 ```
 
