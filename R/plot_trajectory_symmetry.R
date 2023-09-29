@@ -12,7 +12,7 @@
 #' @importFrom tidyr gather spread
 #' @importFrom ggplot2 geom_path geom_point geom_segment scale_color_manual labs
 #' 
-
+#' @export
 
 plot_trajectory_symmetry <-  function(res,
                                       trajectory = "recovery",
@@ -155,7 +155,7 @@ plot_trajectory_symmetry <-  function(res,
                                 sec.axis = sec_axis(trans = . ~ t_func(.),
                                                     name = expression(Log[10](Sulfide~Diffusivity)~"["*hr^-1*"]"))
                                 # limits = c(-1.5, -0.5)
-                                )
+                                
     }
   }
 

@@ -2,8 +2,10 @@
 % Please edit documentation in R/run_temporal_ssfind.R
 \name{run_temporal_ssfind}
 \alias{run_temporal_ssfind}
-\title{Finds the stable states for a parameter set by increasing and decreasing
-the oxygen diffusivity in a stepwise fashion.}
+\title{Used to find the stable states for a parameter set by increasing and decreasing
+the oxygen diffusivity in a stepwise fashion. If increasing \code{parameter$sim_duration}
+while keeping the length of \code{parameter$log10_series} doesn't change response dynanimcs,
+stable states have been found.}
 \usage{
 run_temporal_ssfind(parameter)
 }
@@ -15,6 +17,8 @@ run_temporal_ssfind(parameter)
 A data frame of final states and oxygen diffusivity values
 }
 \description{
-Finds the stable states for a parameter set by increasing and decreasing
-the oxygen diffusivity in a stepwise fashion.
+Used to find the stable states for a parameter set by increasing and decreasing
+the oxygen diffusivity in a stepwise fashion. If increasing \code{parameter$sim_duration}
+while keeping the length of \code{parameter$log10_series} doesn't change response dynanimcs,
+stable states have been found.
 }

@@ -5,11 +5,12 @@
 #' @return returns a frame containing symmetry measures for each variable, such as hysteresis area,
 #'    shift magnitudes or distance between TP, as well as TP themselfes with their according state.
 #'  
-#'  @global
+#' @global
 #'  
-#'  @importFrom dplyr rename mutate select filter slice 
-#'  @importFrom DescTools AUC
+#' @importFrom dplyr rename mutate select filter slice 
+#' @importFrom DescTools AUC
 #'  
+#' @export
 get_symmetry_measurements <- function(res){
   
   ## check whether bush or symmetry simulation prepare dataframe

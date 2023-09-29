@@ -6,7 +6,7 @@ output:
   rmarkdown::html_vignette:
     toc: yes
 vignette: >
-  %\VignetteIndexEntry{Reproducing some results of Bush et al 2017}
+  %\VignetteIndexEntry{Partial reproduction of Bush et al (2017) Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

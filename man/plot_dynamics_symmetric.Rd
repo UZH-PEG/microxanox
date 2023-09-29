@@ -2,16 +2,16 @@
 % Please edit documentation in R/plot_dynamics_symmetric.R
 \name{plot_dynamics_symmetric}
 \alias{plot_dynamics_symmetric}
-\title{Plot the dynamics of a model run of a symmetric parameterset}
+\title{Plot the dynamics of a model run of a symmetric parameter set}
 \usage{
-plot_dynamics_symmetric(simulation_result, every_n = 1, plot_a = TRUE)
+plot_dynamics_symmetric(simulation_result, every_n = 1, plot_a = FALSE)
 }
 \arguments{
 \item{simulation_result}{Object returned by the run_simulation function}
 
 \item{every_n}{Plot data of every other n sample.}
 
-\item{plot_a}{if \code{TRUE}, a will be plotted}
+\item{plot_a}{if \code{TRUE}, diffusivities will be plotted in lower pane, default is \code{FALSE}.}
 }
 \value{
 returns the ggplot object of the plot. If it is assigned to a 
@@ -19,6 +19,5 @@ returns the ggplot object of the plot. If it is assigned to a
 }
 \description{
 This is a convenience function to plot the dynamics of a model run particularly
-for a symmetric model
-with strains within functional groups displayed.
+for a symmetric model with strains within functional groups displayed.
 }
