@@ -73,8 +73,7 @@ plot_dynamics_symmetric <- function(
     # xlab('time [hours]') +
     xlab(" ") + 
     ggplot2::scale_colour_manual(values = colfunc_CB(num_CB_strains)) +
-    ggplot2::guides(colour = ggplot2::guide_legend(ncol = 3))  +
-    ggplot2::theme_bw()
+    ggplot2::guides(colour = ggplot2::guide_legend(ncol = 3))
   
   p2 <- temp %>%
     dplyr::filter(functional_group == "SB") %>%
@@ -86,16 +85,14 @@ plot_dynamics_symmetric <- function(
     # xlab('time [hours]') +
     xlab(" ") +
     ggplot2::scale_colour_manual(values = colfunc_SB(num_SB_strains))+
-    ggplot2::guides(colour = guide_legend(ncol = 3)) + 
-    ggplot2::theme_bw()
+    ggplot2::guides(colour = guide_legend(ncol = 3))
   
   p4 <- temp_S %>%
     dplyr::filter(species != "SO") %>%
     ggplot(aes(x=time, y=log10_quantity, col=substrate)) +
     ggplot2::geom_line() +
     ggplot2::ylab('log10(concentration)\n[µM]') +
-    ggplot2::xlab('time [hours]') #+
-    ggplot2::theme_bw()
+    ggplot2::xlab('time [hours]')
   
   if(plot_a == FALSE){
     p4 <- p4 + scale_color_manual(values = c(col_O, col_P, col_SR))
