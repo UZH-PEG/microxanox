@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
   cache = FALSE,
   fig.align = "centre", 
   fig.width = 7, 
-  fig.height = 7
+  fig.height = 5
 )
 library(tidyverse)
 library(deSolve)
@@ -38,15 +38,17 @@ library(rootSolve)
 library(microxanox)
 library(patchwork)
 library(DescTools)
-library(shiny)
+# library(shiny)
 ## Set random number generator seed
 ## Is redundant if there are no stochastic components in the model
 set.seed(13)
+# theme
+theme_set(theme_bw())
 ```
 
-# To be removed: 
-```{r}
-# load files from neigbour dir
+
+```{r knittr_setup, eval=FALSE, include=FALSE}
+# load functions from R dir manually
 for (f in list.files(path = "R/")){
   source(paste0("R/", f))
 }
@@ -147,7 +149,7 @@ Running a single simulation is done with with `run_simlation_symmetric`. In cont
 
 However, first it is important to understand how to control the environmental pattern of change to be able to produce the desired simulations.
 
-## Understanding `log10a_series` and using `update_asym_factor` to control the pattern of change
+## Understanding `log10a_series` and using `set_diffusivities` to control the pattern of change
 
 To observe regime shifts in both direction, we have to change the log10a_series of both oxygen and sulfide diffusivity. This is done by first changing the sequence `log10a_series`, which directly defines the oxygen diffusivity vector (i.e. `log10aO_series`), followed by updating the new series in the object `parameter`.
 
@@ -172,7 +174,7 @@ parameter <- set_diffusivities(parameter)
 
 Let's visualize the diffusivity pattern we have created to ensure it our simulation will go as expected. We see that the pattern is inverted as desired.
 
-```{r}
+```{r echo=FALSE, fig.height=2.5}
 # define a time vector
 time <- seq(0, 1, length = length(parameter$log10a_series)) 
 
@@ -185,8 +187,7 @@ ggplot(data = plt.df) +
   geom_path(aes(x = time, y = value, color = key)) + 
   scale_color_manual(values = c("#e85050", "#5da1df")) +
   # geom_hline(aes(yintercept = axis, color = "sym axis"), linetype = "dashed") + 
-  labs(x = "Time", y = "Value", color = "") + 
-  theme_bw()
+  labs(x = "Time", y = "Value", color = "")
 ```
 
 
@@ -210,7 +211,7 @@ result_dynamics <- readRDS(file = mdat("result_dynamics.RDS"))
 ```
 
 
-```{r}
+```{r fig.height=7}
 plot_dynamics_symmetric(result_dynamics)
 ```
 
@@ -227,7 +228,7 @@ parameter <- set_diffusivities(parameter)
 
 Again, we check whether the diffusivity pattern behaves as expected: 
 
-```{r}
+```{r echo=FALSE, fig.height=2.5}
 # define a time vector
 time <- seq(0, 1, length = length(parameter$log10a_series)) 
 
@@ -240,8 +241,7 @@ ggplot(data = plt.df) +
   geom_path(aes(x = time, y = value, color = key)) + 
   scale_color_manual(values = c("#e85050", "#5da1df")) +
   # geom_hline(aes(yintercept = axis, color = "sym axis"), linetype = "dashed") + 
-  labs(x = "Time", y = "Value", color = "") + 
-  theme_bw()
+  labs(x = "Time", y = "Value", color = "")
 ```
 
 We are now ready to do the the experiment with the temporal method by using `run_temporal_ssfind_symmetric`:
@@ -258,7 +258,7 @@ result_temporal <- readRDS(file = mdat("result_temporal.RDS"))
 ```
 
 
-```{r}
+```{r fig.height=8}
 plot_temporal_ss(result_temporal)
 ```
 
@@ -286,14 +286,14 @@ saveRDS(result_trait.asym, file = mdat("result_trait.asym.RDS"))
 ### Diffusivity asymmetry
 
 We can also modify the diffusivity pattern to be asymmetric. To change the diffusivity pattern we use the `asym_factor` argument of the helper function `set_diffusivities`; you can explore the relationship between the `asym_factor` and the asymmetric diffusivity pattern. It is also important to remember to make trait values symmetric again.
-Here, we choose the `asym_factor` to be 0.5, a value of 1 would mean a symmetric pattern.
+Here, we choose the `asym_factor` to be e.g. 0.6, a value of 1 would mean a symmetric pattern.
 
 ```{r}
 # trait symmetry by assigning tolerance of CB
 parameter$strain_parameter$SB$h_O_SB <- parameter$strain_parameter$CB$h_SR_CB
 # change the pattern 
 parameter <- set_diffusivities(param = parameter, 
-                               asym_factor = 0.5) ## here we set the factor of 0.5
+                               asym_factor = 0.6) ## here we set the factor of 0.5
 ```
 
 <!--
@@ -341,12 +341,12 @@ shinyApp(ui, server)
 ```
 
 
-Let's run the dynamics resulting from the diffusivity pattern with asymmetry factor 0.5
+Let's run the dynamics resulting from the diffusivity pattern with asymmetry factor 0.6.
 
 
-```{r chunky1, eval = !file.exists(mdat("result_stressor.asym_0.5.RDS"))}
-result_stressor.asym_0.5 <- run_temporal_ssfind_symmetric(parameter)
-saveRDS(result_stressor.asym_0.5, file = mdat("result_stressor.asym_0.5.RDS"))
+```{r chunky1, eval = !file.exists(mdat("result_stressor.asym_0.6.RDS"))}
+result_stressor.asym_0.6 <- run_temporal_ssfind_symmetric(parameter)
+saveRDS(result_stressor.asym_0.6, file = mdat("result_stressor.asym_0.6.RDS"))
 ```
 
 ## Quantificataion of asymmetry
@@ -354,12 +354,12 @@ saveRDS(result_stressor.asym_0.5, file = mdat("result_stressor.asym_0.5.RDS"))
 The function `get_symmetry_measurements` returns various metrics used to quantify the (a)symmetry.
 
 ```{r chunky2}
-result_stressor.asym_0.5 <- readRDS(file = mdat("result_stressor.asym_0.5.RDS"))
+result_stressor.asym_0.6 <- readRDS(file = mdat("result_stressor.asym_0.6.RDS"))
 ```
 
 
 ```{r}
-asym_measures <- get_symmetry_measurements(result_stressor.asym_0.5)
+get_symmetry_measurements(result_stressor.asym_0.6)
 ```
 
 ## Visualization of asymmetry
@@ -367,15 +367,20 @@ asym_measures <- get_symmetry_measurements(result_stressor.asym_0.5)
 The (a)symmetry measures obtained from `get_symmetry_measurements` can be directly visualized using `plot_symmetry_measures`. This convenience function serves for graphical orientation of the measurements. As a first argument it takes the results data frame and as the second one we need to define the species to plot, which is either a bacteria or a chemical.
 
 ```{r}
-plot_symmetry_measures(result_stressor.asym_0.5, species = "O")
+plot_symmetry_measures(result_stressor.asym_0.6, species = "O")
 ```
 
 
 To visualize the asymmetry between amelioration and degradation trajectories is it recommend to use the function `plot_tajectory_asymmetry`, as it better organizes contrasts the visual difference between these trajectory dynamics.
 
 ```{r}
-plot_trajectory_symmetry(result_stressor.asym_0.5)
+plot_trajectory_symmetry(result_stressor.asym_0.6)
 ```
+
+
+---
+
+**Contact**
 
 
 Thank you for reading this user guide. If there are still remaining questions or you find bugs of any kind I would be pleased if you [reached out](mailto:compbio.baertschi@gmail.com)!

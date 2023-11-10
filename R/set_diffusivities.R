@@ -21,18 +21,18 @@ set_diffusivities <- function(param,
   }
   # check whether vector is used for time dynamics
   if (length(which(param$log10a_series == max(param$log10a_series))) > 1 | length(which(param$log10a_series == min(param$log10a_series))) > 1){
-    param$log10aO_series <- log10a_series
+    param$log10aO_series <- param$log10a_series
     param$log10aS_series <- 2 * mean(param$log10a_series) - param$log10a_series
   } 
   else {
-  param$asym_factor <- asym_factor
-  ## extract diffusivity series
-  sym.axis <- mean(param$log10a_series) # symmetry axis is between log10a_series limits
-  param$log10aO_series <- param$log10a_series
-  # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
-  param$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(param$log10a_series)) * param$asym_factor),
-                                            sym.axis + (abs(sym.axis - min(param$log10a_series)) * param$asym_factor),
-                                            length = length(param$log10a_series)))
+    param$asym_factor <- asym_factor
+    ## extract diffusivity series
+    sym.axis <- mean(param$log10a_series) # symmetry axis is between log10a_series limits
+    param$log10aO_series <- param$log10a_series
+    # mirror the log10_series to obtain symmetry between aO <--> aS(x) at sym.axis (y)
+    param$log10aS_series <- 2*sym.axis - (seq(sym.axis - (abs(sym.axis - min(param$log10a_series)) * param$asym_factor),
+                                              sym.axis + (abs(sym.axis - min(param$log10a_series)) * param$asym_factor),
+                                              length = length(param$log10a_series)))
   }
   
   return (param)
