@@ -91,7 +91,7 @@ deps:
 ####
 
 doc:
-	Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette', 'roxyglobals::global_roclet'))"
+	Rscript -e "devtools::document()"
 
 metadata:
 	Rscript -e "codemetar::write_codemeta()"

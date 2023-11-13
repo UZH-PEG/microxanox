@@ -18,6 +18,8 @@ plot_trajectory_symmetry(
 \item{trajectory}{Trajectory to be plotted. Either `collapse` or `recovery`.`.}
 
 \item{typ}{Type of environmental variable. Either `substrate` or `bacteria`.}
+
+\item{plot_log10}{Logical. If \code{TRUE}, logarithmic plot of the data is done.}
 }
 \value{
 ggplot object, with antagonistic shifts of related trajectory visualized as arrows.

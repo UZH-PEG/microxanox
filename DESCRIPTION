@@ -1,7 +1,7 @@
 Package: microxanox
-Version: 0.9.2
-Date: 2022-09-05
-Title: Oxic-anoxic regime shifts in microbial communities
+Version: 0.9.3
+Date: 2023-11-13
+Title: Oxic-Anoxic Regime Shifts in Microbial Communities
 Description: Model to simulate a three functional group system with four chemical substrates
   using a set of ordinary differential equations. 
   Simulations can be run individually or over a parameter range, to find stable states. The 
@@ -12,7 +12,7 @@ Authors@R:
     c(person(given = "Owen L.",
              family = "Petchey",
              role = c("aut", "cre"),
-             email = "Owen.Petchey@uzh.ch",
+             email = "Owen.Petchey@ieu.uzh.ch",
              comment = c(ORCID = "0000-0002-7724-1633")),
       person(given = "Rainer M.",
              family = "Krug",
@@ -25,7 +25,7 @@ Authors@R:
              email = "compbio.baertschi@gmail.com",
              comment = c(ORCID = "0000-0002-6533-0399"))
       )
-Maintainer: Owen L Petchey <owen.petchey@ieu.uzh.ch>
+Maintainer: Owen L. Petchey <Owen.Petchey@ieu.uzh.ch>
 URL: https://github.com/UZH-PEG/microxanox/
 BugReports: https://github.com/UZH-PEG/microxanox/issues 
 License: MIT + file LICENSE
@@ -44,14 +44,20 @@ Imports:
   tidyr,
   stringr,
   multidplyr,
-  ggpubr
+  ggpubr,
+  DescTools
 Suggests: 
     knitr,
     rmarkdown,
     rootSolve,
     tidyverse,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    roxyglobals
 RoxygenNote: 7.2.3
 Encoding: UTF-8
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Roxygen: list(roclets = c("collate", "namespace", "rd",
+    "roxyglobals::global_roclet"))
+Config/roxyglobals/filename: globals.R
+Config/roxyglobals/unique: FALSE

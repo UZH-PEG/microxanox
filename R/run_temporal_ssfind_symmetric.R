@@ -10,48 +10,61 @@
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
 #' @importFrom dplyr rename slice
-#' 
-#' @global time
-#' 
+#'
+#' @autoglobal
+#'
 #' @export
 
 run_temporal_ssfind_symmetric <- function(parameter) {
-  
   ## recalculate the wait time (length of a step)
-  wait_time <- parameter$sim_duration / mean(length(parameter$log10aO_series), 
-                                             length(parameter$log10aS_series))
-  
+  wait_time <- parameter$sim_duration / mean(
+    length(parameter$log10aO_series),
+    length(parameter$log10aS_series)
+  )
+
   ## sanity check
-  
+
   ## make function for the increasing oxygen diff steps
-  aO.up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aO_series)), 
-                           y = (c(parameter$log10aO_series, parameter$log10aO_series[length(parameter$log10aO_series)])),
-                           method = "constant", rule = 1)
+  aO.up_l_f_f <- approxfun(
+    x = wait_time * c(0:length(parameter$log10aO_series)),
+    y = (c(parameter$log10aO_series, parameter$log10aO_series[length(parameter$log10aO_series)])),
+    method = "constant", rule = 1
+  )
   ## make function for the decreasing oxygen diff steps
-  aO.down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aO_series)), 
-                             y = (c(rev(parameter$log10aO_series), parameter$log10aO_series[1])),
-                             method = "constant", rule = 1)
-  
+  aO.down_l_f_f <- approxfun(
+    x = wait_time * c(0:length(parameter$log10aO_series)),
+    y = (c(rev(parameter$log10aO_series), parameter$log10aO_series[1])),
+    method = "constant", rule = 1
+  )
+
   ## make function for the decreasing sulfide diff steps
-  aS.down_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aS_series)), 
-                             y = c(parameter$log10aS_series, parameter$log10aS_series[length(parameter$log10aS_series)]),
-                             method = "constant", rule = 1)
+  aS.down_l_f_f <- approxfun(
+    x = wait_time * c(0:length(parameter$log10aS_series)),
+    y = c(parameter$log10aS_series, parameter$log10aS_series[length(parameter$log10aS_series)]),
+    method = "constant", rule = 1
+  )
   ## make function for the decreasing sulfide diff steps
-  aS.up_l_f_f <- approxfun(x = wait_time * c(0:length(parameter$log10aS_series)), 
-                           y = c(rev(parameter$log10aS_series), parameter$log10aS_series[1]),
-                           method = "constant", rule = 1)
-  
+  aS.up_l_f_f <- approxfun(
+    x = wait_time * c(0:length(parameter$log10aS_series)),
+    y = c(rev(parameter$log10aS_series), parameter$log10aS_series[1]),
+    method = "constant", rule = 1
+  )
+
   ## make times at which observations are made (i.e. at the end of a step)
-  times <- c(0,
-             seq(parameter$sim_sample_interval - 1,
-                 parameter$sim_duration,
-                 by = parameter$sim_sample_interval))
-  
+  times <- c(
+    0,
+    seq(parameter$sim_sample_interval - 1,
+      parameter$sim_duration,
+      by = parameter$sim_sample_interval
+    )
+  )
+
   ## make times at which events occur
-  event_times <- c(0, seq(parameter$event_interval-1,
-                          max(times),
-                          by = parameter$event_interval))
-  
+  event_times <- c(0, seq(parameter$event_interval - 1,
+    max(times),
+    by = parameter$event_interval
+  ))
+
   ## run a simulation for increasing ox diff
   up_res <- as.data.frame(
     deSolve::ode(
@@ -75,7 +88,7 @@ run_temporal_ssfind_symmetric <- function(parameter) {
     filter(time %in% times) %>%
     slice(-1) %>%
     mutate(recovery = "oxic")
-  
+
   ## run a simulation for decreasing ox diff
   down_res <- as.data.frame(
     deSolve::ode(
@@ -99,10 +112,10 @@ run_temporal_ssfind_symmetric <- function(parameter) {
     filter(time %in% times) %>%
     slice(-1) %>%
     mutate(recovery = "anoxic")
-  
+
   ## combine results
   result <- rbind(up_res, down_res)
-  
+
   result <- new_temporal_ssfind_results(result = result)
   return(result)
 }

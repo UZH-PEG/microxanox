@@ -9,13 +9,15 @@
 #'   `replication_ssfind_result` is identical to an object of class `replication_ssfind_parameter`
 #'   plus an additional field `result` which contains the result of the simulation.
 #' @md
+#'
+#' @autoglobal
+#'
 #' @export
 #'
 #' @examples
 new_replication_ssfind_results <- function(
-  parameter,
-  result
-  ){
+    parameter,
+    result) {
   if (!inherits(parameter, "replication_ssfind_parameter")) {
     stop("`parameter` has to be of class replication_ssfind_parameter")
   }

@@ -15,6 +15,6 @@ get_ssbyaN_parameter(result, i)
 an object of class \code{replication_ssfind_parameter}
 }
 \description{
-Extract the parameter to run an individual simulation from either a parameter set for a 
+Extract the parameter to run an individual simulation from either a parameter set for a
 steady state determination (\code{run_replication_ssfind_parameter()}) or the result set returned.
 }

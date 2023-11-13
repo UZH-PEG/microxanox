@@ -15,6 +15,6 @@ get_nonlinearity(x, y)
 Measure of non-linearity
 }
 \description{
-Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772, 
-\url{https://doi.org/10.1093/clinchem/39.5.766}
+Method described in Emancipator & Knoll (1993) Clinical Chemistry 39, 766-772,
+\doi{10.1093/clinchem/39.5.766}
 }

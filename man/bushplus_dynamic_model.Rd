@@ -3,7 +3,7 @@
 \name{bushplus_dynamic_model}
 \alias{bushplus_dynamic_model}
 \title{The rate equations, as published in the Bush et al 2017
-\url{https://doi.org/10.1093/clinchem/39.5.766} paper, but with forcing of
+\doi{10.1093/clinchem/39.5.766} paper, but with forcing of
 oxygen diffusivity \code{a_0} potential added, and the possibility to simulate
 multiple strains per functional group}
 \usage{
@@ -28,7 +28,7 @@ strains, and also the current values of oxygen diffusivity \code{a}.
 }
 \description{
 The rate equations, as published in the Bush et al 2017
-\url{https://doi.org/10.1093/clinchem/39.5.766} paper, but with forcing of
+\doi{10.1093/clinchem/39.5.766} paper, but with forcing of
 oxygen diffusivity \code{a_0} potential added, and the possibility to simulate
 multiple strains per functional group
 }

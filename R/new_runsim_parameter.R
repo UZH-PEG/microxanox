@@ -1,9 +1,9 @@
 #' Create parameter set with which to run a simulation.
 #'
-#' @param ... named parameter for the simulation to be set. 
+#' @param ... named parameter for the simulation to be set.
 #'   An error will be raised, if they are not part of the parameter set.
 #'
-#' @return parameter object of the class `runsim_parameter`. 
+#' @return parameter object of the class `runsim_parameter`.
 #' The object contains the following elements:
 #' - dynamic_model      : the dynamic model to be used. At the moment, only `bushplus_dynamic_model` is implemented. Fur further info, see the documen tation of `bushplus_dynamic_model`.
 #' - event_definition   : A function which alters the state variables. At the moment only `event_definition_1()` is included. User defined functions with the same signature can be used.
@@ -17,12 +17,14 @@
 #' - asym_factor:       : For symmetric simulations only: enables manipulating `aS` forcing in asymmetric manner to decrease (<1) or increase (>1) stress on cyanobacteria.
 #' - solver_method      : Used for the solver. Default is `"radau"`. For other options, see the documentatioom of `odeSolve::ode`.
 #' @md
+#'
+#' @autoglobal
+#'
 #' @export
 #'
 #' @examples
 new_runsim_parameter <- function(
-  ...
-){
+    ...) {
   p <- list(
     dynamic_model = NA, # default_dynamic_model,
     event_definition = NA, # default_event_definition,
@@ -50,7 +52,7 @@ new_runsim_parameter <- function(
       }
     }
   }
-  
+
   if (p$asym_factor) {
     # ## extract diffusivity series
     # sym.axis <- mean(p$log10a_series) # symmetry axis is between log10a_series limits
@@ -64,6 +66,6 @@ new_runsim_parameter <- function(
   # } else {
   #   warning("This `runsim_parameter` can only be used for simulations in Bush et al. 2017 and Limberger et al 2023. If symmetry simulation is required, please provide parameter `asym_factor`.")
   # }
-  
+
   return(p)
 }

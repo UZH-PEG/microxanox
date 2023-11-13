@@ -10,7 +10,7 @@ plot_temporal_ss(temporal_results)
 \item{temporal_results}{Results from \code{run_temporal_ssfind()} or from \code{run_temporal_ssfind_symmetric()}}
 }
 \value{
-returns the ggplot object of the plot. If it is assigned to a 
+returns the ggplot object of the plot. If it is assigned to a
    variable, the plot needs to be plotted, otherwise it is plotted.
 }
 \description{

@@ -1,5 +1,5 @@
 #' Run the simulation
-#' 
+#'
 #' This function takes the `parameter` object and runs a simulation based on these.
 #' It returns an object of class `runsim_result` which contains an additional
 #' entry, i.e. `result` which contains the results of the simulation. The
@@ -11,33 +11,35 @@
 #' @md
 #' @importFrom stats approx approxfun
 #' @importFrom deSolve ode
-#' 
+#'
+#' @autoglobal
+#'
 #' @export
 
 
 run_simulation <- function(
-  parameter
-){
+    parameter) {
   if (!inherits(parameter, "runsim_parameter")) {
     stop("parameter has to be an object of type `runsim_parameter`!")
   }
-  
-  if(parameter$sim_sample_interval > parameter$sim_duration){
+
+  if (parameter$sim_sample_interval > parameter$sim_duration) {
     stop("Simulation sample interval is greater than simulation duration... it should be shorter.")
-  } 
-  
+  }
+
   ## make the times at which observations will be recorded
   times <- seq(
     0,
     parameter$sim_duration,
     by = parameter$sim_sample_interval
   )
-  
+
   ## make the times at which events will occur
   event_times <- seq(min(times),
-                     max(times),
-                     by = parameter$event_interval)  
-  
+    max(times),
+    by = parameter$event_interval
+  )
+
   ## create the series of oxygen diffusivity values
   log10a_forcing <- matrix(
     ncol = 2,
@@ -47,22 +49,22 @@ run_simulation <- function(
         seq(
           0,
           max(times),
-          length=length(parameter$log10a_series)
+          length = length(parameter$log10a_series)
         )
       ),
       parameter$log10a_series
     )
   )
-       
-  ## Make the function to give the oxygen diffusivity at a particular time      
+
+  ## Make the function to give the oxygen diffusivity at a particular time
   l_f_f <- approxfun(
-    x = log10a_forcing[,1],
-    y = log10a_forcing[,2],
+    x = log10a_forcing[, 1],
+    y = log10a_forcing[, 2],
     method = "linear",
     rule = 2
   )
-  
-  if (is.null(parameter$event_definition)){
+
+  if (is.null(parameter$event_definition)) {
     events <- NULL
   } else {
     events <- list(
@@ -84,7 +86,7 @@ run_simulation <- function(
       minimum_abundances = parameter$minimum_abundances
     )
   )
-  
+
   result <- new_runsim_results(parameter, out)
 
   return(result)

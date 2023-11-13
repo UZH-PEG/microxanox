@@ -2,21 +2,28 @@
 
 utils::globalVariables(c(
   "Quantity", # <get_stability_measures.replication_ssfind_result>
-  "starts_with", # <get_stability_measures.replication_ssfind_result>
   "direction", # <get_stability_measures.replication_ssfind_result>
   "up", # <get_stability_measures.replication_ssfind_result>
   "down", # <get_stability_measures.replication_ssfind_result>
   "a_O", # <get_stability_measures.replication_ssfind_result>
   "a", # <get_stability_measures.replication_ssfind_result>
+  "recovery", # <get_stability_measures.temporal_ssfind_result>
+  "aO", # <get_stability_measures.temporal_ssfind_result>
+  "aS", # <get_stability_measures.temporal_ssfind_result>
   "Quantity", # <get_stability_measures.temporal_ssfind_result>
-  "starts_with", # <get_stability_measures.temporal_ssfind_result>
+  "time", # <get_stability_measures.temporal_ssfind_result>
   "direction", # <get_stability_measures.temporal_ssfind_result>
+  "Species", # <get_stability_measures.temporal_ssfind_result>
   "up", # <get_stability_measures.temporal_ssfind_result>
   "down", # <get_stability_measures.temporal_ssfind_result>
   "a_O", # <get_stability_measures.temporal_ssfind_result>
-  "a", # <get_stability_measures.temporal_ssfind_result>
-  "Species", # <get_stability_measures.temporal_ssfind_result>
-  "time", # <get_stability_measures.temporal_ssfind_result>
+  "a_O", # <get_symmetry_measurements>
+  "direction", # <get_symmetry_measurements>
+  "aS", # <get_symmetry_measurements>
+  "SO", # <get_symmetry_measurements>
+  "recovery", # <get_symmetry_measurements>
+  ".", # <get_symmetry_measurements>
+  "a", # <plot_dynamics>
   "species", # <plot_dynamics>
   "quantity", # <plot_dynamics>
   ".", # <plot_dynamics>
@@ -24,10 +31,59 @@ utils::globalVariables(c(
   "time", # <plot_dynamics>
   "log10_quantity", # <plot_dynamics>
   "var_type", # <plot_dynamics>
-  "", # <plot_dynamics_symmetric>
-  "", # <sym_plot_temporal_ss>
+  "aO", # <plot_dynamics_symmetric>
+  "aS", # <plot_dynamics_symmetric>
+  "species", # <plot_dynamics_symmetric>
+  "quantity", # <plot_dynamics_symmetric>
+  ".", # <plot_dynamics_symmetric>
+  "functional_group", # <plot_dynamics_symmetric>
+  "var_type", # <plot_dynamics_symmetric>
+  "time", # <plot_dynamics_symmetric>
+  "log10_quantity", # <plot_dynamics_symmetric>
+  "microbe", # <plot_dynamics_symmetric>
+  "substrate", # <plot_dynamics_symmetric>
+  "a_O", # <plot_symmetry_measures>
+  "direction", # <plot_symmetry_measures>
+  "aS", # <plot_symmetry_measures>
+  "SO", # <plot_symmetry_measures>
+  "aO", # <plot_symmetry_measures>
+  "recovery", # <plot_symmetry_measures>
+  "state", # <plot_symmetry_measures>
+  "measure", # <plot_symmetry_measures>
+  "oxic", # <plot_symmetry_measures>
+  "anoxic", # <plot_symmetry_measures>
+  "a_O", # <plot_temporal_ss>
+  "direction", # <plot_temporal_ss>
+  "aO", # <plot_temporal_ss>
+  "recovery", # <plot_temporal_ss>
+  "species", # <plot_temporal_ss>
+  "Quantity", # <plot_temporal_ss>
+  ".", # <plot_temporal_ss>
+  "SR", # <plot_temporal_ss>
+  "O", # <plot_temporal_ss>
+  "P", # <plot_temporal_ss>
+  "substrate", # <plot_temporal_ss>
+  "a_O", # <plot_trajectory_symmetry>
+  "direction", # <plot_trajectory_symmetry>
+  "SO", # <plot_trajectory_symmetry>
+  ".", # <plot_trajectory_symmetry>
+  "species", # <plot_trajectory_symmetry>
+  "type", # <plot_trajectory_symmetry>
+  "measure", # <plot_trajectory_symmetry>
+  "value", # <plot_trajectory_symmetry>
+  "recovery", # <plot_trajectory_symmetry>
+  "aO", # <plot_trajectory_symmetry>
+  "aS", # <plot_trajectory_symmetry>
+  "x", # <plot_trajectory_symmetry>
+  "y", # <plot_trajectory_symmetry>
+  "xend", # <plot_trajectory_symmetry>
+  "yend", # <plot_trajectory_symmetry>
+  "plot_species", # <plot_trajectory_symmetry>
+  "state", # <plot_trajectory_symmetry>
   "time", # <run_temporal_ssfind>
+  "a", # <run_temporal_ssfind>
   "pars", # <run_temporal_ssfind_experiment>
   "ssfind_pars", # <run_temporal_ssfind_experiment>
+  "time", # <run_temporal_ssfind_symmetric>
   NULL
 ))

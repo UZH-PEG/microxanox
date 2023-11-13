@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_symmetry_measurements.R
 \name{get_symmetry_measurements}
 \alias{get_symmetry_measurements}
-\title{Computes measures that make comparisons between collapse and recovery 
+\title{Computes measures that make comparisons between collapse and recovery
 trajectory and between antagonistic environmental variables possible.}
 \usage{
 get_symmetry_measurements(res)
@@ -15,6 +15,6 @@ returns a frame containing symmetry measures for each variable, such as hysteres
    shift magnitudes or distance between TP, as well as TP themselfes with their according state.
 }
 \description{
-Computes measures that make comparisons between collapse and recovery 
+Computes measures that make comparisons between collapse and recovery
 trajectory and between antagonistic environmental variables possible.
 }

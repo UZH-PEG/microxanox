@@ -14,7 +14,7 @@ plot_dynamics_symmetric(simulation_result, every_n = 1, plot_a = FALSE)
 \item{plot_a}{if \code{TRUE}, diffusivities will be plotted in lower pane, default is \code{FALSE}.}
 }
 \value{
-returns the ggplot object of the plot. If it is assigned to a 
+returns the ggplot object of the plot. If it is assigned to a
    variable, the plot needs to be plotted, otherwise it is plotted.
 }
 \description{

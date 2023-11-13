@@ -3,11 +3,11 @@
 \name{symmetric_bushplus_dynamic_model}
 \alias{symmetric_bushplus_dynamic_model}
 \title{The rate equations, modified from publication of Bush et al 2017
-\url{https://doi.org/10.1093/clinchem/39.5.766}. Equations of antagonistic
+\doi{10.1093/clinchem/39.5.766}. Equations of antagonistic
 environmental variables are identical, while the oxygen and sulfide
 diffusivities are forced in antisymmetric manner.
 Possibility to simulate multiple strain per functional group as published in
-\url{https://doi.org/10.1111/ele.14217} by Limberger et al 2023 remains.}
+\doi{10.1111/ele.14217} by Limberger et al 2023 remains.}
 \usage{
 symmetric_bushplus_dynamic_model(
   t,
@@ -39,9 +39,9 @@ strains, and also the current values of oxygen diffusivity \code{aO}, as well as
 }
 \description{
 The rate equations, modified from publication of Bush et al 2017
-\url{https://doi.org/10.1093/clinchem/39.5.766}. Equations of antagonistic
+\doi{10.1093/clinchem/39.5.766}. Equations of antagonistic
 environmental variables are identical, while the oxygen and sulfide
 diffusivities are forced in antisymmetric manner.
 Possibility to simulate multiple strain per functional group as published in
-\url{https://doi.org/10.1111/ele.14217} by Limberger et al 2023 remains.
+\doi{10.1111/ele.14217} by Limberger et al 2023 remains.
 }

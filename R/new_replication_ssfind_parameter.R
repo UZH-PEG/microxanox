@@ -16,11 +16,11 @@
 #' @md
 #' @export
 #'
+#' @autoglobal
+#'
 #' @examples
 new_replication_ssfind_parameter <- function(
-  ...
-){
-
+    ...) {
   p <- new_runsim_parameter()
   p$ss_expt <- NA
   if (!inherits(p, "replication_ssfind_parameter")) {
