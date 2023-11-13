@@ -9,18 +9,18 @@
 #'
 #' @md
 #'
+#' @autoglobal
+#'
 #' @export
 
 run_replication_ssfind <- function(
-  parameter,
-  mc.cores = getOption("mc.cores", 0)
-){
-
+    parameter,
+    mc.cores = getOption("mc.cores", 0)) {
   if (!inherits(parameter, "replication_ssfind_parameter")) {
     stop("parameter has to be an object of type `replication_ssfind_parameter`!")
   }
 
-  if (Sys.info()['sysname'] == "Window") {
+  if (Sys.info()["sysname"] == "Window") {
     warning("On windows, mc.cores will always be set to one!")
     mc.cores <- 1
   }
@@ -35,8 +35,8 @@ run_replication_ssfind <- function(
         get_final_states_a_N(x, parameter)
       }
     )
-  ## multi core
-  ## mcapply over rows of ss_expt
+    ## multi core
+    ## mcapply over rows of ss_expt
   } else {
     temp_result <- parallel::mclapply(
       1:nrow(parameter$ss_expt),
@@ -55,10 +55,12 @@ run_replication_ssfind <- function(
   result <- temp_result %>%
     tibble::tibble() %>%
     tidyr::unnest(cols = 1) %>%
-    dplyr::mutate(initial_N_CB = parameter$ss_expt$N_CB,
-                  initial_N_PB = parameter$ss_expt$N_PB,
-                  initial_N_SB = parameter$ss_expt$N_SB,
-                  a_O = parameter$ss_expt$a_O)
+    dplyr::mutate(
+      initial_N_CB = parameter$ss_expt$N_CB,
+      initial_N_PB = parameter$ss_expt$N_PB,
+      initial_N_SB = parameter$ss_expt$N_SB,
+      a_O = parameter$ss_expt$a_O
+    )
 
-   return(new_replication_ssfind_results(parameter, result))
+  return(new_replication_ssfind_results(parameter, result))
 }

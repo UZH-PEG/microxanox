@@ -4,7 +4,7 @@
 [![microxanox status badge](https://uzh-peg.r-universe.dev/badges/microxanox)](https://uzh-peg.r-universe.dev)
 [![:registry status badge](https://uzh-peg.r-universe.dev/badges/:registry)](https://uzh-peg.r-universe.dev)
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
@@ -14,7 +14,7 @@ Microxanox is an R package to simulate a three functional group system (cyanobac
 simulation be repeated.
 
 # Installation
-The easiest way (and the recommented way) to install `microxanox` is by using the [R-Universe](https://uzh-peg.r-universe.dev/ui#package:microxanox):
+The easiest way (and the recommented way) to install `microxanox` is by using the [R-Universe](http://uzh-peg.r-universe.dev/ui/#package:microxanox):
 
 ```{r, eval = FALSE}
 install.packages("microxanox", repos = c("https://uzh-peg.r-universe.dev", "https://cloud.r-project.org"))

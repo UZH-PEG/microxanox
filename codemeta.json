@@ -3,23 +3,23 @@
   "@type": "SoftwareSourceCode",
   "identifier": "microxanox",
   "description": "Model to simulate a three functional group system with four chemical substrates using a set of ordinary differential equations. Simulations can be run individually or over a parameter range, to find stable states. The model features multiple species per functional group, where the number is only limited by computational constraints. The R package is constructed in such a way, that the results contain the input parameter used, so that a saved results can be loaded again and thesimulation be repeated.",
-  "name": "microxanox: Oxic-anoxic regime shifts in microbial communities",
+  "name": "microxanox: Oxic-Anoxic Regime Shifts in Microbial Communities",
   "codeRepository": "https://github.com/UZH-PEG/microxanox/",
   "issueTracker": "https://github.com/UZH-PEG/microxanox/issues ",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
+  "runtimePlatform": "R version 4.3.1 (2023-06-16)",
   "author": [
     {
       "@type": "Person",
       "givenName": "Owen L.",
       "familyName": "Petchey",
-      "email": "Owen.Petchey@uzh.ch",
+      "email": "Owen.Petchey@ieu.uzh.ch",
       "@id": "https://orcid.org/0000-0002-7724-1633"
     }
   ],
@@ -30,6 +30,13 @@
       "familyName": "Krug",
       "email": "Rainer.Krug@uzh.ch",
       "@id": "https://orcid.org/0000-0002-7490-0066"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Pascal",
+      "familyName": "Baertschi",
+      "email": "compbio.baertschi@gmail.com",
+      "@id": "https://orcid.org/0000-0002-6533-0399"
     }
   ],
   "maintainer": [
@@ -37,7 +44,7 @@
       "@type": "Person",
       "givenName": "Owen L.",
       "familyName": "Petchey",
-      "email": "Owen.Petchey@uzh.ch",
+      "email": "Owen.Petchey@ieu.uzh.ch",
       "@id": "https://orcid.org/0000-0002-7724-1633"
     }
   ],
@@ -102,6 +109,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "roxyglobals",
+      "name": "roxyglobals",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=roxyglobals"
     }
   ],
   "softwareRequirements": {
@@ -241,10 +260,34 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=multidplyr"
     },
+    "14": {
+      "@type": "SoftwareApplication",
+      "identifier": "ggpubr",
+      "name": "ggpubr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggpubr"
+    },
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "DescTools",
+      "name": "DescTools",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=DescTools"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "9067.756KB",
+  "fileSize": "9873.495KB",
   "releaseNotes": "https://github.com/UZH-PEG/microxanox/blob/master/NEWS.md",
   "readme": "https://github.com/UZH-PEG/microxanox/blob/main/README.md",
-  "developmentStatus": ["https://www.tidyverse.org/lifecycle/#stable", "https://www.repostatus.org/#active"]
+  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#stable", "https://www.repostatus.org/#active"]
 }

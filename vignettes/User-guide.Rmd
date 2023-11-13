@@ -25,7 +25,7 @@ mdat <- function(name = "") {
 ### To generate the data_pkg, please uncomment the following three lines.
 # 
 # mdat <- function(name = "") {
-#   file.path(".", "data_pkg", "user_guide", name)
+#   file.path(".", "data_pkg", "sym-sys-user_guide", name)
 # }
 # dir.create(mdat(), recursive = TRUE, showWarnings = FALSE)
 ##########
@@ -632,7 +632,7 @@ p1
 
 The `get_stability_measures()` function takes an object of the type returned by the `run_replication_ssfind()` function and returns various measures of the stability of each of the state variables.
 
-The measures of non-linearity and hysteresis were used in [Garnier et al (2020) (link to online article)](https://onlinelibrary.wiley.com/doi/abs/10.1002/ece3.6294).
+The measures of non-linearity and hysteresis were used in [Garnier et al (2020) (link to online article)](https://doi.org/10.1002/ece3.6294).
 
 (Warning: Care is required when processing the produced data. Some log transformations with addition of 1 are used; NAs are produced in some cases; and some measures are affected by the number of strains, even when the strains are identical.)
 

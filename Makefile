@@ -90,13 +90,13 @@ deps:
 
 ####
 
-_docs:
-	Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette', 'roxyglobals::global_roclet'))"
+doc:
+	Rscript -e "devtools::document()"
 
-_codemeta:
+metadata:
 	Rscript -e "codemetar::write_codemeta()"
 
-docs: _docs _codemeta 
+docs: docs metadata 
 
 ####
 
@@ -111,45 +111,33 @@ clean_vignettes:
 ####
 
 
-_build: 
-	cd ..;\
-	R CMD build $(PKGSRC)
-
-build: docs _build
+build: doc
 	cd ..;\
 	R CMD build $(PKGSRC)
 
 ####
 
-_drat:
+drat:
 	cd
 	@Rscript -e "drat::insertPackage('./../$(PKGNAME)_$(PKGVERS).tar.gz', repodir = './../../drat/', commit = TRUE)"
-
-drat: docs _build _drat
-
+	
 ####
 
-_build-cran:
+build-cran: doc
 	cd ..;\
 	R CMD build $(PKGSRC)
 
-build-cran: docs _build_cran
-
 ####
 
-_install:
+install:
 	cd ..;\
 	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz
 
-install: build _install
-
 ####
 
-_check:
+check: build-cran
 	cd ..;\
 	R CMD check $(PKGNAME)_$(PKGVERS).tar.gz --as-cran
-
-check: build-cran _check
 
 clean_check:
 	$(RM) -r ./../$(PKGNAME).Rcheck/

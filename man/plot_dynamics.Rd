@@ -12,7 +12,7 @@ plot_dynamics(simulation_result, every_n = 1)
 \item{every_n}{Plot data of every other n sample.}
 }
 \value{
-returns the ggplot object of the plot. If it is assigned to a 
+returns the ggplot object of the plot. If it is assigned to a
    variable, the plot needs to be plotted, otherwise it is plotted.
 }
 \description{

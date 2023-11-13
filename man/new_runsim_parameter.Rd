@@ -23,6 +23,7 @@ The object contains the following elements:
 \item sim_duration       : duration of the simulation
 \item sim_sample_interval: interval, at which the simulation will be sampled
 \item log10a_series      : A vector of values of log10 oxygen diffusivity parameter at which stable states will be found.
+\item asym_factor:       : For symmetric simulations only: enables manipulating \code{aS} forcing in asymmetric manner to decrease (<1) or increase (>1) stress on cyanobacteria.
 \item solver_method      : Used for the solver. Default is \code{"radau"}. For other options, see the documentatioom of \code{odeSolve::ode}.
 }
 }

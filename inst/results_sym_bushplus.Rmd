@@ -1,0 +1,382 @@
+---
+title: "Partial reproduction of Bush et al (2017) Oxic-anoxic regime shifts mediated by feedbacks between biogeochemical processes and microbial community dynamics"
+author: "Owen Petchey, Rainer M Krug"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  rmarkdown::html_vignette:
+    toc: yes
+vignette: >
+  %\VignetteIndexEntry{Reproducing some results of Bush et al 2017}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### import libraries and source files
+
+```{r library_sourve, message=FALSE, include=FALSE}
+
+# library import
+
+library(tidyverse)
+library(microxanox) # version 0.9.2
+library(ggplot2)
+
+```
+
+### set up parameterset
+
+A wait time were set short to be able to simulate many simulation steps and not having long simulation durations at the same time. Short wait times mean fast environmental change.
+Number of strains stays one, means no investigations in trait variation in this work.
+```{r param}
+
+wait_time <- 10 # time spent at each step
+num_strains <- 1 # number of strains per group
+event_interval <- 10
+
+## oxygen diffusivity equal to sulfate diffusivity means perfect symmetry
+## oxygen diffusivity time series: rep(8e-2, 4), , 10 ^ c(rep(-8, 5),rep(0,5),rep(-8, 5))
+
+# a_S at 0.125
+
+log10a_series <- seq(3, -5, length = 10) # symmetry axis at -1, +- 4 units in both direction
+
+
+num_CB_strains <- num_strains
+num_SB_strains <- num_strains
+num_PB_strains <- num_strains
+
+sp <- new_strain_parameter(
+  n_CB = num_CB_strains,
+  values_CB = "symmetric",
+  n_PB = num_SB_strains,
+  values_PB = "symmetric",
+  n_SB = num_PB_strains,
+  values_SB = "symmetric",
+  values_other  = "symmetric",
+  values_initial_state = "symmetric"
+  
+)
+
+parameter <- new_runsim_parameter(
+  dynamic_model = bushplus_dynamic_model,  
+  event_definition = event_definition_2,       
+  event_interval = event_interval,
+  noise_sigma = 0,
+  minimum_abundances = c(1, 0 , 1),       # PB stays 0
+  strain_parameter = sp,
+  log10a_series =  log10a_series
+)
+
+names(parameter$minimum_abundances) <- c("CB", "PB", "SB")
+rm(sp)
+parameter$sim_duration <- wait_time * length(parameter$log10a_series)
+parameter$sim_sample_interval <- wait_time  # to avoid having negitive ODE results
+
+```
+
+
+### scenarios from result sections
+
+Simulation duration in each simulation is different to emphasize important dynamics in plots
+To investigate in alternative stable states the CB = SB case as well as the differing in initial abundance and favouring a_O scenarios were simulated as described in the report.
+To investigate in bistability the bistabilty scenario has been created, as well as adding gradual environmental change is used to induce catatrophic shifts.
+All scenario dynamics are saved as RDS files.
+
+```{r expl}
+## simulate scenarios
+
+parameter$strain_parameter$a_S <- 0.1
+
+# case CB = SB (no events)
+
+length <- 1e2
+
+parameter$event_interval <- 1e6
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- rep(log10(0.1), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_unstable_eq_noevent.RDS")
+
+# case CB = SB (events)
+
+length <- 6e2
+
+parameter$event_definition <- event_definition_2
+parameter$event_interval <- 10
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- rep(log10(0.1), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_unstable_eq_event.RDS")
+
+# different initial abundance
+
+length <- 4e2
+
+parameter$strain_parameter$initial_state["CB_1"] <- 11
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- rep(log10(0.1), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_different_initial_abundance_CB.RDS")
+
+length <- 4e2
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 11
+
+parameter$log10a_series <- rep(log10(0.1), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_different_initial_abundance_SB.RDS")
+
+# favouring oxygen div
+
+length <- 1.5e2
+
+parameter$strain_parameter$initial_state["CB_1"] <- 1e5
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- rep(log10(0.001), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_favouring_a_O_SB.RDS")
+
+length <- 1.5e2
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 1e5
+
+parameter$log10a_series <- rep(log10(10), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_favouring_a_O_CB.RDS")
+
+# bistability
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 1e5
+parameter$log10a_series <- rep(log10(0.15), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_bistabilty_SB.RDS")
+
+parameter$strain_parameter$initial_state["CB_1"] <- 1e5 
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+parameter$log10a_series <- rep(log10(0.15), times = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_bistabilty_CB.RDS")
+
+# gradual environmental change to inestigate in catastrophic shifts
+
+length <- 1e3
+times <- length / 10
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- c(rep(-5, times = times), seq(-5, 3, length = length), rep(3, times = times), seq(3, -5, length = length), rep(-5, times = times))
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_varying_a_O_both_collapse.RDS")
+
+length <- 1e3
+times <- length / 10
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- c(rep(-5, times = times), seq(-5, 3, length = length), rep(3, times = times))
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_varying_a_O_SB_collapse.RDS")
+
+length <- 1e3
+times <- length / 10
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+
+parameter$log10a_series <- c(rep(3, times = times), seq(3, -5, length = length), rep(-5, times = times))
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+results <- run_simulation(parameter)
+saveRDS(results, file = "RDS_files/sym_dynamics_varying_a_O_CB_collapse.RDS")
+
+```
+
+### plotting scenarios
+
+Scenarios described above are plotted with the plot_dynamics function defined in functions.R after read in from RDS file.
+
+```{r plot_1, include=FALSE}
+## ggplot
+
+eq_noevent_results <- readRDS(file = "RDS_files/sym_dynamics_unstable_eq_noevent.RDS")
+p1.1 <- plot_dynamics_symmetric(eq_noevent_results, plot_a = FALSE)
+
+eq_event_results <- readRDS(file = "RDS_files/sym_dynamics_unstable_eq_event.RDS")
+p1.2 <- plot_dynamics_symmetric(eq_event_results, plot_a = FALSE)
+
+init_ab_CB_results <- readRDS(file = "RDS_files/sym_dynamics_different_initial_abundance_CB.RDS")
+p2.1 <- plot_dynamics_symmetric(init_ab_CB_results, plot_a = FALSE)
+
+init_ab_SB_results <- readRDS(file = "RDS_files/sym_dynamics_different_initial_abundance_SB.RDS")
+p2.2 <- plot_dynamics_symmetric(init_ab_SB_results, plot_a = FALSE)
+
+favouring_CB_results <- readRDS(file = "RDS_files/sym_dynamics_favouring_a_O_CB.RDS")
+p3.1 <- plot_dynamics_symmetric(favouring_CB_results, plot_a = FALSE)
+
+favouring_SB_results <- readRDS(file = "RDS_files/sym_dynamics_favouring_a_O_SB.RDS")
+p3.2 <- plot_dynamics_symmetric(favouring_SB_results, plot_a = FALSE)
+
+bistability_CB_results <- readRDS(file = "RDS_files/sym_dynamics_bistabilty_CB.RDS")
+p4.1 <- plot_dynamics_symmetric(bistability_CB_results, plot_a = FALSE)
+
+bistability_SB_results <- readRDS(file = "RDS_files/sym_dynamics_bistabilty_SB.RDS")
+p4.2 <- plot_dynamics_symmetric(bistability_SB_results, plot_a = FALSE)
+
+a_O_vary_SB_results <- readRDS(file = "RDS_files/sym_dynamics_varying_a_O_SB_collapse.RDS")
+p5.1 <- plot_dynamics_symmetric(a_O_vary_SB_results, plot_a = TRUE)
+
+a_O_vary_CB_results <- readRDS(file = "RDS_files/sym_dynamics_varying_a_O_CB_collapse.RDS")
+p5.2 <- plot_dynamics_symmetric(a_O_vary_CB_results, plot_a = TRUE)
+
+a_O_vary_both_results <- readRDS(file = "RDS_files/sym_dynamics_varying_a_O_both_collapse.RDS") # add collapse next time run sim above
+p5.3 <- plot_dynamics_symmetric(a_O_vary_both_results, plot_a = TRUE)
+
+# chnagel labels smaller or bigger fizre
+
+
+# discussion pssouble further ideas
+```
+
+### saving plots
+
+Plots are saved with ggplot
+
+```{r ggsave_1}
+width = 30
+height = 15
+units = "cm"
+## p1
+ggsave("GG_figures/eq_noevent_figure.pdf", plot = p1.1, width = width, height = height, units = units)
+ggsave("GG_figures/eq_event_figure.pdf", plot = p1.2, width = width, height = height, units = units)
+## p2
+ggsave("GG_figures/diff_init_ab_CB_figure.pdf", plot = p2.1, width = width, height = height, units = units)
+ggsave("GG_figures/diff_init_ab_SB_figure.pdf", plot = p2.2, width = width, height = height, units = units)
+## p3
+ggsave("GG_figures/favouring_a_O_CB_figure.pdf", plot = p3.1, width = width, height = height, units = units)
+ggsave("GG_figures/favouring_a_O_SB_figure.pdf", plot = p3.2, width = width, height = height, units = units)
+## p4
+ggsave("GG_figures/bistabilty_CB_figure.pdf", plot = p4.1, width = width, height = height, units = units)
+ggsave("GG_figures/bistabilty_SB_figure.pdf", plot = p4.2, width = width, height = height, units = units)
+## p5
+ggsave("GG_figures/a_O_gradual_vary_SB_collapse_figure.pdf", plot = p5.1, width = width, height = height, units = units)
+ggsave("GG_figures/a_O_gradual_vary_CB_collapse_figure.pdf", plot = p5.2, width = width, height = height, units = units)
+ggsave("GG_figures/a_O_gradual_vary__collapse_figure.pdf", plot = p5.3, width = width, height = height, units = units)
+
+rm(width, height, units)
+```
+
+Display plots in file:
+
+```{r plot_2}
+p1.1
+p1.2
+p2.1
+p2.2
+p3.1
+p3.2
+p4.1
+p4.2
+p5.1
+p5.2
+p5.3
+
+# split ylab \n
+```
+
+### temporal results
+
+Gradual envrionmental change is simulated in both direction with the temporal simulation method. Two simulation durations of 1000 respectively 10'000 hours to emphasize problem of bistability with slower environmental change. Simulations saved as RDS files.
+
+```{r temporal_2}
+length <- 1e4 # modify sim duration
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+parameter$log10a_series <- log10a_series <- seq(-5, 3, length = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+temporal_results <- run_temporal_ssfind(parameter) ## simulate
+saveRDS(temporal_results, file = "RDS_files/temporal_ss_10000h.RDS")
+
+length <- 1e3 # modify sim duration
+
+parameter$strain_parameter$initial_state["CB_1"] <- 10
+parameter$strain_parameter$initial_state["SB_1"] <- 10
+parameter$log10a_series <- log10a_series <- seq(-5, 3, length = length)
+parameter$sim_duration <- length(parameter$log10a_series) * wait_time 
+
+temporal_results <- run_temporal_ssfind(parameter) ## simulate
+saveRDS(temporal_results, file = "RDS_files/temporal_ss_1000h.RDS")
+```
+
+Plotting of temporal simulations with plot_temporal_ss from functions.R
+
+```{r plot_3, include=FALSE}
+temporal_results_1000h <- readRDS(file = "RDS_files/temporal_ss_1000h.RDS")
+p6.1 <- plot_temporal_ss(temporal_results_1000h, zoom = FALSE) ## plot
+
+temporal_results_10000h <- readRDS(file = "RDS_files/temporal_ss_10000h.RDS") # slower environmental change
+p6.2 <- plot_temporal_ss(temporal_results_10000h, zoom = FALSE) ## plot
+
+# H: because only a_O chnages
+# discusion: vary a_O & a_S, longer simulations, optimazation of symmetry 
+# save as GG
+```
+
+Displaying plots
+
+```{r plot_4}
+p6.1
+p6.2
+
+```
+GGsave the plots as above if required
+
+```{r ggsave_4}
+height = 30
+width = 15
+units = "cm"
+
+ggsave("GG_figures/temporal_1000h_figure.pdf", plot = p6.1, width = width, height = height, units = units)
+
+ggsave("GG_figures/temporal_10000h_figure.pdf", plot = p6.2, width = width, height = height, units = units)
+
+```

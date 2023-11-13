@@ -20,7 +20,7 @@ new_strain_parameter(
 
 \item{values_CB}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for CB
+\item \code{"bush"}: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766} will be used for the parameter for CB
 \item \code{"NA"}: all initial values set to \code{NA}. Usable for e.g. setting own parameter
 }}
 
@@ -28,7 +28,7 @@ new_strain_parameter(
 
 \item{values_PB}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for PB
+\item \code{"bush"}: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766} will be used for the parameter for PB
 \item \code{"NA"}: all parameter will be set to \code{NA}. Usable for e.g. setting own parameter
 }}
 
@@ -36,13 +36,13 @@ new_strain_parameter(
 
 \item{values_SB}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for SB
+\item \code{"bush"}: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766} will be used for the parameter for SB
 \item \code{"NA"}: all parameter will be set to \code{NA}. Usable for e.g. setting own parameter
 }}
 
 \item{values_other}{Allowed values are:
 \itemize{
-\item \code{"bush"}: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used for additional parameter
+\item \code{"bush"}: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766}will be used for additional parameter
 \item \code{"NA"}: all parameter will be set to \code{NA}. Usable for e.g. setting own parameter
 values to be used for other parameter or \code{"bush"},
 in which case the default from Bush et al (2017) will be used.
@@ -50,7 +50,7 @@ in which case the default from Bush et al (2017) will be used.
 
 \item{values_initial_state}{values to be used for initial values or
 \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from
-Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used.}
+Bush et al (2017) \doi{10.1093/clinchem/39.5.766}will be used.}
 }
 \value{
 Object of class \code{strain_parameter}. The object contains the following fields:
@@ -91,7 +91,7 @@ Creates a set of parameters and starting conditions for a simulation. This
 function assists with the initialization of a simulation, by providing
 various reference sets of parameter values and initial conditions. The
 default is to create the parameter set used in Bush et al. (2017)
-\url{https://doi.org/10.1093/clinchem/39.5.766} and the anoxic favorable
+\doi{10.1093/clinchem/39.5.766} and the anoxic favorable
 initial conditions used in the simulations for Figure 2a&b of that
 publication.
 }

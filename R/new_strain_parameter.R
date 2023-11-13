@@ -1,33 +1,33 @@
 #' Returns object of class `strain_parameter`
-#' 
+#'
 #' Creates a set of parameters and starting conditions for a simulation. This
 #' function assists with the initialization of a simulation, by providing
 #' various reference sets of parameter values and initial conditions. The
 #' default is to create the parameter set used in Bush et al. (2017)
-#' \url{https://doi.org/10.1093/clinchem/39.5.766} and the anoxic favorable
+#' \doi{10.1093/clinchem/39.5.766} and the anoxic favorable
 #' initial conditions used in the simulations for Figure 2a&b of that
 #' publication.
 #' @param n_CB number of CB strains, default 1.
 #' @param values_CB Allowed values are:
-#' - `"bush"`: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for CB
+#' - `"bush"`: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766} will be used for the parameter for CB
 #' - `"NA"`: all initial values set to `NA`. Usable for e.g. setting own parameter
 #' @param n_PB number of PB strains, default 1.
 #' @param values_PB Allowed values are:
-#' - `"bush"`: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for PB
+#' - `"bush"`: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766} will be used for the parameter for PB
 #' - `"NA"`: all parameter will be set to `NA`. Usable for e.g. setting own parameter
 #' @param n_SB number of SB strains, default 1.
 #' @param values_SB Allowed values are:
-#' - `"bush"`: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766} will be used for the parameter for SB
+#' - `"bush"`: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766} will be used for the parameter for SB
 #' - `"NA"`: all parameter will be set to `NA`. Usable for e.g. setting own parameter
 #' @param values_other  Allowed values are:
-#' - `"bush"`: default values from Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used for additional parameter
+#' - `"bush"`: default values from Bush et al (2017) \doi{10.1093/clinchem/39.5.766}will be used for additional parameter
 #' - `"NA"`: all parameter will be set to `NA`. Usable for e.g. setting own parameter
 #' values to be used for other parameter or \code{"bush"},
 #'   in which case the default from Bush et al (2017) will be used.
 #' @param values_initial_state values to be used for initial values or
 #'   \code{"bush_anoxic"} or \code{"bush_oxic"}, in which case the default from
-#'   Bush et al (2017) \url{https://doi.org/10.1093/clinchem/39.5.766}will be used.
-#' 
+#'   Bush et al (2017) \doi{10.1093/clinchem/39.5.766}will be used.
+#'
 #' @return Object of class `strain_parameter`. The object contains the following fields:
 #' The additional parameters are:
 #'  ## Strain parameter
@@ -46,50 +46,52 @@
 #'  ## oxidisation rate of reduced sulphur
 #'  - `c`: <- 4e-5
 #' @md
+#'
+#' @autoglobal
+#'
 #' @export
 #'
 new_strain_parameter <- function(
-  n_CB = 1,
-  values_CB = "bush",
-  n_PB = 1,
-  values_PB = "bush",
-  n_SB = 1,
-  values_SB = "bush",
-  values_other = "bush",
-  values_initial_state = "bush_anoxic_fig2ab"
-){
+    n_CB = 1,
+    values_CB = "bush",
+    n_PB = 1,
+    values_PB = "bush",
+    n_SB = 1,
+    values_SB = "bush",
+    values_other = "bush",
+    values_initial_state = "bush_anoxic_fig2ab") {
   if (is.na(values_other)) {
     values_other <- "NA"
   }
-  
-  if (!(values_other %in% c("NA", "bush"))) {
-    stop("Not supported value for `values_other`!\n", "Only NA, 'NA' and 'bush' supported!")
+
+  if (!(values_other %in% c("NA", "bush", "symmetric"))) {
+    stop("Not supported value for `values_other`!\n", "Only NA, 'NA',  'bush' and 'symmetric' supported!")
   }
-  
+
   parms <- list()
-  
+
   # strain parameter --------------------------------------------------------
-  
+
   parms$CB <- new_CB_strain_parameter(n = n_CB, values = values_CB)
   parms$PB <- new_PB_strain_parameter(n = n_PB, values = values_PB)
   parms$SB <- new_SB_strain_parameter(n = n_SB, values = values_SB)
-  
+
   # other parameter ---------------------------------------------------------
-  
+
   ## substrate diffusivity
   parms$a_S <- as.numeric(NA)
   parms$a_O <- as.numeric(NA)
   parms$a_P <- as.numeric(NA)
-  
+
   ## background substrate concentration
   parms$back_SR <- as.numeric(NA)
   parms$back_SO <- as.numeric(NA)
   parms$back_O <- as.numeric(NA)
   parms$back_P <- as.numeric(NA)
-  
+
   ## oxidisation rate of reduced sulphur
   parms$c <- as.numeric(NA)
-  
+
   if (values_other == "bush") {
     ## substrate diffusivity
     parms$a_S <- 0.001
@@ -103,18 +105,32 @@ new_strain_parameter <- function(
     ## oxidisation rate of reduced sulphur
     parms$c <- 4e-5
   }
-  
+
+  if (values_other == "symmetric") {
+    ## substrate diffusivity
+    parms$a_S <- 0.1
+    parms$a_O <- 0.1
+    parms$a_P <- 0.1
+    ## background substrate concentration
+    parms$back_SR <- 100
+    parms$back_SO <- 0
+    parms$back_O <- 100
+    parms$back_P <- 10
+    ## oxidisation rate of reduced sulphur
+    parms$c <- 1e-2
+  }
+
   ## set initial conditions
   parms$initial_state <- new_initial_state(
-    n_CB = n_CB, 
-    n_PB = n_PB, 
-    n_SB = n_SB, 
+    n_CB = n_CB,
+    n_PB = n_PB,
+    n_SB = n_SB,
     values = values_initial_state
   )
-  
+
   parms$ss_expt <- NULL
-  
+
   class(parms) <- append("strain_parameter", class(parms))
-  
+
   return(parms)
 }

@@ -26,6 +26,9 @@
 #'   mentioned variables. 
 #'
 #' @return the value of strain_parameter with added strain variability
+#' 
+#' @autoglobal
+#' 
 #' @export
 #'
 #' @md
