@@ -88,15 +88,12 @@ get_symmetry_measurements <- function(res) {
       # filter for highest local derivative (= TP), take absolute values to account for negative slopes
       # select all values that have same log magnitude as max, in case shift goes over multiple rows
       i_max <- which(abs(temp$df) == max(abs(temp$df)))
-      mask <- which((floor(log10(max(abs(temp$df)))) == floor(log10(abs(temp$df)))) & (sign(temp$df) == sign(temp$df[i_max])))
-      if (length(mask) > 3) { # not considered a TP anymore
-        mask <- i_max
-      }
-      temp <- temp[mask, ]
-      # print(paste(all_species[i], mask))
-      # print
-
-      # print(c(i, dir))
+      # mask <- which((floor(log10(max(abs(temp$df)))) == floor(log10(abs(temp$df)))) & (sign(temp$df) == sign(temp$df[i_max])))
+      # if (length(mask) > 3) { # not considered a TP anymore
+      #   mask <- i_max
+      # }
+      # temp <- temp[mask, ]
+      temp <- temp[i_max,]
       ## fill sym measures into frame
       if (dir == "oxic") {
         # oxic recovery gives TP of anoxic state
