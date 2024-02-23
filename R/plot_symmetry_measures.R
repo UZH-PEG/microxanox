@@ -69,7 +69,7 @@ plot_symmetry_measures <- function(res,
       mapping = aes(x = aO, ymin = oxic, ymax = anoxic, fill = "hysteresis area"), alpha = 0.3
     ) +
     scale_fill_manual(values = c("grey")) +
-    scale_color_manual(values = c("#e85050", "#5da1df")) +
+    scale_color_manual(values = c("#5da1df", "#e85050")) +
     labs(x = "aO", y = species, fill = "measures", color = "measures", linetype = "recovery")
 
   return(p)

@@ -2,6 +2,7 @@
 % Please edit documentation in R/0.microxanox-package.R
 \docType{package}
 \name{microxanox-package}
+\alias{-package}
 \alias{microxanox-package}
 \alias{microxanox}
 \title{R/microxanox: Microbial oxic and anoxic ecosystem simulations}

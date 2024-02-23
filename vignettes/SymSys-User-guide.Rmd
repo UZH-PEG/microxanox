@@ -371,10 +371,19 @@ plot_symmetry_measures(result_stressor.asym_0.6, species = "O")
 ```
 
 
-To visualize the asymmetry between amelioration and degradation trajectories is it recommend to use the function `plot_tajectory_asymmetry`, as it better organizes contrasts the visual difference between these trajectory dynamics.
+To visualize the asymmetry between amelioration and degradation trajectories is it recommend to use the function `plot_tajectory_asymmetry`, as it better organizes contrasts the visual difference between these trajectory dynamics. As arguments it takes the `typ` of trajectory to plot ("bacteria" or "substrate") and the direction of the `trajectory` ("recovery" or "collapse")
 
-```{r}
-plot_trajectory_symmetry(result_stressor.asym_0.6)
+```{r fig.height=5, fig.width=10}
+up <- plot_trajectory_symmetry(result_stressor.asym_0.6, typ = "substrate", trajectory = "recovery")
+down <- plot_trajectory_symmetry(result_stressor.asym_0.6, typ = "substrate", trajectory = "collapse")
+
+wrap_plots(up, down) + plot_layout(guides = "collect") & theme(plot.title = element_blank())
+```
+
+To plot upwards and downwards shifts in one panel with the function `plot_tajectory_symmetry_compact`. It is the straightforward that the argument `trajectory` cannot be specified here. 
+
+```{r fig.height=5, fig.width=6}
+plot_trajectory_symmetry_compact(result_stressor.asym_0.6, typ = "substrate")
 ```
 
 

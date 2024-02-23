@@ -80,6 +80,23 @@ utils::globalVariables(c(
   "yend", # <plot_trajectory_symmetry>
   "plot_species", # <plot_trajectory_symmetry>
   "state", # <plot_trajectory_symmetry>
+  "a_O", # <plot_trajectory_symmetry_compact>
+  "direction", # <plot_trajectory_symmetry_compact>
+  "SO", # <plot_trajectory_symmetry_compact>
+  ".", # <plot_trajectory_symmetry_compact>
+  "species", # <plot_trajectory_symmetry_compact>
+  "type", # <plot_trajectory_symmetry_compact>
+  "measure", # <plot_trajectory_symmetry_compact>
+  "value", # <plot_trajectory_symmetry_compact>
+  "aO", # <plot_trajectory_symmetry_compact>
+  "aS", # <plot_trajectory_symmetry_compact>
+  "recovery", # <plot_trajectory_symmetry_compact>
+  "x", # <plot_trajectory_symmetry_compact>
+  "y", # <plot_trajectory_symmetry_compact>
+  "xend", # <plot_trajectory_symmetry_compact>
+  "yend", # <plot_trajectory_symmetry_compact>
+  "plot_species", # <plot_trajectory_symmetry_compact>
+  "state", # <plot_trajectory_symmetry_compact>
   "time", # <run_temporal_ssfind>
   "a", # <run_temporal_ssfind>
   "pars", # <run_temporal_ssfind_experiment>
